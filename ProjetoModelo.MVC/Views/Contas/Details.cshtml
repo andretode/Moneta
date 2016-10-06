@@ -1,0 +1,48 @@
+﻿@model Moneta.Application.ViewModels.ContaViewModel
+
+@{
+    ViewBag.Title = "Detalhes da Conta";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <hr/>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ContaId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContaId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descricao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descricao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataCadastro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataCadastro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ativo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ativo)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new {id = Model.ContaId}) |
+    @Html.ActionLink("Voltar para Listagem", "Index")
+</p>

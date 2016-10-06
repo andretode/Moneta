@@ -1,0 +1,14 @@
+﻿using System.Web.Http;
+using Moneta.Application.AutoMapper;
+
+namespace Moneta.Services.WebAPI
+{
+    public class WebApiApplication : System.Web.HttpApplication
+    {
+        protected void Application_Start()
+        {
+            GlobalConfiguration.Configure(WebApiConfig.Register);
+            AutoMapperConfig.RegisterMappings();
+        }
+    }
+}

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Moneta.Application.ViewModels.ContaViewModel>
+
+@{
+    ViewBag.Title = "Lista de Contas";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Adicionar Conta", "Create")
+</p>
+
+@using (Html.BeginForm("Index", "Contas", new {pesquisa = ""}, FormMethod.Get))
+{
+    <p>
+        Pesquisar por Descrição: @Html.Editor("pesquisa") <input type="submit" value="Pesquisar" class="btn btn-default" />
+    </p>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ContaId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descricao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataCadastro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ativo)
+        </th>
+        <th></th>
+        <th>Realizar Compras</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContaId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataCadastro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ativo)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {id = item.ContaId}) |
+                @Html.ActionLink("Details", "Details", new {id = item.ContaId}) |
+                @Html.ActionLink("Delete", "Delete", new {id = item.ContaId})
+            </td>
+            <td>
+                <a href="@Url.Action("Index", "Conta", new {conta = item.ContaId})">Selecionar</a>
+            </td>
+        </tr>
+    }
+</table>

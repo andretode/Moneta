@@ -1,0 +1,18 @@
+﻿<nav>
+    <ul class="pagination">
+        <li>
+            <a href="#" aria-label="Anterior">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        @for(var i = 0; i <= (ViewBag.TotalRegistros/5); i++)
+        {
+            <li><a class="@(i == ViewBag.PaginaAtual ? "current" : "")" href="@Url.Action("Index", "Contas", new { page = i, pesquisa = ViewBag.Pesquisa })">@i</a></li>
+        }
+        <li>
+            <a href="#" aria-label="Próximo">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>

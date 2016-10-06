@@ -1,0 +1,114 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Presentation", "0 - Presentation", "{B17873EE-6CF1-489A-A83A-8075EB527CBD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Services", "1 - Services", "{76376F05-8D9D-4791-94CC-FB757A956BAE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Application", "2 - Application", "{B6E59CE2-B5FE-442A-910D-DF1E2B9FA5B9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Domain", "3 - Domain", "{6B19769A-E536-40ED-B928-3271AB28ED45}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Infra", "4 - Infra", "{91AF182A-0018-4D96-BC41-83C2D2B443C5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.1 - Data", "4.1 - Data", "{8BFF31F7-FF0B-4F64-B17F-F1C71198E1D5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.2 - CrossCutting", "4.2 - CrossCutting", "{77BC84C0-A531-44DC-9BC6-A8BDC60A2895}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moneta.MVC", "ProjetoModelo.MVC\Moneta.MVC.csproj", "{81ABD4BC-123E-4B68-8739-DC078B47FB1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moneta.Domain", "ProjetoModelo.Domain\Moneta.Domain.csproj", "{DB13FCAB-F03E-4651-920D-125C0F139880}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moneta.Infra.Data", "ProjetoModelo.Infra.Data\Moneta.Infra.Data.csproj", "{31359B7C-AC64-4540-8493-40A12C84758B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moneta.Application", "ProjetoModelo.Application\Moneta.Application.csproj", "{7B60231B-A221-4DAA-9536-2F9627E460D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moneta.Services.WebAPI", "ProjetoModelo.Services.WebAPI\Moneta.Services.WebAPI.csproj", "{F7DF68CB-CE9D-465B-A556-6C9E8E84AAE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moneta.Infra.CrossCutting.IoC", "ProjetoModelo.Infra.CrossCutting.IoC\Moneta.Infra.CrossCutting.IoC.csproj", "{BAB2AC7B-171C-4231-AF8C-3E8C8DA9EE0D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{483CD37F-CA87-4FAF-92C6-44F6851F62FE}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moneta.Infra.CrossCutting.Log", "ProjetoModelo.Infra.CrossCutting.Log\Moneta.Infra.CrossCutting.Log.csproj", "{249357F4-AB1D-448B-A2D2-84A0DE0B5296}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moneta.Infra.CrossCutting.Identity", "ProjetoModelo.Infra.CrossCutting.Identity\Moneta.Infra.CrossCutting.Identity.csproj", "{1B3BE083-BE60-4791-879D-13C65E151B2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moneta.Infra.CrossCutting.MvcFilters", "ProjetoModelo.Infra.CrossCutting.MvcFilters\Moneta.Infra.CrossCutting.MvcFilters.csproj", "{3691350D-9BF1-4A5E-A081-B64888D6419F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moneta.Infra.CrossCutting.Datatables", "ProjetoModelo.Infra.CrossCutting.Datatables\Moneta.Infra.CrossCutting.Datatables.csproj", "{1AF048E1-D557-4AE5-B93E-34D71AA1BC62}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{81ABD4BC-123E-4B68-8739-DC078B47FB1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81ABD4BC-123E-4B68-8739-DC078B47FB1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81ABD4BC-123E-4B68-8739-DC078B47FB1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81ABD4BC-123E-4B68-8739-DC078B47FB1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB13FCAB-F03E-4651-920D-125C0F139880}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB13FCAB-F03E-4651-920D-125C0F139880}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB13FCAB-F03E-4651-920D-125C0F139880}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB13FCAB-F03E-4651-920D-125C0F139880}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31359B7C-AC64-4540-8493-40A12C84758B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31359B7C-AC64-4540-8493-40A12C84758B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31359B7C-AC64-4540-8493-40A12C84758B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31359B7C-AC64-4540-8493-40A12C84758B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B60231B-A221-4DAA-9536-2F9627E460D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B60231B-A221-4DAA-9536-2F9627E460D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B60231B-A221-4DAA-9536-2F9627E460D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B60231B-A221-4DAA-9536-2F9627E460D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7DF68CB-CE9D-465B-A556-6C9E8E84AAE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7DF68CB-CE9D-465B-A556-6C9E8E84AAE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7DF68CB-CE9D-465B-A556-6C9E8E84AAE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7DF68CB-CE9D-465B-A556-6C9E8E84AAE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAB2AC7B-171C-4231-AF8C-3E8C8DA9EE0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAB2AC7B-171C-4231-AF8C-3E8C8DA9EE0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAB2AC7B-171C-4231-AF8C-3E8C8DA9EE0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAB2AC7B-171C-4231-AF8C-3E8C8DA9EE0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{249357F4-AB1D-448B-A2D2-84A0DE0B5296}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{249357F4-AB1D-448B-A2D2-84A0DE0B5296}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{249357F4-AB1D-448B-A2D2-84A0DE0B5296}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{249357F4-AB1D-448B-A2D2-84A0DE0B5296}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B3BE083-BE60-4791-879D-13C65E151B2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B3BE083-BE60-4791-879D-13C65E151B2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B3BE083-BE60-4791-879D-13C65E151B2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B3BE083-BE60-4791-879D-13C65E151B2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3691350D-9BF1-4A5E-A081-B64888D6419F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3691350D-9BF1-4A5E-A081-B64888D6419F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3691350D-9BF1-4A5E-A081-B64888D6419F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3691350D-9BF1-4A5E-A081-B64888D6419F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AF048E1-D557-4AE5-B93E-34D71AA1BC62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AF048E1-D557-4AE5-B93E-34D71AA1BC62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AF048E1-D557-4AE5-B93E-34D71AA1BC62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AF048E1-D557-4AE5-B93E-34D71AA1BC62}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{81ABD4BC-123E-4B68-8739-DC078B47FB1B} = {B17873EE-6CF1-489A-A83A-8075EB527CBD}
+		{F7DF68CB-CE9D-465B-A556-6C9E8E84AAE0} = {76376F05-8D9D-4791-94CC-FB757A956BAE}
+		{7B60231B-A221-4DAA-9536-2F9627E460D0} = {B6E59CE2-B5FE-442A-910D-DF1E2B9FA5B9}
+		{DB13FCAB-F03E-4651-920D-125C0F139880} = {6B19769A-E536-40ED-B928-3271AB28ED45}
+		{8BFF31F7-FF0B-4F64-B17F-F1C71198E1D5} = {91AF182A-0018-4D96-BC41-83C2D2B443C5}
+		{77BC84C0-A531-44DC-9BC6-A8BDC60A2895} = {91AF182A-0018-4D96-BC41-83C2D2B443C5}
+		{31359B7C-AC64-4540-8493-40A12C84758B} = {8BFF31F7-FF0B-4F64-B17F-F1C71198E1D5}
+		{BAB2AC7B-171C-4231-AF8C-3E8C8DA9EE0D} = {77BC84C0-A531-44DC-9BC6-A8BDC60A2895}
+		{249357F4-AB1D-448B-A2D2-84A0DE0B5296} = {77BC84C0-A531-44DC-9BC6-A8BDC60A2895}
+		{1B3BE083-BE60-4791-879D-13C65E151B2A} = {77BC84C0-A531-44DC-9BC6-A8BDC60A2895}
+		{3691350D-9BF1-4A5E-A081-B64888D6419F} = {77BC84C0-A531-44DC-9BC6-A8BDC60A2895}
+		{1AF048E1-D557-4AE5-B93E-34D71AA1BC62} = {77BC84C0-A531-44DC-9BC6-A8BDC60A2895}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Data.6.0.1304.0\lib\NET45
+	EndGlobalSection
+EndGlobal
