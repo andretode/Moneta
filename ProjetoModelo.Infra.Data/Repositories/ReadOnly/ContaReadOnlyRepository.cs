@@ -47,18 +47,12 @@ namespace Moneta.Infra.Data.Repositories.ReadOnly
         {
             using (IDbConnection cn = Connection)
             {
-                IEnumerable<Conta> contas;
-                cn.Open();
-
-                //var sql = @"SELECT * FROM ""Conta""";
-
                 var sql = "";
                 if (pesquisa == null || pesquisa == "")
                 {
                     sql = @"SELECT * FROM ""Conta""
                             ORDER BY ""Descricao"" asc
                             OFFSET " + page.ToString();
-                    contas = cn.Query<Conta>(sql);
                 }
                 else
                 {
@@ -66,10 +60,10 @@ namespace Moneta.Infra.Data.Repositories.ReadOnly
                             WHERE (""Descricao""  Like '%" + pesquisa + @"%')
                             ORDER BY ""Descricao"" asc
                             OFFSET " + page.ToString();
-                    contas = cn.Query<Conta>(sql);
                 }
 
-                return contas;
+                cn.Open();
+                return cn.Query<Conta>(sql);
             }
         }
 

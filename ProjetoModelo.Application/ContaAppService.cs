@@ -26,7 +26,7 @@ namespace Moneta.Application
 
             BeginTransaction();
 
-            var result = _contaService.AdicionarConta(conta);
+            var result = _contaService.Adicionar(conta);
             if (!result.IsValid)
                 return DomainToApplicationResult(result);
             

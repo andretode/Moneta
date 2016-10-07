@@ -34,7 +34,7 @@ namespace Moneta.Infra.Data.Repositories
         {
             return DbSet.Find(id);
         }
-
+        
         public virtual IEnumerable<TEntity> GetAll()
         {
             return DbSet.ToList();
@@ -56,7 +56,7 @@ namespace Moneta.Infra.Data.Repositories
         {
             DbSet.Remove(obj);
         }
-
+        
         public virtual IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
         {
             return DbSet.Where(predicate);

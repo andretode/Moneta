@@ -14,6 +14,8 @@ namespace Moneta.Application.AutoMapper
         protected override void Configure()
         {
             Mapper.CreateMap<Conta, ContaViewModel>();
+            Mapper.CreateMap<Categoria, CategoriaViewModel>();
+            Mapper.CreateMap<Lancamento, LancamentoViewModel>();
         }
     }
 }

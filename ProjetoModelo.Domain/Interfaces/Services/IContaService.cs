@@ -6,7 +6,7 @@ namespace Moneta.Domain.Interfaces.Services
 {
     public interface IContaService : IServiceBase<Conta>
     {
-        ValidationResult AdicionarConta(Conta conta);
+        ValidationResult Adicionar(Conta conta);
         int ObterTotalRegistros(string pesquisa);
         IEnumerable<Conta> ObterContasGrid(int page, string pesquisa);
     }

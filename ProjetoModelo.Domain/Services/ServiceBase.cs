@@ -29,6 +29,11 @@ namespace Moneta.Domain.Services
             return _repository.GetAll();
         }
 
+        public virtual IEnumerable<TEntity> GetAllReadOnly()
+        {
+            return _repository.GetAllReadOnly();
+        }
+
         public virtual void Update(TEntity obj)
         {
             _repository.Update(obj);

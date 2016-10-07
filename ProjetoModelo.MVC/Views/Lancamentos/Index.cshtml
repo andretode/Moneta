@@ -1,0 +1,78 @@
+﻿@model Moneta.Application.ViewModels.LancamentosViewModel
+
+@{
+    ViewBag.Title = "Lista de Lancamentos";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="form-horizontal">
+    @using (Html.BeginForm("Index", "Lancamentos", new { pesquisa = "" }, FormMethod.Post))
+    {
+        <div class="form-group">
+            @Html.Label("Filtrar", htmlAttributes: new { @class = "control-label col-md-1" })
+            @Html.DropDownListFor(model => model.ContaIdFiltro, (SelectList)@ViewBag.Contas, "-- Selecione uma Conta --", new { @class = "form-control col-md-4" })
+            <input type="submit" value="Novo Lançamento" name="action:CriarLancamento" class="btn btn-default col-md-2" />
+            @Html.ValidationMessageFor(model => model.ContaIdFiltro, "", new { @class = "text-danger col-md-1" })
+        </div>
+        <div class="form-group">
+            @Html.Label("Pesquisar", htmlAttributes: new { @class = "control-label col-md-1" })
+            @Html.TextBox("pesquisa", null, new { @class = "form-control col-md-4", @placeholder = "Pesquisar pela Descrição" })
+            <button type="submit" value="Pesquisar" name="action:Pesquisar" class="btn btn-default col-md-1">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+        </div>
+    }
+</div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Lancamentos.First().Descricao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lancamentos.First().Valor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lancamentos.First().DataVencimento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lancamentos.First().Pago)
+        </th>
+        <th>
+            @Html.Label("Ações")
+        </th>
+    </tr>
+
+    @if (Model.Lancamentos.Count() == 0)
+    {
+        <tr>
+            <td colspan="5" class="text-danger" align="center">Selecione uma Conta para mostrar os lançamentos relacionados</td>
+        </tr>
+    }
+    else
+    {
+        foreach (var item in @Model.Lancamentos)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Valor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataVencimento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Pago)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.LancamentoId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.LancamentoId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.LancamentoId })
+                </td>
+            </tr>
+        }
+    }
+</table>

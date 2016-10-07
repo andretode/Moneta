@@ -14,7 +14,11 @@ namespace Moneta.Infra.Data.EntityConfig
 
             Property(c => c.DataCadastro)
                 .IsRequired();
-            
+
+            HasMany(l => l.Lancamentos)
+                .WithRequired(l => l.Conta)
+                .HasForeignKey(l => l.ContaId);
+
             Ignore(t => t.ResultadoValidacao);
         }
     }

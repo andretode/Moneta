@@ -32,15 +32,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Entities\Lancamento.cs" />
+    <Compile Include="Entities\Categoria.cs" />
     <Compile Include="Entities\Conta.cs" />
     <Compile Include="Exceptions\CustomException.cs" />
     <Compile Include="Interfaces\Repository\ADO\IContaADORepository.cs" />
+    <Compile Include="Interfaces\Repository\ILancamentoRepository.cs" />
+    <Compile Include="Interfaces\Repository\ICategoriaRepository.cs" />
+    <Compile Include="Interfaces\Services\ILancamentoService.cs" />
+    <Compile Include="Interfaces\Services\ICategoriaService.cs" />
     <Compile Include="Interfaces\Services\IServiceBase.cs" />
     <Compile Include="Interfaces\Specification\ISpecification.cs" />
     <Compile Include="Interfaces\Validation\IFiscal.cs" />
     <Compile Include="Interfaces\Validation\IRegra.cs" />
+    <Compile Include="Services\LancamentoService.cs" />
+    <Compile Include="Services\CategoriaService.cs" />
+    <Compile Include="Specification\Categorias\CategoriaPossuiCorValida.cs" />
     <Compile Include="Specification\Contas\ContaPossuiStatusAtivo.cs" />
     <Compile Include="Validation\Base\FiscalBase.cs" />
+    <Compile Include="Validation\Categorias\CategoriaEstaAptaParaCadastroNoSistema.cs" />
     <Compile Include="Validation\Contas\ContaEstaAptoParaCadastroNoSistema.cs" />
     <Compile Include="Validation\Documentos\CPFValidation.cs" />
     <Compile Include="Validation\Regra.cs" />

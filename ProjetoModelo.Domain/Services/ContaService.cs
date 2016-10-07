@@ -37,7 +37,7 @@ namespace Moneta.Domain.Services
             return _contaReadOnlyRepository.GetAll();
         }
 
-        public ValidationResult AdicionarConta(Conta conta)
+        public ValidationResult Adicionar(Conta conta)
         {
             var resultadoValidacao = new ValidationResult();
 

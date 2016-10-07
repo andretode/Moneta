@@ -16,7 +16,7 @@ namespace Moneta.Application.ViewModels
         [DisplayName("Código")]
         public Guid ContaId { get; set; }
 
-        [Required(ErrorMessage = "Preencha o campo Descrição")]
+        [Required(ErrorMessage = "Preencha o campo")]
         [MaxLength(150, ErrorMessage = "Máximo {0} caracteres")]
         [MinLength(2, ErrorMessage = "Mínimo {0} caracteres")]
         [DisplayName("Descrição")]
@@ -29,5 +29,6 @@ namespace Moneta.Application.ViewModels
         [DisplayName("Ativo?")]
         public bool Ativo { get; set; }
 
+        public ICollection<LancamentoViewModel> Lancamentos { get; set; }
     }
 }

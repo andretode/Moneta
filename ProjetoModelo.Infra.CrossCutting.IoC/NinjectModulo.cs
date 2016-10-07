@@ -21,14 +21,20 @@ namespace Moneta.Infra.CrossCutting.IoC
         {
             // app
             Bind<IContaAppService>().To<ContaAppService>();
+            Bind<ICategoriaAppService>().To<CategoriaAppService>();
+            Bind<ILancamentoAppService>().To<LancamentoAppService>();
 
             // service
             Bind(typeof(IServiceBase<>)).To(typeof(ServiceBase<>));
             Bind<IContaService>().To<ContaService>();
+            Bind<ICategoriaService>().To<CategoriaService>();
+            Bind<ILancamentoService>().To<LancamentoService>();
 
             // data repos
             Bind(typeof(IRepositoryBase<>)).To(typeof(RepositoryBase<,>));
             Bind<IContaRepository>().To<ContaRepository>();
+            Bind<ICategoriaRepository>().To<CategoriaRepository>();
+            Bind<ILancamentoRepository>().To<LancamentoRepository>();
       
             // data repos read only
             Bind<IContaReadOnlyRepository>().To<ContaReadOnlyRepository>();

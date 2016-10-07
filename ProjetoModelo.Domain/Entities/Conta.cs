@@ -13,11 +13,13 @@ namespace Moneta.Domain.Entities
         public Conta()
         {
             ContaId = Guid.NewGuid();
+            Ativo = true;
         }
 
         public Guid ContaId { get; set; }
         public string Descricao { get; set; }
         public bool Ativo { get; set; }
+        public virtual ICollection<Lancamento> Lancamentos { get; set; }
         public DateTime DataCadastro { get; set; }
 
         public ValidationResult ResultadoValidacao { get; private set; }

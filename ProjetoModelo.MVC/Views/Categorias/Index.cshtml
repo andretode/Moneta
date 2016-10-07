@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Moneta.Application.ViewModels.CategoriaViewModel>
+
+@{
+    ViewBag.Title = "Lista de Categorias";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Adicionar Categoria", "Create")
+</p>
+
+@using (Html.BeginForm("Index", "Categoria", new {pesquisa = ""}, FormMethod.Get))
+{
+    <p>
+        Pesquisar por Descrição: @Html.Editor("pesquisa") <input type="submit" value="Pesquisar" class="btn btn-default" />
+    </p>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Descricao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataCadastro)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataCadastro)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {id = item.CategoriaId}) |
+                @Html.ActionLink("Details", "Details", new {id = item.CategoriaId}) |
+                @Html.ActionLink("Delete", "Delete", new {id = item.CategoriaId})
+            </td>
+        </tr>
+    }
+</table>

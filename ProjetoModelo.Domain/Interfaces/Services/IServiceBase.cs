@@ -8,6 +8,7 @@ namespace Moneta.Domain.Interfaces.Services
         void Add(TEntity obj);
         TEntity GetById(Guid id);
         IEnumerable<TEntity> GetAll();
+        IEnumerable<TEntity> GetAllReadOnly();
         void Update(TEntity obj);
         void Remove(TEntity obj);
         void Dispose();

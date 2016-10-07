@@ -67,12 +67,19 @@
     <Compile Include="AutoMapper\DomainToApplicationMappingProfile.cs" />
     <Compile Include="AutoMapper\ViewModelToDomainMappingProfile.cs" />
     <Compile Include="AutoMapper\DomainToViewModelMappingProfile.cs" />
+    <Compile Include="LancamentoAppService.cs" />
+    <Compile Include="CategoriaAppService.cs" />
     <Compile Include="ContaAppService.cs" />
     <Compile Include="Interfaces\IAppServiceBase.cs" />
+    <Compile Include="Interfaces\ILancamentoAppService.cs" />
+    <Compile Include="Interfaces\ICategoriaAppService.cs" />
     <Compile Include="Interfaces\IContaAppService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validation\ValidationAppError.cs" />
     <Compile Include="Validation\ValidationAppResult.cs" />
+    <Compile Include="ViewModels\LancamentosViewModel.cs" />
+    <Compile Include="ViewModels\LancamentoViewModel.cs" />
+    <Compile Include="ViewModels\CategoriaViewModel.cs" />
     <Compile Include="ViewModels\ContaViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
