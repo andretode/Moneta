@@ -18,7 +18,7 @@
 }
 
 <table class="table">
-    <tr>
+    <tr style="background-color: #e6e6e6">
         <th>
             @Html.DisplayNameFor(model => model.Descricao)
         </th>
@@ -28,6 +28,9 @@
         <th>
             @Html.DisplayNameFor(model => model.DataCadastro)
         </th>
+        <th>
+            @Html.Label("Ações")
+        </th>
     </tr>
 
     @foreach (var item in Model)
@@ -36,7 +39,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Descricao)
             </td>
-            <td>
+            <td style="color: @item.Cor">
                 @Html.DisplayFor(modelItem => item.Cor)
             </td>
             <td>

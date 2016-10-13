@@ -9,6 +9,7 @@ namespace Moneta.Application.Interfaces
     {
         ValidationAppResult Add(LancamentoViewModel LancamentoViewModel);
         LancamentoViewModel GetById(Guid id);
+        LancamentoViewModel GetByIdReadOnly(Guid id);
         IEnumerable<LancamentoViewModel> GetAll();
         IEnumerable<LancamentoViewModel> GetAllReadOnly();
         void Update(LancamentoViewModel LancamentoViewModel);

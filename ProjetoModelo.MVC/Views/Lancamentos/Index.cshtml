@@ -1,7 +1,7 @@
 ﻿@model Moneta.Application.ViewModels.LancamentosViewModel
 
 @{
-    ViewBag.Title = "Lista de Lancamentos";
+    ViewBag.Title = "Lançamentos";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -9,16 +9,14 @@
 <div class="form-horizontal">
     @using (Html.BeginForm("Index", "Lancamentos", new { pesquisa = "" }, FormMethod.Post))
     {
-        <div class="form-group">
-            @Html.Label("Filtrar", htmlAttributes: new { @class = "control-label col-md-1" })
-            @Html.DropDownListFor(model => model.ContaIdFiltro, (SelectList)@ViewBag.Contas, "-- Selecione uma Conta --", new { @class = "form-control col-md-4" })
-            <input type="submit" value="Novo Lançamento" name="action:CriarLancamento" class="btn btn-default col-md-2" />
-            @Html.ValidationMessageFor(model => model.ContaIdFiltro, "", new { @class = "text-danger col-md-1" })
-        </div>
-        <div class="form-group">
-            @Html.Label("Pesquisar", htmlAttributes: new { @class = "control-label col-md-1" })
-            @Html.TextBox("pesquisa", null, new { @class = "form-control col-md-4", @placeholder = "Pesquisar pela Descrição" })
-            <button type="submit" value="Pesquisar" name="action:Pesquisar" class="btn btn-default col-md-1">
+        <div class="form-group col-md-12">
+            <button type="submit" value="Novo" title="Adicionar um novo Lançamento" name="action:CriarLancamento" class="btn btn-default" style="display:inline-block">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+            @Html.DropDownListFor(model => model.ContaIdFiltro, (SelectList)@ViewBag.Contas, "-- Selecione uma Conta --", new { @class = "form-control", @style = "display:inline-block" })
+            @Html.ValidationMessageFor(model => model.ContaIdFiltro, "", new { @class = "text-danger", @style = "display:inline-block" })
+            @Html.TextBox("pesquisa", null, new { @class = "form-control", @placeholder = "Pesquisar pela Descrição", @style = "display:inline-block" })
+            <button type="submit" value="Pesquisar" name="action:Pesquisar" class="btn btn-default" title="Pesquisar" style="display:inline-block">
                 <span class="glyphicon glyphicon-search"></span>
             </button>
         </div>
@@ -26,21 +24,19 @@
 </div>
 
 <table class="table">
-    <tr>
+    <tr style="background-color: #e6e6e6">
         <th>
-            @Html.DisplayNameFor(model => model.Lancamentos.First().Descricao)
+            <span class="glyphicon glyphicon-calendar"></span>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Lancamentos.First().Valor)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Lancamentos.First().DataVencimento)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Lancamentos.First().Pago)
         </th>
         <th>
-            @Html.Label("Ações")
+        </th>
+        <th>
         </th>
     </tr>
 
@@ -56,21 +52,46 @@
         {
             <tr>
                 <td>
+                    @Html.DisplayFor(modelItem => item.DataVencimento)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Descricao)
+                </td>
+                <td style="color: @item.Categoria.Cor">
+                    @Html.DisplayFor(modelItem => item.Categoria.Descricao)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Valor)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DataVencimento)
+                    @if (item.Pago)
+                    {
+                        <a class="btn" title="Clique para informar que não foi pago"
+                            href="@Url.Action("TrocarPago", "Lancamentos", new { id = (item.LancamentoId) })">
+                            <i class="icon-white glyphicon glyphicon-thumbs-up" style="color:green"></i>
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="btn" title="Clique para informar que foi pago"
+                           href="@Url.Action("TrocarPago", "Lancamentos", new { id = (item.LancamentoId) })">
+                            <i class="icon-white glyphicon glyphicon-thumbs-down" style="color:red"></i>
+                        </a>
+                    }
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Pago)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.LancamentoId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.LancamentoId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.LancamentoId })
+                    <a class="btn"
+                       href="@Url.Action("Edit", "Lancamentos", new { id = (item.LancamentoId) })">
+                        <i class="icon-white glyphicon glyphicon-edit"></i>
+                    </a>
+                    <a class="btn"
+                       href="@Url.Action("Details", "Lancamentos", new { id = (item.LancamentoId) })">
+                        <i class="icon-white glyphicon glyphicon-info-sign"></i>
+                    </a>
+                    <a class="btn"
+                       href="@Url.Action("Delete", "Lancamentos", new { id = (item.LancamentoId) })">
+                        <i class="icon-white glyphicon glyphicon-trash"></i>
+                    </a>
                 </td>
             </tr>
         }

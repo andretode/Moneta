@@ -26,10 +26,19 @@ namespace Moneta.MVC.Controllers
         // GET: Lancamento
         public ViewResult Index(LancamentosViewModel lancamentos, string pesquisa = "", int page = 0)
         {
-            lancamentos.Lancamentos = _LancamentoApp.GetAll().Where(l => l.ContaId == lancamentos.ContaIdFiltro);
+            lancamentos.Lancamentos = _LancamentoApp.GetAll().Where(l => l.ContaId == lancamentos.ContaIdFiltro).OrderBy(l => l.DataVencimento);
             SetSelectLists();
 
             return View(lancamentos);
+        }
+
+        public ActionResult TrocarPago(Guid id)
+        {
+            var lancamento = _LancamentoApp.GetByIdReadOnly(id);
+            lancamento.Pago = !lancamento.Pago;
+            _LancamentoApp.Update(lancamento);
+
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -82,12 +91,12 @@ namespace Moneta.MVC.Controllers
         // POST: Lancamento/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(LancamentoViewModel LancamentoEndereco)
+        public ActionResult Create(LancamentoViewModel lancamento)
         {
             SetSelectLists();
             if (ModelState.IsValid)
             {
-                var result = _LancamentoApp.Add(LancamentoEndereco);
+                var result = _LancamentoApp.Add(lancamento);
 
                 if (!result.IsValid)
                 {
@@ -95,13 +104,13 @@ namespace Moneta.MVC.Controllers
                     {
                         ModelState.AddModelError(string.Empty, validationAppError.Message);
                     }
-                    return View(LancamentoEndereco);
+                    return View(lancamento);
                 }
 
                 return RedirectToAction("Index");
             }
      
-            return View(LancamentoEndereco);
+            return View(lancamento);
         }
 
         // GET: Lancamento/Edit/5
@@ -140,8 +149,8 @@ namespace Moneta.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            var Lancamento = _LancamentoApp.GetAllReadOnly().Where(c => c.LancamentoId == id).First(); //_LancamentoApp.GetById(id);
-            _LancamentoApp.Remove(Lancamento);
+            var lancamento = _LancamentoApp.GetByIdReadOnly(id);
+            _LancamentoApp.Remove(lancamento);
 
             return RedirectToAction("Index");
         }

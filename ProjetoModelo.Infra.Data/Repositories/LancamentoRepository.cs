@@ -2,6 +2,8 @@
 using Moneta.Domain.Entities;
 using Moneta.Domain.Interfaces.Repository;
 using Moneta.Infra.Data.Context;
+using System.Linq;
+using System;
 
 namespace Moneta.Infra.Data.Repositories
 {
@@ -12,6 +14,12 @@ namespace Moneta.Infra.Data.Repositories
             var entry = Context.Entry(lancamento);
             DbSet.Attach(lancamento);
             entry.State = EntityState.Deleted;
+        }
+
+        public Lancamento GetByIdReadOnly(Guid id)
+        {
+            base.Context.SetProxyCreationEnabledToFalse();
+            return DbSet.AsNoTracking().Where(x => x.LancamentoId == id).First();
         }
     }
 }

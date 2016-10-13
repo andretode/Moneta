@@ -26,6 +26,11 @@ namespace Moneta.Domain.Services
             return _LancamentoRepository.GetById(id);
         }
 
+        public Lancamento GetByIdReadOnly(Guid id)
+        {
+            return _LancamentoRepository.GetByIdReadOnly(id);
+        }
+
         public override IEnumerable<Lancamento> GetAll()
         {
             return _LancamentoRepository.GetAll();

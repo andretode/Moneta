@@ -17,12 +17,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("$ Moneta", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Início", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Lancamentos", "Index", "Lancamentos")</li>
+                    <li>@Html.ActionLink("Lançamentos", "Index", "Lancamentos")</li>
                     <li>@Html.ActionLink("Contas", "Index", "Contas")</li>
                     <li>@Html.ActionLink("Categorias", "Index", "Categorias")</li>
                     <li>@Html.ActionLink("XXX", "Index", "XXX")</li>
@@ -71,6 +71,9 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/minha-personalizacao")
+    @Styles.Render("~/Content/themes/base/css")
+    @Scripts.Render("~/bundles/jqueryui")
     @RenderSection("scripts", required: false)
 </body>
 </html>

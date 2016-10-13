@@ -12,7 +12,7 @@ namespace Moneta.Infra.Data.Context
         public MonetaContext()
             : base("Moneta")
         {
-            
+            Configuration.LazyLoadingEnabled = true;
         }
 
         public IDbSet<Conta> Contas { get; set; }

@@ -13,7 +13,6 @@ namespace Moneta.Domain.Entities
         public Conta()
         {
             ContaId = Guid.NewGuid();
-            Ativo = true;
         }
 
         public Guid ContaId { get; set; }

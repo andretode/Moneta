@@ -11,5 +11,7 @@ namespace Moneta.Infra.Data.Interfaces
         DbEntityEntry<T> Entry<T>(T entity) where T : class;
         int SaveChanges();
         void Dispose();
+
+        void SetProxyCreationEnabledToFalse();
     }
 }

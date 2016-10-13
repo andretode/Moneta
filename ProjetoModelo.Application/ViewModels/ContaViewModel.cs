@@ -10,6 +10,7 @@ namespace Moneta.Application.ViewModels
         public ContaViewModel()
         {
             ContaId = Guid.NewGuid();
+            Ativo = true;
         }
 
         [Key]

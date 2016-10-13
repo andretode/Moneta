@@ -10,6 +10,7 @@ namespace Moneta.Application.ViewModels
         public LancamentoViewModel()
         {
             LancamentoId = Guid.NewGuid();
+            DataVencimento = DateTime.Now;
         }
 
         [Key]
@@ -28,8 +29,9 @@ namespace Moneta.Application.ViewModels
         [DisplayName("Valor")]
         public decimal Valor { get; set; }
 
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
-        [DisplayName("Data de Vencimento")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yy}")]
+        [DataType(DataType.DateTime)]
+        [DisplayName("Vencimento")]
         public DateTime DataVencimento { get; set; }
 
         [DisplayName("Pago?")]

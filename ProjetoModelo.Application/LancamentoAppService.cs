@@ -40,6 +40,11 @@ namespace Moneta.Application
             return Mapper.Map<Lancamento, LancamentoViewModel>(_LancamentoService.GetById(id));
         }
 
+        public LancamentoViewModel GetByIdReadOnly(Guid id)
+        {
+            return Mapper.Map<Lancamento, LancamentoViewModel>(_LancamentoService.GetByIdReadOnly(id));
+        }
+
         public IEnumerable<LancamentoViewModel> GetAll()
         {
             return Mapper.Map<IEnumerable<Lancamento>, IEnumerable<LancamentoViewModel>>(_LancamentoService.GetAll());
