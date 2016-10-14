@@ -41,14 +41,10 @@
 
 <table class="table">
     <tr style="background-color: #e6e6e6">
-        <th>
-        </th>
-        <th>
-        </th>
-        <th>
-        </th>
-        <th>
-        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
     </tr>
 
     @if (Model.LancamentosDoMesPorConta.Count() == 0)
@@ -61,18 +57,19 @@
     {
         foreach (var item in @Model.LancamentosDoMesPorConta)
         {
-            <tr>
+            <tr style="line-height: 0px;">
                 <td>
-                    @Html.DisplayFor(modelItem => item.DataVencimento)<br />
-                    <a href="@Url.Action("Details", "Lancamentos", new { id = (item.LancamentoId) }) ">
+                    @Html.DisplayFor(modelItem => item.DataVencimento)
+                    &nbsp;
+                    <a href="@Url.Action("Details", "Lancamentos", new { id = (item.LancamentoId) }) " class="visible-xs visible-sm visible-md-inline visible-lg-inline">
                         @Html.DisplayFor(modelItem => item.Descricao)
                     </a>
                 </td>
                 <td>
-                    <button class="btn btn-xs" style="background-color: @item.Categoria.Cor" title="Categoria">
+                    <button class="btn btn-xs" style="background-color: @item.Categoria.Cor" title="@item.Categoria.Descricao">
                         <i class="icon-white glyphicon glyphicon-th-list"></i>
-                    </button><br />
-                    @Html.DisplayFor(modelItem => item.Categoria.Descricao)
+                    </button>
+                    <span class="visible-xs visible-sm visible-md-inline visible-lg-inline">@item.Categoria.Descricao</span>
                 </td>
                 <td class="text-right">
                     @if (item.Valor > 0)
@@ -91,14 +88,14 @@
                 <td>
                     @if (item.Pago)
                     {
-                        <a class="btn" title="Clique para informar que não foi pago"
+                        <a title="Clique para informar que não foi pago"
                            href="@Url.Action("TrocarPago", "Lancamentos", new { id = (item.LancamentoId), ContaIdFiltro = Model.ContaIdFiltro })">
                             <i class="icon-white glyphicon glyphicon-thumbs-up" style="color:green"></i>
                         </a>
                     }
                     else
                     {
-                        <a class="btn" title="Clique para informar que foi pago"
+                        <a title="Clique para informar que foi pago"
                            href="@Url.Action("TrocarPago", "Lancamentos", new { id = (item.LancamentoId), ContaIdFiltro = Model.ContaIdFiltro })">
                             <i class="icon-white glyphicon glyphicon-thumbs-down" style="color:red"></i>
                         </a>
@@ -110,7 +107,7 @@
         string corSaldoAtualDoMesPorConta = (Model.SaldoAtualDoMesPorConta > 0 ? "green" : "red");
         string corSaldoDoMesPorConta = (Model.SaldoDoMesPorConta > 0 ? "green" : "red");
         string corSaldoDoMesTodasAsContas = (Model.SaldoDoMesTodasAsContas > 0 ? "green" : "red");
-        
+
         <tr class="text-right">
             <td></td>
             <td></td>
