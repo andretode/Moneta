@@ -50,5 +50,10 @@ namespace Moneta.Domain.Services
 
             return resultadoValidacao;
         }
+
+        public decimal SaldoDoMes(int mes, Guid contaId)
+        {
+            return this.GetAll().Where(l => l.DataVencimento.Month == mes && l.ContaId == contaId).Sum(l => l.Valor);
+        }
     }
 }

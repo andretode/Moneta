@@ -24,7 +24,7 @@ namespace Moneta.Application.ViewModels
         public string Descricao { get; set; }
 
         [DataType(DataType.Currency)]
-        [Range(typeof(decimal), "0", "99999999999")]
+        [Range(typeof(decimal), "-9999999", "9999999")]
         [Required(ErrorMessage = "Preencha o campo")]
         [DisplayName("Valor")]
         public decimal Valor { get; set; }
@@ -36,6 +36,9 @@ namespace Moneta.Application.ViewModels
 
         [DisplayName("Pago?")]
         public bool Pago { get; set; }
+
+        [DisplayName("Transação")]
+        public TipoTransacao Transacao { get; set; }
 
         [DisplayName("Data de Cadastro")]
         [ScaffoldColumn(false)]

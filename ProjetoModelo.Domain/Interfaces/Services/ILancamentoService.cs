@@ -9,5 +9,6 @@ namespace Moneta.Domain.Interfaces.Services
     {
         ValidationResult Adicionar(Lancamento lancamento);
         Lancamento GetByIdReadOnly(Guid id);
+        decimal SaldoDoMes(int mes, Guid contaId);
     }
 }

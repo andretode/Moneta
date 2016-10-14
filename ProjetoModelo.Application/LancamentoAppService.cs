@@ -13,20 +13,24 @@ namespace Moneta.Application
 {
     public class LancamentoAppService : AppServiceBase<MonetaContext>, ILancamentoAppService
     {
-        private readonly ILancamentoService _LancamentoService;
+        private readonly ILancamentoService _lancamentoService;
 
         public LancamentoAppService(ILancamentoService LancamentoService)
         {
-            _LancamentoService = LancamentoService;
+            _lancamentoService = LancamentoService;
         }
 
-        public ValidationAppResult Add(LancamentoViewModel LancamentoViewModel)
+        public ValidationAppResult Add(LancamentoViewModel lancamentoViewModel)
         {
-            var Lancamento= Mapper.Map<LancamentoViewModel, Lancamento>(LancamentoViewModel);
+            if (lancamentoViewModel.DataVencimento < DateTime.Now.Date)
+                lancamentoViewModel.Pago = true;
+
+            lancamentoViewModel.Valor = AjustarValorDespesaReceita(lancamentoViewModel);
+            var Lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
 
             BeginTransaction();
 
-            var result = _LancamentoService.Adicionar(Lancamento);
+            var result = _lancamentoService.Adicionar(Lancamento);
             if (!result.IsValid)
                 return DomainToApplicationResult(result);
             
@@ -37,22 +41,22 @@ namespace Moneta.Application
 
         public LancamentoViewModel GetById(Guid id)
         {
-            return Mapper.Map<Lancamento, LancamentoViewModel>(_LancamentoService.GetById(id));
+            return Mapper.Map<Lancamento, LancamentoViewModel>(_lancamentoService.GetById(id));
         }
 
         public LancamentoViewModel GetByIdReadOnly(Guid id)
         {
-            return Mapper.Map<Lancamento, LancamentoViewModel>(_LancamentoService.GetByIdReadOnly(id));
+            return Mapper.Map<Lancamento, LancamentoViewModel>(_lancamentoService.GetByIdReadOnly(id));
         }
 
         public IEnumerable<LancamentoViewModel> GetAll()
         {
-            return Mapper.Map<IEnumerable<Lancamento>, IEnumerable<LancamentoViewModel>>(_LancamentoService.GetAll());
+            return Mapper.Map<IEnumerable<Lancamento>, IEnumerable<LancamentoViewModel>>(_lancamentoService.GetAll());
         }
 
         public IEnumerable<LancamentoViewModel> GetAllReadOnly()
         {
-            return Mapper.Map<IEnumerable<Lancamento>, IEnumerable<LancamentoViewModel>>(_LancamentoService.GetAllReadOnly());
+            return Mapper.Map<IEnumerable<Lancamento>, IEnumerable<LancamentoViewModel>>(_lancamentoService.GetAllReadOnly());
         }
 
         public void Update(LancamentoViewModel LancamentoViewModel)
@@ -60,7 +64,7 @@ namespace Moneta.Application
             var Lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(LancamentoViewModel);
 
             BeginTransaction();
-            _LancamentoService.Update(Lancamento);
+            _lancamentoService.Update(Lancamento);
             Commit();
         }
 
@@ -69,13 +73,33 @@ namespace Moneta.Application
             var Lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(LancamentoViewModel);
 
             BeginTransaction();
-            _LancamentoService.Remove(Lancamento);
+            _lancamentoService.Remove(Lancamento);
             Commit();
         }
 
         public void Dispose()
         {
-            _LancamentoService.Dispose();
+            _lancamentoService.Dispose();
         }
+
+        public decimal SaldoDoMes(int mes, Guid contaId)
+        {
+            return _lancamentoService.SaldoDoMes(mes, contaId);
+        }
+
+        #region Metodos privados
+        private decimal AjustarValorDespesaReceita(LancamentoViewModel lancamentoViewModel)
+        {
+            decimal valorAjustado;
+            if (lancamentoViewModel.Transacao == TipoTransacao.Despesa && Math.Sign(lancamentoViewModel.Valor) == 1)
+                valorAjustado = lancamentoViewModel.Valor * -1;
+            else if (lancamentoViewModel.Transacao == TipoTransacao.Receita && Math.Sign(lancamentoViewModel.Valor) == -1)
+                valorAjustado = lancamentoViewModel.Valor * -1;
+            else
+                valorAjustado = lancamentoViewModel.Valor;
+
+            return valorAjustado;
+        }
+        #endregion
     }
 }

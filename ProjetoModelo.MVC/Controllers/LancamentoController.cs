@@ -31,6 +31,12 @@ namespace Moneta.MVC.Controllers
 
             lancamentos.Lancamentos = _LancamentoApp.GetAll().Where(l => 
                 l.ContaId == contaIdFiltro).OrderBy(l => l.DataVencimento).ThenBy(l => l.Descricao);
+            
+            /*
+             * TROCA ISTO QUANDO COLOCAR O FILTRO POR MES
+             **/
+            if (contaIdFiltro != null)
+                lancamentos.SaldoDoMes = _LancamentoApp.SaldoDoMes(DateTime.Now.Month, (Guid)contaIdFiltro);
 
             SetSelectLists();
 
@@ -56,7 +62,20 @@ namespace Moneta.MVC.Controllers
         }
 
         [HttpPost]
-        [MultipleButton(Name = "action", Argument = "CriarLancamento")]
+        [MultipleButton(Name = "action", Argument = "AdicionarDespesa")]
+        public ActionResult AdicionarDespesa(LancamentosViewModel lancamentos)
+        {
+            if (ModelState.IsValid)
+            {
+                lancamentos.NovaTransacao = TipoTransacao.Despesa;
+                return RedirectToAction("Create", lancamentos);
+            }
+
+            return RedirectToAction("Index", lancamentos);
+        }
+
+        [HttpPost]
+        [MultipleButton(Name = "action", Argument = "RealizarLancamento")]
         public ActionResult CriarLancamento(LancamentosViewModel lancamentos)
         {
             if (ModelState.IsValid)
@@ -89,10 +108,11 @@ namespace Moneta.MVC.Controllers
                 var novoLancamento = new LancamentoViewModel();
                 novoLancamento.Conta = _ContaApp.GetById(lancamentos.ContaIdFiltro);
                 novoLancamento.ContaId = lancamentos.ContaIdFiltro;
+                novoLancamento.Transacao = lancamentos.NovaTransacao;
                 SetSelectLists();
                 return View(novoLancamento);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { lancamentos });
         }
 
         // POST: Lancamento/Create
@@ -114,7 +134,7 @@ namespace Moneta.MVC.Controllers
                     return View(lancamento);
                 }
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId });
             }
      
             return View(lancamento);
@@ -131,16 +151,16 @@ namespace Moneta.MVC.Controllers
         // POST: Lancamento/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(LancamentoViewModel LancamentoViewModel)
+        public ActionResult Edit(LancamentoViewModel lancamento)
         {
             if (ModelState.IsValid)
             {
-                _LancamentoApp.Update(LancamentoViewModel);
+                _LancamentoApp.Update(lancamento);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId });
             }
 
-            return View(LancamentoViewModel);
+            return View(lancamento);
         }
 
         // GET: Lancamento/Delete/5
@@ -159,7 +179,7 @@ namespace Moneta.MVC.Controllers
             var lancamento = _LancamentoApp.GetByIdReadOnly(id);
             _LancamentoApp.Remove(lancamento);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId });
         }
     }
 }

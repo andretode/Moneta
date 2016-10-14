@@ -14,5 +14,6 @@ namespace Moneta.Application.Interfaces
         IEnumerable<LancamentoViewModel> GetAllReadOnly();
         void Update(LancamentoViewModel LancamentoViewModel);
         void Remove(LancamentoViewModel LancamentoViewModel);
+        decimal SaldoDoMes(int mes, Guid contaId);
     }
 }

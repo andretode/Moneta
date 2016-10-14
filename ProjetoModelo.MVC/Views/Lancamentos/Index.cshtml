@@ -10,9 +10,25 @@
     @using (Html.BeginForm("Index", "Lancamentos", new { pesquisa = "" }, FormMethod.Post))
     {
         <div class="form-group col-md-12">
-            <button type="submit" value="Novo" title="Adicionar um novo Lançamento" name="action:CriarLancamento" class="btn btn-danger" style="display:inline-block">
-                <span class="glyphicon glyphicon-plus"></span>
-            </button>
+
+            <div class="dropdown">
+                <button class="btn btn-inicial" title="Realizar um Lançamento">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+                <div class="dropdown-content">
+                    <div class="btn-despesa">
+                        <button class="btn" type="submit" value="Despesa" name="action:AdicionarDespesa" title="Adicionar uma Despesa" style="width:100%">Despesa</button>
+                    </div>
+                    <div class="btn-receita">
+                        <button class="btn" type="submit" value="Despesa" name="action:RealizarLancamento" title="Adicionar uma Receita" style="width:100%">Receita</button>
+                    </div>
+                    <div class="btn-transferencia">
+                        <button class="btn" type="submit" value="Despesa" name="action:RealizarLancamento" title="Adicionar uma Transferência" style="width:100%">Transferência</button>
+                    </div>
+                </div>
+            </div>
+
+
             @Html.DropDownListFor(model => model.ContaIdFiltro, (SelectList)@ViewBag.Contas, "-- Selecione uma Conta --", new { @class = "form-control", @style = "display:inline-block" })
             @Html.ValidationMessageFor(model => model.ContaIdFiltro, "", new { @class = "text-danger", @style = "display:inline-block" })
             @Html.TextBox("pesquisa", null, new { @class = "form-control", @placeholder = "Pesquisar pela Descrição", @style = "display:inline-block" })
@@ -53,13 +69,23 @@
                     </a>
                 </td>
                 <td>
-                    <button class="btn btn-xs" style="background-color: @item.Categoria.Cor">
+                    <button class="btn btn-xs" style="background-color: @item.Categoria.Cor" title="Categoria">
                         <i class="icon-white glyphicon glyphicon-th-list"></i>
                     </button><br />
                     @Html.DisplayFor(modelItem => item.Categoria.Descricao)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Valor)
+                    @if(item.Valor > 0){
+                        <span style="color:green">
+                            @Html.DisplayFor(modelItem => item.Valor)
+                        </span>
+                    }
+                    else
+                    {
+                        <span style="color:red">
+                            @Html.DisplayFor(modelItem => item.Valor)
+                        </span>
+                    }
                 </td>
                 <td>
                     @if (item.Pago)
@@ -79,5 +105,13 @@
                 </td>
             </tr>
         }
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.SaldoDoMes)
+                @Html.DisplayFor(model => model.SaldoDoMes)
+            </td>
+        </tr>
     }
 </table>
+
+<link rel="stylesheet" href="~/Content/botao-novo-lancamento.css">
