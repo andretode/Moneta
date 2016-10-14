@@ -51,9 +51,16 @@ namespace Moneta.Domain.Services
             return resultadoValidacao;
         }
 
-        public decimal SaldoDoMes(int mes, Guid contaId)
+        public LancamentosDoMes GetLancamentosDoMes(int mes, Guid contaId)
         {
-            return this.GetAll().Where(l => l.DataVencimento.Month == mes && l.ContaId == contaId).Sum(l => l.Valor);
+            var lancamentosDoMesPorConta = new LancamentosDoMes();
+            var lancamentosDoMes = this.GetAll().Where(l => l.DataVencimento.Month == mes);
+            lancamentosDoMesPorConta.SaldoDoMesTodasAsContas = lancamentosDoMes.Sum(l => l.Valor);
+            lancamentosDoMesPorConta.LancamentosDoMesPorConta = lancamentosDoMes.Where(l => l.ContaId == contaId).OrderBy(l => l.DataVencimento).ThenBy(l => l.Descricao);
+            lancamentosDoMesPorConta.SaldoDoMesPorConta = lancamentosDoMesPorConta.LancamentosDoMesPorConta.Sum(l => l.Valor);
+            lancamentosDoMesPorConta.SaldoAtualDoMesPorConta = lancamentosDoMesPorConta.LancamentosDoMesPorConta.Where(l => l.Pago == true).Sum(l => l.Valor);
+
+            return lancamentosDoMesPorConta;
         }
     }
 }

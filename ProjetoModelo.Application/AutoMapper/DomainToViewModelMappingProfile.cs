@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Moneta.Application.ViewModels;
 using Moneta.Domain.Entities;
+using Moneta.Domain.ValueObjects;
 
 namespace Moneta.Application.AutoMapper
 {
@@ -16,6 +17,7 @@ namespace Moneta.Application.AutoMapper
             Mapper.CreateMap<Conta, ContaViewModel>();
             Mapper.CreateMap<Categoria, CategoriaViewModel>();
             Mapper.CreateMap<Lancamento, LancamentoViewModel>();
+            Mapper.CreateMap<LancamentosDoMes, LancamentosDoMesViewModel>();
         }
     }
 }

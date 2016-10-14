@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Moneta.Application.Validation;
 using Moneta.Application.ViewModels;
+using Moneta.Domain.ValueObjects;
 
 namespace Moneta.Application.Interfaces
 {
@@ -14,6 +15,6 @@ namespace Moneta.Application.Interfaces
         IEnumerable<LancamentoViewModel> GetAllReadOnly();
         void Update(LancamentoViewModel LancamentoViewModel);
         void Remove(LancamentoViewModel LancamentoViewModel);
-        decimal SaldoDoMes(int mes, Guid contaId);
+        LancamentosDoMesViewModel GetLancamentosDoMes(int mes, Guid contaId);
     }
 }

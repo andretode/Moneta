@@ -1,4 +1,4 @@
-﻿@model Moneta.Application.ViewModels.LancamentosViewModel
+﻿@model Moneta.Application.ViewModels.LancamentosDoMesViewModel
 
 @{
     ViewBag.Title = "Lançamentos";
@@ -51,7 +51,7 @@
         </th>
     </tr>
 
-    @if (Model.Lancamentos.Count() == 0)
+    @if (Model.LancamentosDoMesPorConta.Count() == 0)
     {
         <tr>
             <td colspan="5" class="text-danger" align="center">Selecione uma Conta para mostrar os lançamentos relacionados</td>
@@ -59,7 +59,7 @@
     }
     else
     {
-        foreach (var item in @Model.Lancamentos)
+        foreach (var item in @Model.LancamentosDoMesPorConta)
         {
             <tr>
                 <td>
@@ -74,8 +74,9 @@
                     </button><br />
                     @Html.DisplayFor(modelItem => item.Categoria.Descricao)
                 </td>
-                <td>
-                    @if(item.Valor > 0){
+                <td class="text-right">
+                    @if (item.Valor > 0)
+                    {
                         <span style="color:green">
                             @Html.DisplayFor(modelItem => item.Valor)
                         </span>
@@ -105,11 +106,20 @@
                 </td>
             </tr>
         }
-        <tr>
+
+        string corSaldoAtualDoMesPorConta = (Model.SaldoAtualDoMesPorConta > 0 ? "green" : "red");
+        string corSaldoDoMesPorConta = (Model.SaldoDoMesPorConta > 0 ? "green" : "red");
+        string corSaldoDoMesTodasAsContas = (Model.SaldoDoMesTodasAsContas > 0 ? "green" : "red");
+        
+        <tr class="text-right">
+            <td></td>
+            <td></td>
             <td>
-                @Html.LabelFor(model => model.SaldoDoMes)
-                @Html.DisplayFor(model => model.SaldoDoMes)
+                <h5>Saldo Atual: <strong style="color: @corSaldoAtualDoMesPorConta">@Html.DisplayFor(model => model.SaldoAtualDoMesPorConta)</strong></h5>
+                <h5>Saldo no fim do mês: <strong style="color: @corSaldoDoMesPorConta">@Html.DisplayFor(model => model.SaldoDoMesPorConta)</strong></h5>
+                <h6>De todas as contas: <span style="color: @corSaldoDoMesTodasAsContas">@Html.DisplayFor(model => model.SaldoDoMesTodasAsContas)</span></h6>
             </td>
+            <td></td>
         </tr>
     }
 </table>

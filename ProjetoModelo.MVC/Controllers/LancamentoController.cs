@@ -24,19 +24,12 @@ namespace Moneta.MVC.Controllers
         }
 
         // GET: Lancamento
-        public ViewResult Index(LancamentosViewModel lancamentos, Guid? contaIdFiltro = null)
+        public ViewResult Index(LancamentosDoMesViewModel lancamentos, Guid? contaIdFiltro = null)
         {
             if (contaIdFiltro == null)
                 contaIdFiltro = lancamentos.ContaIdFiltro;
 
-            lancamentos.Lancamentos = _LancamentoApp.GetAll().Where(l => 
-                l.ContaId == contaIdFiltro).OrderBy(l => l.DataVencimento).ThenBy(l => l.Descricao);
-            
-            /*
-             * TROCA ISTO QUANDO COLOCAR O FILTRO POR MES
-             **/
-            if (contaIdFiltro != null)
-                lancamentos.SaldoDoMes = _LancamentoApp.SaldoDoMes(DateTime.Now.Month, (Guid)contaIdFiltro);
+            lancamentos = _LancamentoApp.GetLancamentosDoMes(DateTime.Now.Month, (Guid)contaIdFiltro);
 
             SetSelectLists();
 
@@ -48,7 +41,7 @@ namespace Moneta.MVC.Controllers
             var lancamento = _LancamentoApp.GetByIdReadOnly(id);
             lancamento.Pago = !lancamento.Pago;
             _LancamentoApp.Update(lancamento);
-            var lancamentos = new LancamentosViewModel();
+            var lancamentos = new LancamentosDoMesViewModel();
             lancamentos.ContaIdFiltro = contaIdFiltro;
 
             return RedirectToAction("Index", new { contaIdFiltro });
@@ -56,14 +49,14 @@ namespace Moneta.MVC.Controllers
 
         [HttpPost]
         [MultipleButton(Name = "action", Argument = "Pesquisar")]
-        public ActionResult Pesquisar(LancamentosViewModel lancamentos, string pesquisa = "")
+        public ActionResult Pesquisar(LancamentosDoMesViewModel lancamentos, string pesquisa = "")
         {
             return RedirectToAction("Index", lancamentos);
         }
 
         [HttpPost]
         [MultipleButton(Name = "action", Argument = "AdicionarDespesa")]
-        public ActionResult AdicionarDespesa(LancamentosViewModel lancamentos)
+        public ActionResult AdicionarDespesa(LancamentosDoMesViewModel lancamentos)
         {
             if (ModelState.IsValid)
             {
@@ -76,7 +69,7 @@ namespace Moneta.MVC.Controllers
 
         [HttpPost]
         [MultipleButton(Name = "action", Argument = "RealizarLancamento")]
-        public ActionResult CriarLancamento(LancamentosViewModel lancamentos)
+        public ActionResult CriarLancamento(LancamentosDoMesViewModel lancamentos)
         {
             if (ModelState.IsValid)
             {
@@ -101,7 +94,7 @@ namespace Moneta.MVC.Controllers
         }
 
         // GET: Lancamento/Create
-        public ActionResult Create(LancamentosViewModel lancamentos)
+        public ActionResult Create(LancamentosDoMesViewModel lancamentos)
         {
             if (ModelState.IsValid)
             {

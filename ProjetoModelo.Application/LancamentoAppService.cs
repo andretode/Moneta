@@ -8,6 +8,7 @@ using Moneta.Application.ViewModels;
 using Moneta.Domain.Entities;
 using Moneta.Domain.Interfaces.Services;
 using Moneta.Infra.Data.Context;
+using Moneta.Domain.ValueObjects;
 
 namespace Moneta.Application
 {
@@ -82,9 +83,9 @@ namespace Moneta.Application
             _lancamentoService.Dispose();
         }
 
-        public decimal SaldoDoMes(int mes, Guid contaId)
+        public LancamentosDoMesViewModel GetLancamentosDoMes(int mes, Guid contaId)
         {
-            return _lancamentoService.SaldoDoMes(mes, contaId);
+            return Mapper.Map<LancamentosDoMes, LancamentosDoMesViewModel>(_lancamentoService.GetLancamentosDoMes(mes, contaId));
         }
 
         #region Metodos privados

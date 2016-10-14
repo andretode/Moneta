@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Moneta.Application.ViewModels
 {
-    public class LancamentosViewModel
+    public class LancamentosDoMesViewModel
     {
         [DisplayName("Filtro Conta")]
         [Required(ErrorMessage = "Selecione uma conta")]
@@ -14,11 +14,16 @@ namespace Moneta.Application.ViewModels
         [DisplayName("Transação")]
         public TipoTransacao NovaTransacao { get; set; }
 
-        [DisplayName("Saldo do Mês")]
         [DataType(DataType.Currency)]
-        public decimal SaldoDoMes { get; set; }
+        public decimal SaldoDoMesTodasAsContas { get; set; }
 
-        public virtual IEnumerable<LancamentoViewModel> Lancamentos { get; set; }
+        [DataType(DataType.Currency)]
+        public decimal SaldoDoMesPorConta { get; set; }
+
+        [DataType(DataType.Currency)]
+        public decimal SaldoAtualDoMesPorConta { get; set; }
+
+        public virtual IEnumerable<LancamentoViewModel> LancamentosDoMesPorConta { get; set; }
     }
 
     public enum TipoTransacao { Receita, Despesa, Transferencia }
