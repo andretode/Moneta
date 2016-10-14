@@ -24,21 +24,28 @@ namespace Moneta.MVC.Controllers
         }
 
         // GET: Lancamento
-        public ViewResult Index(LancamentosViewModel lancamentos, string pesquisa = "", int page = 0)
+        public ViewResult Index(LancamentosViewModel lancamentos, Guid? contaIdFiltro = null)
         {
-            lancamentos.Lancamentos = _LancamentoApp.GetAll().Where(l => l.ContaId == lancamentos.ContaIdFiltro).OrderBy(l => l.DataVencimento);
+            if (contaIdFiltro == null)
+                contaIdFiltro = lancamentos.ContaIdFiltro;
+
+            lancamentos.Lancamentos = _LancamentoApp.GetAll().Where(l => 
+                l.ContaId == contaIdFiltro).OrderBy(l => l.DataVencimento).ThenBy(l => l.Descricao);
+
             SetSelectLists();
 
             return View(lancamentos);
         }
 
-        public ActionResult TrocarPago(Guid id)
+        public ActionResult TrocarPago(Guid id, Guid contaIdFiltro)
         {
             var lancamento = _LancamentoApp.GetByIdReadOnly(id);
             lancamento.Pago = !lancamento.Pago;
             _LancamentoApp.Update(lancamento);
+            var lancamentos = new LancamentosViewModel();
+            lancamentos.ContaIdFiltro = contaIdFiltro;
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { contaIdFiltro });
         }
 
         [HttpPost]
