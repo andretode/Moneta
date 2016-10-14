@@ -57,7 +57,7 @@
     {
         foreach (var item in @Model.LancamentosDoMesPorConta)
         {
-            <tr style="line-height: 0px;">
+            <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.DataVencimento)
                     &nbsp;
@@ -69,7 +69,7 @@
                     <button class="btn btn-xs" style="background-color: @item.Categoria.Cor" title="@item.Categoria.Descricao">
                         <i class="icon-white glyphicon glyphicon-th-list"></i>
                     </button>
-                    <span class="visible-xs visible-sm visible-md-inline visible-lg-inline">@item.Categoria.Descricao</span>
+                    <span class="visible-md-inline visible-lg-inline">@item.Categoria.Descricao</span>
                 </td>
                 <td class="text-right">
                     @if (item.Valor > 0)
