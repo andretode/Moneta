@@ -26,6 +26,9 @@ namespace Moneta.MVC.Controllers
         // GET: Lancamento
         public ViewResult Index(LancamentosDoMesViewModel lancamentos, Guid? contaIdFiltro = null)
         {
+            if (TempData["ViewData"] != null)
+                ViewData = (ViewDataDictionary)TempData["ViewData"];
+
             if (contaIdFiltro == null)
                 contaIdFiltro = lancamentos.ContaIdFiltro;
 
@@ -64,18 +67,21 @@ namespace Moneta.MVC.Controllers
                 return RedirectToAction("Create", lancamentos);
             }
 
-            return RedirectToAction("Index", lancamentos);
+            TempData["ViewData"] = ViewData; //para passar o erro no ModelState
+            return RedirectToAction("Index", ModelState);
         }
 
         [HttpPost]
-        [MultipleButton(Name = "action", Argument = "RealizarLancamento")]
-        public ActionResult CriarLancamento(LancamentosDoMesViewModel lancamentos)
+        [MultipleButton(Name = "action", Argument = "AdicionarReceita")]
+        public ActionResult AdicionarReceita(LancamentosDoMesViewModel lancamentos)
         {
             if (ModelState.IsValid)
             {
+                lancamentos.NovaTransacao = TipoTransacao.Receita;
                 return RedirectToAction("Create", lancamentos);
             }
 
+            TempData["ViewData"] = ViewData; //para passar o erro no ModelState
             return RedirectToAction("Index", lancamentos);
         }
 
