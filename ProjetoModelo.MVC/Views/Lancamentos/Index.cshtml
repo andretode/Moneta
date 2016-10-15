@@ -7,7 +7,7 @@
 <h2>@ViewBag.Title</h2>
 
 <div class="form-horizontal">
-    @using (Html.BeginForm("Index", "Lancamentos", new { pesquisa = "" }, FormMethod.Post))
+    @using (Html.BeginForm("Index", "Lancamentos", new { @Model.MesAnoCompetencia }, FormMethod.Post))
     {
         <div class="form-group col-md-12">
 
