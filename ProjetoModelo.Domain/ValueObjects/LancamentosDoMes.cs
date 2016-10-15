@@ -10,8 +10,8 @@ namespace Moneta.Domain.ValueObjects
     public class LancamentosDoMes
     {
         public Guid ContaIdFiltro { get; set; }
-
         public string PesquisarDescricao { get; set; }
+        public DateTime MesAnoCompetencia { get; set; }
         public virtual IEnumerable<Lancamento> LancamentosDoMesPorConta { get; set; }
         public decimal SaldoDoMesAnterior { get; set; }
         public decimal SaldoDoMesTodasAsContas { get; set; }

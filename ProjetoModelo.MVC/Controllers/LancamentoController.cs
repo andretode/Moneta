@@ -32,14 +32,31 @@ namespace Moneta.MVC.Controllers
                 lancamentos = (LancamentosDoMesViewModel)ViewData.Model;
             }
 
-            /*
-             * Mudar quando colocar view por mes
-             * */
-            lancamentos = _LancamentoApp.GetLancamentosDoMes(DateTime.Now.Month, DateTime.Now.Year, (Guid)lancamentos.ContaIdFiltro);
+            DateTime mesAnoCompetenciaTemp = lancamentos.MesAnoCompetencia;
+            Guid contaIdFiltroTemp = lancamentos.ContaIdFiltro;
+
+            if (mesAnoCompetenciaTemp == DateTime.MinValue)
+                mesAnoCompetenciaTemp = DateTime.Now;
+
+            lancamentos = _LancamentoApp.GetLancamentosDoMes(mesAnoCompetenciaTemp.Month, mesAnoCompetenciaTemp.Year, (Guid)lancamentos.ContaIdFiltro);
+            lancamentos.MesAnoCompetencia = mesAnoCompetenciaTemp;
+            lancamentos.ContaIdFiltro = contaIdFiltroTemp;
 
             SetSelectLists();
 
             return View(lancamentos);
+        }
+
+        public ViewResult AlterarMes(DateTime MesAnoCompetencia, Guid ContaIdFiltro, int addMonths)
+        {
+            SetSelectLists();
+            MesAnoCompetencia = MesAnoCompetencia.AddMonths(addMonths);
+            var lancamentos = _LancamentoApp.GetLancamentosDoMes(MesAnoCompetencia.Month, MesAnoCompetencia.Year, ContaIdFiltro);
+            lancamentos.MesAnoCompetencia = MesAnoCompetencia;
+            lancamentos.ContaIdFiltro = ContaIdFiltro;
+            ViewData.Model = lancamentos;
+            TempData["ViewData"] = ViewData;
+            return View("Index", lancamentos);
         }
 
         public ActionResult TrocarPago(Guid lancamentoId, Guid contaIdFiltro)

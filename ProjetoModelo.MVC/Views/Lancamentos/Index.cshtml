@@ -39,6 +39,22 @@
     }
 </div>
 
+<div class="text-center">
+    <h3>
+        <span class="label label-default" style="width:100%">
+            &nbsp;&nbsp;
+            <a title="Mês Anterior" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = -1 })">
+                <i class="icon-white glyphicon glyphicon-arrow-left" style="color: white"></i>
+            </a>
+            &nbsp;&nbsp;@Model.MesAnoCompetencia.ToString("MMMM yyyy").ToUpper()&nbsp;&nbsp;
+            <a title="Mês Anterior" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = +1 })">
+                <i class="icon-white glyphicon glyphicon-arrow-right" style="color: white"></i>
+            </a>
+            &nbsp;&nbsp;
+        </span>
+    </h3>
+</div>
+
 <table class="table">
     <tr style="background-color: #e6e6e6">
         <th></th>

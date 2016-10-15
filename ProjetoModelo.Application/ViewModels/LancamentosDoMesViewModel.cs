@@ -11,6 +11,9 @@ namespace Moneta.Application.ViewModels
         [Required(ErrorMessage = "Selecione uma conta")]
         public Guid ContaIdFiltro { get; set; }
 
+        public string PesquisarDescricao { get; set; }
+        public DateTime MesAnoCompetencia { get; set; }
+
         [DisplayName("Transação")]
         public TipoTransacao NovaTransacao { get; set; }
 
