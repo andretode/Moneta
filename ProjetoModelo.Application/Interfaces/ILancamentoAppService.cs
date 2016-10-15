@@ -15,6 +15,6 @@ namespace Moneta.Application.Interfaces
         IEnumerable<LancamentoViewModel> GetAllReadOnly();
         void Update(LancamentoViewModel LancamentoViewModel);
         void Remove(LancamentoViewModel LancamentoViewModel);
-        LancamentosDoMesViewModel GetLancamentosDoMes(int mes, Guid contaId);
+        LancamentosDoMesViewModel GetLancamentosDoMes(int mes, int ano, Guid contaId);
     }
 }

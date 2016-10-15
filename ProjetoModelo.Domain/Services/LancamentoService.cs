@@ -51,14 +51,20 @@ namespace Moneta.Domain.Services
             return resultadoValidacao;
         }
 
-        public LancamentosDoMes GetLancamentosDoMes(int mes, Guid contaId)
+        public LancamentosDoMes GetLancamentosDoMes(int mes, int ano, Guid contaId)
         {
+            var dataUltimoDiaMesAnterior = new DateTime(ano, mes, DateTime.DaysInMonth(ano, mes)).AddMonths(-1);
             var lancamentosDoMesPorConta = new LancamentosDoMes();
-            var lancamentosDoMes = this.GetAll().Where(l => l.DataVencimento.Month == mes);
-            lancamentosDoMesPorConta.SaldoDoMesTodasAsContas = lancamentosDoMes.Sum(l => l.Valor);
-            lancamentosDoMesPorConta.LancamentosDoMesPorConta = lancamentosDoMes.Where(l => l.ContaId == contaId).OrderBy(l => l.DataVencimento).ThenBy(l => l.Descricao);
-            lancamentosDoMesPorConta.SaldoDoMesPorConta = lancamentosDoMesPorConta.LancamentosDoMesPorConta.Sum(l => l.Valor);
-            lancamentosDoMesPorConta.SaldoAtualDoMesPorConta = lancamentosDoMesPorConta.LancamentosDoMesPorConta.Where(l => l.Pago == true).Sum(l => l.Valor);
+            var lancamentosDoMesTodasAsContas = this.GetAll().Where(l => l.DataVencimento.Month == mes && l.DataVencimento.Year == ano);
+            var saldoMesAnteriorTodasAsContas = this.GetAll().Where(l => l.DataVencimento <= dataUltimoDiaMesAnterior).Sum(l => l.Valor);
+            lancamentosDoMesPorConta.SaldoDoMesAnterior = this.GetAll().Where(l => l.DataVencimento <= dataUltimoDiaMesAnterior && l.ContaId == contaId).Sum(l => l.Valor);
+            lancamentosDoMesPorConta.SaldoDoMesTodasAsContas = lancamentosDoMesTodasAsContas.Sum(l => l.Valor) 
+                + saldoMesAnteriorTodasAsContas;
+            lancamentosDoMesPorConta.LancamentosDoMesPorConta = lancamentosDoMesTodasAsContas.Where(l => l.ContaId == contaId).OrderBy(l => l.DataVencimento).ThenBy(l => l.Descricao);
+            lancamentosDoMesPorConta.SaldoDoMesPorConta = lancamentosDoMesPorConta.LancamentosDoMesPorConta.Sum(l => l.Valor) 
+                + lancamentosDoMesPorConta.SaldoDoMesAnterior;
+            lancamentosDoMesPorConta.SaldoAtualDoMesPorConta = lancamentosDoMesPorConta.LancamentosDoMesPorConta.Where(l => l.Pago == true).Sum(l => l.Valor) 
+                + lancamentosDoMesPorConta.SaldoDoMesAnterior;
 
             return lancamentosDoMesPorConta;
         }

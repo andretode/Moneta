@@ -32,7 +32,10 @@ namespace Moneta.MVC.Controllers
             if (contaIdFiltro == null)
                 contaIdFiltro = lancamentos.ContaIdFiltro;
 
-            lancamentos = _LancamentoApp.GetLancamentosDoMes(DateTime.Now.Month, (Guid)contaIdFiltro);
+            /*
+             * Mudar quando colocar view por mes
+             * */
+            lancamentos = _LancamentoApp.GetLancamentosDoMes(DateTime.Now.Month, DateTime.Now.Year, (Guid)contaIdFiltro);
 
             SetSelectLists();
 

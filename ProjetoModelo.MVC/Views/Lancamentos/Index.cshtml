@@ -43,7 +43,8 @@
     <tr style="background-color: #e6e6e6">
         <th></th>
         <th></th>
-        <th></th>
+        @{string corSaldoDoMesAnterior = (Model.SaldoDoMesAnterior > 0 ? "green" : "red");}
+        <td class="text-right">Saldo do Mês Anterior: <span style="color: @corSaldoDoMesAnterior">@Html.DisplayFor(model => model.SaldoDoMesAnterior)</span></td>
         <th></th>
     </tr>
 
@@ -114,7 +115,7 @@
             <td>
                 <h5>Saldo Atual: <strong style="color: @corSaldoAtualDoMesPorConta">@Html.DisplayFor(model => model.SaldoAtualDoMesPorConta)</strong></h5>
                 <h5>Saldo no fim do mês: <strong style="color: @corSaldoDoMesPorConta">@Html.DisplayFor(model => model.SaldoDoMesPorConta)</strong></h5>
-                <h6>De todas as contas: <span style="color: @corSaldoDoMesTodasAsContas">@Html.DisplayFor(model => model.SaldoDoMesTodasAsContas)</span></h6>
+                <h6>Saldo de todas as contas no fim do mês: <span style="color: @corSaldoDoMesTodasAsContas">@Html.DisplayFor(model => model.SaldoDoMesTodasAsContas)</span></h6>
             </td>
             <td></td>
         </tr>

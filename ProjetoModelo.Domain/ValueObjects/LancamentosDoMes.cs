@@ -11,6 +11,7 @@ namespace Moneta.Domain.ValueObjects
     {
         public Guid ContaIdFiltro { get; set; }
         public virtual IEnumerable<Lancamento> LancamentosDoMesPorConta { get; set; }
+        public decimal SaldoDoMesAnterior { get; set; }
         public decimal SaldoDoMesTodasAsContas { get; set; }
         public decimal SaldoDoMesPorConta { get; set; }
         public decimal SaldoAtualDoMesPorConta { get; set; }

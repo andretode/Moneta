@@ -15,6 +15,9 @@ namespace Moneta.Application.ViewModels
         public TipoTransacao NovaTransacao { get; set; }
 
         [DataType(DataType.Currency)]
+        public decimal SaldoDoMesAnterior { get; set; }
+
+        [DataType(DataType.Currency)]
         public decimal SaldoDoMesTodasAsContas { get; set; }
 
         [DataType(DataType.Currency)]
