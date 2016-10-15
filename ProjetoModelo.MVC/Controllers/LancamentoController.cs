@@ -24,40 +24,44 @@ namespace Moneta.MVC.Controllers
         }
 
         // GET: Lancamento
-        public ViewResult Index(LancamentosDoMesViewModel lancamentos, Guid? contaIdFiltro = null)
+        public ViewResult Index(LancamentosDoMesViewModel lancamentos)
         {
             if (TempData["ViewData"] != null)
+            {
                 ViewData = (ViewDataDictionary)TempData["ViewData"];
-
-            if (contaIdFiltro == null)
-                contaIdFiltro = lancamentos.ContaIdFiltro;
+                lancamentos = (LancamentosDoMesViewModel)ViewData.Model;
+            }
 
             /*
              * Mudar quando colocar view por mes
              * */
-            lancamentos = _LancamentoApp.GetLancamentosDoMes(DateTime.Now.Month, DateTime.Now.Year, (Guid)contaIdFiltro);
+            lancamentos = _LancamentoApp.GetLancamentosDoMes(DateTime.Now.Month, DateTime.Now.Year, (Guid)lancamentos.ContaIdFiltro);
 
             SetSelectLists();
 
             return View(lancamentos);
         }
 
-        public ActionResult TrocarPago(Guid id, Guid contaIdFiltro)
+        public ActionResult TrocarPago(Guid lancamentoId, Guid contaIdFiltro)
         {
-            var lancamento = _LancamentoApp.GetByIdReadOnly(id);
+            var lancamento = _LancamentoApp.GetByIdReadOnly(lancamentoId);
             lancamento.Pago = !lancamento.Pago;
             _LancamentoApp.Update(lancamento);
             var lancamentos = new LancamentosDoMesViewModel();
             lancamentos.ContaIdFiltro = contaIdFiltro;
 
-            return RedirectToAction("Index", new { contaIdFiltro });
+            ViewData.Model = lancamentos;
+            TempData["ViewData"] = ViewData;
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
         [MultipleButton(Name = "action", Argument = "Pesquisar")]
-        public ActionResult Pesquisar(LancamentosDoMesViewModel lancamentos, string pesquisa = "")
+        public ActionResult Pesquisar(LancamentosDoMesViewModel lancamentos)
         {
-            return RedirectToAction("Index", lancamentos);
+            ViewData.Model = lancamentos;
+            TempData["ViewData"] = ViewData;
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -70,8 +74,9 @@ namespace Moneta.MVC.Controllers
                 return RedirectToAction("Create", lancamentos);
             }
 
-            TempData["ViewData"] = ViewData; //para passar o erro no ModelState
-            return RedirectToAction("Index", ModelState);
+            ViewData.Model = lancamentos;
+            TempData["ViewData"] = ViewData;
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -84,8 +89,9 @@ namespace Moneta.MVC.Controllers
                 return RedirectToAction("Create", lancamentos);
             }
 
-            TempData["ViewData"] = ViewData; //para passar o erro no ModelState
-            return RedirectToAction("Index", lancamentos);
+            ViewData.Model = lancamentos;
+            TempData["ViewData"] = ViewData;
+            return RedirectToAction("Index");
         }
 
         // GET: Lancamento/Details/5

@@ -90,14 +90,14 @@
                     @if (item.Pago)
                     {
                         <a title="Clique para informar que não foi pago"
-                           href="@Url.Action("TrocarPago", "Lancamentos", new { id = (item.LancamentoId), ContaIdFiltro = item.ContaId })">
+                           href="@Url.Action("TrocarPago", "Lancamentos", new { lancamentoId = (item.LancamentoId), contaIdFiltro = item.ContaId })">
                             <i class="icon-white glyphicon glyphicon-thumbs-up" style="color:green"></i>
                         </a>
                     }
                     else
                     {
                         <a title="Clique para informar que foi pago"
-                           href="@Url.Action("TrocarPago", "Lancamentos", new { id = (item.LancamentoId), ContaIdFiltro = item.ContaId })">
+                           href="@Url.Action("TrocarPago", "Lancamentos", new { lancamentoId = (item.LancamentoId), contaIdFiltro = item.ContaId })">
                             <i class="icon-white glyphicon glyphicon-thumbs-down" style="color:red"></i>
                         </a>
                     }
