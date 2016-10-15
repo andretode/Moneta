@@ -35,7 +35,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Conta, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <span style="vertical-align: -30%">@Model.Conta.Descricao</span> 
+
+                <span style="vertical-align: -30%">@Html.DisplayFor(model => model.Conta.Descricao)</span> 
                 @Html.HiddenFor(model => model.ContaId)
             </div>
         </div>

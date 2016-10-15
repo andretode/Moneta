@@ -129,7 +129,8 @@ namespace Moneta.MVC.Controllers
 
                 return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId });
             }
-     
+
+            lancamento.Conta = _ContaApp.GetById(lancamento.ContaId);
             return View(lancamento);
         }
 

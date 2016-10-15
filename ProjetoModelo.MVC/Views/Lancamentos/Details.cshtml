@@ -1,4 +1,5 @@
 ﻿@model Moneta.Application.ViewModels.LancamentoViewModel
+@using Moneta.Application.ViewModels;
 
 @{
     ViewBag.Title = "Detalhes do Lançamento";
@@ -8,11 +9,25 @@
 
 <div>
     <hr/>
-    <dl class="dl-horizontal">
+    <dl class="dl-horizontal">     
+        <dt>
+        </dt>
+        <dd>
+            @{
+                var cor = "lightcoral";
+                if (Model.Transacao == TipoTransacao.Receita)
+                {
+                    cor = "lightgreen";
+                }
+            }
+            <div class="col-md-3">
+                <h3><span class="label" style="display:block; background-color: @cor">@Model.Transacao</span></h3>
+            </div>
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Descricao)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Descricao)
         </dd>
@@ -20,7 +35,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.Valor)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Valor)
         </dd>
@@ -28,7 +42,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.DataVencimento)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.DataVencimento)
         </dd>
@@ -36,7 +49,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.Categoria)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Categoria.Descricao)
         </dd>
@@ -44,7 +56,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.Conta)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Conta.Descricao)
         </dd>
@@ -52,7 +63,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.DataCadastro)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.DataCadastro)
         </dd>

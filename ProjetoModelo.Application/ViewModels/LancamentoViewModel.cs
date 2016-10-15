@@ -24,7 +24,7 @@ namespace Moneta.Application.ViewModels
         public string Descricao { get; set; }
 
         [DataType(DataType.Currency)]
-        [Range(typeof(decimal), "-9999999", "9999999")]
+        [Range(typeof(decimal), "0", "9999999,99")]
         [Required(ErrorMessage = "Preencha o campo")]
         [DisplayName("Valor")]
         public decimal Valor { get; set; }

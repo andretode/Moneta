@@ -26,7 +26,7 @@ namespace Moneta.Application
             if (lancamentoViewModel.DataVencimento < DateTime.Now.Date)
                 lancamentoViewModel.Pago = true;
 
-            lancamentoViewModel.Valor = AjustarValorDespesaReceita(lancamentoViewModel);
+            lancamentoViewModel.Valor = AjustarValorParaSalvar(lancamentoViewModel);
             var Lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
 
             BeginTransaction();
@@ -42,7 +42,9 @@ namespace Moneta.Application
 
         public LancamentoViewModel GetById(Guid id)
         {
-            return Mapper.Map<Lancamento, LancamentoViewModel>(_lancamentoService.GetById(id));
+            var lancamentoVM = Mapper.Map<Lancamento, LancamentoViewModel>(_lancamentoService.GetById(id));
+            lancamentoVM = AjustarLancamentoParaExibir(lancamentoVM);
+            return lancamentoVM;
         }
 
         public LancamentoViewModel GetByIdReadOnly(Guid id)
@@ -60,9 +62,10 @@ namespace Moneta.Application
             return Mapper.Map<IEnumerable<Lancamento>, IEnumerable<LancamentoViewModel>>(_lancamentoService.GetAllReadOnly());
         }
 
-        public void Update(LancamentoViewModel LancamentoViewModel)
+        public void Update(LancamentoViewModel lancamentoViewModel)
         {
-            var Lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(LancamentoViewModel);
+            lancamentoViewModel.Valor = AjustarValorParaSalvar(lancamentoViewModel);
+            var Lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
 
             BeginTransaction();
             _lancamentoService.Update(Lancamento);
@@ -89,7 +92,7 @@ namespace Moneta.Application
         }
 
         #region Metodos privados
-        private decimal AjustarValorDespesaReceita(LancamentoViewModel lancamentoViewModel)
+        private decimal AjustarValorParaSalvar(LancamentoViewModel lancamentoViewModel)
         {
             decimal valorAjustado;
             if (lancamentoViewModel.Transacao == TipoTransacao.Despesa && Math.Sign(lancamentoViewModel.Valor) == 1)
@@ -100,6 +103,20 @@ namespace Moneta.Application
                 valorAjustado = lancamentoViewModel.Valor;
 
             return valorAjustado;
+        }
+        private LancamentoViewModel AjustarLancamentoParaExibir(LancamentoViewModel lancamentoViewModel)
+        {
+            if (lancamentoViewModel.Valor > 0)
+            {
+                lancamentoViewModel.Transacao = TipoTransacao.Receita;
+            }
+            else
+            {
+                lancamentoViewModel.Transacao = TipoTransacao.Despesa;
+                lancamentoViewModel.Valor = lancamentoViewModel.Valor * -1;
+            }
+
+            return lancamentoViewModel;
         }
         #endregion
     }

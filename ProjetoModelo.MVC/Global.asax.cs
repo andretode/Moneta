@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Moneta.Application.AutoMapper;
+using Moneta.MVC.App_Start;
 
 namespace Moneta.MVC
 {

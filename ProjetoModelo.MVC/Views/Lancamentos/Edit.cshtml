@@ -1,4 +1,5 @@
 ﻿@model Moneta.Application.ViewModels.LancamentoViewModel
+@using Moneta.Application.ViewModels;
 
 @{
     ViewBag.Title = "Lançamento";
@@ -15,6 +16,22 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.LancamentoId)
+
+        @{
+    var cor = "lightcoral";
+    if (Model.Transacao == TipoTransacao.Receita)
+    {
+        cor = "lightgreen";
+    }
+        }
+
+        <div class="form-group">
+            <div class="control-label col-md-2"></div>
+            <div class="col-md-3">
+                <h3><span class="label" style="display:block; background-color: @cor">@Model.Transacao</span></h3>
+                @Html.HiddenFor(model => model.Transacao)
+            </div>
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Conta, htmlAttributes: new { @class = "control-label col-md-2" })
