@@ -40,9 +40,9 @@
     
     <table style="width:100%;background-color:gray;color:white">
         <tr>
-            <td></td>
-            <td class="col-md-4">
-                <h4>
+            <td class="col-xs-4"></td>
+            <td class="col-sm-4 col-md-4">
+                <h5>
                     <a class="text-right col-md-2" title="Mês Anterior" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = -1 })">
                         <i class="glyphicon glyphicon-chevron-left" style="color: white"></i>
                     </a>
@@ -52,7 +52,7 @@
                     <a class="text-left col-md-2" title=" próximo mês" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = +1 })">
                         <i class="glyphicon glyphicon-chevron-right" style="color: white"></i>
                     </a>
-                </h4>
+                </h5>
             </td>
             <td></td>
         </tr>
