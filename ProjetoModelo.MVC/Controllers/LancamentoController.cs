@@ -50,14 +50,14 @@ namespace Moneta.MVC.Controllers
         public ViewResult AlterarMes(DateTime MesAnoCompetencia, Guid ContaIdFiltro, int addMonths)
         {
             var lancamentosDoMes = new LancamentosDoMesViewModel();
-            lancamentosDoMes.MesAnoCompetencia = MesAnoCompetencia;
             lancamentosDoMes.ContaIdFiltro = ContaIdFiltro;
-
-            SetSelectLists();
             MesAnoCompetencia = MesAnoCompetencia.AddMonths(addMonths);
+            lancamentosDoMes.MesAnoCompetencia = MesAnoCompetencia;
             var lancamentos = _LancamentoApp.GetLancamentosDoMes(lancamentosDoMes);
             lancamentos.MesAnoCompetencia = MesAnoCompetencia;
             lancamentos.ContaIdFiltro = ContaIdFiltro;
+
+            SetSelectLists();
             ViewData.Model = lancamentos;
             TempData["ViewData"] = ViewData;
             return View("Index", lancamentos);

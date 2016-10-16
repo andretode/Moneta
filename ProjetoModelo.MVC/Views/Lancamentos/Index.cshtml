@@ -39,14 +39,14 @@
     }
 </div>
 
-<div class="text-center">
+<div class="form-horizontal">
     <h3>
-        <span class="label label-default" style="width:100%">
-            <a title="Mês Anterior" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = -1 })">
+        <span class="label label-default col-md-12">
+            <a class="col-md-5 text-right" title="Mês Anterior" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = -1 })">
                 <i class="icon-white glyphicon glyphicon-chevron-left" style="color: white"></i>
             </a>
-            &nbsp;&nbsp;@Model.MesAnoCompetencia.ToString("MMMM yyyy").ToUpper()&nbsp;&nbsp;
-            <a title="Próximo Mês" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = +1 })">
+            <span class="col-md-2">@Model.MesAnoCompetencia.ToString("MMMM yyyy").ToUpper()</span>
+            <a class="col-md-5 text-left title="Próximo Mês" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = +1 })">
                 <i class="icon-white glyphicon glyphicon-chevron-right" style="color: white"></i>
             </a>
         </span>
