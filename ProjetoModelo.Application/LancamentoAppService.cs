@@ -23,7 +23,7 @@ namespace Moneta.Application
 
         public ValidationAppResult Add(LancamentoViewModel lancamentoViewModel)
         {
-            if (lancamentoViewModel.DataVencimento < DateTime.Now.Date)
+            if (lancamentoViewModel.DataVencimento <= DateTime.Now.Date)
                 lancamentoViewModel.Pago = true;
 
             lancamentoViewModel.Valor = AjustarValorParaSalvar(lancamentoViewModel);
@@ -49,7 +49,9 @@ namespace Moneta.Application
 
         public LancamentoViewModel GetByIdReadOnly(Guid id)
         {
-            return Mapper.Map<Lancamento, LancamentoViewModel>(_lancamentoService.GetByIdReadOnly(id));
+            var lancamentoVM = Mapper.Map<Lancamento, LancamentoViewModel>(_lancamentoService.GetByIdReadOnly(id));
+            lancamentoVM = AjustarLancamentoParaExibir(lancamentoVM);
+            return lancamentoVM;
         }
 
         public IEnumerable<LancamentoViewModel> GetAll()
