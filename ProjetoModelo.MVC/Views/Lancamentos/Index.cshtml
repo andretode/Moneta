@@ -7,7 +7,7 @@
 <h2>@ViewBag.Title</h2>
 
 <div class="form-horizontal">
-    @using (Html.BeginForm("Index", "Lancamentos", new { @Model.MesAnoCompetencia }, FormMethod.Post))
+    @using (Html.BeginForm("Index", "Lancamentos", new { @Model.MesAnoCompetencia }, FormMethod.Post, new { id = "formFiltros" }))
     {
         <div class="form-group col-md-12">
 
@@ -137,3 +137,13 @@
 </table>
 
 <link rel="stylesheet" href="~/Content/botao-novo-lancamento.css">
+
+@section Scripts {
+    <script type="text/javascript">
+        $(function () {
+            $('#ContaIdFiltro').change(function () {
+                $('#formFiltros').submit();
+            });
+        });
+    </script>
+}
