@@ -37,28 +37,27 @@
             </button>
         </div>
     }
-
     
-    <table style="width:100%">
+    <table style="width:100%;background-color:gray;color:white">
         <tr>
-            <td  style="background-color:gray"></td>
-            <td class="label label-default col-md-8" style="background-color:gray">
+            <td></td>
+            <td class="col-md-4">
                 <h4>
-                    <a class="text-right col-md-4" title="Mês Anterior" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = -1 })">
+                    <a class="text-right col-md-2" title="Mês Anterior" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = -1 })">
                         <i class="glyphicon glyphicon-chevron-left" style="color: white"></i>
                     </a>
-                    <span class="col-md-4">
+                    <span class="text-center col-md-8">
                         @Model.MesAnoCompetencia.ToString("MMMM yyyy").ToUpper()
                     </span>
-                    <a class="text-left col-md-4" title=" próximo mês" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = +1 })">
+                    <a class="text-left col-md-2" title=" próximo mês" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = +1 })">
                         <i class="glyphicon glyphicon-chevron-right" style="color: white"></i>
                     </a>
                 </h4>
             </td>
-            <td style="background-color:gray"></td>
+            <td></td>
         </tr>
     </table>
-    
+</div>
 
 <table class="table">
     <tr style="background-color: #e6e6e6">
