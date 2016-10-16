@@ -51,8 +51,11 @@ namespace Moneta.Domain.Services
             return resultadoValidacao;
         }
 
-        public LancamentosDoMes GetLancamentosDoMes(int mes, int ano, Guid contaId)
+        public LancamentosDoMes GetLancamentosDoMes(LancamentosDoMes lancamentosDoMes)
         {
+            var mes = lancamentosDoMes.MesAnoCompetencia.Month;
+            var ano = lancamentosDoMes.MesAnoCompetencia.Year;
+            var contaId = lancamentosDoMes.ContaIdFiltro;
             var dataUltimoDiaMesAnterior = new DateTime(ano, mes, DateTime.DaysInMonth(ano, mes)).AddMonths(-1);
             var lancamentosDoMesPorConta = new LancamentosDoMes();
             var lancamentosDoMesTodasAsContas = this.GetAll().Where(l => l.DataVencimento.Month == mes && l.DataVencimento.Year == ano);
@@ -65,6 +68,10 @@ namespace Moneta.Domain.Services
                 + lancamentosDoMesPorConta.SaldoDoMesAnterior;
             lancamentosDoMesPorConta.SaldoAtualDoMesPorConta = lancamentosDoMesPorConta.LancamentosDoMesPorConta.Where(l => l.Pago == true).Sum(l => l.Valor) 
                 + lancamentosDoMesPorConta.SaldoDoMesAnterior;
+
+            if (lancamentosDoMes.PesquisarDescricao != null)
+                lancamentosDoMesPorConta.LancamentosDoMesPorConta = lancamentosDoMesPorConta.LancamentosDoMesPorConta.Where(l => 
+                    l.Descricao.ToLower().Contains(lancamentosDoMes.PesquisarDescricao.ToLower()));
 
             return lancamentosDoMesPorConta;
         }

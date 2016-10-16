@@ -32,13 +32,13 @@ namespace Moneta.MVC.Controllers
                 lancamentos = (LancamentosDoMesViewModel)ViewData.Model;
             }
 
+            if (lancamentos.MesAnoCompetencia == DateTime.MinValue)
+                lancamentos.MesAnoCompetencia = DateTime.Now;
+
             DateTime mesAnoCompetenciaTemp = lancamentos.MesAnoCompetencia;
             Guid contaIdFiltroTemp = lancamentos.ContaIdFiltro;
 
-            if (mesAnoCompetenciaTemp == DateTime.MinValue)
-                mesAnoCompetenciaTemp = DateTime.Now;
-
-            lancamentos = _LancamentoApp.GetLancamentosDoMes(mesAnoCompetenciaTemp.Month, mesAnoCompetenciaTemp.Year, (Guid)lancamentos.ContaIdFiltro);
+            lancamentos = _LancamentoApp.GetLancamentosDoMes(lancamentos);
             lancamentos.MesAnoCompetencia = mesAnoCompetenciaTemp;
             lancamentos.ContaIdFiltro = contaIdFiltroTemp;
 
@@ -49,9 +49,13 @@ namespace Moneta.MVC.Controllers
 
         public ViewResult AlterarMes(DateTime MesAnoCompetencia, Guid ContaIdFiltro, int addMonths)
         {
+            var lancamentosDoMes = new LancamentosDoMesViewModel();
+            lancamentosDoMes.MesAnoCompetencia = MesAnoCompetencia;
+            lancamentosDoMes.ContaIdFiltro = ContaIdFiltro;
+
             SetSelectLists();
             MesAnoCompetencia = MesAnoCompetencia.AddMonths(addMonths);
-            var lancamentos = _LancamentoApp.GetLancamentosDoMes(MesAnoCompetencia.Month, MesAnoCompetencia.Year, ContaIdFiltro);
+            var lancamentos = _LancamentoApp.GetLancamentosDoMes(lancamentosDoMes);
             lancamentos.MesAnoCompetencia = MesAnoCompetencia;
             lancamentos.ContaIdFiltro = ContaIdFiltro;
             ViewData.Model = lancamentos;

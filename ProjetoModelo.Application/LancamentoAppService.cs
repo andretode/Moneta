@@ -86,9 +86,10 @@ namespace Moneta.Application
             _lancamentoService.Dispose();
         }
 
-        public LancamentosDoMesViewModel GetLancamentosDoMes(int mes, int ano, Guid contaId)
+        public LancamentosDoMesViewModel GetLancamentosDoMes(LancamentosDoMesViewModel lancamentosDoMesViewModel)
         {
-            return Mapper.Map<LancamentosDoMes, LancamentosDoMesViewModel>(_lancamentoService.GetLancamentosDoMes(mes, ano, contaId));
+            LancamentosDoMes lancamentosDoMes = Mapper.Map<LancamentosDoMesViewModel, LancamentosDoMes>(lancamentosDoMesViewModel);
+            return Mapper.Map<LancamentosDoMes, LancamentosDoMesViewModel>(_lancamentoService.GetLancamentosDoMes(lancamentosDoMes));
         }
 
         #region Metodos privados
