@@ -37,21 +37,28 @@
             </button>
         </div>
     }
-</div>
 
-<div class="form-horizontal">
-    <h3>
-        <span class="label label-default col-md-12">
-            <a class="col-md-5 text-right" title="Mês Anterior" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = -1 })">
-                <i class="icon-white glyphicon glyphicon-chevron-left" style="color: white"></i>
-            </a>
-            <span class="col-md-2">@Model.MesAnoCompetencia.ToString("MMMM yyyy").ToUpper()</span>
-            <a class="col-md-5 text-left title="Próximo Mês" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = +1 })">
-                <i class="icon-white glyphicon glyphicon-chevron-right" style="color: white"></i>
-            </a>
-        </span>
-    </h3>
-</div>
+    
+    <table style="width:100%">
+        <tr>
+            <td  style="background-color:gray"></td>
+            <td class="label label-default col-md-8" style="background-color:gray">
+                <h4>
+                    <a class="text-right col-md-4" title="Mês Anterior" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = -1 })">
+                        <i class="glyphicon glyphicon-chevron-left" style="color: white"></i>
+                    </a>
+                    <span class="col-md-4">
+                        @Model.MesAnoCompetencia.ToString("MMMM yyyy").ToUpper()
+                    </span>
+                    <a class="text-left col-md-4" title=" próximo mês" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = +1 })">
+                        <i class="glyphicon glyphicon-chevron-right" style="color: white"></i>
+                    </a>
+                </h4>
+            </td>
+            <td style="background-color:gray"></td>
+        </tr>
+    </table>
+    
 
 <table class="table">
     <tr style="background-color: #e6e6e6">
