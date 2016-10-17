@@ -31,7 +31,7 @@
 
             @Html.DropDownListFor(model => model.ContaIdFiltro, (SelectList)@ViewBag.Contas, "-- Selecione uma Conta --", new { @class = "form-control", @style = "display:inline-block" })
             @Html.ValidationMessageFor(model => model.ContaIdFiltro, "", new { @class = "text-danger", @style = "display:inline-block" })
-            @Html.TextBoxFor(model => model.PesquisarDescricao, new { @class = "form-control", @placeholder = "Pesquisar pela Descrição", @style = "display:inline-block" })
+            @Html.TextBoxFor(model => model.PesquisarDescricao, new { @class = "form-control", @placeholder = "Pesquisar pela Data ou Descrição", @style = "display:inline-block" })
             <button type="submit" value="Pesquisar" name="action:Pesquisar" class="btn btn-default" title="Pesquisar" style="display:inline-block">
                 <span class="glyphicon glyphicon-search"></span>
             </button>

@@ -71,7 +71,9 @@ namespace Moneta.Domain.Services
 
             if (lancamentosDoMes.PesquisarDescricao != null)
                 lancamentosDoMesPorConta.LancamentosDoMesPorConta = lancamentosDoMesPorConta.LancamentosDoMesPorConta.Where(l => 
-                    l.Descricao.ToLower().Contains(lancamentosDoMes.PesquisarDescricao.ToLower()));
+                    l.Descricao.ToLower().Contains(lancamentosDoMes.PesquisarDescricao.ToLower()) ||
+                    l.DataVencimento.ToString("dd/MM/yy").Contains(lancamentosDoMes.PesquisarDescricao.ToLower())
+                    );
 
             return lancamentosDoMesPorConta;
         }
