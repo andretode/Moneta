@@ -24,6 +24,8 @@ namespace Moneta.Domain.Entities
         public virtual Conta Conta { get; set; }
         public Guid CategoriaId { get; set; }
         public virtual Categoria Categoria { get; set; }
+        public Guid? LancamentoParceladoId { get; set; }
+        public virtual LancamentoParcelado LancamentoParcelado { get; set; }
         public DateTime DataCadastro { get; set; }
 
         public ValidationResult ResultadoValidacao { get; private set; }

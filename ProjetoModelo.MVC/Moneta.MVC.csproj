@@ -762,6 +762,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Moneta.Infra.CrossCutting.Enums\Moneta.Infra.CrossCutting.Enums.csproj">
+      <Project>{40e9f1eb-04d3-4815-bb5c-7b2a3bb94a70}</Project>
+      <Name>Moneta.Infra.CrossCutting.Enums</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ProjetoModelo.Application\Moneta.Application.csproj">
       <Project>{7b60231b-a221-4daa-9536-2f9627e460d0}</Project>
       <Name>Moneta.Application</Name>

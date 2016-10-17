@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Moneta.Application.Interfaces;
 using Moneta.Application.ViewModels;
 using Moneta.MVC.DataAnnotation;
+using Moneta.Infra.CrossCutting.Enums;
 
 namespace Moneta.MVC.Controllers
 {
@@ -91,7 +92,7 @@ namespace Moneta.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                lancamentos.NovaTransacao = TipoTransacao.Despesa;
+                lancamentos.NovaTransacao = TipoTransacaoEnum.Despesa;
                 return RedirectToAction("Create", lancamentos);
             }
 
@@ -106,7 +107,7 @@ namespace Moneta.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                lancamentos.NovaTransacao = TipoTransacao.Receita;
+                lancamentos.NovaTransacao = TipoTransacaoEnum.Receita;
                 return RedirectToAction("Create", lancamentos);
             }
 

@@ -9,6 +9,7 @@ using Moneta.Domain.Entities;
 using Moneta.Domain.Interfaces.Services;
 using Moneta.Infra.Data.Context;
 using Moneta.Domain.ValueObjects;
+using Moneta.Infra.CrossCutting.Enums;
 
 namespace Moneta.Application
 {
@@ -27,6 +28,12 @@ namespace Moneta.Application
                 lancamentoViewModel.Pago = true;
 
             lancamentoViewModel.Valor = AjustarValorParaSalvar(lancamentoViewModel);
+
+            if (lancamentoViewModel.LancamentoParcelado.Periodicidade != 0)
+                lancamentoViewModel.LancamentoParcelado.DataInicio = lancamentoViewModel.DataVencimento;
+            else
+                lancamentoViewModel.LancamentoParcelado = null;
+
             var Lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
 
             BeginTransaction();
@@ -98,9 +105,9 @@ namespace Moneta.Application
         private decimal AjustarValorParaSalvar(LancamentoViewModel lancamentoViewModel)
         {
             decimal valorAjustado;
-            if (lancamentoViewModel.Transacao == TipoTransacao.Despesa && Math.Sign(lancamentoViewModel.Valor) == 1)
+            if (lancamentoViewModel.Transacao == TipoTransacaoEnum.Despesa && Math.Sign(lancamentoViewModel.Valor) == 1)
                 valorAjustado = lancamentoViewModel.Valor * -1;
-            else if (lancamentoViewModel.Transacao == TipoTransacao.Receita && Math.Sign(lancamentoViewModel.Valor) == -1)
+            else if (lancamentoViewModel.Transacao == TipoTransacaoEnum.Receita && Math.Sign(lancamentoViewModel.Valor) == -1)
                 valorAjustado = lancamentoViewModel.Valor * -1;
             else
                 valorAjustado = lancamentoViewModel.Valor;
@@ -111,11 +118,11 @@ namespace Moneta.Application
         {
             if (lancamentoViewModel.Valor > 0)
             {
-                lancamentoViewModel.Transacao = TipoTransacao.Receita;
+                lancamentoViewModel.Transacao = TipoTransacaoEnum.Receita;
             }
             else
             {
-                lancamentoViewModel.Transacao = TipoTransacao.Despesa;
+                lancamentoViewModel.Transacao = TipoTransacaoEnum.Despesa;
                 lancamentoViewModel.Valor = lancamentoViewModel.Valor * -1;
             }
 

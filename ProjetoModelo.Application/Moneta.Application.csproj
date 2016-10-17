@@ -67,6 +67,8 @@
     <Compile Include="AutoMapper\DomainToApplicationMappingProfile.cs" />
     <Compile Include="AutoMapper\ViewModelToDomainMappingProfile.cs" />
     <Compile Include="AutoMapper\DomainToViewModelMappingProfile.cs" />
+    <Compile Include="Interfaces\ILancamentoParceladoAppService.cs" />
+    <Compile Include="LancamentoParceladoAppService.cs" />
     <Compile Include="LancamentoAppService.cs" />
     <Compile Include="CategoriaAppService.cs" />
     <Compile Include="ContaAppService.cs" />
@@ -78,6 +80,7 @@
     <Compile Include="Validation\ValidationAppError.cs" />
     <Compile Include="Validation\ValidationAppResult.cs" />
     <Compile Include="ViewModels\LancamentosDoMesViewModel.cs" />
+    <Compile Include="ViewModels\LancamentoParceladoViewModel.cs" />
     <Compile Include="ViewModels\LancamentoViewModel.cs" />
     <Compile Include="ViewModels\CategoriaViewModel.cs" />
     <Compile Include="ViewModels\ContaViewModel.cs" />
@@ -87,6 +90,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Moneta.Infra.CrossCutting.Enums\Moneta.Infra.CrossCutting.Enums.csproj">
+      <Project>{40e9f1eb-04d3-4815-bb5c-7b2a3bb94a70}</Project>
+      <Name>Moneta.Infra.CrossCutting.Enums</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ProjetoModelo.Domain\Moneta.Domain.csproj">
       <Project>{db13fcab-f03e-4651-920d-125c0f139880}</Project>
       <Name>Moneta.Domain</Name>

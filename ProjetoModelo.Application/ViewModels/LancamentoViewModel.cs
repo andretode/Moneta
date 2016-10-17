@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Moneta.Infra.CrossCutting.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -24,7 +25,7 @@ namespace Moneta.Application.ViewModels
         public string Descricao { get; set; }
 
         [DataType(DataType.Currency)]
-        [Range(typeof(decimal), "0", "9999999,99")]
+        [Range(typeof(decimal), "0,01", "9999999,99")]
         [Required(ErrorMessage = "Preencha o campo")]
         [DisplayName("Valor")]
         public decimal Valor { get; set; }
@@ -38,16 +39,28 @@ namespace Moneta.Application.ViewModels
         public bool Pago { get; set; }
 
         [DisplayName("Transação")]
-        public TipoTransacao Transacao { get; set; }
+        public TipoTransacaoEnum Transacao { get; set; }
 
         [DisplayName("Data de Cadastro")]
         [ScaffoldColumn(false)]
         public DateTime DataCadastro { get; set; }
 
+        [DisplayName("Categoria")]
         public Guid CategoriaId { get; set; }
+
+        [DisplayName("Categoria")]
         public virtual CategoriaViewModel Categoria { get; set; }
+
+        [DisplayName("Conta")]
         public Guid ContaId { get; set; }
+
         [DisplayName("Conta")]
         public virtual ContaViewModel Conta { get; set; }
+
+        [DisplayName("Lançamento Parcelado")]
+        public Guid? LancamentoParceladoId { get; set; }
+
+        [DisplayName("Lançamento Parcelado")]
+        public virtual LancamentoParceladoViewModel LancamentoParcelado { get; set; }
     }
 }

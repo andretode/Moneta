@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Moneta.Infra.CrossCutting.Enums;
 
 namespace Moneta.Application.ViewModels
 {
@@ -15,7 +16,7 @@ namespace Moneta.Application.ViewModels
         public DateTime MesAnoCompetencia { get; set; }
 
         [DisplayName("Transação")]
-        public TipoTransacao NovaTransacao { get; set; }
+        public TipoTransacaoEnum NovaTransacao { get; set; }
 
         [DataType(DataType.Currency)]
         public decimal SaldoDoMesAnterior { get; set; }
@@ -31,6 +32,4 @@ namespace Moneta.Application.ViewModels
 
         public virtual IEnumerable<LancamentoViewModel> LancamentosDoMesPorConta { get; set; }
     }
-
-    public enum TipoTransacao { Receita, Despesa, Transferencia }
 }

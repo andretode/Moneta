@@ -1,5 +1,6 @@
 ﻿@model Moneta.Application.ViewModels.LancamentoViewModel
 @using Moneta.Application.ViewModels;
+@using Moneta.Infra.CrossCutting.Enums;
 
 @{
     ViewBag.Title = "Lançamento";
@@ -19,7 +20,7 @@
 
         @{
     var cor = "lightcoral";
-    if (Model.Transacao == TipoTransacao.Receita)
+    if (Model.Transacao == TipoTransacaoEnum.Receita)
     {
         cor = "lightgreen";
     }

@@ -35,16 +35,20 @@
     <Compile Include="Entities\Lancamento.cs" />
     <Compile Include="Entities\Categoria.cs" />
     <Compile Include="Entities\Conta.cs" />
+    <Compile Include="Entities\LancamentoParcelado.cs" />
     <Compile Include="Exceptions\CustomException.cs" />
     <Compile Include="Interfaces\Repository\ADO\IContaADORepository.cs" />
+    <Compile Include="Interfaces\Repository\ILancamentoParceladoRepository.cs" />
     <Compile Include="Interfaces\Repository\ILancamentoRepository.cs" />
     <Compile Include="Interfaces\Repository\ICategoriaRepository.cs" />
+    <Compile Include="Interfaces\Services\ILancamentoParceladoService.cs" />
     <Compile Include="Interfaces\Services\ILancamentoService.cs" />
     <Compile Include="Interfaces\Services\ICategoriaService.cs" />
     <Compile Include="Interfaces\Services\IServiceBase.cs" />
     <Compile Include="Interfaces\Specification\ISpecification.cs" />
     <Compile Include="Interfaces\Validation\IFiscal.cs" />
     <Compile Include="Interfaces\Validation\IRegra.cs" />
+    <Compile Include="Services\LancamentoParceladoService.cs" />
     <Compile Include="Services\LancamentoService.cs" />
     <Compile Include="Services\CategoriaService.cs" />
     <Compile Include="Specification\Categorias\CategoriaPossuiCorValida.cs" />
@@ -75,7 +79,12 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Moneta.Infra.CrossCutting.Enums\Moneta.Infra.CrossCutting.Enums.csproj">
+      <Project>{40e9f1eb-04d3-4815-bb5c-7b2a3bb94a70}</Project>
+      <Name>Moneta.Infra.CrossCutting.Enums</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

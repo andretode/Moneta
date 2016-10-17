@@ -76,6 +76,7 @@
     <Compile Include="Context\BaseDbContext.cs" />
     <Compile Include="Context\ContextManager.cs" />
     <Compile Include="Context\MonetaContext.cs" />
+    <Compile Include="EntityConfig\LancamentoParceladoConfiguration.cs" />
     <Compile Include="EntityConfig\LancamentoConfiguration.cs" />
     <Compile Include="EntityConfig\CategoriaConfiguration.cs" />
     <Compile Include="EntityConfig\ContaConfiguration.cs" />
@@ -98,10 +99,23 @@
     <Compile Include="Migrations\201610071412019_pago.Designer.cs">
       <DependentUpon>201610071412019_pago.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610162340385_Parcelado.cs" />
+    <Compile Include="Migrations\201610162340385_Parcelado.Designer.cs">
+      <DependentUpon>201610162340385_Parcelado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610170017476_Periodicidade.cs" />
+    <Compile Include="Migrations\201610170017476_Periodicidade.Designer.cs">
+      <DependentUpon>201610170017476_Periodicidade.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610171320553_NumeroParcelasOpcinal.cs" />
+    <Compile Include="Migrations\201610171320553_NumeroParcelasOpcinal.Designer.cs">
+      <DependentUpon>201610171320553_NumeroParcelasOpcinal.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ADO\BaseADORepository.cs" />
     <Compile Include="Repositories\ADO\ContaADORepository.cs" />
+    <Compile Include="Repositories\LancamentoParceladoRepository.cs" />
     <Compile Include="Repositories\LancamentoRepository.cs" />
     <Compile Include="Repositories\CategoriaRepository.cs" />
     <Compile Include="Repositories\ContaRepository.cs" />
@@ -122,6 +136,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610071412019_pago.resx">
       <DependentUpon>201610071412019_pago.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610162340385_Parcelado.resx">
+      <DependentUpon>201610162340385_Parcelado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610170017476_Periodicidade.resx">
+      <DependentUpon>201610170017476_Periodicidade.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610171320553_NumeroParcelasOpcinal.resx">
+      <DependentUpon>201610171320553_NumeroParcelasOpcinal.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 ﻿@model Moneta.Application.ViewModels.LancamentoViewModel
 @using System.Web.Mvc
 @using Moneta.Application.ViewModels;
+@using Moneta.Infra.CrossCutting.Enums;
 
 @{
     ViewBag.Title = "Novo Lançamento";
@@ -8,7 +9,7 @@
 
 <h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formLancamento" }))
 {
     @Html.AntiForgeryToken()
     
@@ -18,7 +19,7 @@
 
 @{
     var cor = "lightcoral";
-    if (Model.Transacao == TipoTransacao.Receita)
+    if (Model.Transacao == TipoTransacaoEnum.Receita)
     {
         cor = "lightgreen";
     }
@@ -68,14 +69,56 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Categoria, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("CategoriaId", (SelectList)@ViewBag.Categorias, String.Empty, new { @class = "form-control"})
-                @Html.ValidationMessageFor(model => model.LancamentoId, "", new { @class = "text-danger" })
+                @Html.DropDownList("CategoriaId", (SelectList)@ViewBag.Categorias, String.Empty, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CategoriaId, "", new { @class = "text-danger" })
             </div>
         </div>
+    </div>
+    
+    <div class="form-horizontal">
+        <hr />
+        <div class="form-group" id="botaoRepetir">
+            <div class="control-label col-md-2"></div>
+            <div class="col-md-10">
+                <a href="javascript:mostrarLancamentoParcelado();" class="btn btn-default" title="Repetir @Model.Transacao">
+                    <i class="glyphicon glyphicon-repeat"></i>
+                </a>
+            </div>
+        </div>
+        <div class="form-horizontal">
+            <div class="hidden" id="divLancamentoParcelado">
+                <div class="form-group">
+                    <div class="control-label col-md-2"></div>
+                    <div class="col-md-10">
+                        <p>
+                            <input type="radio" id="repetir_fixo" name="repetir" value="fixo" onclick="javascript: selecionouLancamentosFixos();" /> É um lançamento fixo
+                        </p>
+                        <p>
+                            <input type="radio" id="repetir_parcelado" name="repetir" value="parcelado" onclick="javascript: selecionouLancamentosParcelados();" /> É um lançamento parcelado
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group hidden" id="divNumeroParcelas">
+                    @Html.LabelFor(model => model.LancamentoParcelado.NumeroParcelas, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <input class="form-control text-box single-line" type="text" id="LancamentoParcelado_NumeroParcelas" name="LancamentoParcelado.NumeroParcelas" />
+                        @Html.ValidationMessageFor(model => model.LancamentoParcelado.NumeroParcelas, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Criar" class="btn btn-default" />
+                <div class="form-group hidden" id="divPeriodicidade">
+                    @Html.LabelFor(model => model.LancamentoParcelado.Periodicidade, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EnumDropDownListFor(model => model.LancamentoParcelado.Periodicidade, "-- Selecione a Periodicidade --", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.LancamentoParcelado.Periodicidade, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input value="Criar" class="btn btn-default" onclick="javascript: validarLancamentoParcelado();" />
+                </div>
             </div>
         </div>
     </div>
@@ -87,4 +130,66 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        function mostrarLancamentoParcelado() {
+            $('#divLancamentoParcelado').removeClass("hidden");
+            $('#botaoRepetir').addClass("hidden");
+        }
+
+        function selecionouLancamentosFixos()
+        {
+            $('#divNumeroParcelas').addClass("hidden");
+            $('#divPeriodicidade').removeClass("hidden");
+        }
+
+        function selecionouLancamentosParcelados() {
+            $('#divNumeroParcelas').removeClass("hidden");
+            $('#divPeriodicidade').removeClass("hidden");
+        }
+
+        function validarLancamentoParcelado()
+        {
+            var fixoChecked = $('#repetir_fixo').is(':checked');
+            var parceladoChecked = $('#repetir_parcelado').is(':checked');
+            if(parceladoChecked) {
+                if (!informarNumParcelas()) {
+                    return false;
+                }
+                else {
+                    if (!informarPeriodicidade()) {
+                        return false;
+                    }
+                }
+            }
+            else if (fixoChecked) {
+                if (!informarPeriodicidade()) {
+                    return false;
+                }
+            }
+            $('#formLancamento').submit();
+        }
+
+        function informarNumParcelas()
+        {
+            var numParcelas = $('#LancamentoParcelado_NumeroParcelas').val();
+            if (numParcelas == '' || numParcelas < 2) {
+                alert("O n° de parcelas deve ser maior que 1");
+                $('#LancamentoParcelado_NumeroParcelas').focus();
+                return false;
+            }
+            return true;
+        }
+
+        function informarPeriodicidade()
+        {
+            var periodicidade = $('#LancamentoParcelado_Periodicidade').val();
+            if (periodicidade == 0) {
+                alert("Informe a periodicidade");
+                $('#LancamentoParcelado_Periodicidade').focus();
+                return false;
+            }
+            return true;
+        }
+    </script>
 }

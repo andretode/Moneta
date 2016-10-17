@@ -39,6 +39,7 @@ namespace Moneta.Infra.Data.Context
             modelBuilder.Configurations.Add(new ContaConfiguration());
             modelBuilder.Configurations.Add(new CategoriaConfiguration());
             modelBuilder.Configurations.Add(new LancamentoConfiguration());
+            modelBuilder.Configurations.Add(new LancamentoParceladoConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
