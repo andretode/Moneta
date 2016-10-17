@@ -30,14 +30,14 @@ namespace Moneta.Infra.CrossCutting.IoC
             Bind<IContaService>().To<ContaService>();
             Bind<ICategoriaService>().To<CategoriaService>();
             Bind<ILancamentoService>().To<LancamentoService>();
-            Bind<ILancamentoParceladoAppService>().To<LancamentoParceladoAppService>();
+            Bind<ILancamentoParceladoService>().To<LancamentoParceladoService>();
 
             // data repos
             Bind(typeof(IRepositoryBase<>)).To(typeof(RepositoryBase<,>));
             Bind<IContaRepository>().To<ContaRepository>();
             Bind<ICategoriaRepository>().To<CategoriaRepository>();
             Bind<ILancamentoRepository>().To<LancamentoRepository>();
-            Bind<ILancamentoParceladoAppService>().To<LancamentoParceladoAppService>();
+            Bind<ILancamentoParceladoRepository>().To<LancamentoParceladoRepository>();
       
             // data repos read only
             Bind<IContaReadOnlyRepository>().To<ContaReadOnlyRepository>();

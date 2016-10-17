@@ -30,6 +30,22 @@ namespace Moneta.Domain.Entities
 
         public ValidationResult ResultadoValidacao { get; private set; }
 
+        public Lancamento Clone()
+        {
+            var clone = new Lancamento();
+            clone.Descricao = this.Descricao;
+            clone.Valor = this.Valor;
+            clone.DataVencimento = this.DataVencimento;
+            clone.Pago = this.Pago;
+            clone.ContaId = this.ContaId;
+            clone.Conta = this.Conta;
+            clone.CategoriaId = this.CategoriaId;
+            clone.Categoria = this.Categoria;
+            clone.LancamentoParceladoId = this.LancamentoParceladoId;
+
+            return clone;
+        }
+
         public bool IsValid()
         {
             //var fiscal = new LancamentoEstaAptaParaCadastroNoSistema();

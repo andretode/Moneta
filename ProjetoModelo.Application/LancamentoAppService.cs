@@ -34,17 +34,54 @@ namespace Moneta.Application
             else
                 lancamentoViewModel.LancamentoParcelado = null;
 
-            var Lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
+            var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
 
-            BeginTransaction();
-
-            var result = _lancamentoService.Adicionar(Lancamento);
-            if (!result.IsValid)
-                return DomainToApplicationResult(result);
-            
-            Commit();
+            ValidationResult result = null;
+            if (lancamentoViewModel.LancamentoParcelado.Periodicidade != 0 && lancamentoViewModel.LancamentoParcelado.NumeroParcelas > 1)
+            {
+                result = AdicionarLancamentosParcelados(lancamento);
+            }
+            else
+            {
+                BeginTransaction();
+                result = _lancamentoService.Adicionar(lancamento);
+                if (!result.IsValid)
+                    return DomainToApplicationResult(result);
+                Commit();
+            }
 
             return DomainToApplicationResult(result);
+        }
+
+        private ValidationResult AdicionarLancamentosParcelados(Lancamento lancamento)
+        {
+            ValidationResult result = null;
+            for (int i = 0; i < lancamento.LancamentoParcelado.NumeroParcelas; i++)
+            {
+                var novoLancamento = lancamento.Clone();
+
+                if (i == 0)
+                    novoLancamento.LancamentoParcelado = lancamento.LancamentoParcelado;
+
+                novoLancamento.Descricao += " (" + (i + 1) + "/" + lancamento.LancamentoParcelado.NumeroParcelas + ")";
+                switch(lancamento.LancamentoParcelado.Periodicidade)
+                {
+                    case (int)PeriodicidadeEnum.Semanal:
+                        novoLancamento.DataVencimento = novoLancamento.DataVencimento.AddDays(i * 7);
+                        break;
+                    case (int)PeriodicidadeEnum.Mensal:
+                        novoLancamento.DataVencimento = novoLancamento.DataVencimento.AddMonths(i);
+                        break;
+                }
+
+                BeginTransaction();
+                result = _lancamentoService.Adicionar(novoLancamento);
+                if (!result.IsValid)
+                    return result;
+                Commit();
+            }
+
+            return result;
         }
 
         public LancamentoViewModel GetById(Guid id)
