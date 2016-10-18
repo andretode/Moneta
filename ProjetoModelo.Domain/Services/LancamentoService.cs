@@ -89,7 +89,7 @@ namespace Moneta.Domain.Services
         {
             var lancamentosFixos = new List<Lancamento>();
 
-            var mesAnoCompetencia = new DateTime(ano, mes, 1);
+            var mesAnoCompetencia = new DateTime(ano, mes, DateTime.DaysInMonth(ano, mes));
             var lancamentosFixosAptos = _LancamentoParceladoRepository.GetAll().Where(l => l.DataInicio < mesAnoCompetencia);
 
             foreach (var lancamentoFixo in lancamentosFixosAptos)
@@ -112,31 +112,35 @@ namespace Moneta.Domain.Services
 
         private void LancamentosFixosSemanais(List<Lancamento> lancamentosFixos, LancamentoParcelado lancamentoFixo, Lancamento lancamentoOrigem, int mes, int ano)
         {
-            var primeiroLancamentoFakeDaSerie = lancamentoOrigem.Clone();
-            primeiroLancamentoFakeDaSerie.DataVencimento = new DateTime(ano, mes, lancamentoOrigem.DataVencimento.Day);
-            if (lancamentoOrigem.DataVencimento.Month != mes)
-                lancamentosFixos.Add(primeiroLancamentoFakeDaSerie);
+            var diaDaSemanaDoVencimento = lancamentoOrigem.DataVencimento.DayOfWeek;
+            var diaDaSemanaDoPrimeiroDiaDoMes = new DateTime(ano, mes, 1).DayOfWeek;
+            var deltaDia = diaDaSemanaDoVencimento - diaDaSemanaDoPrimeiroDiaDoMes + 1;
+            deltaDia = (deltaDia < 1 ? deltaDia + 7 : deltaDia);
 
-            bool continuar = true;
-            for(int i=1;continuar;i++)
+            var dataVencimento = new DateTime(ano, mes, deltaDia);
+
+            while(dataVencimento.Month == mes)
             {
-                Lancamento lancamentoFakeSeguinte = primeiroLancamentoFakeDaSerie.Clone();
+                Lancamento lancamentoFakeSeguinte = lancamentoOrigem.Clone();
                 lancamentoFakeSeguinte.Descricao += " (semanal)";
-                lancamentoFakeSeguinte.DataVencimento = primeiroLancamentoFakeDaSerie.DataVencimento.AddDays(i*7);
-                i++;
-                if (lancamentoFakeSeguinte.DataVencimento.Month == mes)
+                lancamentoFakeSeguinte.DataVencimento = dataVencimento;
+
+                if (lancamentoFakeSeguinte.DataVencimento != lancamentoOrigem.DataVencimento)
                     lancamentosFixos.Add(lancamentoFakeSeguinte);
-                else
-                    continuar = false;
+
+                dataVencimento = dataVencimento.AddDays(7);
             }
         }
 
         private void LancamentoFixoMensal(List<Lancamento> lancamentosFixos, Lancamento lancamentoOrigem, int mes, int ano)
         {
-            var novoLancamentoFake = lancamentoOrigem.Clone();
-            novoLancamentoFake.Descricao += " (mensal)";
-            novoLancamentoFake.DataVencimento = new DateTime(ano, mes, lancamentoOrigem.DataVencimento.Day);
-            lancamentosFixos.Add(novoLancamentoFake);
+            if (lancamentoOrigem.DataVencimento != new DateTime(ano, mes, lancamentoOrigem.DataVencimento.Day))
+            {
+                var novoLancamentoFake = lancamentoOrigem.Clone();
+                novoLancamentoFake.Descricao += " (mensal)";
+                novoLancamentoFake.DataVencimento = new DateTime(ano, mes, lancamentoOrigem.DataVencimento.Day);
+                lancamentosFixos.Add(novoLancamentoFake);
+            }
         }
 
     }
