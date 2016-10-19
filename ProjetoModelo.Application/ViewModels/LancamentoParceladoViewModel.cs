@@ -1,4 +1,5 @@
 ﻿using Moneta.Infra.CrossCutting.Enums;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,7 +32,8 @@ namespace Moneta.Application.ViewModels
 
         [ScaffoldColumn(false)]
         public Guid LancamentoBaseId { get; set; }
-        
+
+        [JsonIgnore]
         public virtual ICollection<LancamentoViewModel> Lancamentos { get; set; }
 
         [DisplayName("Data de Cadastro")]

@@ -67,18 +67,21 @@ namespace Moneta.Application.ViewModels
         public Guid CategoriaId { get; set; }
 
         [DisplayName("Categoria")]
+        [JsonIgnore]
         public virtual CategoriaViewModel Categoria { get; set; }
 
         [DisplayName("Conta")]
         public Guid ContaId { get; set; }
 
         [DisplayName("Conta")]
+        [JsonIgnore]
         public virtual ContaViewModel Conta { get; set; }
 
         [DisplayName("Lançamento Parcelado")]
         public Guid? LancamentoParceladoId { get; set; }
 
         [DisplayName("Lançamento Parcelado")]
+        [JsonIgnore]
         public virtual LancamentoParceladoViewModel LancamentoParcelado { get; set; }
     }
 }

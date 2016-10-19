@@ -68,15 +68,9 @@ namespace Moneta.MVC.Controllers
         }
 
         [HttpGet]
-        public ActionResult TrocarPago(Guid id)
+        public ActionResult TrocarPago(string jsonLancamento)
         {
-            LancamentoViewModel lancamento = null;
-            using (StreamReader sr = new StreamReader(@"c:\Temp\" + id.ToString()))
-            {
-                String strLancamento = sr.ReadToEnd();
-                lancamento = JsonConvert.DeserializeObject<LancamentoViewModel>(strLancamento);
-            }
-
+            var lancamento = JsonConvert.DeserializeObject<LancamentoViewModel>(jsonLancamento);
             lancamento.Pago = !lancamento.Pago;
 
             if(lancamento.Fake)

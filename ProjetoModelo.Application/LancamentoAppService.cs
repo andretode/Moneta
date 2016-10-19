@@ -58,10 +58,6 @@ namespace Moneta.Application
                     lancamentoViewModel.LancamentoParcelado.LancamentoBaseId = lancamentoViewModel.LancamentoId;
                     lancamentoViewModel.BaseDaSerie = true;
 
-                    //tratar a adição em BD do lançamento fake para setar suas entidades relacionadas como null para ao adicionar em BD nao dar erro tentado cadastra-las
-                    //lancamentoViewModel.Categoria = null;
-                    //lancamentoViewModel.Conta = null;
-
                     var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
 
                     BeginTransaction();

@@ -111,39 +111,26 @@
                 <td>
 
                     @{
-                        //var jsSettings = new JsonSerializerSettings
-                        //{
-                        //    NullValueHandling = NullValueHandling.Ignore,
-                        //    ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
-                        //    PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                        //};
-                        //string jsonLancamento = JsonConvert.SerializeObject(item, Formatting.Indented, jsSettings);
-
-                        JsonSerializer serializer = new JsonSerializer();
-                        serializer.NullValueHandling = NullValueHandling.Ignore;
-                        serializer.ReferenceLoopHandling = ReferenceLoopHandling.Serialize;
-                        serializer.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
-
-                        using (StreamWriter sw = new StreamWriter(@"c:\Temp\" + item.LancamentoId))
-                        {
-                            using (JsonWriter writer = new JsonTextWriter(sw))
-                            {
-                                serializer.Serialize(writer, item);
-                            }
-                        }
+                    var jsSettings = new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore,
+                        ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
+                        PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                    };
+                    string jsonLancamento = JsonConvert.SerializeObject(item, Formatting.Indented, jsSettings);
                     }
 
                     @if (item.Pago)
                     {
                         <a title="Clique para informar que não foi pago"
-                           href="@Url.Action("TrocarPago", "Lancamentos", new { id = item.LancamentoId })">
+                           href="@Url.Action("TrocarPago", "Lancamentos", new { jsonLancamento })">
                             <i class="icon-white glyphicon glyphicon-thumbs-up" style="color:green"></i>
                         </a>
                     }
                     else
                     {
                         <a title="Clique para informar que foi pago"
-                           href="@Url.Action("TrocarPago", "Lancamentos", new { id = item.LancamentoId })">
+                           href="@Url.Action("TrocarPago", "Lancamentos", new { jsonLancamento })">
                             <i class="icon-white glyphicon glyphicon-thumbs-down" style="color:red"></i>
                         </a>
                     }
