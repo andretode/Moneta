@@ -5,6 +5,9 @@ using Moneta.Application.Interfaces;
 using Moneta.Application.ViewModels;
 using Moneta.MVC.DataAnnotation;
 using Moneta.Infra.CrossCutting.Enums;
+using System.Web.Script.Serialization;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace Moneta.MVC.Controllers
 {
@@ -64,13 +67,26 @@ namespace Moneta.MVC.Controllers
             return View("Index", lancamentos);
         }
 
-        public ActionResult TrocarPago(Guid lancamentoId, Guid contaIdFiltro)
+        [HttpGet]
+        public ActionResult TrocarPago(Guid id)
         {
-            var lancamento = _LancamentoApp.GetByIdReadOnly(lancamentoId);
+            LancamentoViewModel lancamento = null;
+            using (StreamReader sr = new StreamReader(@"c:\Temp\" + id.ToString()))
+            {
+                String strLancamento = sr.ReadToEnd();
+                lancamento = JsonConvert.DeserializeObject<LancamentoViewModel>(strLancamento);
+            }
+
             lancamento.Pago = !lancamento.Pago;
-            _LancamentoApp.Update(lancamento);
+
+            if(lancamento.Fake)
+                _LancamentoApp.Add(lancamento);
+            else
+                _LancamentoApp.Update(lancamento);
+
             var lancamentos = new LancamentosDoMesViewModel();
-            lancamentos.ContaIdFiltro = contaIdFiltro;
+            lancamentos.ContaIdFiltro = lancamento.ContaId;
+            lancamentos.MesAnoCompetencia = lancamento.DataVencimento;
 
             ViewData.Model = lancamentos;
             TempData["ViewData"] = ViewData;
@@ -135,7 +151,7 @@ namespace Moneta.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var novoLancamento = new LancamentoViewModel();
+                var novoLancamento = new LancamentoViewModel(lancamentos.MesAnoCompetencia);
                 novoLancamento.Conta = _ContaApp.GetById(lancamentos.ContaIdFiltro);
                 novoLancamento.ContaId = lancamentos.ContaIdFiltro;
                 novoLancamento.Transacao = lancamentos.NovaTransacao;

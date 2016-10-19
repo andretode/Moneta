@@ -1,6 +1,6 @@
 ﻿using Moneta.Infra.CrossCutting.Enums;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -11,7 +11,19 @@ namespace Moneta.Application.ViewModels
         public LancamentoViewModel()
         {
             LancamentoId = Guid.NewGuid();
+            BaseDaSerie = false;
             DataVencimento = DateTime.Now;
+        }
+
+        public LancamentoViewModel(DateTime MesAnoCompetencia)
+        {
+            LancamentoId = Guid.NewGuid();
+            BaseDaSerie = false;
+
+            if (MesAnoCompetencia.Month == DateTime.Now.Month && MesAnoCompetencia.Year == DateTime.Now.Year)
+                DataVencimento = DateTime.Now;
+            else
+                DataVencimento = new DateTime(MesAnoCompetencia.Year, MesAnoCompetencia.Month, 1);
         }
 
         [Key]
@@ -44,6 +56,12 @@ namespace Moneta.Application.ViewModels
         [DisplayName("Data de Cadastro")]
         [ScaffoldColumn(false)]
         public DateTime DataCadastro { get; set; }
+
+        [ScaffoldColumn(false)]
+        public bool Fake { get; set; }
+
+        [ScaffoldColumn(false)]
+        public bool BaseDaSerie { get; set; }
 
         [DisplayName("Categoria")]
         public Guid CategoriaId { get; set; }

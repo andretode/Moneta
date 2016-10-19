@@ -23,8 +23,14 @@ namespace Moneta.Application.ViewModels
         [DisplayName("Periodicidade")]
         public PeriodicidadeEnum Periodicidade { get; set; }
 
+        [DisplayName("Repetição")]
+        public TipoRepeticao TipoDeRepeticao { get; set; }
+
         [DisplayName("Data Início das Parcelas")]
         public DateTime DataInicio { get; set; }
+
+        [ScaffoldColumn(false)]
+        public Guid LancamentoBaseId { get; set; }
         
         public virtual ICollection<LancamentoViewModel> Lancamentos { get; set; }
 

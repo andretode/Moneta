@@ -1,4 +1,5 @@
 ﻿@model Moneta.Application.ViewModels.LancamentosDoMesViewModel
+@using Newtonsoft.Json;
 
 @{
     ViewBag.Title = "Lançamentos";
@@ -82,9 +83,11 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.DataVencimento)
                     &nbsp;
+                    <span class="visible-lg-inline">@(item.Fake ? "F" : "V")</span>
                     <a href="@Url.Action("Details", "Lancamentos", new { id = (item.LancamentoId) }) " class="visible-xs visible-sm visible-md-inline visible-lg-inline">
                         @Html.DisplayFor(modelItem => item.Descricao)
                     </a>
+                    @Html.HiddenFor(modelItem => item.Fake)
                 </td>
                 <td>
                     <button class="btn" style="background-color: @item.Categoria.Cor" title="@item.Categoria.Descricao">
@@ -106,17 +109,41 @@
                     }
                 </td>
                 <td>
+
+                    @{
+                        //var jsSettings = new JsonSerializerSettings
+                        //{
+                        //    NullValueHandling = NullValueHandling.Ignore,
+                        //    ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
+                        //    PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                        //};
+                        //string jsonLancamento = JsonConvert.SerializeObject(item, Formatting.Indented, jsSettings);
+
+                        JsonSerializer serializer = new JsonSerializer();
+                        serializer.NullValueHandling = NullValueHandling.Ignore;
+                        serializer.ReferenceLoopHandling = ReferenceLoopHandling.Serialize;
+                        serializer.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
+
+                        using (StreamWriter sw = new StreamWriter(@"c:\Temp\" + item.LancamentoId))
+                        {
+                            using (JsonWriter writer = new JsonTextWriter(sw))
+                            {
+                                serializer.Serialize(writer, item);
+                            }
+                        }
+                    }
+
                     @if (item.Pago)
                     {
                         <a title="Clique para informar que não foi pago"
-                           href="@Url.Action("TrocarPago", "Lancamentos", new { lancamentoId = (item.LancamentoId), contaIdFiltro = item.ContaId })">
+                           href="@Url.Action("TrocarPago", "Lancamentos", new { id = item.LancamentoId })">
                             <i class="icon-white glyphicon glyphicon-thumbs-up" style="color:green"></i>
                         </a>
                     }
                     else
                     {
                         <a title="Clique para informar que foi pago"
-                           href="@Url.Action("TrocarPago", "Lancamentos", new { lancamentoId = (item.LancamentoId), contaIdFiltro = item.ContaId })">
+                           href="@Url.Action("TrocarPago", "Lancamentos", new { id = item.LancamentoId })">
                             <i class="icon-white glyphicon glyphicon-thumbs-down" style="color:red"></i>
                         </a>
                     }

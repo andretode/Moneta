@@ -23,6 +23,12 @@ namespace Moneta.Infra.Data.EntityConfig
 
             HasMany(l => l.Lancamentos)
                 .WithOptional(l => l.LancamentoParcelado);
+            
+            Property(c => c.LancamentoBaseId)
+                .IsRequired();
+
+            //HasRequired(c => c.LacamentoOriginal)
+            //    .WithRequiredDependent(c => c.LancamentoParcelado);
 
             Ignore(t => t.ResultadoValidacao);
         }

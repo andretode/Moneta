@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Moneta.Domain.ValueObjects
 {
-    public class LancamentosDoMes
+    public class AgregadoLancamentosDoMes
     {
         public Guid ContaIdFiltro { get; set; }
         public string PesquisarDescricao { get; set; }

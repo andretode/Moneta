@@ -19,7 +19,13 @@ namespace Moneta.Infra.Data.Repositories
         public Lancamento GetByIdReadOnly(Guid id)
         {
             base.Context.SetProxyCreationEnabledToFalse();
-            return DbSet.AsNoTracking().Where(x => x.LancamentoId == id).First();
+
+            try {
+                return DbSet.AsNoTracking().Where(x => x.LancamentoId == id).First();
+            }
+            catch {}
+
+            return null;
         }
     }
 }

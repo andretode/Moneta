@@ -2,6 +2,8 @@
 using Moneta.Application.ViewModels;
 using Moneta.Domain.Entities;
 using Moneta.Domain.ValueObjects;
+using Moneta.Infra.CrossCutting.Enums;
+using System.Linq;
 
 namespace Moneta.Application.AutoMapper
 {
@@ -19,7 +21,7 @@ namespace Moneta.Application.AutoMapper
             Mapper.CreateMap<LancamentoViewModel, Lancamento>()
                 .ForMember(d => d.LancamentoParceladoId, o => o.MapFrom(s => s.LancamentoParcelado.LancamentoParceladoId));
             Mapper.CreateMap<LancamentoParceladoViewModel, LancamentoParcelado>();
-            Mapper.CreateMap<LancamentosDoMesViewModel, LancamentosDoMes>();
+            Mapper.CreateMap<LancamentosDoMesViewModel, AgregadoLancamentosDoMes>();
         }
     }
 }

@@ -13,6 +13,8 @@ namespace Moneta.Domain.Entities
         {
             LancamentoId = Guid.NewGuid();
             Pago = false;
+            Fake = false;
+            BaseDaSerie = false;
         }
 
         public Guid LancamentoId { get; set; }
@@ -27,21 +29,26 @@ namespace Moneta.Domain.Entities
         public Guid? LancamentoParceladoId { get; set; }
         public virtual LancamentoParcelado LancamentoParcelado { get; set; }
         public DateTime DataCadastro { get; set; }
+        public bool BaseDaSerie { get; set; }
 
+        public bool Fake { get; private set; }
         public ValidationResult ResultadoValidacao { get; private set; }
 
-        public Lancamento Clone()
+        public Lancamento CloneFake()
         {
             var clone = new Lancamento();
             clone.Descricao = this.Descricao;
             clone.Valor = this.Valor;
             clone.DataVencimento = this.DataVencimento;
-            clone.Pago = this.Pago;
+            clone.Pago = false;
             clone.ContaId = this.ContaId;
             clone.Conta = this.Conta;
             clone.CategoriaId = this.CategoriaId;
             clone.Categoria = this.Categoria;
             clone.LancamentoParceladoId = this.LancamentoParceladoId;
+            clone.LancamentoParcelado = this.LancamentoParcelado;
+            clone.DataCadastro = this.DataCadastro;
+            clone.Fake = true;
 
             return clone;
         }

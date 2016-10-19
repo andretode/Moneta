@@ -91,10 +91,10 @@
                     <div class="control-label col-md-2"></div>
                     <div class="col-md-10">
                         <p>
-                            <input type="radio" id="repetir_fixo" name="repetir" value="fixo" onclick="javascript: selecionouLancamentosFixos();" /> É um lançamento fixo
+                            <input type="radio" id="repetir_fixo" name="LancamentoParcelado.TipoDeRepeticao" value="@TipoRepeticao.Fixo" onclick="javascript: selecionouLancamentosFixos();" /> É um lançamento fixo
                         </p>
                         <p>
-                            <input type="radio" id="repetir_parcelado" name="repetir" value="parcelado" onclick="javascript: selecionouLancamentosParcelados();" /> É um lançamento parcelado
+                            <input type="radio" id="repetir_parcelado" name="LancamentoParcelado.TipoDeRepeticao" value="@TipoRepeticao.Parcelado" onclick="javascript: selecionouLancamentosParcelados();" /> É um lançamento parcelado
                         </p>
                     </div>
                 </div>
@@ -116,8 +116,9 @@
             </div>
 
             <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
+                <div class="col-md-offset-2 col-md-12">
                     <input value="Criar" class="btn btn-default" onclick="javascript: validarLancamentoParcelado();" />
+                    <input value="Cancelar" class="btn btn-default" onclick="javascript: window.history.back();" />
                 </div>
             </div>
         </div>
@@ -131,4 +132,10 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/lancamento-parcelado")
+
+    <script>
+        $(function () { // will trigger when the document is ready
+            $('.datepicker').datepicker('setDate', new Date('@Model.DataVencimento.ToString("MM/dd/yyyy")'));
+        });
+    </script>
 }

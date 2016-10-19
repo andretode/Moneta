@@ -111,6 +111,14 @@
     <Compile Include="Migrations\201610171320553_NumeroParcelasOpcinal.Designer.cs">
       <DependentUpon>201610171320553_NumeroParcelasOpcinal.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610190043193_lancamentoOriginal.cs" />
+    <Compile Include="Migrations\201610190043193_lancamentoOriginal.Designer.cs">
+      <DependentUpon>201610190043193_lancamentoOriginal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610191215503_BaseDaSerie.cs" />
+    <Compile Include="Migrations\201610191215503_BaseDaSerie.Designer.cs">
+      <DependentUpon>201610191215503_BaseDaSerie.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ADO\BaseADORepository.cs" />
@@ -145,6 +153,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610171320553_NumeroParcelasOpcinal.resx">
       <DependentUpon>201610171320553_NumeroParcelasOpcinal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610190043193_lancamentoOriginal.resx">
+      <DependentUpon>201610190043193_lancamentoOriginal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610191215503_BaseDaSerie.resx">
+      <DependentUpon>201610191215503_BaseDaSerie.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
