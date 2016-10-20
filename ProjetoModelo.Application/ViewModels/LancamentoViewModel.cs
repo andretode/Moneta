@@ -13,6 +13,7 @@ namespace Moneta.Application.ViewModels
             LancamentoId = Guid.NewGuid();
             BaseDaSerie = false;
             DataVencimento = DateTime.Now;
+            Ativo = true;
         }
 
         public LancamentoViewModel(DateTime MesAnoCompetencia)

@@ -64,6 +64,7 @@
     <tr style="background-color: #e6e6e6">
         <th></th>
         <th></th>
+        <th></th>
         @{string corSaldoDoMesAnterior = (Model.SaldoDoMesAnterior > 0 ? "green" : "red");}
         <td class="text-right">Saldo do Mês Anterior: <span style="color: @corSaldoDoMesAnterior">@Html.DisplayFor(model => model.SaldoDoMesAnterior)</span></td>
         <th></th>
@@ -91,16 +92,23 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.DataVencimento)
                     &nbsp;
-                    <span class="visible-lg-inline">@(item.Ativo ? "A" : "D")</span>
                     <span class="visible-lg-inline">@(item.Fake ? "F" : "V")</span>
                     <a href="@Url.Action("Details", "Lancamentos", new { jsonLancamento }) " class="visible-xs visible-sm visible-md-inline visible-lg-inline">
                         @Html.DisplayFor(modelItem => item.Descricao)
                     </a>
+
+                </td>
+                <td>
+                    @if (item.LancamentoParceladoId != null)
+                    {
+                        <span class="visible-lg-inline">
+                            <i class="icon-white glyphicon glyphicon-retweet" title="É um lançamento repetido"></i>
+                        </span>
+                    }
                     @Html.HiddenFor(modelItem => item.Fake)
                 </td>
                 <td>
-                    <button class="btn" style="background-color: @item.Categoria.Cor" title="@item.Categoria.Descricao">
-                    </button>
+                    <button class="btn" style="background-color: @item.Categoria.Cor" title="@item.Categoria.Descricao"></button>
                     <span class="visible-md-inline visible-lg-inline">@item.Categoria.Descricao</span>
                 </td>
                 <td class="text-right">
