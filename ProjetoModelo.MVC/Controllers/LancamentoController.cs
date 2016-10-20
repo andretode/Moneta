@@ -199,9 +199,23 @@ namespace Moneta.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(LancamentoViewModel lancamento)
         {
-            _LancamentoApp.Desativar(lancamento);
+            if (ModelState.IsValid)
+            {
+                lancamento.Ativo = false;
+                if (lancamento.Fake)
+                    _LancamentoApp.Add(lancamento);
+                else
+                {
+                    //se não for parcelado, remove do BD, senão mantém para controlar os fakes que tem que ser mostrados
+                    if (lancamento.IdDaParcelaNaSerie == null)
+                        _LancamentoApp.Remove(lancamento);
+                    else
+                        _LancamentoApp.Update(lancamento);
+                }
 
-            return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
+                return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
+            }
+            return View(lancamento);
         }
 
 

@@ -176,15 +176,6 @@ namespace Moneta.Application
             return Mapper.Map<AgregadoLancamentosDoMes, LancamentosDoMesViewModel>(_lancamentoService.GetLancamentosDoMes(lancamentosDoMes));
         }
 
-        public void Desativar(LancamentoViewModel lancamentoViewModel)
-        {
-            var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
-
-            BeginTransaction();
-            _lancamentoService.Desativar(lancamento);
-            Commit();
-        }
-
         #region Metodos privados
         private decimal AjustarValorParaSalvar(LancamentoViewModel lancamentoViewModel)
         {
@@ -200,14 +191,17 @@ namespace Moneta.Application
         }
         public void AjustarLancamentoParaExibir(LancamentoViewModel lancamentoViewModel)
         {
-            if (lancamentoViewModel.Valor > 0)
+            if(lancamentoViewModel.Transacao == 0)
             {
-                lancamentoViewModel.Transacao = TipoTransacaoEnum.Receita;
-            }
-            else
-            {
-                lancamentoViewModel.Transacao = TipoTransacaoEnum.Despesa;
-                lancamentoViewModel.Valor = lancamentoViewModel.Valor * -1;
+                if (lancamentoViewModel.Valor > 0)
+                {
+                    lancamentoViewModel.Transacao = TipoTransacaoEnum.Receita;
+                }
+                else
+                {
+                    lancamentoViewModel.Transacao = TipoTransacaoEnum.Despesa;
+                    lancamentoViewModel.Valor = lancamentoViewModel.Valor * -1;
+                }
             }
         }
         #endregion

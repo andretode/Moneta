@@ -55,12 +55,6 @@ namespace Moneta.Domain.Services
             return resultadoValidacao;
         }
 
-        public void Desativar(Lancamento lancamento)
-        {
-            lancamento.Ativo = false;
-            _LancamentoRepository.Update(lancamento);
-        }
-
         public AgregadoLancamentosDoMes GetLancamentosDoMes(AgregadoLancamentosDoMes lancamentosDoMes)
         {
             var mes = lancamentosDoMes.MesAnoCompetencia.Month;
@@ -72,6 +66,7 @@ namespace Moneta.Domain.Services
 
             //inclusao dos fakes
             lancamentosDoMesTodasAsContas = this.LancamentosFixosFake(mes, ano, lancamentosDoMesTodasAsContas.ToList());
+            lancamentosDoMesTodasAsContas = lancamentosDoMesTodasAsContas.Where(l => l.Ativo == true);
 
             //CONFIRMAR, POIS CREIO QUE TENHA QUE PEGAR SOMENTE OS "PAGOS"
             var saldoMesAnteriorTodasAsContas = this.GetAll().Where(l => l.DataVencimento <= dataUltimoDiaMesAnterior && l.Pago == true).Sum(l => l.Valor);
@@ -135,9 +130,6 @@ namespace Moneta.Domain.Services
                 Lancamento lancamentoBd = lancamentosOriginaisMaisOsFakes.Find(l => l.IdDaParcelaNaSerie == lancamentoFakeSeguinte.IdDaParcelaNaSerie);
                 if (lancamentoBd == null)
                     lancamentosOriginaisMaisOsFakes.Add(lancamentoFakeSeguinte);
-
-                //if (!lancamentosOriginaisMaisOsFakes.Contains<Lancamento>(lancamentoFakeSeguinte, new LancamentoComparer()))
-                //    lancamentosOriginaisMaisOsFakes.Add(lancamentoFakeSeguinte);
 
                 dataVencimento = dataVencimento.AddDays(7);
             }

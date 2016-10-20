@@ -17,6 +17,5 @@ namespace Moneta.Application.Interfaces
         void Remove(LancamentoViewModel LancamentoViewModel);
         LancamentosDoMesViewModel GetLancamentosDoMes(LancamentosDoMesViewModel lancamentosDoMes);
         void AjustarLancamentoParaExibir(LancamentoViewModel lancamentoViewModel);
-        void Desativar(LancamentoViewModel lancamento);
     }
 }
