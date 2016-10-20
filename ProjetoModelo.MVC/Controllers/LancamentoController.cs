@@ -127,17 +127,12 @@ namespace Moneta.MVC.Controllers
         }
 
         // GET: Lancamento/Details/5
-        public ActionResult Details(Guid id)
+        public ActionResult Details(string jsonLancamento)
         {
-            var LancamentoViewModel = _LancamentoApp.GetById(id);
+            var lancamento = JsonConvert.DeserializeObject<LancamentoViewModel>(jsonLancamento);
+            RecomporLancamento(lancamento);
 
-            return View(LancamentoViewModel);
-        }
-
-        private void SetSelectLists()
-        {
-            ViewBag.Contas = new SelectList(_ContaApp.GetAll(), "ContaId", "Descricao");
-            ViewBag.Categorias = new SelectList(_CategoriaApp.GetAll(), "CategoriaId", "Descricao");
+            return View(lancamento);
         }
 
         // GET: Lancamento/Create
@@ -182,11 +177,13 @@ namespace Moneta.MVC.Controllers
         }
 
         // GET: Lancamento/Edit/5
-        public ActionResult Edit(Guid id)
+        public ActionResult Edit(string jsonLancamento)
         {
-            var LancamentoViewModel = _LancamentoApp.GetById(id);
+            var lancamento = JsonConvert.DeserializeObject<LancamentoViewModel>(jsonLancamento);
+            RecomporLancamento(lancamento);
+
             SetSelectLists();
-            return View(LancamentoViewModel);
+            return View(lancamento);
         }
 
         // POST: Lancamento/Edit/5
@@ -196,7 +193,10 @@ namespace Moneta.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                _LancamentoApp.Update(lancamento);
+                if (lancamento.Fake)
+                    _LancamentoApp.Add(lancamento);
+                else
+                    _LancamentoApp.Update(lancamento);
 
                 return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId });
             }
@@ -205,22 +205,39 @@ namespace Moneta.MVC.Controllers
         }
 
         // GET: Lancamento/Delete/5
-        public ActionResult Delete(Guid id)
+        public ActionResult Delete(string jsonLancamento)
         {
-            var LancamentoViewModel = _LancamentoApp.GetById(id);
+            var lancamento = JsonConvert.DeserializeObject<LancamentoViewModel>(jsonLancamento);
 
-            return View(LancamentoViewModel);
+            return View(lancamento);
         }
 
         // POST: Lancamento/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(Guid id)
+        public ActionResult DeleteConfirmed(LancamentoViewModel lancamento)
         {
-            var lancamento = _LancamentoApp.GetByIdReadOnly(id);
-            _LancamentoApp.Remove(lancamento);
+            _LancamentoApp.Desativar(lancamento);
 
             return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId });
         }
+
+
+        #region Metodos Privados
+        private void RecomporLancamento(LancamentoViewModel lancamento)
+        {
+            lancamento.Conta = _ContaApp.GetById(lancamento.ContaId);
+            lancamento.Categoria = _CategoriaApp.GetById(lancamento.CategoriaId);
+            _LancamentoApp.AjustarLancamentoParaExibir(lancamento);
+        }
+
+        private void SetSelectLists()
+        {
+            ViewBag.Contas = new SelectList(_ContaApp.GetAll(), "ContaId", "Descricao");
+            ViewBag.Categorias = new SelectList(_CategoriaApp.GetAll(), "CategoriaId", "Descricao");
+        }
+
+        #endregion
+
     }
 }

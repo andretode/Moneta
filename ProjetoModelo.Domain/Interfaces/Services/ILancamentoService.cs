@@ -10,5 +10,6 @@ namespace Moneta.Domain.Interfaces.Services
         ValidationResult Adicionar(Lancamento lancamento);
         Lancamento GetByIdReadOnly(Guid id);
         AgregadoLancamentosDoMes GetLancamentosDoMes(AgregadoLancamentosDoMes lancamentosDoMes);
+        void Desativar(Lancamento lancamento);
     }
 }

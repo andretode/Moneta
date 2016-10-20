@@ -31,6 +31,8 @@
             <div class="col-md-3">
                 <h3><span class="label" style="display:block; background-color: @cor">@Model.Transacao</span></h3>
                 @Html.HiddenFor(model => model.Transacao)
+                @Html.HiddenFor(model => model.Fake)
+                @Html.HiddenFor(model => model.IdDaParcelaNaSerie)
             </div>
         </div>
 

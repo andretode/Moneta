@@ -55,6 +55,12 @@ namespace Moneta.Domain.Services
             return resultadoValidacao;
         }
 
+        public void Desativar(Lancamento lancamento)
+        {
+            lancamento.Ativo = false;
+            _LancamentoRepository.Update(lancamento);
+        }
+
         public AgregadoLancamentosDoMes GetLancamentosDoMes(AgregadoLancamentosDoMes lancamentosDoMes)
         {
             var mes = lancamentosDoMes.MesAnoCompetencia.Month;
@@ -124,11 +130,14 @@ namespace Moneta.Domain.Services
 
             while(dataVencimento.Month == mes)
             {
-                Lancamento lancamentoFakeSeguinte = lancamentoBase.CloneFake();
-                lancamentoFakeSeguinte.DataVencimento = dataVencimento;
+                Lancamento lancamentoFakeSeguinte = lancamentoBase.CloneFake(dataVencimento);
 
-                if (!lancamentosOriginaisMaisOsFakes.Contains<Lancamento>(lancamentoFakeSeguinte, new LancamentoComparer()))
+                Lancamento lancamentoBd = lancamentosOriginaisMaisOsFakes.Find(l => l.IdDaParcelaNaSerie == lancamentoFakeSeguinte.IdDaParcelaNaSerie);
+                if (lancamentoBd == null)
                     lancamentosOriginaisMaisOsFakes.Add(lancamentoFakeSeguinte);
+
+                //if (!lancamentosOriginaisMaisOsFakes.Contains<Lancamento>(lancamentoFakeSeguinte, new LancamentoComparer()))
+                //    lancamentosOriginaisMaisOsFakes.Add(lancamentoFakeSeguinte);
 
                 dataVencimento = dataVencimento.AddDays(7);
             }
@@ -136,8 +145,7 @@ namespace Moneta.Domain.Services
 
         private void LancamentoFixoMensal(List<Lancamento> lacamentosOriginaisMaisOsFakes, Lancamento lancamentoOriginal, int mes, int ano)
         {
-            var novoLancamentoFake = lancamentoOriginal.CloneFake();
-            novoLancamentoFake.DataVencimento = new DateTime(ano, mes, lancamentoOriginal.DataVencimento.Day);
+            var novoLancamentoFake = lancamentoOriginal.CloneFake(new DateTime(ano, mes, lancamentoOriginal.DataVencimento.Day));
 
             if (!lacamentosOriginaisMaisOsFakes.Contains<Lancamento>(novoLancamentoFake, new LancamentoComparer()))
                 lacamentosOriginaisMaisOsFakes.Add(novoLancamentoFake);

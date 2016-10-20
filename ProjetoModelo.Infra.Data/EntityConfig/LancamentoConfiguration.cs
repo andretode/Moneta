@@ -1,5 +1,7 @@
 ﻿using System.Data.Entity.ModelConfiguration;
 using Moneta.Domain.Entities;
+using System.Data.Entity.Infrastructure.Annotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Moneta.Infra.Data.EntityConfig
 {
@@ -22,6 +24,14 @@ namespace Moneta.Infra.Data.EntityConfig
                 .IsRequired();
 
             Property(c => c.BaseDaSerie)
+                .IsRequired();
+
+            Property(c => c.IdDaParcelaNaSerie)
+                .IsOptional()
+                .HasColumnAnnotation("Index",
+                    new IndexAnnotation(new IndexAttribute("IX_IdDaParcelaNaSerie") { IsUnique = true }));
+
+            Property(c => c.Ativo)
                 .IsRequired();
 
             HasRequired(c => c.Categoria)

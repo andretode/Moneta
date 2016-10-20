@@ -29,10 +29,10 @@ namespace Moneta.Application
 
             lancamentoViewModel.Valor = AjustarValorParaSalvar(lancamentoViewModel);
 
-            if (lancamentoViewModel.LancamentoParcelado != null && lancamentoViewModel.LancamentoParcelado.Periodicidade != 0)
-                lancamentoViewModel.LancamentoParcelado.DataInicio = lancamentoViewModel.DataVencimento;
-            else
-                lancamentoViewModel.LancamentoParcelado = null;
+            //if (lancamentoViewModel.LancamentoParcelado != null && lancamentoViewModel.LancamentoParcelado.Periodicidade != 0)
+            //    lancamentoViewModel.LancamentoParcelado.DataInicio = lancamentoViewModel.DataVencimento;
+            //else
+            //    lancamentoViewModel.LancamentoParcelado = null;
 
             ValidationResult result = null;
             if (lancamentoViewModel.LancamentoParcelado != null && lancamentoViewModel.LancamentoParcelado.TipoDeRepeticao == TipoRepeticao.Parcelado)
@@ -122,7 +122,7 @@ namespace Moneta.Application
         public LancamentoViewModel GetById(Guid id)
         {
             var lancamentoVM = Mapper.Map<Lancamento, LancamentoViewModel>(_lancamentoService.GetById(id));
-            lancamentoVM = AjustarLancamentoParaExibir(lancamentoVM);
+            AjustarLancamentoParaExibir(lancamentoVM);
             return lancamentoVM;
         }
 
@@ -131,7 +131,7 @@ namespace Moneta.Application
             var lancamentoVM = Mapper.Map<Lancamento, LancamentoViewModel>(_lancamentoService.GetByIdReadOnly(id));
 
             if (lancamentoVM != null)
-                lancamentoVM = AjustarLancamentoParaExibir(lancamentoVM);
+                AjustarLancamentoParaExibir(lancamentoVM);
 
             return lancamentoVM;
         }
@@ -149,19 +149,19 @@ namespace Moneta.Application
         public void Update(LancamentoViewModel lancamentoViewModel)
         {
             lancamentoViewModel.Valor = AjustarValorParaSalvar(lancamentoViewModel);
-            var Lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
+            var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
 
             BeginTransaction();
-            _lancamentoService.Update(Lancamento);
+            _lancamentoService.Update(lancamento);
             Commit();
         }
 
         public void Remove(LancamentoViewModel LancamentoViewModel)
         {
-            var Lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(LancamentoViewModel);
+            var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(LancamentoViewModel);
 
             BeginTransaction();
-            _lancamentoService.Remove(Lancamento);
+            _lancamentoService.Remove(lancamento);
             Commit();
         }
 
@@ -174,6 +174,15 @@ namespace Moneta.Application
         {
             AgregadoLancamentosDoMes lancamentosDoMes = Mapper.Map<LancamentosDoMesViewModel, AgregadoLancamentosDoMes>(lancamentosDoMesViewModel);
             return Mapper.Map<AgregadoLancamentosDoMes, LancamentosDoMesViewModel>(_lancamentoService.GetLancamentosDoMes(lancamentosDoMes));
+        }
+
+        public void Desativar(LancamentoViewModel lancamentoViewModel)
+        {
+            var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
+
+            BeginTransaction();
+            _lancamentoService.Desativar(lancamento);
+            Commit();
         }
 
         #region Metodos privados
@@ -189,7 +198,7 @@ namespace Moneta.Application
 
             return valorAjustado;
         }
-        private LancamentoViewModel AjustarLancamentoParaExibir(LancamentoViewModel lancamentoViewModel)
+        public void AjustarLancamentoParaExibir(LancamentoViewModel lancamentoViewModel)
         {
             if (lancamentoViewModel.Valor > 0)
             {
@@ -200,8 +209,6 @@ namespace Moneta.Application
                 lancamentoViewModel.Transacao = TipoTransacaoEnum.Despesa;
                 lancamentoViewModel.Valor = lancamentoViewModel.Valor * -1;
             }
-
-            return lancamentoViewModel;
         }
         #endregion
     }

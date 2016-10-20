@@ -63,6 +63,9 @@ namespace Moneta.Application.ViewModels
         [ScaffoldColumn(false)]
         public bool BaseDaSerie { get; set; }
 
+        [ScaffoldColumn(false)]
+        public string IdDaParcelaNaSerie { get; set; }
+
         [DisplayName("Categoria")]
         public Guid CategoriaId { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿@model Moneta.Application.ViewModels.LancamentoViewModel
 @using Moneta.Application.ViewModels;
 @using Moneta.Infra.CrossCutting.Enums;
+@using Newtonsoft.Json;
 
 @{
     ViewBag.Title = "Detalhes do Lançamento";
@@ -20,6 +21,14 @@
                 {
                     cor = "lightgreen";
                 }
+
+                var jsSettings = new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
+                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                };
+                string jsonLancamento = JsonConvert.SerializeObject(Model, Formatting.Indented, jsSettings);
             }
             <div class="col-md-3">
                 <h3><span class="label" style="display:block; background-color: @cor">@Model.Transacao</span></h3>
@@ -67,19 +76,22 @@
         <dd>
             @Html.DisplayFor(model => model.DataCadastro)
         </dd>
+
+        <dt></dt>
+        <dd>
+            <br />
+            <a class="btn btn-default" title="Voltar a listagem"
+               href="@Url.Action("Index", "Lancamentos", new { id = (Model.LancamentoId), ContaIdFiltro = Model.ContaId }) ">
+                <i class="icon-white glyphicon glyphicon-arrow-left"></i>
+            </a>
+            <a class="btn btn-default" title="Editar"
+               href="@Url.Action("Edit", "Lancamentos", new { jsonLancamento })">
+                <i class="icon-white glyphicon glyphicon-edit"></i>
+            </a>
+            <a class="btn btn-default" title="Remover"
+               href="@Url.Action("Delete", "Lancamentos", new { jsonLancamento }) ">
+                <i class="icon-white glyphicon glyphicon-trash"></i>
+            </a>
+        </dd>
     </dl>
 </div>
-<p>
-    <a class="btn btn-danger" title="Voltar"
-       href="@Url.Action("Index", "Lancamentos", new { id = (Model.LancamentoId), ContaIdFiltro = Model.ContaId }) ">
-        <i class="icon-white glyphicon glyphicon-arrow-left"></i>
-    </a>
-    <a class="btn btn-danger" title="Editar"
-        href="@Url.Action("Edit", "Lancamentos", new { id = (Model.LancamentoId) })">
-        <i class="icon-white glyphicon glyphicon-edit"></i>
-    </a>
-    <a class="btn btn-danger"
-        href="@Url.Action("Delete", "Lancamentos", new { id = (Model.LancamentoId) }) ">
-        <i class="icon-white glyphicon glyphicon-trash"></i>
-    </a>
-</p>

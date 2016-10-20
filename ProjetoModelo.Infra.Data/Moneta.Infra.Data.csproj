@@ -119,6 +119,18 @@
     <Compile Include="Migrations\201610191215503_BaseDaSerie.Designer.cs">
       <DependentUpon>201610191215503_BaseDaSerie.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610192011484_Lancamento-Ativo.cs" />
+    <Compile Include="Migrations\201610192011484_Lancamento-Ativo.Designer.cs">
+      <DependentUpon>201610192011484_Lancamento-Ativo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610192156254_IdDaParcelaNaSerie.cs" />
+    <Compile Include="Migrations\201610192156254_IdDaParcelaNaSerie.Designer.cs">
+      <DependentUpon>201610192156254_IdDaParcelaNaSerie.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610192225222_IdDaParcelaNaSerie-unica.cs" />
+    <Compile Include="Migrations\201610192225222_IdDaParcelaNaSerie-unica.Designer.cs">
+      <DependentUpon>201610192225222_IdDaParcelaNaSerie-unica.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ADO\BaseADORepository.cs" />
@@ -159,6 +171,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610191215503_BaseDaSerie.resx">
       <DependentUpon>201610191215503_BaseDaSerie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610192011484_Lancamento-Ativo.resx">
+      <DependentUpon>201610192011484_Lancamento-Ativo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610192156254_IdDaParcelaNaSerie.resx">
+      <DependentUpon>201610192156254_IdDaParcelaNaSerie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610192225222_IdDaParcelaNaSerie-unica.resx">
+      <DependentUpon>201610192225222_IdDaParcelaNaSerie-unica.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
