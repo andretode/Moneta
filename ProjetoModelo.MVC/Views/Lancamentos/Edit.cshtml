@@ -87,15 +87,18 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Salvar" class="btn btn-default" />
+                <input value="Cancelar" class="btn btn-default" onclick="javascript: window.history.back();" />
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Voltar para Listagem", "Index")
-</div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+<script>
+        $(function () { // will trigger when the document is ready
+            $('.datepicker').datepicker('setDate', new Date('@Model.DataVencimento.ToString("MM/dd/yyyy")'));
+        });
+</script>
 }

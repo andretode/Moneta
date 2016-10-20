@@ -30,12 +30,6 @@ namespace Moneta.MVC.Controllers
         // GET: Lancamento
         public ViewResult Index(LancamentosDoMesViewModel lancamentos)
         {
-            if (TempData["ViewData"] != null)
-            {
-                ViewData = (ViewDataDictionary)TempData["ViewData"];
-                lancamentos = (LancamentosDoMesViewModel)ViewData.Model;
-            }
-
             if (lancamentos.MesAnoCompetencia == DateTime.MinValue)
                 lancamentos.MesAnoCompetencia = DateTime.Now;
 
@@ -62,8 +56,6 @@ namespace Moneta.MVC.Controllers
             lancamentos.ContaIdFiltro = ContaIdFiltro;
 
             SetSelectLists();
-            ViewData.Model = lancamentos;
-            TempData["ViewData"] = ViewData;
             return View("Index", lancamentos);
         }
 
@@ -78,22 +70,15 @@ namespace Moneta.MVC.Controllers
             else
                 _LancamentoApp.Update(lancamento);
 
-            var lancamentos = new LancamentosDoMesViewModel();
-            lancamentos.ContaIdFiltro = lancamento.ContaId;
-            lancamentos.MesAnoCompetencia = lancamento.DataVencimento;
-
-            ViewData.Model = lancamentos;
-            TempData["ViewData"] = ViewData;
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { ContaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
         }
 
         [HttpPost]
         [MultipleButton(Name = "action", Argument = "Pesquisar")]
         public ActionResult Pesquisar(LancamentosDoMesViewModel lancamentos)
         {
-            ViewData.Model = lancamentos;
-            TempData["ViewData"] = ViewData;
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { ContaIdFiltro = lancamentos.ContaIdFiltro, MesAnoCompetencia = lancamentos.MesAnoCompetencia,
+                PesquisarDescricao = lancamentos.PesquisarDescricao });
         }
 
         [HttpPost]
@@ -106,9 +91,7 @@ namespace Moneta.MVC.Controllers
                 return RedirectToAction("Create", lancamentos);
             }
 
-            ViewData.Model = lancamentos;
-            TempData["ViewData"] = ViewData;
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { ContaIdFiltro = lancamentos.ContaIdFiltro, MesAnoCompetencia = lancamentos.MesAnoCompetencia });
         }
 
         [HttpPost]
@@ -121,9 +104,7 @@ namespace Moneta.MVC.Controllers
                 return RedirectToAction("Create", lancamentos);
             }
 
-            ViewData.Model = lancamentos;
-            TempData["ViewData"] = ViewData;
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { ContaIdFiltro = lancamentos.ContaIdFiltro, MesAnoCompetencia = lancamentos.MesAnoCompetencia });
         }
 
         // GET: Lancamento/Details/5
@@ -169,7 +150,7 @@ namespace Moneta.MVC.Controllers
                     return View(lancamento);
                 }
 
-                return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId });
+                return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
             }
 
             lancamento.Conta = _ContaApp.GetById(lancamento.ContaId);
@@ -198,7 +179,8 @@ namespace Moneta.MVC.Controllers
                 else
                     _LancamentoApp.Update(lancamento);
 
-                return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId });
+
+                return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
             }
 
             return View(lancamento);
@@ -219,7 +201,7 @@ namespace Moneta.MVC.Controllers
         {
             _LancamentoApp.Desativar(lancamento);
 
-            return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId });
+            return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
         }
 
 

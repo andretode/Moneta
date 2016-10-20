@@ -80,8 +80,7 @@
         <dt></dt>
         <dd>
             <br />
-            <a class="btn btn-default" title="Voltar a listagem"
-               href="@Url.Action("Index", "Lancamentos", new { id = (Model.LancamentoId), ContaIdFiltro = Model.ContaId }) ">
+            <a class="btn btn-default" title="Voltar" onclick="javascript: window.history.back();">
                 <i class="icon-white glyphicon glyphicon-arrow-left"></i>
             </a>
             <a class="btn btn-default" title="Editar"
