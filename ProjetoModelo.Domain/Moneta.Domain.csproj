@@ -35,7 +35,6 @@
     <Compile Include="Entities\Lancamento.cs" />
     <Compile Include="Entities\Categoria.cs" />
     <Compile Include="Entities\Conta.cs" />
-    <Compile Include="Entities\LancamentoComparer.cs" />
     <Compile Include="Entities\LancamentoParcelado.cs" />
     <Compile Include="Exceptions\CustomException.cs" />
     <Compile Include="Interfaces\Repository\ADO\IContaADORepository.cs" />

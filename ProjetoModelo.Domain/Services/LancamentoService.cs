@@ -126,21 +126,23 @@ namespace Moneta.Domain.Services
             while(dataVencimento.Month == mes)
             {
                 Lancamento lancamentoFakeSeguinte = lancamentoBase.CloneFake(dataVencimento);
-
-                Lancamento lancamentoBd = lancamentosOriginaisMaisOsFakes.Find(l => l.IdDaParcelaNaSerie == lancamentoFakeSeguinte.IdDaParcelaNaSerie);
-                if (lancamentoBd == null)
-                    lancamentosOriginaisMaisOsFakes.Add(lancamentoFakeSeguinte);
+                InserirFakeApto(lancamentosOriginaisMaisOsFakes, lancamentoFakeSeguinte);
 
                 dataVencimento = dataVencimento.AddDays(7);
             }
         }
 
-        private void LancamentoFixoMensal(List<Lancamento> lacamentosOriginaisMaisOsFakes, Lancamento lancamentoOriginal, int mes, int ano)
+        private void LancamentoFixoMensal(List<Lancamento> lancamentosOriginaisMaisOsFakes, Lancamento lancamentoOriginal, int mes, int ano)
         {
             var novoLancamentoFake = lancamentoOriginal.CloneFake(new DateTime(ano, mes, lancamentoOriginal.DataVencimento.Day));
+            InserirFakeApto(lancamentosOriginaisMaisOsFakes, novoLancamentoFake);
+        }
 
-            if (!lacamentosOriginaisMaisOsFakes.Contains<Lancamento>(novoLancamentoFake, new LancamentoComparer()))
-                lacamentosOriginaisMaisOsFakes.Add(novoLancamentoFake);
+        private void InserirFakeApto(List<Lancamento> lancamentosOriginaisMaisOsFakes, Lancamento novoFake)
+        {
+            var lancamentoBd = lancamentosOriginaisMaisOsFakes.Find(l => l.IdDaParcelaNaSerie == novoFake.IdDaParcelaNaSerie);
+            if (lancamentoBd == null)
+                lancamentosOriginaisMaisOsFakes.Add(novoFake);
         }
 
     }

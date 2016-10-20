@@ -76,6 +76,7 @@ namespace Moneta.Application
                 }
             }
             else {
+                lancamentoViewModel.LancamentoParcelado = null;
                 var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
 
                 BeginTransaction();
