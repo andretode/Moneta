@@ -6,6 +6,7 @@
 .dropdown {
     position: relative;
     display: inline-block;
+    outline: none;
 }
 
 /* Dropdown Content (Hidden by Default) */
@@ -26,7 +27,7 @@
 }
 
 /* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {
+.dropdown:focus .dropdown-content {
     display: block;
 }
 

@@ -11,11 +11,10 @@
     @using (Html.BeginForm("Index", "Lancamentos", new { @Model.MesAnoCompetencia }, FormMethod.Post, new { id = "formFiltros" }))
     {
         <div class="form-group col-md-12">
-
-            <div class="dropdown">
-                <button class="btn btn-inicial" title="Realizar um Lançamento">
+            <div tabindex="0" class="dropdown">
+                <label class="btn btn-inicial" title="Clique abrir as opções de lançamento">
                     <span class="glyphicon glyphicon-plus"></span>
-                </button>
+                </label>
                 <div class="dropdown-content">
                     <div class="btn-despesa">
                         <button class="btn" type="submit" name="action:AdicionarDespesa" title="Adicionar uma Despesa" style="width:100%">Despesa</button>
@@ -102,7 +101,7 @@
                     @if (item.LancamentoParceladoId != null)
                     {
                         <span class="visible-lg-inline">
-                            <i class="icon-white glyphicon glyphicon-retweet" title="Este é um lançamento que repete"></i>
+                            <i class="icon-white glyphicon glyphicon-retweet" title="Este é um lançamento que repete em outras datas"></i>
                         </span>
                     }
                     @Html.HiddenFor(modelItem => item.Fake)
