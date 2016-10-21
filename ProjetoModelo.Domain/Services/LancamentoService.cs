@@ -55,6 +55,21 @@ namespace Moneta.Domain.Services
             return resultadoValidacao;
         }
 
+        public List<Tuple<DateTime, decimal>> GetSaldoDoMesPorDia(AgregadoLancamentosDoMes lancamentosDoMes)
+        {
+            var listaDeSaldoPorDia = new List<Tuple<DateTime, decimal>>();
+            var lancamentos = GetLancamentosDoMes(lancamentosDoMes).LancamentosDoMesPorConta;
+            var arrayDataVencimento = lancamentos.Select(l => l.DataVencimento).ToArray().Distinct();
+            decimal saldoAcumulado = lancamentosDoMes.SaldoDoMesAnterior;
+            foreach (var dia in arrayDataVencimento)
+            {
+                saldoAcumulado += lancamentos.Where(l => l.DataVencimento == dia).Sum(l => l.Valor);
+                listaDeSaldoPorDia.Add(new Tuple<DateTime, decimal>(dia, saldoAcumulado));
+            }
+
+            return listaDeSaldoPorDia;
+        }
+
         public AgregadoLancamentosDoMes GetLancamentosDoMes(AgregadoLancamentosDoMes lancamentosDoMes)
         {
             var mes = lancamentosDoMes.MesAnoCompetencia.Month;
@@ -62,19 +77,19 @@ namespace Moneta.Domain.Services
             var contaId = lancamentosDoMes.ContaIdFiltro;
             var dataUltimoDiaMesAnterior = new DateTime(ano, mes, DateTime.DaysInMonth(ano, mes)).AddMonths(-1);
             var agregadoLancamentosDoMes = new AgregadoLancamentosDoMes();
-            var lancamentosDoMesTodasAsContas = this.GetAll().Where(l => l.DataVencimento.Month == mes && l.DataVencimento.Year == ano);
+            var lancamentosDoMesTodasAsContasComFakes = _LancamentoRepository.GetAll(true).Where(l => l.DataVencimento.Month == mes && l.DataVencimento.Year == ano);
 
             //inclusao dos fakes
-            lancamentosDoMesTodasAsContas = this.LancamentosFixosFake(mes, ano, lancamentosDoMesTodasAsContas.ToList());
-            lancamentosDoMesTodasAsContas = lancamentosDoMesTodasAsContas.Where(l => l.Ativo == true);
+            lancamentosDoMesTodasAsContasComFakes = this.LancamentosFixosFake(mes, ano, lancamentosDoMesTodasAsContasComFakes.ToList());
+            lancamentosDoMesTodasAsContasComFakes = lancamentosDoMesTodasAsContasComFakes.Where(l => l.Ativo == true);
 
             //CONFIRMAR, POIS CREIO QUE TENHA QUE PEGAR SOMENTE OS "PAGOS"
-            var saldoMesAnteriorTodasAsContas = this.GetAll().Where(l => l.DataVencimento <= dataUltimoDiaMesAnterior && l.Pago == true).Sum(l => l.Valor);
-            agregadoLancamentosDoMes.SaldoDoMesAnterior = this.GetAll().Where(l => l.DataVencimento <= dataUltimoDiaMesAnterior && l.ContaId == contaId && l.Pago == true).Sum(l => l.Valor);
+            var saldoMesAnteriorTodasAsContas = _LancamentoRepository.GetAll().Where(l => l.DataVencimento <= dataUltimoDiaMesAnterior && l.Pago == true).Sum(l => l.Valor);
+            agregadoLancamentosDoMes.SaldoDoMesAnterior = _LancamentoRepository.GetAll().Where(l => l.DataVencimento <= dataUltimoDiaMesAnterior && l.ContaId == contaId && l.Pago == true).Sum(l => l.Valor);
 
-            agregadoLancamentosDoMes.SaldoDoMesTodasAsContas = lancamentosDoMesTodasAsContas.Sum(l => l.Valor) 
+            agregadoLancamentosDoMes.SaldoDoMesTodasAsContas = lancamentosDoMesTodasAsContasComFakes.Sum(l => l.Valor) 
                 + saldoMesAnteriorTodasAsContas;
-            agregadoLancamentosDoMes.LancamentosDoMesPorConta = lancamentosDoMesTodasAsContas.Where(l => l.ContaId == contaId).OrderBy(l => l.DataVencimento).ThenBy(l => l.DataCadastro);
+            agregadoLancamentosDoMes.LancamentosDoMesPorConta = lancamentosDoMesTodasAsContasComFakes.Where(l => l.ContaId == contaId).OrderBy(l => l.DataVencimento).ThenBy(l => l.DataCadastro);
             agregadoLancamentosDoMes.SaldoDoMesPorConta = agregadoLancamentosDoMes.LancamentosDoMesPorConta.Sum(l => l.Valor) 
                 + agregadoLancamentosDoMes.SaldoDoMesAnterior;
             agregadoLancamentosDoMes.SaldoAtualDoMesPorConta = agregadoLancamentosDoMes.LancamentosDoMesPorConta.Where(l => l.Pago == true).Sum(l => l.Valor) 

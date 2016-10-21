@@ -1,9 +1,7 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
-
-<div class="jumbotron">
-    <h1>$ Moneta</h1>
-    <p class="lead">Gestão Financeira Pessoal</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Baixar App Android &raquo;</a></p>
+﻿<div class="jumbotron">
+    <h2>Seja bem vindo ao $ Moneta!</h2>
+    <p class="lead">Seu software de gestão financeira pessoal.</p>
 </div>
+
+
+@Html.Action("GraficoSaldoDoMes", "Lancamentos")

@@ -1,0 +1,58 @@
+﻿@model Moneta.Application.ViewModels.GraficoSaldoViewModel
+@using Moneta.Application.ViewModels
+
+<canvas id="myChart"></canvas>
+
+@{
+    string arrayDeDados = "";
+    string arrayLabels = "";
+    arrayDeDados = Model.SaldoPorDia.First().Dia.ToString("dd");
+    for (int i = 1; i < Model.SaldoPorDia.Count; i++)
+    {
+        arrayDeDados += "," + Model.SaldoPorDia[i].Saldo.ToString().Replace(',', '.');
+        arrayLabels += "," + Model.SaldoPorDia[i].Dia.ToString("dd");
+    }
+}
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.min.js"></script>
+    <script type="text/javascript">
+    var arrayDeDadosRazor = '@arrayDeDados';
+    var arrayDeDadosJs = arrayDeDadosRazor.split(',');
+
+    var arrayLabelsRazor = '@arrayLabels';
+    var arrayLabelsJs = arrayLabelsRazor.split(',');
+
+    var ctx = document.getElementById("myChart");
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: arrayLabelsJs,
+            datasets: [{
+                label: 'Saldo em R$',
+                data: arrayDeDadosJs,
+                backgroundColor: [
+                    'rgba(102, 176, 255, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(102, 176, 255, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+            title: {
+                display: true,
+                text: 'Saldo por dia - ' + '@Model.SaldoPorDia.First().Dia.ToString("MMMM/yyyy")'
+            }
+        }
+    });
+    </script>
+}

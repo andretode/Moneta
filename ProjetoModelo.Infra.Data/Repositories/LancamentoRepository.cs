@@ -4,6 +4,7 @@ using Moneta.Domain.Interfaces.Repository;
 using Moneta.Infra.Data.Context;
 using System.Linq;
 using System;
+using System.Collections.Generic;
 
 namespace Moneta.Infra.Data.Repositories
 {
@@ -26,6 +27,19 @@ namespace Moneta.Infra.Data.Repositories
             catch {}
 
             return null;
+        }
+
+        public override IEnumerable<Lancamento> GetAll()
+        {
+            return GetAll(false);
+        }
+
+        public IEnumerable<Lancamento> GetAll(bool somenteOsAtivo)
+        {
+            if (somenteOsAtivo)
+                return DbSet.Where(l => l.Ativo == true);
+            else
+                return DbSet;
         }
     }
 }

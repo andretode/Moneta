@@ -753,6 +753,7 @@
     <Content Include="Views\Lancamentos\Details.cshtml" />
     <Content Include="Views\Lancamentos\Edit.cshtml" />
     <Content Include="Views\Lancamentos\Index.cshtml" />
+    <Content Include="Views\Lancamentos\GraficoSaldoPorMes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

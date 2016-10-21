@@ -8,6 +8,7 @@ using Moneta.Infra.CrossCutting.Enums;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
 using System.IO;
+using System.Collections.Generic;
 
 namespace Moneta.MVC.Controllers
 {
@@ -43,6 +44,22 @@ namespace Moneta.MVC.Controllers
             SetSelectLists();
 
             return View(lancamentos);
+        }
+
+        public ActionResult GraficoSaldoDoMes()
+        {
+            var grafico = new GraficoSaldoViewModel();
+            var lancamentosDoMes = new LancamentosDoMesViewModel();
+            lancamentosDoMes.ContaIdFiltro = Guid.Parse("d6c0b606-5a1b-4898-b834-c2d2bf4f8c34");
+            lancamentosDoMes.MesAnoCompetencia = DateTime.Now;
+            var listaSaldoDoMesPorDia = _LancamentoApp.GetSaldoDoMesPorDia(lancamentosDoMes);
+            grafico.SaldoPorDia = new List<SaldoNoDiaViewModel>();
+            foreach (var saldoPorDia in listaSaldoDoMesPorDia)
+            {
+                grafico.SaldoPorDia.Add(new SaldoNoDiaViewModel() { Dia = saldoPorDia.Item1, Saldo = saldoPorDia.Item2 });
+            }
+
+            return View(grafico);
         }
 
         public ViewResult AlterarMes(DateTime MesAnoCompetencia, Guid ContaIdFiltro, int addMonths)

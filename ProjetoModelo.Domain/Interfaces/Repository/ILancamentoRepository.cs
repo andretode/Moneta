@@ -7,5 +7,7 @@ namespace Moneta.Domain.Interfaces.Repository
     public interface ILancamentoRepository : IRepositoryBase<Lancamento>
     {
         Lancamento GetByIdReadOnly(Guid id);
+        //IEnumerable<Lancamento> GetAll();
+        IEnumerable<Lancamento> GetAll(bool ativo);
     }
 }

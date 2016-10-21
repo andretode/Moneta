@@ -171,25 +171,18 @@ namespace Moneta.Application
             _lancamentoService.Dispose();
         }
 
+        public List<Tuple<DateTime, decimal>> GetSaldoDoMesPorDia(LancamentosDoMesViewModel lancamentosDoMesViewModel)
+        {
+            var lancamentosDoMes = Mapper.Map<LancamentosDoMesViewModel, AgregadoLancamentosDoMes>(lancamentosDoMesViewModel);
+            return _lancamentoService.GetSaldoDoMesPorDia(lancamentosDoMes);
+        }
+
         public LancamentosDoMesViewModel GetLancamentosDoMes(LancamentosDoMesViewModel lancamentosDoMesViewModel)
         {
             AgregadoLancamentosDoMes lancamentosDoMes = Mapper.Map<LancamentosDoMesViewModel, AgregadoLancamentosDoMes>(lancamentosDoMesViewModel);
             return Mapper.Map<AgregadoLancamentosDoMes, LancamentosDoMesViewModel>(_lancamentoService.GetLancamentosDoMes(lancamentosDoMes));
         }
 
-        #region Metodos privados
-        private decimal AjustarValorParaSalvar(LancamentoViewModel lancamentoViewModel)
-        {
-            decimal valorAjustado;
-            if (lancamentoViewModel.Transacao == TipoTransacaoEnum.Despesa && Math.Sign(lancamentoViewModel.Valor) == 1)
-                valorAjustado = lancamentoViewModel.Valor * -1;
-            else if (lancamentoViewModel.Transacao == TipoTransacaoEnum.Receita && Math.Sign(lancamentoViewModel.Valor) == -1)
-                valorAjustado = lancamentoViewModel.Valor * -1;
-            else
-                valorAjustado = lancamentoViewModel.Valor;
-
-            return valorAjustado;
-        }
         public void AjustarLancamentoParaExibir(LancamentoViewModel lancamentoViewModel)
         {
             if(lancamentoViewModel.Transacao == 0)
@@ -204,6 +197,20 @@ namespace Moneta.Application
                     lancamentoViewModel.Valor = lancamentoViewModel.Valor * -1;
                 }
             }
+        }
+
+        #region Metodos privados
+        private decimal AjustarValorParaSalvar(LancamentoViewModel lancamentoViewModel)
+        {
+            decimal valorAjustado;
+            if (lancamentoViewModel.Transacao == TipoTransacaoEnum.Despesa && Math.Sign(lancamentoViewModel.Valor) == 1)
+                valorAjustado = lancamentoViewModel.Valor * -1;
+            else if (lancamentoViewModel.Transacao == TipoTransacaoEnum.Receita && Math.Sign(lancamentoViewModel.Valor) == -1)
+                valorAjustado = lancamentoViewModel.Valor * -1;
+            else
+                valorAjustado = lancamentoViewModel.Valor;
+
+            return valorAjustado;
         }
         #endregion
     }
