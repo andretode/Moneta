@@ -55,12 +55,28 @@ namespace Moneta.Domain.Services
             return resultadoValidacao;
         }
 
-        public List<Tuple<DateTime, decimal>> GetSaldoDoMesPorDia(AgregadoLancamentosDoMes lancamentosDoMes)
+        /// <summary>
+        /// Retorna um conjunto de dados com o saldo por dia
+        /// </summary>
+        /// <param name="lancamentosDoMes">Dados informações pelo usuário para filtrar a pesquisa</param>
+        /// <param name="resumido">Informe true caso queria um conjunto de dados somente no dia que houve movimentações financeira</param>
+        /// <returns>Retorna um conjunto de dados com o saldo por dia</returns>
+        public List<Tuple<DateTime, decimal>> GetSaldoDoMesPorDia(AgregadoLancamentosDoMes lancamentosDoMes, bool resumido)
         {
             var listaDeSaldoPorDia = new List<Tuple<DateTime, decimal>>();
-            var lancamentos = GetLancamentosDoMes(lancamentosDoMes).LancamentosDoMesPorConta;
-            var arrayDataVencimento = lancamentos.Select(l => l.DataVencimento).ToArray().Distinct();
-            decimal saldoAcumulado = lancamentosDoMes.SaldoDoMesAnterior;
+            var agregadoLancamentosDoMes = GetLancamentosDoMes(lancamentosDoMes);
+            var lancamentos = agregadoLancamentosDoMes.LancamentosDoMesPorConta;
+
+            var mes = lancamentosDoMes.MesAnoCompetencia.Month;
+            var ano = lancamentosDoMes.MesAnoCompetencia.Year;
+
+            List<DateTime> arrayDataVencimento;
+            if(resumido)
+                arrayDataVencimento = SomenteDiasDoMesComMovimentacao(mes, ano, lancamentos);
+            else
+                arrayDataVencimento = TodosDiasDoMes(mes, ano);
+
+            decimal saldoAcumulado = agregadoLancamentosDoMes.SaldoDoMesAnterior;
             foreach (var dia in arrayDataVencimento)
             {
                 saldoAcumulado += lancamentos.Where(l => l.DataVencimento == dia).Sum(l => l.Valor);
@@ -68,6 +84,30 @@ namespace Moneta.Domain.Services
             }
 
             return listaDeSaldoPorDia;
+        }
+
+        private List<DateTime> SomenteDiasDoMesComMovimentacao(int mes, int ano, IEnumerable<Lancamento> lancamentos)
+        {
+            var arrayDataVencimento = new List<DateTime>();
+            arrayDataVencimento.Add(new DateTime(ano, mes, 1));
+            arrayDataVencimento.AddRange(lancamentos.Select(l => l.DataVencimento).Distinct().ToList());
+            arrayDataVencimento.Add(new DateTime(ano, mes, DateTime.DaysInMonth(ano, mes)));
+            arrayDataVencimento = arrayDataVencimento.Distinct().ToList();
+
+            return arrayDataVencimento;
+        }
+
+        private List<DateTime> TodosDiasDoMes(int mes, int ano)
+        {
+            var datas = new List<DateTime>();
+            var dataFinal = new DateTime(ano, mes, DateTime.DaysInMonth(ano,mes));
+            var dataCounter = new DateTime(ano,mes,1);
+            while(dataCounter <= dataFinal)
+            {
+                datas.Add(dataCounter);
+                dataCounter = dataCounter.AddDays(1);
+            }
+            return datas;
         }
 
         public AgregadoLancamentosDoMes GetLancamentosDoMes(AgregadoLancamentosDoMes lancamentosDoMes)

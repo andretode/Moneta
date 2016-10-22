@@ -46,19 +46,22 @@ namespace Moneta.MVC.Controllers
             return View(lancamentos);
         }
 
-        public ActionResult GraficoSaldoDoMes()
+        public ActionResult GraficoSaldoDoMes(Guid? ContaIdFiltro)
         {
+            if (ContaIdFiltro == null)
+                ContaIdFiltro = Guid.Parse("d6c0b606-5a1b-4898-b834-c2d2bf4f8c34");
+
             var grafico = new GraficoSaldoViewModel();
             var lancamentosDoMes = new LancamentosDoMesViewModel();
-            lancamentosDoMes.ContaIdFiltro = Guid.Parse("d6c0b606-5a1b-4898-b834-c2d2bf4f8c34");
+            lancamentosDoMes.ContaIdFiltro = (Guid)ContaIdFiltro;
             lancamentosDoMes.MesAnoCompetencia = DateTime.Now;
-            var listaSaldoDoMesPorDia = _LancamentoApp.GetSaldoDoMesPorDia(lancamentosDoMes);
+            var listaSaldoDoMesPorDia = _LancamentoApp.GetSaldoDoMesPorDia(lancamentosDoMes, false);
             grafico.SaldoPorDia = new List<SaldoNoDiaViewModel>();
             foreach (var saldoPorDia in listaSaldoDoMesPorDia)
             {
                 grafico.SaldoPorDia.Add(new SaldoNoDiaViewModel() { Dia = saldoPorDia.Item1, Saldo = saldoPorDia.Item2 });
             }
-
+            SetSelectLists();
             return View(grafico);
         }
 
