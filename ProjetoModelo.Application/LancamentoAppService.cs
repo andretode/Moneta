@@ -171,7 +171,7 @@ namespace Moneta.Application
             _lancamentoService.Dispose();
         }
 
-        public List<Tuple<DateTime, decimal>> GetSaldoDoMesPorDia(LancamentosDoMesViewModel lancamentosDoMesViewModel, bool resumido)
+        public List<Tuple<DateTime, decimal, decimal, decimal>> GetSaldoDoMesPorDia(LancamentosDoMesViewModel lancamentosDoMesViewModel, bool resumido)
         {
             var lancamentosDoMes = Mapper.Map<LancamentosDoMesViewModel, AgregadoLancamentosDoMes>(lancamentosDoMesViewModel);
             return _lancamentoService.GetSaldoDoMesPorDia(lancamentosDoMes, resumido);

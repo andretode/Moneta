@@ -61,9 +61,9 @@ namespace Moneta.Domain.Services
         /// <param name="lancamentosDoMes">Dados informações pelo usuário para filtrar a pesquisa</param>
         /// <param name="resumido">Informe true caso queria um conjunto de dados somente no dia que houve movimentações financeira</param>
         /// <returns>Retorna um conjunto de dados com o saldo por dia</returns>
-        public List<Tuple<DateTime, decimal>> GetSaldoDoMesPorDia(AgregadoLancamentosDoMes lancamentosDoMes, bool resumido)
+        public List<Tuple<DateTime, decimal, decimal, decimal>> GetSaldoDoMesPorDia(AgregadoLancamentosDoMes lancamentosDoMes, bool resumido)
         {
-            var listaDeSaldoPorDia = new List<Tuple<DateTime, decimal>>();
+            var listaDeSaldoPorDia = new List<Tuple<DateTime, decimal, decimal, decimal>>();
             var agregadoLancamentosDoMes = GetLancamentosDoMes(lancamentosDoMes);
             var lancamentos = agregadoLancamentosDoMes.LancamentosDoMesPorConta;
 
@@ -76,11 +76,22 @@ namespace Moneta.Domain.Services
             else
                 arrayDataVencimento = TodosDiasDoMes(mes, ano);
 
-            decimal saldoAcumulado = agregadoLancamentosDoMes.SaldoDoMesAnterior;
+            decimal receitaAcumulada = 0;
+            decimal despesaAcumulada = 0;
+            decimal saldoAcumulado = 0;
+            //decimal saldoAcumulado = agregadoLancamentosDoMes.SaldoDoMesAnterior;
+            decimal saldoDoMesAnterior = agregadoLancamentosDoMes.SaldoDoMesAnterior;
+            if (saldoDoMesAnterior > 0)
+                receitaAcumulada = saldoDoMesAnterior;
+            else
+                despesaAcumulada = saldoDoMesAnterior;
             foreach (var dia in arrayDataVencimento)
             {
-                saldoAcumulado += lancamentos.Where(l => l.DataVencimento == dia).Sum(l => l.Valor);
-                listaDeSaldoPorDia.Add(new Tuple<DateTime, decimal>(dia, saldoAcumulado));
+                receitaAcumulada += lancamentos.Where(l => l.DataVencimento == dia && l.Valor > 0).Sum(l => l.Valor);
+                despesaAcumulada += lancamentos.Where(l => l.DataVencimento == dia && l.Valor < 0).Sum(l => l.Valor);
+                //saldoAcumulado += lancamentos.Where(l => l.DataVencimento == dia).Sum(l => l.Valor);
+                saldoAcumulado = receitaAcumulada + despesaAcumulada;
+                listaDeSaldoPorDia.Add(new Tuple<DateTime, decimal, decimal, decimal>(dia, receitaAcumulada, Math.Abs(despesaAcumulada), saldoAcumulado));
             }
 
             return listaDeSaldoPorDia;

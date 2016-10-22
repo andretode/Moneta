@@ -1,54 +1,93 @@
-﻿@model Moneta.Application.ViewModels.GraficoSaldoViewModel
+﻿@model List<Tuple<DateTime, decimal, decimal, decimal>>
 @using Moneta.Application.ViewModels
 
 <div class="form-horizontal">
     @using (Html.BeginForm("GraficoSaldoDoMes", "Lancamentos", new { @Model }, FormMethod.Get, new { id = "formFiltros" }))
     {
-        @Html.DropDownList("ContaIdFiltro", (SelectList)@ViewBag.Contas, "" , new { @class = "form-control" })
+        @Html.DropDownList("ContaIdFiltro", (SelectList)@ViewBag.Contas, null, new { @class = "form-control" })
     }
 </div>
 
 <canvas id="myChart"></canvas>
 
 @{
-    string arrayDeDados = "";
-    string arrayLabels = "";
-    arrayDeDados = Model.SaldoPorDia.First().Saldo.ToString().Replace(',', '.');
-    arrayLabels = Model.SaldoPorDia.First().Dia.ToString("dd");
-    for (int i = 1; i < Model.SaldoPorDia.Count; i++)
+    string arrayDeDias = "";
+    string arrayDeReceitas = "";
+    string arrayDeDespesas = "";
+    string arrayDeSaldos = "";
+    
+    if (Model != null)
     {
-        arrayDeDados += "," + Model.SaldoPorDia[i].Saldo.ToString().Replace(',', '.');
-        arrayLabels += "," + Model.SaldoPorDia[i].Dia.ToString("dd");
+        arrayDeDias = Model.First().Item1.ToString("dd");
+        arrayDeReceitas = Model.First().Item2.ToString().Replace(',', '.');
+        arrayDeDespesas = Model.First().Item3.ToString().Replace(',', '.');
+        arrayDeSaldos = Model.First().Item4.ToString().Replace(',', '.');
+        
+        for (int i = 1; i < Model.Count; i++)
+        {
+            arrayDeDias += "," + Model[i].Item1.ToString("dd");
+            arrayDeReceitas += "," + Model[i].Item2.ToString().Replace(',', '.');
+            arrayDeDespesas += "," + Model[i].Item3.ToString().Replace(',', '.');
+            arrayDeSaldos += "," + Model[i].Item4.ToString().Replace(',', '.');
+        }
     }
 }
 
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.min.js"></script>
     <script type="text/javascript">
-        var arrayDeDadosRazor = '@arrayDeDados';
-        console.log("arrayDeDadosRazor" + arrayDeDadosRazor);
-        var arrayDeDadosJs = arrayDeDadosRazor.split(',');
+        var arrayDeDiasRazor = '@arrayDeDias';
+        var arrayDeDiasJs = arrayDeDiasRazor.split(',');
 
-        var arrayLabelsRazor = '@arrayLabels';
-        console.log("arrayLabelsRazor" + arrayLabelsRazor);
-        var arrayLabelsJs = arrayLabelsRazor.split(',');
+        var arrayDeReceitasRazor = '@arrayDeReceitas';
+        var arrayDeReceitasJs = arrayDeReceitasRazor.split(',');
+
+        var arrayDeDespesasRazor = '@arrayDeDespesas';
+        var arrayDeDespesasJs = arrayDeDespesasRazor.split(',');
+
+        var arrayDeSaldosRazor = '@arrayDeSaldos';
+        var arrayDeSaldosJs = arrayDeSaldosRazor.split(',');
 
         var ctx = document.getElementById("myChart");
         var myChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: arrayLabelsJs,
-                datasets: [{
-                    label: 'Saldo em R$',
-                    data: arrayDeDadosJs,
+                labels: arrayDeDiasJs,
+                datasets: [
+                {
+                    label: 'Receita',
+                    data: arrayDeReceitasJs,
                     backgroundColor: [
-                        'rgba(102, 176, 255, 0.5)'
+                        'rgba(0, 153, 13, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(0, 153, 135, 1)'
+                    ],
+                    borderWidth: 1
+                },
+                {
+                    label: 'Despesa',
+                    data: arrayDeDespesasJs,
+                    backgroundColor: [
+                        'rgba(219, 0, 0, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(219, 0, 0, 1)'
+                    ],
+                    borderWidth: 1
+                },
+                {
+                    label: 'Saldo',
+                    data: arrayDeSaldosJs,
+                    backgroundColor: [
+                        'rgba(102, 176, 255, 0.7)'
                     ],
                     borderColor: [
                         'rgba(102, 176, 255, 1)'
                     ],
                     borderWidth: 1
-                }]
+                }
+                ]
             },
             options: {
                 scales: {
@@ -60,7 +99,7 @@
                 },
                 title: {
                     display: true,
-                    text: 'Saldo por dia - ' + '@Model.SaldoPorDia.First().Dia.ToString("MMMM/yyyy")'
+                    text: 'Saldo por dia'
                 }
             }
         });
