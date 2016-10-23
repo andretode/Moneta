@@ -46,6 +46,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moneta.Infra.CrossCutting.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moneta.Infra.CrossCutting.Enums", "Moneta.Infra.CrossCutting.Enums\Moneta.Infra.CrossCutting.Enums.csproj", "{40E9F1EB-04D3-4815-BB5C-7B2A3BB94A70}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moneta.Domain.Test", "Moneta.Domain.Test\Moneta.Domain.Test.csproj", "{526F8B50-131E-4A43-9CA8-CEB141CB9619}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,6 +98,10 @@ Global
 		{40E9F1EB-04D3-4815-BB5C-7B2A3BB94A70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40E9F1EB-04D3-4815-BB5C-7B2A3BB94A70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40E9F1EB-04D3-4815-BB5C-7B2A3BB94A70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{526F8B50-131E-4A43-9CA8-CEB141CB9619}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{526F8B50-131E-4A43-9CA8-CEB141CB9619}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{526F8B50-131E-4A43-9CA8-CEB141CB9619}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{526F8B50-131E-4A43-9CA8-CEB141CB9619}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -114,6 +120,7 @@ Global
 		{3691350D-9BF1-4A5E-A081-B64888D6419F} = {77BC84C0-A531-44DC-9BC6-A8BDC60A2895}
 		{1AF048E1-D557-4AE5-B93E-34D71AA1BC62} = {77BC84C0-A531-44DC-9BC6-A8BDC60A2895}
 		{40E9F1EB-04D3-4815-BB5C-7B2A3BB94A70} = {77BC84C0-A531-44DC-9BC6-A8BDC60A2895}
+		{526F8B50-131E-4A43-9CA8-CEB141CB9619} = {6B19769A-E536-40ED-B928-3271AB28ED45}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45;packages\EnterpriseLibrary.Data.6.0.1304.0\lib\NET45

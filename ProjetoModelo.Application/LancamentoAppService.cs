@@ -120,32 +120,22 @@ namespace Moneta.Application
             return result;
         }
 
-        public LancamentoViewModel GetById(Guid id)
-        {
-            var lancamentoVM = Mapper.Map<Lancamento, LancamentoViewModel>(_lancamentoService.GetById(id));
-            AjustarLancamentoParaExibir(lancamentoVM);
-            return lancamentoVM;
-        }
+        //public LancamentoViewModel GetById(Guid id)
+        //{
+        //    var lancamentoVM = Mapper.Map<Lancamento, LancamentoViewModel>(_lancamentoService.GetById(id));
+        //    AjustarLancamentoParaExibir(lancamentoVM);
+        //    return lancamentoVM;
+        //}
 
-        public LancamentoViewModel GetByIdReadOnly(Guid id)
-        {
-            var lancamentoVM = Mapper.Map<Lancamento, LancamentoViewModel>(_lancamentoService.GetByIdReadOnly(id));
+        //public LancamentoViewModel GetByIdReadOnly(Guid id)
+        //{
+        //    var lancamentoVM = Mapper.Map<Lancamento, LancamentoViewModel>(_lancamentoService.GetByIdReadOnly(id));
 
-            if (lancamentoVM != null)
-                AjustarLancamentoParaExibir(lancamentoVM);
+        //    if (lancamentoVM != null)
+        //        AjustarLancamentoParaExibir(lancamentoVM);
 
-            return lancamentoVM;
-        }
-
-        public IEnumerable<LancamentoViewModel> GetAll()
-        {
-            return Mapper.Map<IEnumerable<Lancamento>, IEnumerable<LancamentoViewModel>>(_lancamentoService.GetAll());
-        }
-
-        public IEnumerable<LancamentoViewModel> GetAllReadOnly()
-        {
-            return Mapper.Map<IEnumerable<Lancamento>, IEnumerable<LancamentoViewModel>>(_lancamentoService.GetAllReadOnly());
-        }
+        //    return lancamentoVM;
+        //}
 
         public void Update(LancamentoViewModel lancamentoViewModel)
         {

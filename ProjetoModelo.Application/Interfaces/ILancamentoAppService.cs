@@ -9,10 +9,8 @@ namespace Moneta.Application.Interfaces
     public interface ILancamentoAppService : IDisposable
     {
         ValidationAppResult Add(LancamentoViewModel LancamentoViewModel);
-        LancamentoViewModel GetById(Guid id);
-        LancamentoViewModel GetByIdReadOnly(Guid id);
-        IEnumerable<LancamentoViewModel> GetAll();
-        IEnumerable<LancamentoViewModel> GetAllReadOnly();
+        //LancamentoViewModel GetById(Guid id);
+        //LancamentoViewModel GetByIdReadOnly(Guid id);
         void Update(LancamentoViewModel LancamentoViewModel);
         void Remove(LancamentoViewModel LancamentoViewModel);
         List<Tuple<DateTime, decimal, decimal, decimal>> GetSaldoDoMesPorDia(LancamentosDoMesViewModel lancamentosDoMes, bool resumido);
