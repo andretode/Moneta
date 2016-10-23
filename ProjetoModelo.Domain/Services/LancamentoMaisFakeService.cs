@@ -7,12 +7,12 @@ using System.Linq;
 
 namespace Moneta.Domain.Services
 {
-    class LancamentoMaisFake
+    public class LancamentoMaisFakeService
     {
         private readonly ILancamentoRepository _LancamentoRepository;
         private readonly ILancamentoParceladoRepository _LancamentoParceladoRepository;
 
-        public LancamentoMaisFake(
+        public LancamentoMaisFakeService(
             ILancamentoParceladoRepository LancamentoParceladoRepository,
             ILancamentoRepository LancamentoRepository)
         {

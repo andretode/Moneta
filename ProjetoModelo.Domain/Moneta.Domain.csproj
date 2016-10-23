@@ -48,7 +48,7 @@
     <Compile Include="Interfaces\Specification\ISpecification.cs" />
     <Compile Include="Interfaces\Validation\IFiscal.cs" />
     <Compile Include="Interfaces\Validation\IRegra.cs" />
-    <Compile Include="Services\LancamentoMaisFake.cs" />
+    <Compile Include="Services\LancamentoMaisFakeService.cs" />
     <Compile Include="Services\LancamentoParceladoService.cs" />
     <Compile Include="Services\LancamentoService.cs" />
     <Compile Include="Services\CategoriaService.cs" />
