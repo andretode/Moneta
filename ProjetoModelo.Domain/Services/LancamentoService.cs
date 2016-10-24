@@ -50,6 +50,11 @@ namespace Moneta.Domain.Services
             return resultadoValidacao;
         }
 
+        public void UpdateEmSerie(Lancamento lancamento)
+        {
+            _LancamentoRepository.UpdateEmSerie(lancamento);
+        }
+
         public AgregadoLancamentosDoMes GetLancamentosDoMes(AgregadoLancamentosDoMes lancamentosDoMes)
         {
             var mes = lancamentosDoMes.MesAnoCompetencia.Month;
@@ -106,7 +111,6 @@ namespace Moneta.Domain.Services
             decimal receitaAcumulada = 0;
             decimal despesaAcumulada = 0;
             decimal saldoAcumulado = 0;
-            //decimal saldoAcumulado = agregadoLancamentosDoMes.SaldoDoMesAnterior;
             decimal saldoDoMesAnterior = agregadoLancamentosDoMes.SaldoDoMesAnterior;
             if (saldoDoMesAnterior > 0)
                 receitaAcumulada = saldoDoMesAnterior;
@@ -116,7 +120,6 @@ namespace Moneta.Domain.Services
             {
                 receitaAcumulada += lancamentos.Where(l => l.DataVencimento == dia && l.Valor > 0).Sum(l => l.Valor);
                 despesaAcumulada += lancamentos.Where(l => l.DataVencimento == dia && l.Valor < 0).Sum(l => l.Valor);
-                //saldoAcumulado += lancamentos.Where(l => l.DataVencimento == dia).Sum(l => l.Valor);
                 saldoAcumulado = receitaAcumulada + despesaAcumulada;
                 listaDeSaldoPorDia.Add(new Tuple<DateTime, decimal, decimal, decimal>(dia, receitaAcumulada, Math.Abs(despesaAcumulada), saldoAcumulado));
             }

@@ -189,10 +189,17 @@ namespace Moneta.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (lancamento.Fake)
-                    _LancamentoApp.Add(lancamento);
-                else
-                    _LancamentoApp.Update(lancamento);
+                if (lancamento.LancamentoParcelado.TipoDeAlteracaoDaRepeticao == TipoDeAlteracaoDaRepeticaoEnum.AlterarApenasEste)
+                {
+                    if (lancamento.Fake)
+                        _LancamentoApp.Add(lancamento);
+                    else
+                        _LancamentoApp.Update(lancamento);
+                }
+                else if (lancamento.LancamentoParcelado.TipoDeAlteracaoDaRepeticao == TipoDeAlteracaoDaRepeticaoEnum.AlterarTodos)
+                {
+                    _LancamentoApp.UpdateEmSerie(lancamento);
+                }
 
 
                 return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });

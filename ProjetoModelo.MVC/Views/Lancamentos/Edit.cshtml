@@ -32,6 +32,7 @@
                 <h3><span class="label" style="display:block; background-color: @cor">@Model.Transacao</span></h3>
                 @Html.HiddenFor(model => model.Transacao)
                 @Html.HiddenFor(model => model.Fake)
+                @Html.HiddenFor(model => model.LancamentoParceladoId)
                 @Html.HiddenFor(model => model.IdDaParcelaNaSerie)
             </div>
         </div>
@@ -94,16 +95,16 @@
                     <i class="icon-white glyphicon glyphicon-retweet"></i><strong> Este lançamento se repete em mais datas</strong>
                     <div class="">
                         <p class="text-left">
-                            <input type="radio" id="AlterarApenasEste" name="LancamentoParcelado.TipoDeAlteracaoDaRepeticao" value="@TipoRepeticao.Fixo" checked
-                                   onclick="javascript: selecionouLancamentosFixos();" /> Alterar apenas este lançamento
+                            <input type="radio" id="AlterarApenasEste" name="LancamentoParcelado.TipoDeAlteracaoDaRepeticao" value="@TipoDeAlteracaoDaRepeticaoEnum.AlterarApenasEste"
+                                   checked /> Alterar apenas este lançamento
                         </p>
                         <p class="text-left">
-                            <input type="radio" id="AlterarEsteESeguintes" name="LancamentoParcelado.TipoDeAlteracaoDaRepeticao" value="@TipoRepeticao.Parcelado"
-                                   onclick="javascript: selecionouLancamentosParcelados();" /> Alterar este lançamento e todos os seguintes
+                            <input type="radio" id="AlterarEsteESeguintes" name="LancamentoParcelado.TipoDeAlteracaoDaRepeticao" value="@TipoDeAlteracaoDaRepeticaoEnum.AlterarEsteESeguintes"
+                                   /> Alterar este lançamento e todos os seguintes
                         </p>
                         <p class="text-left">
-                            <input type="radio" id="AlterarTodos" name="LancamentoParcelado.TipoDeAlteracaoDaRepeticao" value="@TipoRepeticao.Parcelado"
-                                   onclick="javascript: selecionouLancamentosParcelados();" /> Alterar todos os lançamentos
+                            <input type="radio" id="AlterarTodos" name="LancamentoParcelado.TipoDeAlteracaoDaRepeticao" value="@TipoDeAlteracaoDaRepeticaoEnum.AlterarTodos"
+                                   /> Alterar todos os lançamentos
                         </p>
                     </div>
                 </div>

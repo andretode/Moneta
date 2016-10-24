@@ -139,11 +139,23 @@ namespace Moneta.Application
 
         public void Update(LancamentoViewModel lancamentoViewModel)
         {
+            lancamentoViewModel.LancamentoParcelado = null;
             lancamentoViewModel.Valor = AjustarValorParaSalvar(lancamentoViewModel);
             var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
 
             BeginTransaction();
             _lancamentoService.Update(lancamento);
+            Commit();
+        }
+
+        public void UpdateEmSerie(LancamentoViewModel lancamentoViewModel)
+        {
+            lancamentoViewModel.LancamentoParcelado = null;
+            lancamentoViewModel.Valor = AjustarValorParaSalvar(lancamentoViewModel);
+            var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
+
+            BeginTransaction();
+            _lancamentoService.UpdateEmSerie(lancamento);
             Commit();
         }
 

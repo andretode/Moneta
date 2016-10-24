@@ -27,6 +27,8 @@ namespace Moneta.Application.ViewModels
         [DisplayName("Repetição")]
         public TipoRepeticao TipoDeRepeticao { get; set; }
 
+        public TipoDeAlteracaoDaRepeticaoEnum TipoDeAlteracaoDaRepeticao { get; set; }
+
         [DisplayName("Data Início das Parcelas")]
         public DateTime DataInicio { get; set; }
 
