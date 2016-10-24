@@ -66,7 +66,7 @@ namespace Moneta.Domain.Services
         private List<Lancamento> LancamentosFixosFake(int mes, int ano, List<Lancamento> lancamentosOriginaisMaisOsFakes, bool asNoTracking)
         {
             var mesAnoCompetencia = new DateTime(ano, mes, DateTime.DaysInMonth(ano, mes));
-            var lancamentosFixosAptos = _LancamentoParceladoRepository.GetAll().Where(l => l.DataInicio <= mesAnoCompetencia);
+            var lancamentosFixosAptos = _LancamentoParceladoRepository.GetAll().Where(l => l.DataInicio <= mesAnoCompetencia && l.NumeroParcelas==null);
 
             foreach (var lancamentoFixo in lancamentosFixosAptos)
             {

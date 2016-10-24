@@ -37,17 +37,12 @@ namespace Moneta.Domain.Entities
         public bool Fake { get; private set; }
         public ValidationResult ResultadoValidacao { get; private set; }
 
-        public Lancamento CloneFake()
-        {
-            return CloneFake(DateTime.MinValue);
-        }
-
-        public Lancamento CloneFake(DateTime novaDataVencimento)
+        public Lancamento Clone()
         {
             var clone = new Lancamento();
             clone.Descricao = this.Descricao;
             clone.Valor = this.Valor;
-            clone.Pago = false;
+            clone.Pago = clone.Pago;
             clone.ContaId = this.ContaId;
             clone.Conta = this.Conta;
             clone.CategoriaId = this.CategoriaId;
@@ -56,14 +51,19 @@ namespace Moneta.Domain.Entities
             clone.LancamentoParcelado = this.LancamentoParcelado;
             clone.DataCadastro = this.DataCadastro;
             clone.Ativo = this.Ativo;
+            clone.DataVencimento = this.DataVencimento;
+            clone.Fake = false;
+
+            return clone;
+        }
+
+        public Lancamento CloneFake(DateTime novaDataVencimento)
+        {
+            var clone = this.Clone();
             clone.Fake = true;
-
-            if (novaDataVencimento != DateTime.MinValue)
-            {
-                clone.DataVencimento = (DateTime)novaDataVencimento;
-                clone.IdDaParcelaNaSerie = this.LancamentoId.ToString() + novaDataVencimento;
-            }
-
+            clone.DataVencimento = (DateTime)novaDataVencimento;
+            clone.IdDaParcelaNaSerie = this.LancamentoId.ToString() + novaDataVencimento;
+            
             return clone;
         }
 

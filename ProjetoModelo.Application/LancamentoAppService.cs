@@ -94,7 +94,7 @@ namespace Moneta.Application
             ValidationResult result = null;
             for (int i = 0; i < lancamento.LancamentoParcelado.NumeroParcelas; i++)
             {
-                var novoLancamento = lancamento.CloneFake();
+                var novoLancamento = lancamento.Clone();
 
                 if (i == 0)
                     novoLancamento.LancamentoParcelado = lancamento.LancamentoParcelado;
