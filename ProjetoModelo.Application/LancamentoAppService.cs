@@ -119,24 +119,7 @@ namespace Moneta.Application
 
             return result;
         }
-
-        //public LancamentoViewModel GetById(Guid id)
-        //{
-        //    var lancamentoVM = Mapper.Map<Lancamento, LancamentoViewModel>(_lancamentoService.GetById(id));
-        //    AjustarLancamentoParaExibir(lancamentoVM);
-        //    return lancamentoVM;
-        //}
-
-        //public LancamentoViewModel GetByIdReadOnly(Guid id)
-        //{
-        //    var lancamentoVM = Mapper.Map<Lancamento, LancamentoViewModel>(_lancamentoService.GetByIdReadOnly(id));
-
-        //    if (lancamentoVM != null)
-        //        AjustarLancamentoParaExibir(lancamentoVM);
-
-        //    return lancamentoVM;
-        //}
-
+        
         public void Update(LancamentoViewModel lancamentoViewModel)
         {
             lancamentoViewModel.LancamentoParcelado = null;
@@ -150,7 +133,7 @@ namespace Moneta.Application
 
         public void UpdateEmSerie(LancamentoViewModel lancamentoViewModel)
         {
-            lancamentoViewModel.LancamentoParcelado = null;
+            //lancamentoViewModel.LancamentoParcelado = null;
             lancamentoViewModel.Valor = AjustarValorParaSalvar(lancamentoViewModel);
             var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
 

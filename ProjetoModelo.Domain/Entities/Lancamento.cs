@@ -31,8 +31,6 @@ namespace Moneta.Domain.Entities
         public virtual LancamentoParcelado LancamentoParcelado { get; set; }
         public string IdDaParcelaNaSerie { get; set; }
         public DateTime DataCadastro { get; set; }
-        
-        [Obsolete("Propriedade deverá ser removida nas proximas versoes por nao estar sendo necessario")]
         public bool BaseDaSerie { get; set; }
         public bool Ativo { get; set; }
 
@@ -67,6 +65,28 @@ namespace Moneta.Domain.Entities
             }
 
             return clone;
+        }
+
+        /// <summary>
+        /// Pega a data de vencimento da parcela na série. Ele extrai esta informação apartir do IdDaParcelaNaSerie.
+        /// </summary>
+        public DateTime GetDataVencimentoDaParcelaNaSerie()
+        {
+            if (IdDaParcelaNaSerie == null)
+                return DateTime.MinValue;
+
+            string strDataVencimentoAnterior = this.IdDaParcelaNaSerie.Substring(36, 10);
+            return DateTime.Parse(strDataVencimentoAnterior);
+        }
+
+        /// <summary>
+        /// Adiciona dias na data de vencimento da parcela na série. Tal informação é atualizada no IdDaParcelaNaSerie.
+        /// </summary>
+        /// <param name="dias">Quantidades de dias a ser somado na data. Poder ser valor negativo.</param>
+        public void AddDaysDataVencimentoDaParcelaNaSerie(double dias)
+        {
+            if (!this.BaseDaSerie)
+                this.IdDaParcelaNaSerie = this.IdDaParcelaNaSerie.Substring(0, 36) + this.GetDataVencimentoDaParcelaNaSerie().AddDays(dias);
         }
 
         public bool IsValid()

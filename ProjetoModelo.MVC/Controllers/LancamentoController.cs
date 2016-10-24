@@ -14,15 +14,18 @@ namespace Moneta.MVC.Controllers
 {
     public class LancamentosController : Controller
     {
+        private readonly ILancamentoParceladoAppService _LancamentoParceladoApp;
         private readonly ILancamentoAppService _LancamentoApp;
         private readonly ICategoriaAppService _CategoriaApp;
         private readonly IContaAppService _ContaApp;
 
         public LancamentosController(
+            ILancamentoParceladoAppService LancamentoParceladoApp,
             ILancamentoAppService LancamentoApp,
             ICategoriaAppService CategoriaApp,
             IContaAppService ContaApp)
         {
+            _LancamentoParceladoApp = LancamentoParceladoApp;
             _LancamentoApp = LancamentoApp;
             _CategoriaApp = CategoriaApp;
             _ContaApp = ContaApp;
@@ -196,7 +199,7 @@ namespace Moneta.MVC.Controllers
                     else
                         _LancamentoApp.Update(lancamento);
                 }
-                else if (lancamento.LancamentoParcelado.TipoDeAlteracaoDaRepeticao == TipoDeAlteracaoDaRepeticaoEnum.AlterarTodos)
+                else
                 {
                     _LancamentoApp.UpdateEmSerie(lancamento);
                 }
@@ -204,7 +207,7 @@ namespace Moneta.MVC.Controllers
 
                 return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
             }
-
+            SetSelectLists();
             return View(lancamento);
         }
 
@@ -246,6 +249,8 @@ namespace Moneta.MVC.Controllers
         {
             lancamento.Conta = _ContaApp.GetById(lancamento.ContaId);
             lancamento.Categoria = _CategoriaApp.GetById(lancamento.CategoriaId);
+            if (lancamento.LancamentoParceladoId != null)
+                lancamento.LancamentoParcelado = _LancamentoParceladoApp.GetById((Guid)lancamento.LancamentoParceladoId);
             _LancamentoApp.AjustarLancamentoParaExibir(lancamento);
         }
 

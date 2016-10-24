@@ -62,7 +62,7 @@ namespace Moneta.Domain.Test
                 LancamentoParceladoId = Guid.Parse("e17f384a-9c71-4047-a2e2-4046e603db1d")});
 
             var mockLancamentoRepository = new Mock<ILancamentoRepository>();
-            mockLancamentoRepository.Setup(l => l.GetAll(true)).Returns(lancamentos);
+            mockLancamentoRepository.Setup(l => l.GetAll(true, false)).Returns(lancamentos);
             mockLancamentoRepository.Setup(l => l.GetById(Guid.Parse("bf7c51f5-b0a4-47ac-9bc5-7f8622f3a957"))).Returns(lancamento_fixo_base_0110216);
 
             var mockLancamentoParceladoRepository = new Mock<ILancamentoParceladoRepository>();

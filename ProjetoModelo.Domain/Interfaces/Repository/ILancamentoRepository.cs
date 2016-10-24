@@ -12,14 +12,8 @@ namespace Moneta.Domain.Interfaces.Repository
         /// Pega todos os lançamentos do BD
         /// </summary>
         /// <param name="somenteOsAtivo">Informe true se quiser que deseja retornado somente os lançamentos ativos do BD. Senão será trago todos, independete se são ou não ativos.</param>
+        /// <param name="asNoTracking">Informe se a busca deve ser asNoTracking</param>
         /// <returns>Retorna todos os lançamentos do BD</returns>
-        IEnumerable<Lancamento> GetAll(bool somenteOsAtivo);
-
-        /// <summary>
-        /// Realiza a atualização de todos os lançamentos da série parcelada com base nas alterações do lancamento 
-        /// passado como parâmetro
-        /// </summary>
-        /// <param name="lancamento">lancamento base que será utilizado para atualizar toda a série</param>
-        void UpdateEmSerie(Lancamento lancamento);
+        IEnumerable<Lancamento> GetAll(bool somenteOsAtivo, bool asNoTracking);
     }
 }

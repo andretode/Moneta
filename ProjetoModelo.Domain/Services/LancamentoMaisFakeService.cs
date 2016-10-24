@@ -21,28 +21,61 @@ namespace Moneta.Domain.Services
         }
 
         /// <summary>
+        /// Retorna os lançamentos fakes e não fakes de um período em meses.
+        /// </summary>
+        public List<Lancamento> GetAllMaisFake(int mesInicio, int anoInicio, int mesFim, int anoFim, bool asNoTracking = false)
+        {
+            var lancamentos = new List<Lancamento>();
+
+            //Cria o intervalo. O dia não importa, umas vez que estamos filtrando meses.
+            var dataCounter = new DateTime(anoFim, mesFim, 1);
+            var dataInicio = new DateTime(anoInicio, mesInicio, 1);
+
+            while (dataCounter >= dataInicio)
+            {
+                lancamentos.AddRange(GetAllMaisFake(dataCounter.Month, dataCounter.Year, asNoTracking));
+                dataCounter = dataCounter.AddMonths(-1);
+            }
+
+            return lancamentos;
+        }
+
+        /// <summary>
+        /// Retorna os lançamentos fakes e não fakes de um período em meses.
+        /// </summary>
+        public List<Lancamento> GetAllMaisFakeAsNoTracking(int mesInicio, int anoInicio, int mesFim, int anoFim)
+        {
+            return GetAllMaisFake(mesInicio, anoInicio, mesFim, anoFim, true);
+        }
+
+        /// <summary>
         /// Retorna todos os lançamentos do mês mais os fakes
         /// </summary>
         /// <param name="mes">O mês filtro dos lançamentos</param>
         /// <param name="ano">O ano filtro dos lançemtnos</param>
         /// <returns>Lista de lançamentos do mês mais os fakes</returns>
-        public List<Lancamento> GetAllMaisFake(int mes, int ano)
+        public List<Lancamento> GetAllMaisFake(int mes, int ano, bool asNoTracking = false)
         {
-            var lancamentosDoMesTodasAsContasComFakes = _LancamentoRepository.GetAll(true).Where(l => l.DataVencimento.Month == mes && l.DataVencimento.Year == ano);
-            lancamentosDoMesTodasAsContasComFakes = this.LancamentosFixosFake(mes, ano, lancamentosDoMesTodasAsContasComFakes.ToList());
+            var lancamentosDoMesTodasAsContasComFakes = _LancamentoRepository.GetAll(true, asNoTracking).Where(l => l.DataVencimento.Month == mes && l.DataVencimento.Year == ano);
+            lancamentosDoMesTodasAsContasComFakes = this.LancamentosFixosFake(mes, ano, lancamentosDoMesTodasAsContasComFakes.ToList(), asNoTracking);
             lancamentosDoMesTodasAsContasComFakes = lancamentosDoMesTodasAsContasComFakes.Where(l => l.Ativo == true);
 
             return lancamentosDoMesTodasAsContasComFakes.ToList();
         }
 
-        private List<Lancamento> LancamentosFixosFake(int mes, int ano, List<Lancamento> lancamentosOriginaisMaisOsFakes)
+        private List<Lancamento> LancamentosFixosFake(int mes, int ano, List<Lancamento> lancamentosOriginaisMaisOsFakes, bool asNoTracking)
         {
             var mesAnoCompetencia = new DateTime(ano, mes, DateTime.DaysInMonth(ano, mes));
             var lancamentosFixosAptos = _LancamentoParceladoRepository.GetAll().Where(l => l.DataInicio <= mesAnoCompetencia);
 
             foreach (var lancamentoFixo in lancamentosFixosAptos)
             {
-                var lancamentoBase = _LancamentoRepository.GetById(lancamentoFixo.LancamentoBaseId);
+                Lancamento lancamentoBase;
+                if(asNoTracking)
+                    lancamentoBase = _LancamentoRepository.GetByIdReadOnly(lancamentoFixo.LancamentoBaseId);
+                else
+                    lancamentoBase = _LancamentoRepository.GetById(lancamentoFixo.LancamentoBaseId);
+
                 lancamentosOriginaisMaisOsFakes.Remove(lancamentoBase); //Remove ele pois ele não é exibido, serve somente como base para gerar os demais
 
                 switch (lancamentoFixo.Periodicidade)
