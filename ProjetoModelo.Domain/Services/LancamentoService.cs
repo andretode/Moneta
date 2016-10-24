@@ -50,9 +50,59 @@ namespace Moneta.Domain.Services
             return resultadoValidacao;
         }
 
-        public void UpdateEmSerie(Lancamento lancamento)
+        public void UpdateEmSerie(Lancamento lancamentoEditado)
         {
-            _LancamentoRepository.UpdateEmSerie(lancamento);
+            var dataVencimentoAnterior = lancamentoEditado.GetDataVencimentoDaParcelaNaSerie();
+            var diasDiff = (lancamentoEditado.DataVencimento - dataVencimentoAnterior).TotalDays;
+
+            IEnumerable<Lancamento> lancamentosASeremAlterados;
+            if (lancamentoEditado.LancamentoParcelado.TipoDeAlteracaoDaRepeticao == TipoDeAlteracaoDaRepeticaoEnum.AlterarEsteESeguintes)
+            {
+                var dataInicio = lancamentoEditado.LancamentoParcelado.DataInicio;
+                var lancamentoMaisFake = new LancamentoMaisFakeService(_LancamentoParceladoRepository, _LancamentoRepository);
+                var lancamentosMaisFake = lancamentoMaisFake.GetAllMaisFakeAsNoTracking(dataInicio.Month, dataInicio.Year, dataVencimentoAnterior.Month, dataVencimentoAnterior.Year);
+                var lancamentosSomenteFake = lancamentosMaisFake.Where(l => l.Fake == true && l.DataVencimento < dataVencimentoAnterior);
+                foreach (var lf in lancamentosSomenteFake)
+                {
+                    _LancamentoRepository.Add(lf);
+                }
+
+                var todosLancamentosParceladosDaSerie = GetAllReadOnly().Where(l => l.LancamentoParceladoId == lancamentoEditado.LancamentoParceladoId);
+                var lancamentosAnteriores = todosLancamentosParceladosDaSerie.Where(l => l.DataVencimento < dataVencimentoAnterior && !l.BaseDaSerie);
+                foreach (var l in lancamentosAnteriores)
+                {
+                    l.AddDaysDataVencimentoDaParcelaNaSerie(diasDiff);
+                    _LancamentoRepository.Update(l);
+                }
+
+                var lancamentoBdAtualMaisSeguintes = todosLancamentosParceladosDaSerie.Where(l => l.DataVencimento >= dataVencimentoAnterior).ToList();
+                var lancamentoBase = GetByIdReadOnly(lancamentoEditado.LancamentoParcelado.LancamentoBaseId);
+                lancamentoBdAtualMaisSeguintes.Add(lancamentoBase);
+                AtualizarLancamentos(lancamentoBdAtualMaisSeguintes, lancamentoEditado, diasDiff);
+            }
+            else
+            {
+                lancamentosASeremAlterados = GetAllReadOnly().Where(l => l.LancamentoParceladoId == lancamentoEditado.LancamentoParceladoId);
+                AtualizarLancamentos(lancamentosASeremAlterados, lancamentoEditado, diasDiff);
+            }
+        }
+
+        private void AtualizarLancamentos(IEnumerable<Lancamento> lancamentosASeremAlterados, Lancamento lancamentoEditado, double diasDiff)
+        {
+            foreach (var l in lancamentosASeremAlterados)
+            {
+                l.Descricao = lancamentoEditado.Descricao;
+                l.Valor = lancamentoEditado.Valor;
+                l.CategoriaId = lancamentoEditado.CategoriaId;
+                l.AddDaysDataVencimentoDaParcelaNaSerie(diasDiff);
+
+                if (!l.BaseDaSerie)
+                    l.DataVencimento = l.GetDataVencimentoDaParcelaNaSerie().AddDays(diasDiff);
+                else
+                    l.DataVencimento = l.DataVencimento.AddDays(diasDiff);
+
+                _LancamentoRepository.Update(l);
+            }
         }
 
         public AgregadoLancamentosDoMes GetLancamentosDoMes(AgregadoLancamentosDoMes lancamentosDoMes)
