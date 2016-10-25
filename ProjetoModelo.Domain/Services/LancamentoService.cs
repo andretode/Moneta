@@ -58,20 +58,10 @@ namespace Moneta.Domain.Services
             IEnumerable<Lancamento> lancamentosASeremAlterados;
             if (lancamentoEditado.LancamentoParcelado.TipoDeAlteracaoDaRepeticao == TipoDeAlteracaoDaRepeticaoEnum.AlterarEsteESeguintes)
             {
-                var dataInicio = lancamentoEditado.LancamentoParcelado.DataInicio;
-                var lancamentoMaisFake = new LancamentoMaisFakeService(_LancamentoParceladoRepository, _LancamentoRepository);
-                var lancamentosMaisFake = lancamentoMaisFake.GetAllMaisFakeAsNoTracking(dataInicio.Month, dataInicio.Year, dataVencimentoAnterior.Month, dataVencimentoAnterior.Year);
-                var lancamentosSomenteFake = lancamentosMaisFake.Where(l => l.Fake == true && l.DataVencimento < dataVencimentoAnterior && l.LancamentoParceladoId == lancamentoEditado.LancamentoParceladoId);
-                foreach (var lf in lancamentosSomenteFake)
-                {
-                    lf.AddDaysDataVencimentoDaParcelaNaSerie(diasDiff);
-                    _LancamentoRepository.Add(lf);
-                }
-                
-                var lancamentoBdAtualMaisSeguintes = GetAllReadOnly().Where(l => l.LancamentoParceladoId == lancamentoEditado.LancamentoParceladoId && 
-                    l.DataVencimento >= dataVencimentoAnterior).ToList();
-                var lancamentoBase = GetByIdReadOnly(lancamentoEditado.LancamentoParcelado.LancamentoBaseId);
-                lancamentoBdAtualMaisSeguintes.Add(lancamentoBase);
+                SalvarFakesQueNaoSofreramAlteraçãoNaSerie(lancamentoEditado, dataVencimentoAnterior, diasDiff);
+
+                var lancamentoBdAtualMaisSeguintes = GetAllReadOnly().Where(l => l.LancamentoParceladoId == lancamentoEditado.LancamentoParceladoId && l.DataVencimento >= dataVencimentoAnterior).ToList();
+                lancamentoBdAtualMaisSeguintes.Add(GetByIdReadOnly(lancamentoEditado.LancamentoParcelado.LancamentoBaseId)); //garante que o lançamento base está sendo adicionado
                 AtualizarLancamentos(lancamentoBdAtualMaisSeguintes, lancamentoEditado, diasDiff);
             }
             else
@@ -97,6 +87,22 @@ namespace Moneta.Domain.Services
                     l.DataVencimento = l.DataVencimento.AddDays(diasDiff);
 
                 _LancamentoRepository.Update(l);
+            }
+        }
+
+        /// <summary>
+        /// Salva em BD os fakes que não sofreram alterações na série devido ao "Alterar este e seguintes". Atualiza também a data base da série, que é usado como identificado da parcela na série.
+        /// </summary>
+        private void SalvarFakesQueNaoSofreramAlteraçãoNaSerie(Lancamento lancamentoEditado, DateTime dataVencimentoAnterior, double diasDiff)
+        {
+            var dataInicio = lancamentoEditado.LancamentoParcelado.DataInicio;
+            var lancamentoMaisFake = new LancamentoMaisFakeService(_LancamentoParceladoRepository, _LancamentoRepository);
+            var lancamentosMaisFake = lancamentoMaisFake.GetAllMaisFakeAsNoTracking(dataInicio.Month, dataInicio.Year, dataVencimentoAnterior.Month, dataVencimentoAnterior.Year);
+            var lancamentosSomenteFake = lancamentosMaisFake.Where(l => l.Fake == true && l.DataVencimento < dataVencimentoAnterior && l.LancamentoParceladoId == lancamentoEditado.LancamentoParceladoId);
+            foreach (var lf in lancamentosSomenteFake)
+            {
+                lf.AddDaysDataVencimentoDaParcelaNaSerie(diasDiff);
+                _LancamentoRepository.Add(lf);
             }
         }
 
