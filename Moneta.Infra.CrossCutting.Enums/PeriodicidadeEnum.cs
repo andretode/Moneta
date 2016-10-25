@@ -13,7 +13,7 @@ namespace Moneta.Infra.CrossCutting.Enums
         //[DescriptionAttribute("Semanal")]
         Semanal = 7,
         //[DescriptionAttribute("Quinzenal")] 
-        Quinzenal = 15,
+        Quinzenal = 14,
         //[DescriptionAttribute("Mensal")] 
         Mensal = 30,
         //[DescriptionAttribute("Trimestral")] 

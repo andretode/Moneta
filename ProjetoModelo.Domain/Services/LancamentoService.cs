@@ -61,21 +61,15 @@ namespace Moneta.Domain.Services
                 var dataInicio = lancamentoEditado.LancamentoParcelado.DataInicio;
                 var lancamentoMaisFake = new LancamentoMaisFakeService(_LancamentoParceladoRepository, _LancamentoRepository);
                 var lancamentosMaisFake = lancamentoMaisFake.GetAllMaisFakeAsNoTracking(dataInicio.Month, dataInicio.Year, dataVencimentoAnterior.Month, dataVencimentoAnterior.Year);
-                var lancamentosSomenteFake = lancamentosMaisFake.Where(l => l.Fake == true && l.DataVencimento < dataVencimentoAnterior);
+                var lancamentosSomenteFake = lancamentosMaisFake.Where(l => l.Fake == true && l.DataVencimento < dataVencimentoAnterior && l.LancamentoParceladoId == lancamentoEditado.LancamentoParceladoId);
                 foreach (var lf in lancamentosSomenteFake)
                 {
+                    lf.AddDaysDataVencimentoDaParcelaNaSerie(diasDiff);
                     _LancamentoRepository.Add(lf);
                 }
-
-                var todosLancamentosParceladosDaSerie = GetAllReadOnly().Where(l => l.LancamentoParceladoId == lancamentoEditado.LancamentoParceladoId);
-                var lancamentosAnteriores = todosLancamentosParceladosDaSerie.Where(l => l.DataVencimento < dataVencimentoAnterior && !l.BaseDaSerie);
-                foreach (var l in lancamentosAnteriores)
-                {
-                    l.AddDaysDataVencimentoDaParcelaNaSerie(diasDiff);
-                    _LancamentoRepository.Update(l);
-                }
-
-                var lancamentoBdAtualMaisSeguintes = todosLancamentosParceladosDaSerie.Where(l => l.DataVencimento >= dataVencimentoAnterior).ToList();
+                
+                var lancamentoBdAtualMaisSeguintes = GetAllReadOnly().Where(l => l.LancamentoParceladoId == lancamentoEditado.LancamentoParceladoId && 
+                    l.DataVencimento >= dataVencimentoAnterior).ToList();
                 var lancamentoBase = GetByIdReadOnly(lancamentoEditado.LancamentoParcelado.LancamentoBaseId);
                 lancamentoBdAtualMaisSeguintes.Add(lancamentoBase);
                 AtualizarLancamentos(lancamentoBdAtualMaisSeguintes, lancamentoEditado, diasDiff);
@@ -98,7 +92,7 @@ namespace Moneta.Domain.Services
                 l.AddDaysDataVencimentoDaParcelaNaSerie(diasDiff);
 
                 if (!l.BaseDaSerie)
-                    l.DataVencimento = l.GetDataVencimentoDaParcelaNaSerie().AddDays(diasDiff);
+                    l.DataVencimento = l.GetDataVencimentoDaParcelaNaSerie(); //.AddDays(diasDiff);
                 else
                     l.DataVencimento = l.DataVencimento.AddDays(diasDiff);
 

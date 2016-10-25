@@ -40,10 +40,13 @@ namespace Moneta.Application.ViewModels
         [DisplayName("Descrição Resumida")]
         public string DescricaoResumida {
             get {
-                int posicaoUltimoCaracter = (this.Descricao.Length >= 30 ? 30 : this.Descricao.Length);
-                return Descricao.Substring(0, posicaoUltimoCaracter); 
+                int posicaoUltimoCaracter = (this.DescricaoMaisNumeroParcela.Length >= 30 ? 30 : this.DescricaoMaisNumeroParcela.Length);
+                return DescricaoMaisNumeroParcela.Substring(0, posicaoUltimoCaracter); 
             }
         }
+
+        [DisplayName("Descrição Mais N° da Parcela")]
+        public string DescricaoMaisNumeroParcela { get; set; }
 
         [DataType(DataType.Currency)]
         [Range(typeof(decimal), "0,01", "9999999,99")]

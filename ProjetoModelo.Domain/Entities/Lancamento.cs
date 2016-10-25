@@ -19,11 +19,7 @@ namespace Moneta.Domain.Entities
         }
 
         public Guid LancamentoId { get; set; }
-        private string descricao;
-        public string Descricao  {
-            get { return DescricaoMaisNumeroParcela(); }
-            set { descricao = value; } 
-        }
+        public string Descricao { get; set; }
         public decimal Valor { get; set; }
         public DateTime DataVencimento { get; set; }
         public bool Pago { get; set; }
@@ -47,13 +43,13 @@ namespace Moneta.Domain.Entities
         public string DescricaoMaisNumeroParcela()
         {
             if (this.LancamentoParcelado == null || this.LancamentoParcelado.NumeroParcelas == null || this.LancamentoParcelado.NumeroParcelas < 2)
-                return descricao;
+                return Descricao;
 
             var dataInicio = this.LancamentoParcelado.DataInicio;
             var dataParcelaNaSerie = GetDataVencimentoDaParcelaNaSerie();
             var numParcela = (dataParcelaNaSerie-dataInicio).Days/this.LancamentoParcelado.Periodicidade + 1;
 
-            return descricao + " (" + numParcela + "/" + this.LancamentoParcelado.NumeroParcelas + ")";
+            return Descricao + " (" + numParcela + "/" + this.LancamentoParcelado.NumeroParcelas + ")";
         }
 
         /// <summary>

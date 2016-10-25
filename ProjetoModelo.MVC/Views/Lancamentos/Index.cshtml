@@ -98,10 +98,11 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.DataVencimento)
                     &nbsp;
+                    @item.Fake
                     <a class="visible-xs visible-sm visible-md-inline visible-lg-inline" href="@Url.Action("Details", "Lancamentos", new { jsonLancamento })">
                         @item.DescricaoResumida
                     </a>
-
+                    @Html.HiddenFor(modelItem => item.Descricao)
                 </td>
                 <td>
                     @if (item.LancamentoParceladoId != null)

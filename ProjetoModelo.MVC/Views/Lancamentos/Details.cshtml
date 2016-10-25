@@ -40,7 +40,8 @@
             @Html.DisplayNameFor(model => model.Descricao)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Descricao)
+            @Html.DisplayFor(model => model.DescricaoMaisNumeroParcela)
+            @Html.HiddenFor(model => model.Descricao)
         </dd>
 
         <dt>

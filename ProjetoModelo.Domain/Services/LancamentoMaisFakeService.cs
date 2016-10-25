@@ -81,7 +81,10 @@ namespace Moneta.Domain.Services
                 switch (lancamentoFixo.Periodicidade)
                 {
                     case (int)PeriodicidadeEnum.Semanal:
-                        LancamentosFixosSemanais(lancamentosOriginaisMaisOsFakes, lancamentoFixo, lancamentoBase, mes, ano);
+                        LancamentosFixosDentroDoMes((int)PeriodicidadeEnum.Semanal, lancamentosOriginaisMaisOsFakes, lancamentoFixo, lancamentoBase, mes, ano);
+                        break;
+                    case (int)PeriodicidadeEnum.Quinzenal:
+                        LancamentosFixosDentroDoMes((int)PeriodicidadeEnum.Quinzenal, lancamentosOriginaisMaisOsFakes, lancamentoFixo, lancamentoBase, mes, ano);
                         break;
                     case (int)PeriodicidadeEnum.Mensal:
                         LancamentoFixoMensal(lancamentosOriginaisMaisOsFakes, lancamentoBase, mes, ano);
@@ -92,13 +95,13 @@ namespace Moneta.Domain.Services
             return lancamentosOriginaisMaisOsFakes;
         }
 
-        private void LancamentosFixosSemanais(List<Lancamento> lancamentosOriginaisMaisOsFakes,
+        private void LancamentosFixosDentroDoMes(int periodicidadeEmDias, List<Lancamento> lancamentosOriginaisMaisOsFakes,
             LancamentoParcelado lancamentoFixo, Lancamento lancamentoBase, int mes, int ano)
         {
             var diaDaSemanaDoVencimento = lancamentoBase.DataVencimento.DayOfWeek;
             var diaDaSemanaDoPrimeiroDiaDoMes = new DateTime(ano, mes, 1).DayOfWeek;
             var deltaDia = diaDaSemanaDoVencimento - diaDaSemanaDoPrimeiroDiaDoMes + 1;
-            deltaDia = (deltaDia < 1 ? deltaDia + 7 : deltaDia);
+            deltaDia = (deltaDia < 1 ? deltaDia + periodicidadeEmDias : deltaDia);
 
             var dataVencimento = new DateTime(ano, mes, deltaDia);
 
@@ -107,7 +110,7 @@ namespace Moneta.Domain.Services
                 Lancamento lancamentoFakeSeguinte = lancamentoBase.CloneFake(dataVencimento);
                 InserirFakeApto(lancamentosOriginaisMaisOsFakes, lancamentoFakeSeguinte);
 
-                dataVencimento = dataVencimento.AddDays(7);
+                dataVencimento = dataVencimento.AddDays(periodicidadeEmDias);
             }
         }
 
