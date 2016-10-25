@@ -192,7 +192,8 @@ namespace Moneta.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (lancamento.LancamentoParcelado.TipoDeAlteracaoDaRepeticao == TipoDeAlteracaoDaRepeticaoEnum.AlterarApenasEste)
+                if (lancamento.LancamentoParcelado == null || 
+                    lancamento.LancamentoParcelado.TipoDeAlteracaoDaRepeticao == TipoDeAlteracaoDaRepeticaoEnum.AlterarApenasEste)
                 {
                     if (lancamento.Fake)
                         _LancamentoApp.Add(lancamento);

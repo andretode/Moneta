@@ -93,6 +93,7 @@ namespace Moneta.Domain.Services
             {
                 l.Descricao = lancamentoEditado.Descricao;
                 l.Valor = lancamentoEditado.Valor;
+                l.ContaId = lancamentoEditado.ContaId;
                 l.CategoriaId = lancamentoEditado.CategoriaId;
                 l.AddDaysDataVencimentoDaParcelaNaSerie(diasDiff);
 
