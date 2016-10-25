@@ -34,6 +34,9 @@ namespace Moneta.MVC.Controllers
         // GET: Lancamento
         public ViewResult Index(LancamentosDoMesViewModel lancamentos)
         {
+            if (TempData["ViewData"] != null)
+                ViewData = (ViewDataDictionary)TempData["ViewData"];
+
             if (lancamentos.MesAnoCompetencia == DateTime.MinValue)
                 lancamentos.MesAnoCompetencia = DateTime.Now;
 
@@ -109,6 +112,7 @@ namespace Moneta.MVC.Controllers
                 return RedirectToAction("Create", lancamentos);
             }
 
+            TempData["ViewData"] = ViewData;
             return RedirectToAction("Index", new { ContaIdFiltro = lancamentos.ContaIdFiltro, MesAnoCompetencia = lancamentos.MesAnoCompetencia });
         }
 
@@ -122,6 +126,7 @@ namespace Moneta.MVC.Controllers
                 return RedirectToAction("Create", lancamentos);
             }
 
+            TempData["ViewData"] = ViewData;
             return RedirectToAction("Index", new { ContaIdFiltro = lancamentos.ContaIdFiltro, MesAnoCompetencia = lancamentos.MesAnoCompetencia });
         }
 
