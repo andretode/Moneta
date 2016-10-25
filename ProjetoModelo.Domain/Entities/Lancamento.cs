@@ -19,7 +19,11 @@ namespace Moneta.Domain.Entities
         }
 
         public Guid LancamentoId { get; set; }
-        public string Descricao { get; set; }
+        private string descricao;
+        public string Descricao  {
+            get { return DescricaoMaisNumeroParcela(); }
+            set { descricao = value; } 
+        }
         public decimal Valor { get; set; }
         public DateTime DataVencimento { get; set; }
         public bool Pago { get; set; }
@@ -37,34 +41,19 @@ namespace Moneta.Domain.Entities
         public bool Fake { get; private set; }
         public ValidationResult ResultadoValidacao { get; private set; }
 
-        public Lancamento Clone()
+        /// <summary>
+        /// Retorna a descrição do lançamento e mais o número da parcela quando ela for parcelada.
+        /// </summary>
+        public string DescricaoMaisNumeroParcela()
         {
-            var clone = new Lancamento();
-            clone.Descricao = this.Descricao;
-            clone.Valor = this.Valor;
-            clone.Pago = clone.Pago;
-            clone.ContaId = this.ContaId;
-            clone.Conta = this.Conta;
-            clone.CategoriaId = this.CategoriaId;
-            clone.Categoria = this.Categoria;
-            clone.LancamentoParceladoId = this.LancamentoParceladoId;
-            clone.LancamentoParcelado = this.LancamentoParcelado;
-            clone.DataCadastro = this.DataCadastro;
-            clone.Ativo = this.Ativo;
-            clone.DataVencimento = this.DataVencimento;
-            clone.Fake = false;
+            if (this.LancamentoParcelado == null || this.LancamentoParcelado.NumeroParcelas == null || this.LancamentoParcelado.NumeroParcelas < 2)
+                return descricao;
 
-            return clone;
-        }
+            var dataInicio = this.LancamentoParcelado.DataInicio;
+            var dataParcelaNaSerie = GetDataVencimentoDaParcelaNaSerie();
+            var numParcela = (dataParcelaNaSerie-dataInicio).Days/this.LancamentoParcelado.Periodicidade + 1;
 
-        public Lancamento CloneFake(DateTime novaDataVencimento)
-        {
-            var clone = this.Clone();
-            clone.Fake = true;
-            clone.DataVencimento = (DateTime)novaDataVencimento;
-            clone.IdDaParcelaNaSerie = this.LancamentoId.ToString() + novaDataVencimento;
-            
-            return clone;
+            return descricao + " (" + numParcela + "/" + this.LancamentoParcelado.NumeroParcelas + ")";
         }
 
         /// <summary>
@@ -85,7 +74,7 @@ namespace Moneta.Domain.Entities
         /// <param name="dias">Quantidades de dias a ser somado na data. Poder ser valor negativo.</param>
         public void AddDaysDataVencimentoDaParcelaNaSerie(double dias)
         {
-            if (!this.BaseDaSerie)
+            if (this.IdDaParcelaNaSerie != null && !this.BaseDaSerie)
                 this.IdDaParcelaNaSerie = this.IdDaParcelaNaSerie.Substring(0, 36) + this.GetDataVencimentoDaParcelaNaSerie().AddDays(dias);
         }
 
@@ -97,6 +86,35 @@ namespace Moneta.Domain.Entities
 
             //return ResultadoValidacao.IsValid;
             return true;
+        }
+
+        public Lancamento Clone(DateTime novaDataVencimento)
+        {
+            var clone = new Lancamento();
+            clone.Descricao = this.Descricao;
+            clone.Valor = this.Valor;
+            clone.Pago = clone.Pago;
+            clone.ContaId = this.ContaId;
+            clone.Conta = this.Conta;
+            clone.CategoriaId = this.CategoriaId;
+            clone.Categoria = this.Categoria;
+            clone.LancamentoParceladoId = this.LancamentoParceladoId;
+            clone.LancamentoParcelado = this.LancamentoParcelado;
+            clone.DataCadastro = this.DataCadastro;
+            clone.Ativo = this.Ativo;
+            clone.DataVencimento = novaDataVencimento;
+            clone.IdDaParcelaNaSerie = this.LancamentoId.ToString() + novaDataVencimento; //trocar pelo LancamentoParceladoId
+            clone.Fake = false;
+
+            return clone;
+        }
+
+        public Lancamento CloneFake(DateTime novaDataVencimento)
+        {
+            var clone = this.Clone(novaDataVencimento);
+            clone.Fake = true;
+
+            return clone;
         }
     }
 }

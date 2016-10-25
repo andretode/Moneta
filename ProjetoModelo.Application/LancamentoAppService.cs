@@ -29,11 +29,6 @@ namespace Moneta.Application
 
             lancamentoViewModel.Valor = AjustarValorParaSalvar(lancamentoViewModel);
 
-            //if (lancamentoViewModel.LancamentoParcelado != null && lancamentoViewModel.LancamentoParcelado.Periodicidade != 0)
-            //    lancamentoViewModel.LancamentoParcelado.DataInicio = lancamentoViewModel.DataVencimento;
-            //else
-            //    lancamentoViewModel.LancamentoParcelado = null;
-
             ValidationResult result = null;
             if (lancamentoViewModel.LancamentoParcelado != null && lancamentoViewModel.LancamentoParcelado.TipoDeRepeticao == TipoRepeticao.Parcelado)
             {
@@ -94,20 +89,26 @@ namespace Moneta.Application
             ValidationResult result = null;
             for (int i = 0; i < lancamento.LancamentoParcelado.NumeroParcelas; i++)
             {
-                var novoLancamento = lancamento.Clone();
+                Lancamento novoLancamento = null;
 
+                //O primeiro lançamento precisa ser associado ao LancamentoParcelado para criá-lo em BD
                 if (i == 0)
-                    novoLancamento.LancamentoParcelado = lancamento.LancamentoParcelado;
-
-                novoLancamento.Descricao += " (" + (i + 1) + "/" + lancamento.LancamentoParcelado.NumeroParcelas + ")";
-                switch(lancamento.LancamentoParcelado.Periodicidade)
                 {
-                    case (int)PeriodicidadeEnum.Semanal:
-                        novoLancamento.DataVencimento = novoLancamento.DataVencimento.AddDays(i * 7);
-                        break;
-                    case (int)PeriodicidadeEnum.Mensal:
-                        novoLancamento.DataVencimento = novoLancamento.DataVencimento.AddMonths(i);
-                        break;
+                    novoLancamento = lancamento.Clone(lancamento.DataVencimento);
+                    novoLancamento.LancamentoParcelado = lancamento.LancamentoParcelado;
+                    novoLancamento.LancamentoParcelado.LancamentoBaseId = lancamento.LancamentoId;
+                }
+                else
+                {
+                    switch (lancamento.LancamentoParcelado.Periodicidade)
+                    {
+                        case (int)PeriodicidadeEnum.Semanal:
+                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddDays(i * 7));
+                            break;
+                        case (int)PeriodicidadeEnum.Mensal:
+                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddMonths(i));
+                            break;
+                    }
                 }
 
                 BeginTransaction();
