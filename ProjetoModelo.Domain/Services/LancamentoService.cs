@@ -114,7 +114,7 @@ namespace Moneta.Domain.Services
             var dataUltimoDiaMesAnterior = new DateTime(ano, mes, DateTime.DaysInMonth(ano, mes)).AddMonths(-1);
             var agregadoLancamentosDoMes = new AgregadoLancamentosDoMes();
             
-            var lancamentosMesAnteriorTodasAsContas = _LancamentoRepository.GetAll().Where(l => l.DataVencimento <= dataUltimoDiaMesAnterior && l.Pago == true);
+            var lancamentosMesAnteriorTodasAsContas = _LancamentoRepository.GetAll().Where(l => l.DataVencimento <= dataUltimoDiaMesAnterior);
             var saldoMesAnteriorTodasAsContas = lancamentosMesAnteriorTodasAsContas.Sum(l => l.Valor);
 
             if (lancamentosDoMes.ContaIdFiltro == Guid.Empty)

@@ -32,7 +32,7 @@ namespace Moneta.Infra.Data.Repositories
 
         public override IEnumerable<Lancamento> GetAll()
         {
-            return GetAll(false, false);
+            return GetAll(true, false);
         }
 
         public IEnumerable<Lancamento> GetAll(bool somenteOsAtivo, bool asNoTracking)

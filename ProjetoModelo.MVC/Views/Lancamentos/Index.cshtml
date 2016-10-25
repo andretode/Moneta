@@ -69,11 +69,11 @@
     </table>
 </div>
 
-<table class="table">
+<table class="table table-striped">
     <tr style="background-color: #e6e6e6">
         @{string corSaldoDoMesAnterior = (Model.SaldoDoMesAnterior > 0 ? "green" : "red");}
         <td colspan="5" class="text-right">Saldo do Mês Anterior: <span style="color: @corSaldoDoMesAnterior">@Html.DisplayFor(model => model.SaldoDoMesAnterior)</span></td>
-        <th></th>
+        <td><i title="O saldo é contabilizado independente se o lançamento foi ou não pago" class="glyphicon glyphicon-question-sign"></i></td>
     </tr>
 
     @if (Model.LancamentosDoMesPorConta.Count() == 0)
@@ -98,7 +98,6 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.DataVencimento)
                     &nbsp;
-                    @item.Fake
                     <a class="visible-xs visible-sm visible-md-inline visible-lg-inline" href="@Url.Action("Details", "Lancamentos", new { jsonLancamento })">
                         @item.DescricaoResumida
                     </a>
