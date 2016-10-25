@@ -29,8 +29,7 @@
             </div>
 
 
-            @Html.DropDownListFor(model => model.ContaIdFiltro, (SelectList)@ViewBag.Contas, "-- Selecione uma Conta --", new { @class = "form-control", @style = "display:inline-block" })
-            @Html.ValidationMessageFor(model => model.ContaIdFiltro, "", new { @class = "text-danger", @style = "display:inline-block" })
+            @Html.DropDownListFor(model => model.ContaIdFiltro, (SelectList)@ViewBag.Contas, "-- Todas as Contas --", new { @class = "form-control", @style = "display:inline-block" })
             @Html.TextBoxFor(model => model.PesquisarDescricao, new { @class = "form-control", @placeholder = "Pesquisar pela Data ou Descrição", @style = "display:inline-block" })
             <button type="submit" value="Pesquisar" name="action:Pesquisar" class="btn btn-default" title="Pesquisar" style="display:inline-block">
                 <span class="glyphicon glyphicon-search"></span>
@@ -61,18 +60,15 @@
 
 <table class="table">
     <tr style="background-color: #e6e6e6">
-        <th></th>
-        <th></th>
-        <th></th>
         @{string corSaldoDoMesAnterior = (Model.SaldoDoMesAnterior > 0 ? "green" : "red");}
-        <td class="text-right">Saldo do Mês Anterior: <span style="color: @corSaldoDoMesAnterior">@Html.DisplayFor(model => model.SaldoDoMesAnterior)</span></td>
+        <td colspan="5" class="text-right">Saldo do Mês Anterior: <span style="color: @corSaldoDoMesAnterior">@Html.DisplayFor(model => model.SaldoDoMesAnterior)</span></td>
         <th></th>
     </tr>
 
     @if (Model.LancamentosDoMesPorConta.Count() == 0)
     {
         <tr>
-            <td colspan="5" class="text-danger" align="center">Selecione uma Conta para mostrar os lançamentos relacionados</td>
+            <td colspan="6" class="text-danger" align="center">Selecione uma Conta para mostrar os lançamentos relacionados</td>
         </tr>
     }
     else
@@ -91,9 +87,8 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.DataVencimento)
                     &nbsp;
-                    <span class="visible-lg-inline">@(item.Fake ? "F" : "V")</span>
-                    <a href="@Url.Action("Details", "Lancamentos", new { jsonLancamento }) " class="visible-xs visible-sm visible-md-inline visible-lg-inline">
-                        @Html.DisplayFor(modelItem => item.Descricao)
+                    <a class="visible-xs visible-sm visible-md-inline visible-lg-inline" href="@Url.Action("Details", "Lancamentos", new { jsonLancamento })">
+                        @item.DescricaoResumida
                     </a>
 
                 </td>
@@ -107,8 +102,14 @@
                     @Html.HiddenFor(modelItem => item.Fake)
                 </td>
                 <td>
+                    @if (Model.ContaIdFiltro == Guid.Empty)
+                    {
+                        <span class="visible-md visible-lg">@item.Conta.Descricao</span>
+                    }
+                </td>
+                <td>
                     <button class="btn" style="background-color: @item.Categoria.Cor" title="@item.Categoria.Descricao"></button>
-                    <span class="visible-md-inline visible-lg-inline">@item.Categoria.Descricao</span>
+                    <span class="visible-xs visible-sm visible-md-inline visible-lg-inline">@item.Categoria.Descricao</span>
                 </td>
                 <td class="text-right">
                     @if (item.Valor > 0)
@@ -148,10 +149,7 @@
         string corSaldoDoMesTodasAsContas = (Model.SaldoDoMesTodasAsContas > 0 ? "green" : "red");
 
         <tr class="text-right">
-            <td></td>
-			<td></td>
-            <td></td>
-            <td>
+            <td colspan="5">
                 <h5>Saldo Atual: <strong style="color: @corSaldoAtualDoMesPorConta">@Html.DisplayFor(model => model.SaldoAtualDoMesPorConta)</strong></h5>
                 <h5>Saldo no fim do mês: <strong style="color: @corSaldoDoMesPorConta">@Html.DisplayFor(model => model.SaldoDoMesPorConta)</strong></h5>
                 <h6>Saldo de todas as contas no fim do mês: <span style="color: @corSaldoDoMesTodasAsContas">@Html.DisplayFor(model => model.SaldoDoMesTodasAsContas)</span></h6>

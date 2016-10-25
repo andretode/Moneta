@@ -37,6 +37,14 @@ namespace Moneta.Application.ViewModels
         [DisplayName("Descrição")]
         public string Descricao { get; set; }
 
+        [DisplayName("Descrição Resumida")]
+        public string DescricaoResumida {
+            get {
+                int posicaoUltimoCaracter = (this.Descricao.Length >= 30 ? 30 : this.Descricao.Length);
+                return Descricao.Substring(0, posicaoUltimoCaracter); 
+            }
+        }
+
         [DataType(DataType.Currency)]
         [Range(typeof(decimal), "0,01", "9999999,99")]
         [Required(ErrorMessage = "Preencha o campo")]
