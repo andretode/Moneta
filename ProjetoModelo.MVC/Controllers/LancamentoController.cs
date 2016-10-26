@@ -34,14 +34,11 @@ namespace Moneta.MVC.Controllers
         // GET: Lancamento
         public ViewResult Index(LancamentosDoMesViewModel lancamentos)
         {
-            if (TempData["ViewData"] != null)
-                ViewData = (ViewDataDictionary)TempData["ViewData"];
-
             if (lancamentos.MesAnoCompetencia == DateTime.MinValue)
                 lancamentos.MesAnoCompetencia = DateTime.Now;
 
             DateTime mesAnoCompetenciaTemp = lancamentos.MesAnoCompetencia;
-            Guid contaIdFiltroTemp = lancamentos.ContaIdFiltro;
+            Guid contaIdFiltroTemp = (lancamentos.ContaIdFiltro == null ? Guid.Empty : (Guid)lancamentos.ContaIdFiltro);
 
             lancamentos = _LancamentoApp.GetLancamentosDoMes(lancamentos);
             lancamentos.MesAnoCompetencia = mesAnoCompetenciaTemp;
@@ -112,7 +109,6 @@ namespace Moneta.MVC.Controllers
                 return RedirectToAction("Create", lancamentos);
             }
 
-            TempData["ViewData"] = ViewData;
             return RedirectToAction("Index", new { ContaIdFiltro = lancamentos.ContaIdFiltro, MesAnoCompetencia = lancamentos.MesAnoCompetencia });
         }
 
@@ -126,7 +122,6 @@ namespace Moneta.MVC.Controllers
                 return RedirectToAction("Create", lancamentos);
             }
 
-            TempData["ViewData"] = ViewData;
             return RedirectToAction("Index", new { ContaIdFiltro = lancamentos.ContaIdFiltro, MesAnoCompetencia = lancamentos.MesAnoCompetencia });
         }
 
@@ -145,8 +140,8 @@ namespace Moneta.MVC.Controllers
             if (ModelState.IsValid)
             {
                 var novoLancamento = new LancamentoViewModel(lancamentos.MesAnoCompetencia);
-                novoLancamento.Conta = _ContaApp.GetById(lancamentos.ContaIdFiltro);
-                novoLancamento.ContaId = lancamentos.ContaIdFiltro;
+                novoLancamento.Conta = _ContaApp.GetById((Guid)lancamentos.ContaIdFiltro);
+                novoLancamento.ContaId = (Guid)lancamentos.ContaIdFiltro;
                 novoLancamento.Transacao = lancamentos.NovaTransacao;
                 SetSelectLists();
                 return View(novoLancamento);

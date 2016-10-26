@@ -8,9 +8,13 @@ namespace Moneta.Application.ViewModels
 {
     public class LancamentosDoMesViewModel
     {
+        public Guid? contaIdFiltro = Guid.Empty;
+
         [DisplayName("Filtro Conta")]
-        [Required(ErrorMessage = "Selecione uma conta")]
-        public Guid ContaIdFiltro { get; set; }
+        public Guid? ContaIdFiltro {
+            get { return contaIdFiltro; }
+            set { contaIdFiltro = value; }
+        }
 
         public string PesquisarDescricao { get; set; }
         public DateTime MesAnoCompetencia { get; set; }

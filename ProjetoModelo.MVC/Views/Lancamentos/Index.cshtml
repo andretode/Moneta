@@ -8,18 +8,9 @@
 <h2>@ViewBag.Title</h2>
 
 <div class="form-horizontal">
-
-    @if (ViewData.ModelState[""] != null && ViewData.ModelState[""].Errors.Count > 0)
-    {
-        <div class="alert alert-warning fade in">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            <strong>Atenção!</strong> @Html.ValidationSummary(false)
-        </div>
-    }
-    
     @Html.ValidationSummary(false, "Atenção!", new { @class = "alert alert-warning fade in" })
 
-    @using (Html.BeginForm("Index", "Lancamentos", new { @Model.MesAnoCompetencia }, FormMethod.Post, new { id = "formFiltros" }))
+    @using (Html.BeginForm("Index", "Lancamentos", new { @Model.MesAnoCompetencia }, FormMethod.Post, new { id = "formFiltros", onsubmit = "return IsValidForm()" }))
     {
         <div class="form-group col-md-12">
             <div tabindex="0" class="dropdown">
@@ -180,10 +171,34 @@
 
 @section Scripts {
     <script type="text/javascript">
+        var mudouConta = false;
+
         $(function () {
             $('#ContaIdFiltro').change(function () {
+                mudouConta = true;
                 $('#formFiltros').submit();
             });
         });
+
+        function AdicionarDespesa()
+        {
+            if ($('#ContaIdFiltro').val() == "") {
+                alert("Selecione uma conta!");
+            }
+            else {
+                $('#formFiltros').submit();
+            }
+        }
+
+        function IsValidForm()
+        {
+            if (!mudouConta && $('#ContaIdFiltro').val() == "") {
+                alert("Selecione uma conta!");
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
     </script>
 }
