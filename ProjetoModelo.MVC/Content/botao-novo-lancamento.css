@@ -15,6 +15,7 @@
     position: absolute;
     min-width: 130px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1; /*ordem alta no eixo z para ficar acima da barra e troca de mes*/
 }
 
 /* Links inside the dropdown */
@@ -42,3 +43,6 @@
 .btn-transferencia button:hover{
     background-color: lightblue;
 }
+
+/*usado para colorir a linha da listagem dos lançamentos quando o mouse passa sobre*/
+tr:hover td {background:#efefef}

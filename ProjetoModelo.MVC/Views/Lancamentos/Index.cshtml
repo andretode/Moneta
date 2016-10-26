@@ -19,7 +19,7 @@
                 </label>
                 <div class="dropdown-content">
                     <div class="btn-despesa">
-                        <button class="btn" type="submit" name="action:AdicionarDespesa" title="Adicionar uma Despesa" style="width:100%">Despesa</button>
+                        <button class="btn type="submit" name="action:AdicionarDespesa" title="Adicionar uma Despesa" style="width:100%">Despesa</button>
                     </div>
                     <div class="btn-receita">
                         <button class="btn" type="submit" name="action:AdicionarReceita" title="Adicionar uma Receita" style="width:100%">Receita</button>
@@ -41,24 +41,16 @@
         </div>
     }
 
-    <div style="width:100%;background-color:gray;color:white;display:inline-table">
-        <div>
-            <div class="col-xs-4"></div>
-            <div class="col-sm-4 col-md-4">
-                <h5>
-                    <a class="text-right col-md-2" title="Mês Anterior" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = -1 })">
-                        <i class="glyphicon glyphicon-chevron-left" style="color: white"></i>
-                    </a>
-                    <span class="text-center col-md-8">
-                        @Model.MesAnoCompetencia.ToString("MMMM yyyy").ToUpper()
-                    </span>
-                    <a class="text-left col-md-2" title=" próximo mês" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = +1 })">
-                        <i class="glyphicon glyphicon-chevron-right" style="color: white"></i>
-                    </a>
-                </h5>
-            </div>
-            <div></div>
+    <div style="width:100%;background-color:gray;color:white;display:flex;min-height: 30px;align-items:center;z-index:-1">
+        <a class="text-right col-xs-4 col-md-4" title="Mês Anterior" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = -1 })">
+            <i class="glyphicon glyphicon-chevron-left" style="color: white"></i>
+        </a>
+        <div class="text-center col-xs-4 col-md-4">
+            @Model.MesAnoCompetencia.ToString("MMMM yyyy").ToUpper()
         </div>
+        <a class="text-left col-xs-4 col-md-4" title=" próximo mês" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = +1 })">
+            <i class="glyphicon glyphicon-chevron-right" style="color: white"></i>
+        </a>
     </div>
 </div>
 
