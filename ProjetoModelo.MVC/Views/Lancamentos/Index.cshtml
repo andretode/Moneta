@@ -69,7 +69,7 @@
     </table>
 </div>
 
-<table class="table table-striped">
+<table class="table table-striped table-condensed">
     <tr style="background-color: #e6e6e6">
         @{string corSaldoDoMesAnterior = (Model.SaldoDoMesAnterior > 0 ? "green" : "red");}
         <td colspan="5" class="text-right">Saldo do Mês Anterior: <span style="color: @corSaldoDoMesAnterior">@Html.DisplayFor(model => model.SaldoDoMesAnterior)</span></td>
