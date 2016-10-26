@@ -40,7 +40,8 @@ namespace Moneta.Application.ViewModels
         [DisplayName("Descrição Resumida")]
         public string DescricaoResumida {
             get {
-                int posicaoUltimoCaracter = (this.DescricaoMaisNumeroParcela.Length >= 30 ? 30 : this.DescricaoMaisNumeroParcela.Length);
+                int tamanho = 35;
+                int posicaoUltimoCaracter = (this.DescricaoMaisNumeroParcela.Length >= tamanho ? tamanho : this.DescricaoMaisNumeroParcela.Length);
                 return DescricaoMaisNumeroParcela.Substring(0, posicaoUltimoCaracter); 
             }
         }
