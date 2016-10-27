@@ -1,4 +1,5 @@
 ﻿using Moneta.Domain.ValueObjects;
+using Moneta.Infra.CrossCutting.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,10 @@ namespace Moneta.Domain.Entities
         public DateTime DataCadastro { get; set; }
         public bool BaseDaSerie { get; set; }
         public bool Ativo { get; set; }
+        public TipoTransacaoEnum TipoDeTransacao { get; set; }
+        public Guid? LancamentoIdTransferencia { get; set; }
+        public virtual Lancamento LancamentoTransferencia { get; set; }
+        public virtual ICollection<Lancamento> LancamentosTransferencia { get; set; }
 
         public bool Fake { get; private set; }
         public ValidationResult ResultadoValidacao { get; private set; }

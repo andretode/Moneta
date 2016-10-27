@@ -35,6 +35,9 @@ namespace Moneta.Infra.Data.EntityConfig
             Property(c => c.Ativo)
                 .IsRequired();
 
+            Property(c => c.TipoDeTransacao)
+                .IsRequired();
+
             HasRequired(c => c.Categoria)
                 .WithMany(c => c.Lancamentos)
                 .HasForeignKey(c => c.CategoriaId);
@@ -52,7 +55,17 @@ namespace Moneta.Infra.Data.EntityConfig
             HasOptional(c => c.LancamentoParcelado)
                 .WithMany(c => c.Lancamentos)
                 .HasForeignKey(c => c.LancamentoParceladoId);
-            
+
+            Property(c => c.LancamentoIdTransferencia)
+                .IsOptional()
+                .HasColumnAnnotation("Index",
+                    new IndexAnnotation(new IndexAttribute("IX_LancamentoIdTransferencia") { IsUnique = true }));
+
+            HasOptional(c => c.LancamentoTransferencia)
+                .WithMany(c => c.LancamentosTransferencia)
+                .HasForeignKey(c => c.LancamentoIdTransferencia)
+                .WillCascadeOnDelete();
+
             Ignore(t => t.ResultadoValidacao);
             Ignore(t => t.Fake);
         }

@@ -14,7 +14,7 @@
     
     <h4>Categoria</h4>
     <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
     string msgErro = "Não foi possível concluir a operação. Favor repassar o erro a equipe Moneta: 'O campo escondido [{0}] não veio com a informação'";
     
@@ -42,7 +42,9 @@
     @Html.ValidationMessageFor(model => model.Pago, String.Format(msgErro, "IdDaParcelaNaSerie"), new { @class = "text-danger" })
     @Html.HiddenFor(model => model.LancamentoParceladoId)
     @Html.ValidationMessageFor(model => model.Pago, String.Format(msgErro, "LancamentoParceladoId"), new { @class = "text-danger" })
-
+    @Html.HiddenFor(model => model.LancamentoIdTransferencia)
+    @Html.ValidationMessageFor(model => model.LancamentoIdTransferencia, String.Format(msgErro, "LancamentoIdTransferencia"), new { @class = "text-danger" })
+    
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Descricao)

@@ -19,7 +19,7 @@
 
 @{
     var cor = "lightcoral";
-    if (Model.Transacao == TipoTransacaoEnum.Receita)
+    if (Model.TipoDeTransacao == TipoTransacaoEnum.Receita)
     {
         cor = "lightgreen";
     }
@@ -28,8 +28,8 @@
         <div class="form-group">
             <div class="control-label col-md-2"></div>
             <div class="col-md-3">
-                <h3><span class="label" style="display:block; background-color: @cor">@Model.Transacao</span></h3>
-                @Html.HiddenFor(model => model.Transacao)
+                <h3><span class="label" style="display:block; background-color: @cor">@Model.TipoDeTransacao</span></h3>
+                @Html.HiddenFor(model => model.TipoDeTransacao)
             </div>
         </div>
 
@@ -80,7 +80,7 @@
         <div class="form-group" id="botaoRepetir">
             <div class="control-label col-md-2"></div>
             <div class="col-md-10">
-                <a href="javascript:mostrarLancamentoParcelado();" class="btn btn-default" title="Repetir @Model.Transacao">
+                <a href="javascript:mostrarLancamentoParcelado();" class="btn btn-default" title="Repetir @Model.TipoDeTransacao">
                     <i class="glyphicon glyphicon-retweet"></i>
                 </a>
             </div>

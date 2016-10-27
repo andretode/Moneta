@@ -64,7 +64,7 @@ namespace Moneta.Application.ViewModels
         public bool Pago { get; set; }
 
         [DisplayName("Transação")]
-        public TipoTransacaoEnum Transacao { get; set; }
+        public TipoTransacaoEnum TipoDeTransacao { get; set; }
 
         [DisplayName("Data de Cadastro")]
         [ScaffoldColumn(false)]
@@ -102,5 +102,12 @@ namespace Moneta.Application.ViewModels
         [DisplayName("Lançamento Parcelado")]
         [JsonIgnore]
         public virtual LancamentoParceladoViewModel LancamentoParcelado { get; set; }
+
+        [DisplayName("Transferência")]
+        public Guid? LancamentoIdTransferencia { get; set; }
+
+        [DisplayName("Transferência")]
+        [JsonIgnore]
+        public virtual LancamentoViewModel LancamentoTransferencia { get; set; }
     }
 }

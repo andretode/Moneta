@@ -133,8 +133,8 @@ namespace Moneta.Domain.Services
             agregadoLancamentosDoMes.SaldoAtualDoMes = agregadoLancamentosDoMes.LancamentosDoMes.Where(l => l.Pago == true).Sum(l => l.Valor) 
                 + agregadoLancamentosDoMes.SaldoDoMesAnterior;
 
-            agregadoLancamentosDoMes.ReceitaTotal = agregadoLancamentosDoMes.LancamentosDoMes.Where(l => l.Valor > 0).Sum(l => l.Valor);
-            agregadoLancamentosDoMes.DespesaTotal = agregadoLancamentosDoMes.LancamentosDoMes.Where(l => l.Valor < 0).Sum(l => l.Valor);
+            agregadoLancamentosDoMes.ReceitaTotal = agregadoLancamentosDoMes.LancamentosDoMes.Where(l => l.TipoDeTransacao == TipoTransacaoEnum.Receita).Sum(l => l.Valor);
+            agregadoLancamentosDoMes.DespesaTotal = agregadoLancamentosDoMes.LancamentosDoMes.Where(l => l.TipoDeTransacao == TipoTransacaoEnum.Despesa).Sum(l => l.Valor);
 
             if (lancamentosDoMes.PesquisarDescricao != null)
                 agregadoLancamentosDoMes.LancamentosDoMes = agregadoLancamentosDoMes.LancamentosDoMes.Where(l => 
@@ -176,8 +176,8 @@ namespace Moneta.Domain.Services
                 despesaAcumulada = saldoDoMesAnterior;
             foreach (var dia in arrayDataVencimento)
             {
-                receitaAcumulada += lancamentos.Where(l => l.DataVencimento == dia && l.Valor > 0).Sum(l => l.Valor);
-                despesaAcumulada += lancamentos.Where(l => l.DataVencimento == dia && l.Valor < 0).Sum(l => l.Valor);
+                receitaAcumulada += lancamentos.Where(l => l.DataVencimento == dia && l.TipoDeTransacao == TipoTransacaoEnum.Receita).Sum(l => l.Valor);
+                despesaAcumulada += lancamentos.Where(l => l.DataVencimento == dia && l.TipoDeTransacao == TipoTransacaoEnum.Despesa).Sum(l => l.Valor);
                 saldoAcumulado = receitaAcumulada + despesaAcumulada;
                 listaDeSaldoPorDia.Add(new Tuple<DateTime, decimal, decimal, decimal>(dia, receitaAcumulada, Math.Abs(despesaAcumulada), saldoAcumulado));
             }

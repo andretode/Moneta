@@ -141,7 +141,7 @@ namespace Moneta.MVC.Controllers
                 var novoLancamento = new LancamentoViewModel(lancamentos.MesAnoCompetencia);
                 novoLancamento.Conta = _ContaApp.GetById((Guid)lancamentos.ContaIdFiltro);
                 novoLancamento.ContaId = (Guid)lancamentos.ContaIdFiltro;
-                novoLancamento.Transacao = lancamentos.NovaTransacao;
+                novoLancamento.TipoDeTransacao = lancamentos.NovaTransacao;
                 SetSelectLists();
                 return View(novoLancamento);
             }

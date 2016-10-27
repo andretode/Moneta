@@ -18,9 +18,13 @@
         <dd>
             @{
                 var cor = "lightcoral";
-                if (Model.Transacao == TipoTransacaoEnum.Receita)
+                if (Model.TipoDeTransacao == TipoTransacaoEnum.Receita)
                 {
                     cor = "lightgreen";
+                }
+                else if (Model.TipoDeTransacao == TipoTransacaoEnum.Transferencia)
+                {
+                    cor = "lightblue";
                 }
 
                 var jsSettings = new JsonSerializerSettings
@@ -32,7 +36,7 @@
                 string jsonLancamento = JsonConvert.SerializeObject(Model, Formatting.Indented, jsSettings);
             }
             <div class="col-md-3">
-                <h3><span class="label" style="display:block; background-color: @cor">@Model.Transacao</span></h3>
+                <h3><span class="label" style="display:block; background-color: @cor">@Model.TipoDeTransacao</span></h3>
             </div>
         </dd>
 
@@ -42,6 +46,7 @@
         <dd>
             @Html.DisplayFor(model => model.DescricaoMaisNumeroParcela)
             @Html.HiddenFor(model => model.Descricao)
+            @Html.HiddenFor(model => model.LancamentoIdTransferencia)
         </dd>
 
         <dt>

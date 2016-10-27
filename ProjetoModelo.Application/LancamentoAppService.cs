@@ -171,15 +171,15 @@ namespace Moneta.Application
 
         public void AjustarLancamentoParaExibir(LancamentoViewModel lancamentoViewModel)
         {
-            if(lancamentoViewModel.Transacao == 0)
+            if(lancamentoViewModel.TipoDeTransacao == 0)
             {
                 if (lancamentoViewModel.Valor > 0)
                 {
-                    lancamentoViewModel.Transacao = TipoTransacaoEnum.Receita;
+                    lancamentoViewModel.TipoDeTransacao = TipoTransacaoEnum.Receita;
                 }
                 else
                 {
-                    lancamentoViewModel.Transacao = TipoTransacaoEnum.Despesa;
+                    lancamentoViewModel.TipoDeTransacao = TipoTransacaoEnum.Despesa;
                     lancamentoViewModel.Valor = lancamentoViewModel.Valor * -1;
                 }
             }
@@ -189,9 +189,9 @@ namespace Moneta.Application
         private decimal AjustarValorParaSalvar(LancamentoViewModel lancamentoViewModel)
         {
             decimal valorAjustado;
-            if (lancamentoViewModel.Transacao == TipoTransacaoEnum.Despesa && Math.Sign(lancamentoViewModel.Valor) == 1)
+            if (lancamentoViewModel.TipoDeTransacao == TipoTransacaoEnum.Despesa && Math.Sign(lancamentoViewModel.Valor) == 1)
                 valorAjustado = lancamentoViewModel.Valor * -1;
-            else if (lancamentoViewModel.Transacao == TipoTransacaoEnum.Receita && Math.Sign(lancamentoViewModel.Valor) == -1)
+            else if (lancamentoViewModel.TipoDeTransacao == TipoTransacaoEnum.Receita && Math.Sign(lancamentoViewModel.Valor) == -1)
                 valorAjustado = lancamentoViewModel.Valor * -1;
             else
                 valorAjustado = lancamentoViewModel.Valor;

@@ -19,18 +19,23 @@
         @Html.HiddenFor(model => model.LancamentoId)
 
         @{
-    var cor = "lightcoral";
-    if (Model.Transacao == TipoTransacaoEnum.Receita)
-    {
-        cor = "lightgreen";
-    }
+            var cor = "lightcoral";
+            if (Model.TipoDeTransacao == TipoTransacaoEnum.Receita)
+            {
+                cor = "lightgreen";
+            }
+            else if (Model.TipoDeTransacao == TipoTransacaoEnum.Transferencia)
+            {
+                cor = "lightblue";
+            }
         }
 
         <div class="form-group">
             <div class="control-label col-md-2"></div>
             <div class="col-md-3">
-                <h3><span class="label" style="display:block; background-color: @cor">@Model.Transacao</span></h3>
-                @Html.HiddenFor(model => model.Transacao)
+                <h3><span class="label" style="display:block; background-color: @cor">@Model.TipoDeTransacao</span></h3>
+                @Html.HiddenFor(model => model.TipoDeTransacao)
+                @Html.HiddenFor(model => model.LancamentoIdTransferencia)
                 @Html.HiddenFor(model => model.Fake)
                 @Html.HiddenFor(model => model.LancamentoParceladoId)
                 @Html.HiddenFor(model => model.IdDaParcelaNaSerie)
