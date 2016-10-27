@@ -83,7 +83,7 @@
                 string jsonLancamento = JsonConvert.SerializeObject(item, Formatting.Indented, jsSettings);
 
                 <tr>
-                    <td>
+                    <td>                            
                         @Html.DisplayFor(modelItem => item.DataVencimento)
                         &nbsp;
                         <a class="visible-xs visible-sm visible-md-inline visible-lg-inline" href="@Url.Action("Details", "Lancamentos", new { jsonLancamento })">
@@ -134,9 +134,15 @@
                         }
                         else
                         {
+                            string corDataVencimentoPago = "gray";
+                            if (!item.Pago && item.DataVencimento < DateTime.Now)
+                            {
+                                corDataVencimentoPago = "red";
+                            }
+
                             <a title="Clique para informar que foi pago"
                                href="@Url.Action("TrocarPago", "Lancamentos", new { jsonLancamento })">
-                                <i class="icon-white glyphicon glyphicon-thumbs-down" style="color:red"></i>
+                                <i class="icon-white glyphicon glyphicon-thumbs-down" style="color:@corDataVencimentoPago"></i>
                             </a>
                         }
                     </td>
@@ -148,8 +154,8 @@
 
             <tr>
                 <td colspan="2" class="text-left">
-                    <h6>Receitas Totais: <span style="color:green">@Html.DisplayFor(model => model.ReceitaTotal)</span></h6>
-                    <h6>Despesas Totais: <span style="color:red">@Html.DisplayFor(model => model.DespesaTotal)</span></h6>
+                    <h6>Receitas previstas no mês: <span style="color:green">@Html.DisplayFor(model => model.ReceitaTotal)</span></h6>
+                    <h6>Despesas previstas no mês: <span style="color:red">@Html.DisplayFor(model => model.DespesaTotal)</span></h6>
                 </td>
                 <td colspan="3" class="text-right">
                     <h5>Saldo atual: <strong style="color: @corSaldoAtualDoMes">@Html.DisplayFor(model => model.SaldoAtualDoMes)</strong></h5>
