@@ -51,8 +51,7 @@ namespace Moneta.MVC.Controllers
 
         public ActionResult GraficoSaldoDoMes(Guid? ContaIdFiltro)
         {
-            if (ContaIdFiltro == null)
-                ContaIdFiltro = _ContaApp.GetAll().First().ContaId;
+            ContaIdFiltro = (ContaIdFiltro == null ? Guid.Empty : (Guid)ContaIdFiltro);
 
             var lancamentosDoMes = new LancamentosDoMesViewModel();
             lancamentosDoMes.ContaIdFiltro = (Guid)ContaIdFiltro;

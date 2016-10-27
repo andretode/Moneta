@@ -26,14 +26,17 @@ namespace Moneta.Application.ViewModels
         public decimal SaldoDoMesAnterior { get; set; }
 
         [DataType(DataType.Currency)]
-        public decimal SaldoDoMesTodasAsContas { get; set; }
+        public decimal SaldoDoMes { get; set; }
 
         [DataType(DataType.Currency)]
-        public decimal SaldoDoMesPorConta { get; set; }
+        public decimal SaldoAtualDoMes { get; set; }
 
         [DataType(DataType.Currency)]
-        public decimal SaldoAtualDoMesPorConta { get; set; }
+        public decimal ReceitaTotal { get; set; }
 
-        public virtual IEnumerable<LancamentoViewModel> LancamentosDoMesPorConta { get; set; }
+        [DataType(DataType.Currency)]
+        public decimal DespesaTotal { get; set; }
+
+        public virtual IEnumerable<LancamentoViewModel> LancamentosDoMes { get; set; }
     }
 }

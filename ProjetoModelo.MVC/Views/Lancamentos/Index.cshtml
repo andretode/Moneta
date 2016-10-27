@@ -64,7 +64,7 @@
         </tr>
     </thead>
     <tbody>
-        @if (Model.LancamentosDoMesPorConta.Count() == 0)
+        @if (Model.LancamentosDoMes.Count() == 0)
         {
             <tr>
                 <td colspan="6" class="text-danger" align="center">Selecione uma Conta para mostrar os lançamentos relacionados</td>
@@ -72,7 +72,7 @@
         }
         else
         {
-            foreach (var item in @Model.LancamentosDoMesPorConta)
+            foreach (var item in @Model.LancamentosDoMes)
             {
                 var jsSettings = new JsonSerializerSettings
                 {
@@ -143,15 +143,17 @@
                 </tr>
             }
 
-            string corSaldoAtualDoMesPorConta = (Model.SaldoAtualDoMesPorConta > 0 ? "green" : "red");
-            string corSaldoDoMesPorConta = (Model.SaldoDoMesPorConta > 0 ? "green" : "red");
-            string corSaldoDoMesTodasAsContas = (Model.SaldoDoMesTodasAsContas > 0 ? "green" : "red");
+            string corSaldoAtualDoMes = (Model.SaldoAtualDoMes > 0 ? "green" : "red");
+            string corSaldoDoMes = (Model.SaldoDoMes > 0 ? "green" : "red");
 
-            <tr class="text-right">
-                <td colspan="5">
-                    <h5>Saldo Atual: <strong style="color: @corSaldoAtualDoMesPorConta">@Html.DisplayFor(model => model.SaldoAtualDoMesPorConta)</strong></h5>
-                    <h5>Saldo no fim do mês: <strong style="color: @corSaldoDoMesPorConta">@Html.DisplayFor(model => model.SaldoDoMesPorConta)</strong></h5>
-                    <h6>Saldo de todas as contas no fim do mês: <span style="color: @corSaldoDoMesTodasAsContas">@Html.DisplayFor(model => model.SaldoDoMesTodasAsContas)</span></h6>
+            <tr>
+                <td colspan="2" class="text-left">
+                    <h6>Receitas Totais: <span style="color:green">@Html.DisplayFor(model => model.ReceitaTotal)</span></h6>
+                    <h6>Despesas Totais: <span style="color:red">@Html.DisplayFor(model => model.DespesaTotal)</span></h6>
+                </td>
+                <td colspan="3" class="text-right">
+                    <h5>Saldo atual: <strong style="color: @corSaldoAtualDoMes">@Html.DisplayFor(model => model.SaldoAtualDoMes)</strong></h5>
+                    <h6>Previsto para o fim do mês: <strong style="color: @corSaldoDoMes">@Html.DisplayFor(model => model.SaldoDoMes)</strong></h6>
                 </td>
                 <td></td>
             </tr>

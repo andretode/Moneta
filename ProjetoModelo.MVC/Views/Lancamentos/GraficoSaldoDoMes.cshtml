@@ -4,7 +4,7 @@
 <div class="form-horizontal">
     @using (Html.BeginForm("GraficoSaldoDoMes", "Lancamentos", new { @Model }, FormMethod.Get, new { id = "formFiltros" }))
     {
-        @Html.DropDownList("ContaIdFiltro", (SelectList)@ViewBag.Contas, null, new { @class = "form-control" })
+        @Html.DropDownList("ContaIdFiltro", (SelectList)@ViewBag.Contas, "-- Todas as Contas --", new { @class = "form-control" })
     }
 </div>
 
