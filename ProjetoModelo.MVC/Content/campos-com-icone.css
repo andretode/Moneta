@@ -1,0 +1,22 @@
+﻿/* enable absolute positioning */
+.inner-addon {
+  position: relative;
+}
+
+/* style glyph */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  /*pointer-events: none;*/
+}
+
+/* align glyph */
+.inner-addon .left-addon  { left:  0px; pointer-events: none; }
+.inner-addon .right-addon { right: 20px;}
+
+/* add padding  */
+.inner-addon input  { padding-left:  30px; }
+
+body {
+  margin: 10px;
+}
