@@ -59,7 +59,7 @@
             <div class="col-md-4">
                 <div class="inner-addon">
                     <i class="glyphicon glyphicon-usd left-addon"></i>
-                    <i class="right-addon glyphicon glyphicon-info-sign" title="A alteração deste valor acarreta também na alteração de seu lançamento par."></i>
+                    <i class="right-addon glyphicon glyphicon-info-sign" data-toggle="tooltip" title="A alteração deste valor acarreta também na alteração de seu lançamento par."></i>
                     @Html.EditorFor(model => model.Valor, new { htmlAttributes = new { @class = "form-control" } })
                 </div>
                 @Html.ValidationMessageFor(model => model.Valor, "", new { @class = "text-danger" })
@@ -71,7 +71,7 @@
             <div class="col-md-4">
                 <div class="inner-addon">
                     <i class="glyphicon glyphicon-calendar  left-addon"></i>
-                    <i class="right-addon glyphicon glyphicon-info-sign" title="A alteração deste valor não afeta seu lançamento par."></i>
+                    <i class="right-addon glyphicon glyphicon-info-sign" data-toggle="tooltip" title="A alteração deste valor não afeta seu lançamento par"></i>
                     @Html.EditorFor(model => model.DataVencimento, new { htmlAttributes = new { @class = "form-control datepicker" } })
                 </div>
                 @Html.ValidationMessageFor(model => model.DataVencimento, "", new { @class = "text-danger" })
@@ -92,9 +92,11 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
 
 <script>
     $(function () { // will trigger when the document is ready
+        $('[data-toggle="tooltip"]').tooltip();
         $('.datepicker').datepicker('setDate', new Date('@Model.DataVencimento.ToString("MM/dd/yyyy")'));
     });
 </script>
