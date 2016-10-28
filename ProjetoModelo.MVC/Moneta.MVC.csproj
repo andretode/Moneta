@@ -180,13 +180,14 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\LancamentoController.cs" />
+    <Compile Include="Controllers\LancamentosController.cs" />
     <Compile Include="Controllers\ClaimsAdminController.cs" />
     <Compile Include="Controllers\CategoriaController.cs" />
     <Compile Include="Controllers\ContasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
+    <Compile Include="Controllers\TransferenciasController.cs" />
     <Compile Include="Controllers\UserAdminController.cs" />
     <Compile Include="DataAnnotation\MultipleButtonAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -754,6 +755,8 @@
     <Content Include="Views\Lancamentos\Edit.cshtml" />
     <Content Include="Views\Lancamentos\Index.cshtml" />
     <Content Include="Views\Lancamentos\GraficoSaldoDoMes.cshtml" />
+    <Content Include="Views\Transferencias\Details.cshtml" />
+    <Content Include="Views\Transferencias\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

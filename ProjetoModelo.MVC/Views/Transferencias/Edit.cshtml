@@ -1,0 +1,91 @@
+﻿@model Moneta.Application.ViewModels.LancamentoViewModel
+@using Moneta.Application.ViewModels;
+@using Moneta.Infra.CrossCutting.Enums;
+
+@{
+    ViewBag.Title = "Lançamento";
+}
+
+<h2>Lançamento</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.LancamentoId)
+
+        <div class="form-group">
+            <div class="control-label col-md-2"></div>
+            <div class="col-md-3">
+                <h3 style="float:left"><span class="label" style="display:block; background-color: lightblue">Transferência</span></h3>
+                @Html.HiddenFor(model => model.TipoDeTransacao)
+                @Html.HiddenFor(model => model.Pago)
+                @Html.HiddenFor(model => model.LancamentoIdTransferencia)
+                @Html.HiddenFor(model => model.CategoriaId)
+                @Html.HiddenFor(model => model.LancamentoTransferencia.TipoDeTransacao)
+                @Html.HiddenFor(model => model.LancamentoTransferencia.LancamentoIdTransferencia)
+                @Html.HiddenFor(model => model.LancamentoTransferencia.LancamentoId)
+                @Html.HiddenFor(model => model.LancamentoTransferencia.Valor)
+                @Html.HiddenFor(model => model.LancamentoTransferencia.Pago)
+                @Html.HiddenFor(model => model.LancamentoTransferencia.Descricao)
+                @Html.HiddenFor(model => model.LancamentoTransferencia.DataVencimento)
+                @Html.HiddenFor(model => model.LancamentoTransferencia.CategoriaId)
+                @Html.HiddenFor(model => model.LancamentoTransferencia.ContaId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Conta, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Conta.Descricao)
+                @Html.HiddenFor(model => model.ContaId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Descricao)
+                @Html.HiddenFor(model => model.Descricao)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Valor, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Valor, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Valor, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DataVencimento, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DataVencimento, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                @Html.ValidationMessageFor(model => model.DataVencimento, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvar" class="btn btn-default" />
+                <input value="Cancelar" class="btn btn-default" onclick="javascript: window.history.back();" />
+            </div>
+        </div>
+
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    $(function () { // will trigger when the document is ready
+        $('.datepicker').datepicker('setDate', new Date('@Model.DataVencimento.ToString("MM/dd/yyyy")'));
+    });
+</script>
+}

@@ -61,7 +61,7 @@
     <thead>
         <tr style="background-color: #e6e6e6">
             <th colspan="5" class="text-right">Saldo do Mês Anterior: <span style="color: @corSaldoDoMesAnterior">@Html.DisplayFor(model => model.SaldoDoMesAnterior)</span></th>
-            <th><i title="O saldo é contabilizado independente se o lançamento foi ou não pago" class="glyphicon glyphicon-question-sign"></i></th>
+            <th><i title="O saldo é contabilizado independente se o lançamento foi ou não pago" class="glyphicon glyphicon-info-sign"></i></th>
         </tr>
     </thead>
     <tbody>
@@ -87,16 +87,23 @@
                     <td>                            
                         @Html.DisplayFor(modelItem => item.DataVencimento)
                         &nbsp;
-                        <a class="visible-xs visible-sm visible-md-inline visible-lg-inline" href="@Url.Action("Details", "Lancamentos", new { jsonLancamento })">
-                            @item.DescricaoResumida
-                        </a>
+                        <span class="visible-xs visible-sm visible-md-inline visible-lg-inline">
+                            @if (item.TipoDeTransacao == TipoTransacaoEnum.Transferencia)
+                            {
+                                <a href="@Url.Action("Details", "Transferencias", new { id = item.LancamentoId })">@item.DescricaoResumida</a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Details", "Lancamentos", new { jsonLancamento })">@item.DescricaoResumida</a>
+                            }
+                        </span>
                         @Html.HiddenFor(modelItem => item.Descricao)
                     </td>
                     <td>
                         @if (item.LancamentoParceladoId != null)
                         {
                             <span class="visible-lg-inline">
-                                <i class="icon-white glyphicon glyphicon-retweet" title="Este é um lançamento que repete em outras datas"></i>
+                                <i class="icon-white glyphicon glyphicon-retweet" title="Este é um lançamento s repete em outras datas"></i>
                             </span>
                         }
                         @if(item.TipoDeTransacao == TipoTransacaoEnum.Transferencia && item.LancamentoTransferencia != null )
@@ -178,7 +185,7 @@
                     <h6>Previsto para o fim do mês: <strong style="color: @corSaldoDoMes">@Html.DisplayFor(model => model.SaldoDoMes)</strong></h6>
                 </td>
                 <td>
-                    <h5><i title="O saldo é contabilizado a partir dos lançamentos realizados mais o saldo do mês anterior" class="glyphicon glyphicon-question-sign"></i></h5>
+                    <h5><i title="O saldo é contabilizado a partir dos lançamentos realizados mais o saldo do mês anterior" class="glyphicon glyphicon-info-sign"></i></h5>
                 </td>
             </tr>
         }

@@ -50,7 +50,7 @@ namespace Moneta.Application.ViewModels
         public string DescricaoMaisNumeroParcela { get; set; }
 
         [DataType(DataType.Currency)]
-        [Range(typeof(decimal), "0,01", "9999999,99")]
+        [Range(typeof(decimal), "-9999999,99", "9999999,99")]
         [Required(ErrorMessage = "Preencha o campo")]
         [DisplayName("Valor")]
         public decimal Valor { get; set; }
@@ -70,15 +70,19 @@ namespace Moneta.Application.ViewModels
         [ScaffoldColumn(false)]
         public DateTime DataCadastro { get; set; }
 
+        [DisplayName("Fake")]
         [ScaffoldColumn(false)]
         public bool Fake { get; set; }
 
+        [DisplayName("Base da Série?")]
         [ScaffoldColumn(false)]
         public bool BaseDaSerie { get; set; }
 
+        [DisplayName("Id da Parcela na Série")]
         [ScaffoldColumn(false)]
         public string IdDaParcelaNaSerie { get; set; }
 
+        [DisplayName("Ativo?")]
         [ScaffoldColumn(false)]
         public bool Ativo { get; set; }
 

@@ -22,6 +22,20 @@ namespace Moneta.Application
             _lancamentoService = LancamentoService;
         }
 
+        public LancamentoViewModel GetById(Guid id)
+        {
+            var lancamentoViewModel = Mapper.Map<Lancamento, LancamentoViewModel>(_lancamentoService.GetById(id));
+            AjustarLancamentoParaExibir(lancamentoViewModel);
+            return lancamentoViewModel;
+        }
+
+        public LancamentoViewModel GetByIdReadOnly(Guid id)
+        {
+            var lancamentoViewModel = Mapper.Map<Lancamento, LancamentoViewModel>(_lancamentoService.GetByIdReadOnly(id));
+            AjustarLancamentoParaExibir(lancamentoViewModel);
+            return lancamentoViewModel;
+        }
+
         public ValidationAppResult Add(LancamentoViewModel lancamentoViewModel)
         {
             if (lancamentoViewModel.DataVencimento <= DateTime.Now.Date)

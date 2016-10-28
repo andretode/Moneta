@@ -7,6 +7,8 @@ namespace Moneta.Domain.Interfaces.Services
 {
     public interface ILancamentoService
     {
+        Lancamento GetById(Guid id);
+        Lancamento GetByIdReadOnly(Guid id);
         ValidationResult Adicionar(Lancamento lancamento);
         //Lancamento GetByIdReadOnly(Guid id);
         void Update(Lancamento lancamento);

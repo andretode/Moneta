@@ -8,6 +8,8 @@ namespace Moneta.Application.Interfaces
 {
     public interface ILancamentoAppService : IDisposable
     {
+        LancamentoViewModel GetById(Guid id);
+        LancamentoViewModel GetByIdReadOnly(Guid id);
         ValidationAppResult Add(LancamentoViewModel LancamentoViewModel);
         //LancamentoViewModel GetById(Guid id);
         //LancamentoViewModel GetByIdReadOnly(Guid id);

@@ -16,23 +16,8 @@
         <dt>
         </dt>
         <dd>
-            @{
-                var cor = "lightcoral";
-                if (Model.TipoDeTransacao == TipoTransacaoEnum.Receita)
-                {
-                    cor = "lightgreen";
-                }
-
-                var jsSettings = new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Ignore,
-                    ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
-                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                };
-                string jsonLancamento = JsonConvert.SerializeObject(Model, Formatting.Indented, jsSettings);
-            }
             <div class="col-md-3">
-                <h3><span class="label" style="display:block; background-color: @cor">@Model.TipoDeTransacao</span></h3>
+                <h3 style="float:left"><span class="label" style="display:block; background-color: lightblue">Transferência</span></h3>
             </div>
         </dd>
 
@@ -80,20 +65,30 @@
             @Html.DisplayFor(model => model.DataCadastro)
         </dd>
 
-        <dt></dt>
+        <dt>
+        </dt>
         <dd>
-            <br />
+            <p>
+                <a class="btn btn-default" title="Visualir transfência par"
+                   href="@Url.Action("Details", "Transferencias", new { id = Model.LancamentoIdTransferencia })">
+                    Transferência Par
+                </a>
+            </p>
+        </dd>
+
+        <dd>
             <a class="btn btn-default" title="Voltar" onclick="javascript: window.history.back();">
                 <i class="icon-white glyphicon glyphicon-arrow-left"></i>
             </a>
             <a class="btn btn-default" title="Editar"
-               href="@Url.Action("Edit", "Lancamentos", new { jsonLancamento })">
+               href="@Url.Action("Edit", "Transferencias", new { id = Model.LancamentoId })">
                 <i class="icon-white glyphicon glyphicon-edit"></i>
             </a>
             <a class="btn btn-default" title="Remover"
-               href="@Url.Action("Delete", "Lancamentos", new { jsonLancamento }) ">
+               href="@Url.Action("Delete", "Lancamentos", new { Model.LancamentoId }) ">
                 <i class="icon-white glyphicon glyphicon-trash"></i>
             </a>
         </dd>
     </dl>
+
 </div>

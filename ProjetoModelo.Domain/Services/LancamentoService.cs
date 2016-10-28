@@ -50,6 +50,18 @@ namespace Moneta.Domain.Services
             return resultadoValidacao;
         }
 
+        public override void Update(Lancamento lancamento)
+        {
+            if (lancamento.TipoDeTransacao == TipoTransacaoEnum.Transferencia)
+            {
+                var lancamentoTransferenciaPar = lancamento.LancamentoTransferencia;
+                lancamentoTransferenciaPar.Valor = lancamento.Valor * -1;
+                _LancamentoRepository.Update(lancamentoTransferenciaPar);
+            }
+
+            _LancamentoRepository.Update(lancamento);
+        }
+
         public void UpdateEmSerie(Lancamento lancamentoEditado)
         {
             var dataVencimentoAnterior = lancamentoEditado.GetDataVencimentoDaParcelaNaSerie();
