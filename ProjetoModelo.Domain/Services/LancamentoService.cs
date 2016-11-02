@@ -118,12 +118,19 @@ namespace Moneta.Domain.Services
             }
         }
 
+        private DateTime GetDataUltimoDiaMesAnterior(int mesAtual, int anoAtual)
+        {
+            var mesAnoAtual = new DateTime(anoAtual, mesAtual, 1);
+            var mesAnterior = mesAnoAtual.AddMonths(-1);
+            return new DateTime(mesAnterior.Year, mesAnterior.Month, DateTime.DaysInMonth(mesAnterior.Year, mesAnterior.Month));
+        }
+
         public AgregadoLancamentosDoMes GetLancamentosDoMes(AgregadoLancamentosDoMes lancamentosDoMes)
         {
             var mes = lancamentosDoMes.MesAnoCompetencia.Month;
             var ano = lancamentosDoMes.MesAnoCompetencia.Year;
             var contaId = lancamentosDoMes.ContaIdFiltro;
-            var dataUltimoDiaMesAnterior = new DateTime(ano, mes, DateTime.DaysInMonth(ano, mes)).AddMonths(-1);
+            var dataUltimoDiaMesAnterior = GetDataUltimoDiaMesAnterior(mes, ano);
             var agregadoLancamentosDoMes = new AgregadoLancamentosDoMes();
             
             var lancamentosMesAnteriorTodasAsContas = _LancamentoRepository.GetAll().Where(l => l.DataVencimento <= dataUltimoDiaMesAnterior);
