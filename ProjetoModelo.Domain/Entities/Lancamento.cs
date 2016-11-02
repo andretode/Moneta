@@ -104,6 +104,7 @@ namespace Moneta.Domain.Entities
             clone.DataCadastro = this.DataCadastro;
             clone.Ativo = this.Ativo;
             clone.DataVencimento = novaDataVencimento;
+            clone.TipoDeTransacao = this.TipoDeTransacao;
             clone.IdDaParcelaNaSerie = this.LancamentoId.ToString() + novaDataVencimento; //trocar pelo LancamentoParceladoId
             clone.Fake = false;
 
