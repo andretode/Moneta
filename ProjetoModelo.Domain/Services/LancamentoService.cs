@@ -70,6 +70,7 @@ namespace Moneta.Domain.Services
             IEnumerable<Lancamento> lancamentosASeremAlterados;
             if (lancamentoEditado.LancamentoParcelado.TipoDeAlteracaoDaRepeticao == TipoDeAlteracaoDaRepeticaoEnum.AlterarEsteESeguintes)
             {
+                AtualizarDataIdSerieDosNaoFakesAnteriores(lancamentoEditado, dataVencimentoAnterior, diasDiff);
                 SalvarFakesQueNaoSofreramAlteraçãoNaSerie(lancamentoEditado, dataVencimentoAnterior, diasDiff);
 
                 var lancamentoBdAtualMaisSeguintes = GetAllReadOnly().Where(l => l.LancamentoParceladoId == lancamentoEditado.LancamentoParceladoId && l.DataVencimento >= dataVencimentoAnterior).ToList();
@@ -80,6 +81,21 @@ namespace Moneta.Domain.Services
             {
                 lancamentosASeremAlterados = GetAllReadOnly().Where(l => l.LancamentoParceladoId == lancamentoEditado.LancamentoParceladoId);
                 AtualizarLancamentos(lancamentosASeremAlterados, lancamentoEditado, diasDiff);
+            }
+        }
+
+        /// <summary>
+        /// Atualiza a data de vencimento do ID da Série dos não fakes anteriores
+        /// </summary>
+        private void AtualizarDataIdSerieDosNaoFakesAnteriores(Lancamento lancamentoEditado, DateTime dataVencimentoAnterior, double diasDiff)
+        {
+            var lancamentoBdAnteriores = GetAllReadOnly().Where(l => l.LancamentoParceladoId == lancamentoEditado.LancamentoParceladoId && 
+                l.DataVencimento < dataVencimentoAnterior && !l.BaseDaSerie).ToList();
+
+            foreach(var l in lancamentoBdAnteriores)
+            {
+                l.AddDaysDataVencimentoDaParcelaNaSerie(diasDiff);
+                _LancamentoRepository.Update(l);
             }
         }
 
