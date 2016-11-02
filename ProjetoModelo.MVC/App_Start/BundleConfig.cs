@@ -26,7 +26,8 @@ namespace Moneta.MVC
                       "~/Scripts/respond.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/minha-personalizacao").Include(
-                  "~/Scripts/minha-personalizacao.js"));
+                  "~/Scripts/minha-personalizacao.js").Include(
+                  "~/Scripts/bootstrap-colorpicker.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/lancamento-parcelado").Include(
                   "~/Scripts/lancamento-parcelado.js"));
 
