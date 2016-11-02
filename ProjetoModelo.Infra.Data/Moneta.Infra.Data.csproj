@@ -139,6 +139,10 @@
     <Compile Include="Migrations\201610271937451_Transferencia.Designer.cs">
       <DependentUpon>201610271937451_Transferencia.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611020006465_remover-navegacao-transferencia.cs" />
+    <Compile Include="Migrations\201611020006465_remover-navegacao-transferencia.Designer.cs">
+      <DependentUpon>201611020006465_remover-navegacao-transferencia.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ADO\BaseADORepository.cs" />
@@ -194,6 +198,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610271937451_Transferencia.resx">
       <DependentUpon>201610271937451_Transferencia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611020006465_remover-navegacao-transferencia.resx">
+      <DependentUpon>201611020006465_remover-navegacao-transferencia.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

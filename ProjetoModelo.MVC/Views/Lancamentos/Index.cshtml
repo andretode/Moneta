@@ -106,19 +106,10 @@
                                 <i class="icon-white glyphicon glyphicon-retweet" title="Este é um lançamento s repete em outras datas"></i>
                             </span>
                         }
-                        @if(item.TipoDeTransacao == TipoTransacaoEnum.Transferencia && item.LancamentoTransferencia != null )
+                        @if(item.TipoDeTransacao == TipoTransacaoEnum.Transferencia && item.LancamentoIdTransferencia != null )
                         {
-                            string strTitle = "";
-                            if(item.LancamentoTransferencia.Valor < 0)
-                            {
-                                strTitle += "Transferência originada de " + item.LancamentoTransferencia.Conta.Descricao;
-                            }
-                            else
-                            {
-                                strTitle += "Transferência destinada à " + item.LancamentoTransferencia.Conta.Descricao;
-                            }
                             <span class="visible-lg-inline">
-                                <i class="icon-white glyphicon glyphicon-transfer" title="@strTitle"></i>
+                                <i class="icon-white glyphicon glyphicon-transfer" title="Transferência entre contas"></i>
                             </span>
                         }
                         @Html.HiddenFor(modelItem => item.Fake)
@@ -185,7 +176,7 @@
                     <h6>Previsto para o fim do mês: <strong style="color: @corSaldoDoMes">@Html.DisplayFor(model => model.SaldoDoMes)</strong></h6>
                 </td>
                 <td>
-                    <h5><i title="O saldo é contabilizado a partir dos lançamentos realizados mais o saldo do mês anterior" class="glyphicon glyphicon-info-sign"></i></h5>
+                    <h5><i title="O saldo é contabilizado considerando o saldo do mês anterior" class="glyphicon glyphicon-info-sign"></i></h5>
                 </td>
             </tr>
         }

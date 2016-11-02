@@ -33,6 +33,8 @@ namespace Moneta.Application.ViewModels
         [ScaffoldColumn(false)]
         public DateTime DataCadastro { get; set; }
 
+        public const string Nenhum = "Nenhum";
+
         public ICollection<LancamentoViewModel> Lancamentos { get; set; }
 
     }

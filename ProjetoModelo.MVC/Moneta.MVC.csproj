@@ -683,7 +683,6 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\tether.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -759,6 +758,7 @@
     <Content Include="Views\Lancamentos\GraficoSaldoDoMes.cshtml" />
     <Content Include="Views\Transferencias\Details.cshtml" />
     <Content Include="Views\Transferencias\Edit.cshtml" />
+    <Content Include="Views\Transferencias\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

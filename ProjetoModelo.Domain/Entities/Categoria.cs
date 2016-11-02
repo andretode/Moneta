@@ -20,7 +20,7 @@ namespace Moneta.Domain.Entities
         public string Cor { get; set; }
         public virtual ICollection<Lancamento> Lancamentos { get; set; }
         public DateTime DataCadastro { get; set; }
-
+        public const string Nenhum = "Nenhum";
         public ValidationResult ResultadoValidacao { get; private set; }
 
         public bool IsValid()

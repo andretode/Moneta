@@ -52,7 +52,7 @@ namespace Moneta.Domain.Services
 
         public override void Update(Lancamento lancamento)
         {
-            if (lancamento.TipoDeTransacao == TipoTransacaoEnum.Transferencia)
+            if (lancamento.TipoDeTransacao == TipoTransacaoEnum.Transferencia && lancamento.LancamentoTransferencia != null)
             {
                 var lancamentoTransferenciaPar = lancamento.LancamentoTransferencia;
                 lancamentoTransferenciaPar.Valor = lancamento.Valor * -1;

@@ -1,0 +1,87 @@
+﻿@model Moneta.Application.ViewModels.TransferenciaViewModel
+@using System.Web.Mvc
+@using Moneta.Application.ViewModels;
+@using Moneta.Infra.CrossCutting.Enums;
+
+@{
+    ViewBag.Title = "Nova Transferência";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formLancamento" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <div class="control-label col-md-2"></div>
+            <div class="col-md-3">
+                <h3><span class="label" style="display:block; background-color: lightblue">Transferência</span></h3>
+                @Html.HiddenFor(model => model.LancamentoOrigem.TipoDeTransacao)
+                @Html.HiddenFor(model => model.LancamentoOrigem.CategoriaId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <strong class="control-label col-md-2">Conta Origem</strong>
+            <div class="col-md-10">
+                <span style="vertical-align: -30%">@Html.DisplayFor(model => model.LancamentoOrigem.Conta.Descricao)</span> 
+                @Html.HiddenFor(model => model.LancamentoOrigem.Conta.ContaId)
+                @Html.HiddenFor(model => model.LancamentoOrigem.Conta.Descricao)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <strong class="control-label col-md-2">Conta Destino</strong>
+            <div class="col-md-10">
+                @Html.DropDownList("ContaIdDestino", (SelectList)@ViewBag.Contas, "-- Selecione uma Conta --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ContaIdDestino, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LancamentoOrigem.Descricao, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <span style="vertical-align: -30%">@Html.DisplayFor(model => model.LancamentoOrigem.Descricao)</span>
+                @Html.HiddenFor(model => model.LancamentoOrigem.Descricao)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LancamentoOrigem.Valor, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LancamentoOrigem.Valor, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LancamentoOrigem.Valor, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LancamentoOrigem.DataVencimento, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LancamentoOrigem.DataVencimento, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                @Html.ValidationMessageFor(model => model.LancamentoOrigem.DataVencimento, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Criar" class="btn btn-default" />
+                <input value="Cancelar" class="btn btn-default" onclick="javascript: window.history.back();" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(function () { // will trigger when the document is ready
+            $('.datepicker').datepicker('setDate', new Date('@Model.LancamentoOrigem.DataVencimento.ToString("MM/dd/yyyy")'));
+        });
+    </script>
+}

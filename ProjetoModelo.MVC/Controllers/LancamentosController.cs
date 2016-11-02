@@ -124,6 +124,19 @@ namespace Moneta.MVC.Controllers
             return RedirectToAction("Index", new { ContaIdFiltro = lancamentos.ContaIdFiltro, MesAnoCompetencia = lancamentos.MesAnoCompetencia });
         }
 
+        [HttpPost]
+        [MultipleButton(Name = "action", Argument = "RealizarTransferencia")]
+        public ActionResult RealizarTransferencia(LancamentosDoMesViewModel lancamentos)
+        {
+            if (ModelState.IsValid)
+            {
+                lancamentos.NovaTransacao = TipoTransacaoEnum.Transferencia;
+                return RedirectToAction("Create", "Transferencias", lancamentos);
+            }
+
+            return RedirectToAction("Index", new { ContaIdFiltro = lancamentos.ContaIdFiltro, MesAnoCompetencia = lancamentos.MesAnoCompetencia });
+        }
+
         // GET: Lancamento/Details/5
         public ActionResult Details(string jsonLancamento)
         {

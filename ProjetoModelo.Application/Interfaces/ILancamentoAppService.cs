@@ -11,6 +11,7 @@ namespace Moneta.Application.Interfaces
         LancamentoViewModel GetById(Guid id);
         LancamentoViewModel GetByIdReadOnly(Guid id);
         ValidationAppResult Add(LancamentoViewModel LancamentoViewModel);
+        ValidationAppResult AddTransferencia(TransferenciaViewModel transferencia);
         //LancamentoViewModel GetById(Guid id);
         //LancamentoViewModel GetByIdReadOnly(Guid id);
         void Update(LancamentoViewModel LancamentoViewModel);

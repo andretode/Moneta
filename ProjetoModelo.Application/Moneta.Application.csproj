@@ -86,6 +86,7 @@
     <Compile Include="ViewModels\GraficoSaldoViewModel.cs" />
     <Compile Include="ViewModels\LancamentosDoMesViewModel.cs" />
     <Compile Include="ViewModels\LancamentoParceladoViewModel.cs" />
+    <Compile Include="ViewModels\TransferenciaViewModel.cs" />
     <Compile Include="ViewModels\LancamentoViewModel.cs" />
     <Compile Include="ViewModels\CategoriaViewModel.cs" />
     <Compile Include="ViewModels\ContaViewModel.cs" />

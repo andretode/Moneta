@@ -23,11 +23,45 @@ namespace Moneta.MVC.Controllers
             _CategoriaApp = CategoriaApp;
             _ContaApp = ContaApp;
         }
-        
-        
-        public ActionResult Create()
+
+
+        public ActionResult Create(LancamentosDoMesViewModel lancamentos)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                var novaTransferencia = new TransferenciaViewModel(lancamentos.MesAnoCompetencia);
+                novaTransferencia.LancamentoOrigem.Conta = _ContaApp.GetById((Guid)lancamentos.ContaIdFiltro);
+                novaTransferencia.LancamentoOrigem.CategoriaId = _CategoriaApp.GetAll().Where(c => c.Descricao == CategoriaViewModel.Nenhum).FirstOrDefault().CategoriaId;
+                SetSelectLists((Guid)lancamentos.ContaIdFiltro);
+                return View(novaTransferencia);
+            }
+            return RedirectToAction("Index", new { lancamentos });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(TransferenciaViewModel transferencia)
+        {
+            SetSelectLists(transferencia.LancamentoOrigem.ContaId);
+            if (ModelState.IsValid)
+            {
+                transferencia.LancamentoOrigem.ContaId = transferencia.LancamentoOrigem.Conta.ContaId;
+                var result = _LancamentoApp.AddTransferencia(transferencia);
+
+                if (!result.IsValid)
+                {
+                    foreach (var validationAppError in result.Erros)
+                    {
+                        ModelState.AddModelError(string.Empty, validationAppError.Message);
+                    }
+                    return View(transferencia);
+                }
+
+                return RedirectToAction("Index", "Lancamentos", new { contaIdFiltro = transferencia.LancamentoOrigem.ContaId, MesAnoCompetencia = transferencia.LancamentoOrigem.DataVencimento });
+            }
+
+            transferencia.LancamentoOrigem.Conta = _ContaApp.GetById(transferencia.LancamentoOrigem.ContaId);
+            return View(transferencia);
         }
 
         public ActionResult Details(Guid id)
@@ -58,9 +92,13 @@ namespace Moneta.MVC.Controllers
             return View(lancamento);
         }
 
-        private void SetSelectLists()
+        private void SetSelectLists(Guid? contaIdOrigem = null)
         {
-            ViewBag.Contas = new SelectList(_ContaApp.GetAll(), "ContaId", "Descricao");
+            if (contaIdOrigem == null)
+                contaIdOrigem = Guid.Empty;
+
+            ViewBag.Contas = new SelectList(_ContaApp.GetAll().Where(c => c.ContaId != contaIdOrigem) , "ContaId", "Descricao");
+            ViewBag.Categorias = new SelectList(_CategoriaApp.GetAll(), "CategoriaId", "Descricao");
         }
 
     }

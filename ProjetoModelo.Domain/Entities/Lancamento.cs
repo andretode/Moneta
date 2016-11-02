@@ -37,7 +37,7 @@ namespace Moneta.Domain.Entities
         public TipoTransacaoEnum TipoDeTransacao { get; set; }
         public Guid? LancamentoIdTransferencia { get; set; }
         public virtual Lancamento LancamentoTransferencia { get; set; }
-        public virtual ICollection<Lancamento> LancamentosTransferencia { get; set; }
+        //public virtual ICollection<Lancamento> LancamentosTransferencia { get; set; }
 
         public bool Fake { get; private set; }
         public ValidationResult ResultadoValidacao { get; private set; }
@@ -116,6 +116,24 @@ namespace Moneta.Domain.Entities
             clone.Fake = true;
 
             return clone;
+        }
+
+        public Lancamento CreateLancamentoTransferenciaPar(Guid ContaIdDestino)
+        {
+            var lancamentoDestino = new Lancamento();
+            this.LancamentoIdTransferencia = lancamentoDestino.LancamentoId;
+            lancamentoDestino.LancamentoIdTransferencia = this.LancamentoId;
+            lancamentoDestino.ContaId = ContaIdDestino;
+            lancamentoDestino.Descricao = this.Descricao;
+            lancamentoDestino.Valor = this.Valor;
+            this.Valor *= -1;
+            lancamentoDestino.DataVencimento = this.DataVencimento;
+            lancamentoDestino.CategoriaId = this.CategoriaId;
+            lancamentoDestino.TipoDeTransacao = this.TipoDeTransacao;
+            lancamentoDestino.Ativo = this.Ativo;
+            lancamentoDestino.TipoDeTransacao = this.TipoDeTransacao;
+
+            return lancamentoDestino;
         }
     }
 }

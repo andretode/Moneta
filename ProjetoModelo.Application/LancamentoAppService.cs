@@ -134,6 +134,42 @@ namespace Moneta.Application
 
             return result;
         }
+
+        public ValidationAppResult AddTransferencia(TransferenciaViewModel transferencia)
+        {
+            var lancamentoOrigemVM = transferencia.LancamentoOrigem;
+            lancamentoOrigemVM.Conta = null;
+            var lancamentoOrigem = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoOrigemVM);
+            var lancamentoDestino = lancamentoOrigem.CreateLancamentoTransferenciaPar(transferencia.ContaIdDestino);
+
+            BeginTransaction();
+
+            var result = _lancamentoService.Adicionar(lancamentoOrigem);
+            if (!result.IsValid)
+                return DomainToApplicationResult(result);
+            result = _lancamentoService.Adicionar(lancamentoDestino);
+            if (!result.IsValid)
+                return DomainToApplicationResult(result);
+
+            Commit();
+
+            //AtualizaTransferenciaParDepoisDeCriado(lancamentoOrigem, lancamentoDestino);
+            
+            return DomainToApplicationResult(result);
+        }
+
+        private void AtualizaTransferenciaParDepoisDeCriado(Lancamento lancamentoOrigem, Lancamento lancamentoDestino)
+        {
+            lancamentoOrigem = _lancamentoService.GetByIdReadOnly(lancamentoOrigem.LancamentoId);
+            lancamentoDestino = _lancamentoService.GetByIdReadOnly(lancamentoDestino.LancamentoId);
+            lancamentoOrigem.LancamentoIdTransferencia = lancamentoDestino.LancamentoId;
+            lancamentoDestino.LancamentoIdTransferencia = lancamentoOrigem.LancamentoId;
+
+            BeginTransaction();
+            _lancamentoService.Update(lancamentoOrigem);
+            _lancamentoService.Update(lancamentoDestino);
+            Commit();
+        }
         
         public void Update(LancamentoViewModel lancamentoViewModel)
         {

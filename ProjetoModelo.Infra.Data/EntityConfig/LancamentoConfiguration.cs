@@ -61,13 +61,14 @@ namespace Moneta.Infra.Data.EntityConfig
                 .HasColumnAnnotation("Index",
                     new IndexAnnotation(new IndexAttribute("IX_LancamentoIdTransferencia") { IsUnique = true }));
 
-            HasOptional(c => c.LancamentoTransferencia)
-                .WithMany(c => c.LancamentosTransferencia)
-                .HasForeignKey(c => c.LancamentoIdTransferencia)
-                .WillCascadeOnDelete();
+            //HasOptional(c => c.LancamentoTransferencia)
+            //    .WithMany(c => c.LancamentosTransferencia)
+            //    .HasForeignKey(c => c.LancamentoIdTransferencia)
+            //    .WillCascadeOnDelete();
 
             Ignore(t => t.ResultadoValidacao);
             Ignore(t => t.Fake);
+            Ignore(t => t.LancamentoTransferencia);
         }
     }
 }

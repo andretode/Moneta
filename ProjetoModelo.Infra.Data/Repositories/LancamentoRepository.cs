@@ -18,21 +18,29 @@ namespace Moneta.Infra.Data.Repositories
             entry.State = EntityState.Deleted;
         }
 
+        public override Lancamento GetById(Guid id)
+        {
+            var lancamento = DbSet.Find(id);
+            lancamento.LancamentoTransferencia = DbSet.Find(lancamento.LancamentoIdTransferencia);
+            return lancamento;
+        }
+
         public Lancamento GetByIdReadOnly(Guid id)
         {
             base.Context.SetProxyCreationEnabledToFalse();
 
-            try {
+            try
+            {
                 return DbSet.AsNoTracking().Where(x => x.LancamentoId == id).First();
             }
-            catch {}
+            catch { }
 
             return null;
         }
 
         public override IEnumerable<Lancamento> GetAll()
         {
-            return GetAll(true, false);
+            return GetAll(true, false) ;
         }
 
         public IEnumerable<Lancamento> GetAll(bool somenteOsAtivo, bool asNoTracking)
