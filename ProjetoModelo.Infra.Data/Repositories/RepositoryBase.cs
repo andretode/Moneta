@@ -42,6 +42,7 @@ namespace Moneta.Infra.Data.Repositories
 
         public virtual IEnumerable<TEntity> GetAllReadOnly()
         {
+            this.Context.SetProxyCreationEnabledToFalse();
             return DbSet.AsNoTracking();
         }
 
