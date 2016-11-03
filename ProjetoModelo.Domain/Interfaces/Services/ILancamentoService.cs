@@ -23,5 +23,11 @@ namespace Moneta.Domain.Interfaces.Services
         /// </summary>
         /// <param name="lancamento">lancamento base que será utilizado para atualizar toda a série</param>
         void UpdateEmSerie(Lancamento lancamento);
+
+        /// <summary>
+        /// Remove os lançamentos da série parcelada com base nas alterações do lancamento passado como parâmetro
+        /// </summary>
+        /// <param name="lancamento">lancamento base que será utilizado para atualizar a série</param>
+        void RemoveEmSerie(Lancamento lancamentoEditado);
     }
 }

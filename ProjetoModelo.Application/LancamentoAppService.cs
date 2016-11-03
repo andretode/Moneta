@@ -193,6 +193,16 @@ namespace Moneta.Application
             Commit();
         }
 
+        public void RemoveEmSerie(LancamentoViewModel lancamentoViewModel)
+        {
+            lancamentoViewModel.Valor = AjustarValorParaSalvar(lancamentoViewModel);
+            var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
+
+            BeginTransaction();
+            _lancamentoService.RemoveEmSerie(lancamento);
+            Commit();
+        }
+
         public void Remove(LancamentoViewModel LancamentoViewModel)
         {
             var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(LancamentoViewModel);

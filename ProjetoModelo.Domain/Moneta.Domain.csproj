@@ -48,10 +48,12 @@
     <Compile Include="Interfaces\Specification\ISpecification.cs" />
     <Compile Include="Interfaces\Validation\IFiscal.cs" />
     <Compile Include="Interfaces\Validation\IRegra.cs" />
+    <Compile Include="Services\LancamentoDeleteEmSerieService.cs" />
     <Compile Include="Services\LancamentoMaisFakeService.cs" />
     <Compile Include="Services\LancamentoParceladoService.cs" />
     <Compile Include="Services\LancamentoService.cs" />
     <Compile Include="Services\CategoriaService.cs" />
+    <Compile Include="Services\LancamentoUpdateEmSerieService.cs" />
     <Compile Include="Specification\Categorias\CategoriaPossuiCorValida.cs" />
     <Compile Include="Specification\Contas\ContaPossuiStatusAtivo.cs" />
     <Compile Include="Validation\Base\FiscalBase.cs" />
