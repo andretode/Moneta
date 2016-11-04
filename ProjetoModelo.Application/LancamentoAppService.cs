@@ -203,6 +203,15 @@ namespace Moneta.Application
             Commit();
         }
 
+        public void RemoveTransferencia(LancamentoViewModel lancamentoVM)
+        {
+            var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoVM);
+
+            BeginTransaction();
+            _lancamentoService.RemoveTransferencia(lancamento);
+            Commit();
+        }
+
         public void Remove(LancamentoViewModel LancamentoViewModel)
         {
             var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(LancamentoViewModel);

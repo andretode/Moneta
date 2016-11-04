@@ -92,6 +92,22 @@ namespace Moneta.MVC.Controllers
             return View(lancamento);
         }
 
+        public ActionResult Delete(Guid id)
+        {
+            var lancamento = _LancamentoApp.GetById(id);
+            return View(lancamento);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(Guid id)
+        {
+            var lancamento = _LancamentoApp.GetByIdReadOnly(id);
+            _LancamentoApp.RemoveTransferencia(lancamento);
+
+            return RedirectToAction("Index", "Lancamentos", new { contaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
+        }
+
         private void SetSelectLists(Guid? contaIdOrigem = null)
         {
             if (contaIdOrigem == null)

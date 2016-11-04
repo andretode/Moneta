@@ -29,5 +29,7 @@ namespace Moneta.Domain.Interfaces.Services
         /// </summary>
         /// <param name="lancamento">lancamento base que será utilizado para atualizar a série</param>
         void RemoveEmSerie(Lancamento lancamentoEditado);
+
+        void RemoveTransferencia(Lancamento lancamento);
     }
 }

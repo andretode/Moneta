@@ -74,6 +74,13 @@ namespace Moneta.Domain.Services
             lancamentoDeleteEmSerieService.DeleteEmSerie(lancamentoEditado);
         }
 
+        public void RemoveTransferencia(Lancamento lancamento)
+        {
+            var lancamentoPar = _LancamentoRepository.GetByIdReadOnly((Guid)lancamento.LancamentoIdTransferencia);
+            _LancamentoRepository.Remove(lancamentoPar);
+            _LancamentoRepository.Remove(lancamento);
+        }
+
         public AgregadoLancamentosDoMes GetLancamentosDoMes(AgregadoLancamentosDoMes lancamentosDoMes)
         {
             var mes = lancamentosDoMes.MesAnoCompetencia.Month;

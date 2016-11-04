@@ -21,5 +21,7 @@ namespace Moneta.Application.Interfaces
         void AjustarLancamentoParaExibir(LancamentoViewModel lancamentoViewModel);
         void UpdateEmSerie(LancamentoViewModel lancamentoViewModel);
         void RemoveEmSerie(LancamentoViewModel lancamentoViewModel);
+
+        void RemoveTransferencia(LancamentoViewModel lancamento);
     }
 }
