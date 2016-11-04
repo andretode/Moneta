@@ -243,6 +243,10 @@ namespace Moneta.Application
                     lancamentoViewModel.Valor = lancamentoViewModel.Valor * -1;
                 }
             }
+            else if (lancamentoViewModel.TipoDeTransacao == TipoTransacaoEnum.Despesa)
+            {
+                lancamentoViewModel.Valor = Math.Abs(lancamentoViewModel.Valor);
+            }
         }
 
         #region Metodos privados
