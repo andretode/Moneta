@@ -16,12 +16,20 @@ namespace Moneta.Domain.Entities
         public int Periodicidade { get; set; }
         public DateTime DataInicio { get; set; }
         public DateTime DataCadastro { get; set; }
-
         public Guid LancamentoBaseId { get; set; }
         public TipoDeAlteracaoDaRepeticaoEnum TipoDeAlteracaoDaRepeticao { get; set; }
         //public virtual Lancamento LacamentoBase { get; set; }
         public virtual ICollection<Lancamento> Lancamentos { get; set; }
         public ValidationResult ResultadoValidacao { get; private set; }
+
+        public TipoRepeticao TipoDeRepeticao()
+        {
+            var tipoRepeticao = TipoRepeticao.Parcelado;
+            if (this.NumeroParcelas == null)
+                tipoRepeticao = TipoRepeticao.Fixo;
+
+            return tipoRepeticao;
+        }
 
         public bool IsValid()
         {

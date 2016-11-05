@@ -18,7 +18,8 @@ namespace Moneta.Application.AutoMapper
             Mapper.CreateMap<Categoria, CategoriaViewModel>();
             Mapper.CreateMap<Lancamento, LancamentoViewModel>()
                 .ForMember(d => d.DescricaoMaisNumeroParcela, o => o.MapFrom(s => s.DescricaoMaisNumeroParcela()));
-            Mapper.CreateMap<LancamentoParcelado, LancamentoParceladoViewModel>();
+            Mapper.CreateMap<LancamentoParcelado, LancamentoParceladoViewModel>()
+                .ForMember(d => d.TipoDeRepeticao, o => o.MapFrom(s => s.TipoDeRepeticao()));
             Mapper.CreateMap<AgregadoLancamentosDoMes, LancamentosDoMesViewModel>();
         }
     }

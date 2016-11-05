@@ -239,22 +239,11 @@ namespace Moneta.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (lancamento.LancamentoParcelado == null ||
-                    lancamento.LancamentoParcelado.TipoDeAlteracaoDaRepeticao == TipoDeAlteracaoDaRepeticaoEnum.AlterarApenasEste)
-                {
-                    lancamento.Ativo = false;
-                    if (lancamento.Fake)
-                        _LancamentoApp.Add(lancamento);
-                    else
-                        _LancamentoApp.Update(lancamento);
-                }
-                else
-                {
-                    var tipoDeAlteracaoDaRepeticao = lancamento.LancamentoParcelado.TipoDeAlteracaoDaRepeticao;
-                    lancamento.LancamentoParcelado = _LancamentoParceladoApp.GetByIdReadOnly((Guid)lancamento.LancamentoParceladoId);
-                    lancamento.LancamentoParcelado.TipoDeAlteracaoDaRepeticao = tipoDeAlteracaoDaRepeticao;
-                    _LancamentoApp.RemoveEmSerie(lancamento);
-                }
+                var tipoDeAlteracaoDaRepeticao = lancamento.LancamentoParcelado.TipoDeAlteracaoDaRepeticao;
+                lancamento.LancamentoParcelado = _LancamentoParceladoApp.GetByIdReadOnly((Guid)lancamento.LancamentoParceladoId);
+                lancamento.LancamentoParcelado.TipoDeAlteracaoDaRepeticao = tipoDeAlteracaoDaRepeticao;
+                
+                _LancamentoApp.RemoveEmSerie(lancamento);
 
                 return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
             }

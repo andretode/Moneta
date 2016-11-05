@@ -56,7 +56,7 @@ namespace Moneta.Domain.Services
         /// <returns>Lista de lançamentos do mês mais os fakes</returns>
         public List<Lancamento> GetAllMaisFake(int mes, int ano, bool asNoTracking = false)
         {
-            var lancamentosDoMesTodasAsContasComFakes = _LancamentoRepository.GetAll(true, asNoTracking).Where(l => l.DataVencimento.Month == mes && l.DataVencimento.Year == ano);
+            var lancamentosDoMesTodasAsContasComFakes = _LancamentoRepository.GetAll(false, asNoTracking).Where(l => l.DataVencimento.Month == mes && l.DataVencimento.Year == ano);
             lancamentosDoMesTodasAsContasComFakes = this.LancamentosFixosFake(mes, ano, lancamentosDoMesTodasAsContasComFakes.ToList(), asNoTracking);
             lancamentosDoMesTodasAsContasComFakes = lancamentosDoMesTodasAsContasComFakes.Where(l => l.Ativo == true);
 
