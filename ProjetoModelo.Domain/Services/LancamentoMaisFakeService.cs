@@ -116,7 +116,8 @@ namespace Moneta.Domain.Services
 
         private void LancamentoFixoMensal(List<Lancamento> lancamentosOriginaisMaisOsFakes, Lancamento lancamentoOriginal, int mes, int ano)
         {
-            var novoLancamentoFake = lancamentoOriginal.CloneFake(new DateTime(ano, mes, lancamentoOriginal.DataVencimento.Day));
+            var dia = GaratirQueDiaEstejaNoMes(ano, mes, lancamentoOriginal.DataVencimento.Day);
+            var novoLancamentoFake = lancamentoOriginal.CloneFake(new DateTime(ano, mes, dia));
             InserirFakeApto(lancamentosOriginaisMaisOsFakes, novoLancamentoFake);
         }
 
@@ -125,6 +126,12 @@ namespace Moneta.Domain.Services
             var lancamentoBd = lancamentosOriginaisMaisOsFakes.Find(l => l.IdDaParcelaNaSerie == novoFake.IdDaParcelaNaSerie);
             if (lancamentoBd == null)
                 lancamentosOriginaisMaisOsFakes.Add(novoFake);
+        }
+
+        private int GaratirQueDiaEstejaNoMes(int ano, int mes, int dia)
+        {
+            var ultimoDiaDoMes = DateTime.DaysInMonth(ano, mes);
+            return (dia > ultimoDiaDoMes ? ultimoDiaDoMes : dia);
         }
     }
 }
