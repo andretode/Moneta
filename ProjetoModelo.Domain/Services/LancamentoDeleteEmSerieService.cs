@@ -52,10 +52,10 @@ namespace Moneta.Domain.Services
                 l.DataVencimento >= dataVencimentoAnterior && l.Ativo == true).ToList();
             lancamentoRemovido.LancamentoParcelado = _LancamentoParceladoRepository.GetById((Guid)lancamentoRemovido.LancamentoParceladoId);
             
-            //Garante que o lançamento base está sendo adicionado
+            //Garante que o lançamento base está sendo adicionado apenas uma vez
             var lancamentoBase = _LancamentoRepository.GetByIdReadOnly(lancamentoRemovido.LancamentoParcelado.LancamentoBaseId);
-            if (!lancamentosASeremRemovidos.Contains(lancamentoBase))
-                lancamentosASeremRemovidos.Add(lancamentoBase); 
+            if (!lancamentosASeremRemovidos.Exists(l => l.LancamentoId == lancamentoBase.LancamentoId))
+                lancamentosASeremRemovidos.Add(lancamentoBase);
 
             foreach (var l in lancamentosASeremRemovidos)
             {
