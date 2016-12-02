@@ -91,10 +91,12 @@ namespace Moneta.Domain.Services
             
             var lancamentosMesAnteriorTodasAsContas = _LancamentoRepository.GetAll().Where(l => l.DataVencimento <= dataUltimoDiaMesAnterior);
 
+            var aux = lancamentosMesAnteriorTodasAsContas.Where(l => l.ContaId == contaId).OrderByDescending(l => l.DataVencimento);
+
             if (lancamentosDoMes.ContaIdFiltro == Guid.Empty)
-                agregadoLancamentosDoMes.SaldoDoMesAnterior = lancamentosMesAnteriorTodasAsContas.Sum(l => l.Valor);
+                agregadoLancamentosDoMes.SaldoDoMesAnterior = lancamentosMesAnteriorTodasAsContas.Where(l => l.BaseDaSerie == false).Sum(l => l.Valor); // Remove da soma o lançamento que é base da série
             else
-                agregadoLancamentosDoMes.SaldoDoMesAnterior = lancamentosMesAnteriorTodasAsContas.Where(l => l.ContaId == contaId).Sum(l => l.Valor);
+                agregadoLancamentosDoMes.SaldoDoMesAnterior = lancamentosMesAnteriorTodasAsContas.Where(l => l.ContaId == contaId && l.BaseDaSerie == false).Sum(l => l.Valor); // Remove da soma o lançamento que é base da série
 
             var lancamentoMaisFake = new LancamentoMaisFakeService(_LancamentoParceladoRepository, _LancamentoRepository);
             var lancamentosDoMesTodasAsContasMaisFake = lancamentoMaisFake.GetAllMaisFake(mes, ano);
