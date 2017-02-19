@@ -16,6 +16,7 @@ namespace Moneta.Infra.Data.Context
         }
 
         public IDbSet<Conta> Contas { get; set; }
+        public IDbSet<Categoria> Categorias { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

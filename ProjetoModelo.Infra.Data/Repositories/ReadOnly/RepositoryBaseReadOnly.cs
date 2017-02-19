@@ -1,5 +1,5 @@
 ﻿
-using Devart.Data.PostgreSql;
+using MySql.Data.MySqlClient;
 using System.Configuration;
 using System.Data;
 
@@ -11,7 +11,7 @@ namespace Moneta.Infra.Data.Repositories.ReadOnly
         {
             get
             {
-                return new PgSqlConnection(ConfigurationManager.ConnectionStrings["Moneta"].ConnectionString);
+                return new MySqlConnection(ConfigurationManager.ConnectionStrings["Moneta"].ConnectionString);
             }
         }
     }

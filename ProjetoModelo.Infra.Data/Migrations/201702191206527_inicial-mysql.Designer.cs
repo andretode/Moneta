@@ -7,13 +7,13 @@ namespace Moneta.Infra.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Transferencia : IMigrationMetadata
+    public sealed partial class inicialmysql : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Transferencia));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(inicialmysql));
         
         string IMigrationMetadata.Id
         {
-            get { return "201610271937451_Transferencia"; }
+            get { return "201702191206527_inicial-mysql"; }
         }
         
         string IMigrationMetadata.Source

@@ -9,6 +9,6 @@ namespace Moneta.Domain.Interfaces.Repository.ReadOnly
         Conta GetById(Guid id);
         IEnumerable<Conta> GetAll();
         int ObterTotalRegistros(string pesquisa);
-        IEnumerable<Conta> ObterContasGrid(int page, string pesquisa);
+        IEnumerable<Conta> ObterContasGrid(int page, string pesquisa, int tamanhoPagina = 10);
     }
 }

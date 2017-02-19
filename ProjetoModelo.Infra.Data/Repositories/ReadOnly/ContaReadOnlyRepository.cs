@@ -19,8 +19,8 @@ namespace Moneta.Infra.Data.Repositories.ReadOnly
             {
                 cn.Open();
 
-                var sql = @"Select * From ""Conta"" c " +
-                    @"WHERE c.""ContaId"" ='" + id + "'";
+                var sql = @"Select * From Conta c " +
+                    @"WHERE c.ContaId ='" + id + "'";
 
                 var conta = cn.Query<Conta>(sql);
 
@@ -34,8 +34,8 @@ namespace Moneta.Infra.Data.Repositories.ReadOnly
             {
                 cn.Open();
 
-                var sql = @"SELECT * FROM ""Conta""
-                            ORDER BY ""Descricao"" asc";
+                var sql = @"SELECT * FROM Conta
+                            ORDER BY Descricao asc";
 
                 var contas = cn.Query<Conta>(sql);
 
@@ -43,23 +43,26 @@ namespace Moneta.Infra.Data.Repositories.ReadOnly
             }
         }
 
-        public IEnumerable<Conta> ObterContasGrid(int page, string pesquisa)
+        public IEnumerable<Conta> ObterContasGrid(int page, string pesquisa, int tamanhoPagina=10)
         {
             using (IDbConnection cn = Connection)
             {
                 var sql = "";
                 if (pesquisa == null || pesquisa == "")
                 {
-                    sql = @"SELECT * FROM ""Conta""
-                            ORDER BY ""Descricao"" asc
-                            OFFSET " + page.ToString();
+                    sql = @"SELECT * FROM Conta
+                            ORDER BY Descricao asc";
                 }
                 else
                 {
-                    sql = @"SELECT * FROM ""Conta""
-                            WHERE (""Descricao""  Like '%" + pesquisa + @"%')
-                            ORDER BY ""Descricao"" asc
-                            OFFSET " + page.ToString();
+                    sql = @"SELECT * FROM Conta
+                            WHERE (Descricao  Like '%" + pesquisa + @"%')
+                            ORDER BY Descricao asc";
+                }
+
+                if(page > 0)
+                {
+                    sql += " LIMIT " + (page * tamanhoPagina) + "," + tamanhoPagina;
                 }
 
                 cn.Open();
@@ -78,12 +81,12 @@ namespace Moneta.Infra.Data.Repositories.ReadOnly
                 var total = 0;
                 if (pesquisa == null || pesquisa == "")
                 {
-                    sql = @"SELECT COUNT(*) FROM ""Conta""";
+                    sql = @"SELECT COUNT(*) FROM Conta";
                     total = Int32.Parse(cn.ExecuteScalar(sql).ToString());
                 }
                 else
                 {
-                    sql = @"SELECT COUNT(*) FROM ""Conta"" WHERE ""Descricao"" Like '%" + pesquisa + "%'";
+                    sql = @"SELECT COUNT(*) FROM Conta WHERE Descricao Like '%" + pesquisa + "%'";
                     total = Int32.Parse(cn.ExecuteScalar(sql, new { nomePesquisa = pesquisa }).ToString());
                 }
 
