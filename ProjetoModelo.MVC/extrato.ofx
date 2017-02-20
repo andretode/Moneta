@@ -1,0 +1,294 @@
+<OFX>
+   <SIGNONMSGSRSV1>
+      <SONRS>
+         <STATUS>
+            <CODE>0</CODE>
+            <SEVERITY>INFO</SEVERITY>
+         </STATUS>
+         <DTSERVER>20170220120000[-3:BRT]</DTSERVER>
+         <LANGUAGE>POR</LANGUAGE>
+         <FI>
+            <ORG>Banco do Brasil</ORG>
+            <FID>1</FID>
+         </FI>
+      </SONRS>
+   </SIGNONMSGSRSV1>
+   <BANKMSGSRSV1>
+      <STMTTRNRS>
+         <TRNUID>1</TRNUID>
+         <STATUS>
+            <CODE>0</CODE>
+            <SEVERITY>INFO</SEVERITY>
+         </STATUS>
+         <STMTRS>
+            <CURDEF>BRL</CURDEF>
+            <BANKACCTFROM>
+               <BANKID>1</BANKID>
+               <BRANCHID>3490-8</BRANCHID>
+               <ACCTID>51259-1</ACCTID>
+               <ACCTTYPE>CHECKING</ACCTTYPE>
+            </BANKACCTFROM>
+            <BANKTRANLIST>
+               <DTSTART>20170130120000[-3:BRT]</DTSTART>
+               <DTEND>20170220120000[-3:BRT]</DTEND>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170206120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-15.00</TRNAMT>
+                  <FITID>20170206115000</FITID>
+                  <CHECKNUM>443000007409</CHECKNUM>
+                  <REFNUM>520.443.000.007.409</REFNUM>
+                  <MEMO>Transferência on line - 06/02 0443       7409-8 CALAZANS RIBEI</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170206120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-40.28</TRNAMT>
+                  <FITID>20170206140280</FITID>
+                  <CHECKNUM>000000002534</CHECKNUM>
+                  <REFNUM>2.534</REFNUM>
+                  <MEMO>Pagto Energia Elétrica</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170207120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>400.00</TRNAMT>
+                  <FITID>201702070400000</FITID>
+                  <CHECKNUM>490510032785</CHECKNUM>
+                  <REFNUM>3.490.510.032.785</REFNUM>
+                  <MEMO>Transferido da poupança - 07/02 3490      32785-9 ALINE SILVA SA</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170207120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>4203.00</TRNAMT>
+                  <FITID>2017020704203000</FITID>
+                  <CHECKNUM>364000048491</CHECKNUM>
+                  <REFNUM>660.364.000.048.491</REFNUM>
+                  <MEMO>Transferência on line - 07/02 0364      48491-1 SWFACTORY CONS</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170207120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-24.35</TRNAMT>
+                  <FITID>20170207124350</FITID>
+                  <CHECKNUM>443510015058</CHECKNUM>
+                  <REFNUM>600.443.510.015.058</REFNUM>
+                  <MEMO>Transferido para Poupança - 07/02 0443  510015058-7 ARIANE SILVA S</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170207120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-400.00</TRNAMT>
+                  <FITID>201702071400000</FITID>
+                  <CHECKNUM>000000020701</CHECKNUM>
+                  <REFNUM>20.701</REFNUM>
+                  <MEMO>Emissão de DOC - 104 0129 07534828600 MARCIANE MARIA DE</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170208120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>400.00</TRNAMT>
+                  <FITID>201702080400000</FITID>
+                  <CHECKNUM>000000100006</CHECKNUM>
+                  <REFNUM>100.006</REFNUM>
+                  <MEMO>DOC devolvido</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170208120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-1200.00</TRNAMT>
+                  <FITID>2017020811200000</FITID>
+                  <CHECKNUM>364000087846</CHECKNUM>
+                  <REFNUM>520.364.000.087.846</REFNUM>
+                  <MEMO>Transferência on line - 08/02 0364      87846-4 LUIZ HENRIQUE</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170208120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-209.71</TRNAMT>
+                  <FITID>201702081209710</FITID>
+                  <CHECKNUM>000000047346</CHECKNUM>
+                  <REFNUM>47.346</REFNUM>
+                  <MEMO>Pagto Mensalidade Seguro</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170209120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>1198.80</TRNAMT>
+                  <FITID>2017020901198800</FITID>
+                  <CHECKNUM>000000308723</CHECKNUM>
+                  <REFNUM>308.723</REFNUM>
+                  <MEMO>DOC Crédito em Conta - 341 8301    87497271687 JOSE ROBERTO C</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170210120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-50.00</TRNAMT>
+                  <FITID>20170210150000</FITID>
+                  <CHECKNUM>377000059946</CHECKNUM>
+                  <REFNUM>522.377.000.059.946</REFNUM>
+                  <MEMO>Transferência on line - 10/02 2377      59946-8 FELIPE L CARVA</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170210120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-356.13</TRNAMT>
+                  <FITID>201702101356130</FITID>
+                  <CHECKNUM>000000021001</CHECKNUM>
+                  <REFNUM>21.001</REFNUM>
+                  <MEMO>Pagamento de Impostos - MG-2017-IPVA Cota 2           HJZ-3863</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170213120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>53.00</TRNAMT>
+                  <FITID>20170213053000</FITID>
+                  <CHECKNUM>443000024448</CHECKNUM>
+                  <REFNUM>600.443.000.024.448</REFNUM>
+                  <MEMO>Transferência on line - 12/02 0443      24448-1 LUIS OTAVIO OL</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170213120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-230.00</TRNAMT>
+                  <FITID>201702131230000</FITID>
+                  <CHECKNUM>000000624242</CHECKNUM>
+                  <REFNUM>624.242</REFNUM>
+                  <MEMO>Compra com Cartão - 13/02 11:51 PAGSEGUROUOL*MarcosM</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170213120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-709.50</TRNAMT>
+                  <FITID>201702131709500</FITID>
+                  <CHECKNUM>000000021302</CHECKNUM>
+                  <REFNUM>21.302</REFNUM>
+                  <MEMO>Pagamento de Título - COOPERATIVA CENTRAL ECON.C.M.P</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170213120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-126.15</TRNAMT>
+                  <FITID>201702131126150</FITID>
+                  <CHECKNUM>000000021303</CHECKNUM>
+                  <REFNUM>21.303</REFNUM>
+                  <MEMO>Pagamento de Título - COOPERATIVA CENTRAL ECON.C.M.P</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170213120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-30.00</TRNAMT>
+                  <FITID>20170213130000</FITID>
+                  <CHECKNUM>300000007409</CHECKNUM>
+                  <REFNUM>44.300.000.007.409</REFNUM>
+                  <MEMO>Transferência Periódica - 16/02 0443       7409-8 CALAZA 012/999</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170213120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-0.95</TRNAMT>
+                  <FITID>201702131950</FITID>
+                  <CHECKNUM>441200181072</CHECKNUM>
+                  <REFNUM>870.441.200.181.072</REFNUM>
+                  <MEMO>TRANSF.RECURSO E I - Tarifa referente a 13/02/2017</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170214120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-490.00</TRNAMT>
+                  <FITID>201702141490000</FITID>
+                  <CHECKNUM>730223597351</CHECKNUM>
+                  <REFNUM>140.730.223.597.351</REFNUM>
+                  <MEMO>Saque no TAA - 14/02 07:30 SAA-LAVRAS</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170214120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-62.53</TRNAMT>
+                  <FITID>20170214162530</FITID>
+                  <CHECKNUM>000000021401</CHECKNUM>
+                  <REFNUM>21.401</REFNUM>
+                  <MEMO>Pagamento de Impostos - MG-2017-IPVA Cota 2           HFF-2267</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170215120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>500.00</TRNAMT>
+                  <FITID>201702150500000</FITID>
+                  <CHECKNUM>490510032785</CHECKNUM>
+                  <REFNUM>3.490.510.032.785</REFNUM>
+                  <MEMO>Transferido da poupança - 15/02 3490      32785-9 ALINE SILVA SA</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170215120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>480.30</TRNAMT>
+                  <FITID>201702150480300</FITID>
+                  <CHECKNUM>364000048491</CHECKNUM>
+                  <REFNUM>660.364.000.048.491</REFNUM>
+                  <MEMO>Transferência on line - 15/02 0364      48491-1 SWFACTORY CONS</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170215120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-18.45</TRNAMT>
+                  <FITID>20170215118450</FITID>
+                  <CHECKNUM>460900955922</CHECKNUM>
+                  <REFNUM>870.460.900.955.922</REFNUM>
+                  <MEMO>Tarifa Pacote de Serviços - Tarifa referente a 15/02/2017</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170215120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-50.00</TRNAMT>
+                  <FITID>20170215150000</FITID>
+                  <CHECKNUM>000000015900</CHECKNUM>
+                  <REFNUM>15.900</REFNUM>
+                  <MEMO>Pagamento de Telefone</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170215120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-200.78</TRNAMT>
+                  <FITID>201702151200780</FITID>
+                  <CHECKNUM>000000043475</CHECKNUM>
+                  <REFNUM>43.475</REFNUM>
+                  <MEMO>Pagto Mensalidade Seguro</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170216120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-2332.58</TRNAMT>
+                  <FITID>2017021612332580</FITID>
+                  <CHECKNUM>000071758366</CHECKNUM>
+                  <REFNUM>71.758.366</REFNUM>
+                  <MEMO>Pagto cartão crédito</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170216120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-210.00</TRNAMT>
+                  <FITID>201702161210000</FITID>
+                  <CHECKNUM>000092080408</CHECKNUM>
+                  <REFNUM>92.080.408</REFNUM>
+                  <MEMO>Pagto cartão crédito</MEMO>
+               </STMTTRN>
+               <STMTTRN>
+                  <TRNTYPE>OTHER</TRNTYPE>
+                  <DTPOSTED>20170220120000[-3:BRT]</DTPOSTED>
+                  <TRNAMT>-28.30</TRNAMT>
+                  <FITID>20170220128300</FITID>
+                  <CHECKNUM>000000022001</CHECKNUM>
+                  <REFNUM>22.001</REFNUM>
+                  <MEMO>Pgto conta água - CIA DE SANEAMENTO DE MG</MEMO>
+               </STMTTRN>
+            </BANKTRANLIST>
+            <LEDGERBAL>
+               <BALAMT>563.60</BALAMT>
+               <DTASOF>20170220120000[-3:BRT]</DTASOF>
+            </LEDGERBAL>
+         </STMTRS>
+      </STMTTRNRS>
+   </BANKMSGSRSV1>
+</OFX>

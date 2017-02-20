@@ -21,6 +21,7 @@ namespace Moneta.Domain.Entities
         public virtual ICollection<Lancamento> Lancamentos { get; set; }
         public DateTime DataCadastro { get; set; }
         public const string Nenhum = "Nenhum";
+        public const string NenhumGuid = "59ef6a93-65dd-4afc-be81-5f53166cc272";
         public ValidationResult ResultadoValidacao { get; private set; }
 
         public bool IsValid()

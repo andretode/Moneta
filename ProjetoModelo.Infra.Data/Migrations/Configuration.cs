@@ -19,24 +19,16 @@ namespace Moneta.Infra.Data.Migrations
         protected override void Seed(Moneta.Infra.Data.Context.MonetaContext context)
         {
             //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
             
-            context.Categorias.AddOrUpdate(
-                new Categoria { Descricao = "Moradia", Cor = "#2655cc" },
-                new Categoria { Descricao = "Transporte", Cor = "#199982" },
-                new Categoria { Descricao = "Lazer", Cor = "#f7ed00" },
-                new Categoria { Descricao = "Outros", Cor = "#777777" }
-            );
+            if(context.Categorias.Count()==0)
+            {
+                context.Categorias.AddOrUpdate(
+                    new Categoria { CategoriaId = Guid.Parse(Categoria.NenhumGuid), Descricao = Categoria.Nenhum, Cor = "#999999" },
+                    new Categoria { Descricao = "Moradia", Cor = "#2655cc" },
+                    new Categoria { Descricao = "Transporte", Cor = "#199982" },
+                    new Categoria { Descricao = "Lazer", Cor = "#f7ed00" }                    
+                );
+            }
         }
     }
 }

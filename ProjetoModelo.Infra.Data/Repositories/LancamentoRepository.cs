@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Globalization;
 using System.IO;
+using System.Text;
 
 namespace Moneta.Infra.Data.Repositories
 {
@@ -79,7 +80,7 @@ namespace Moneta.Infra.Data.Repositories
                 {
                     ContaId = contaId,
                     // TROCAR ESTE IMPROVISO
-                    CategoriaId = Guid.Parse("77ad006b-ddf8-4d41-b87f-b20f48d1430a"), 
+                    CategoriaId = Guid.Parse(Categoria.NenhumGuid), 
                     Valor = decimal.Parse(c.Element("TRNAMT").Value, NumberFormatInfo.InvariantInfo),
                     DataVencimento = DateTime.ParseExact(c.Element("DTPOSTED").Value.Substring(0,8), "yyyyMMdd", CultureInfo.InvariantCulture),
                     Descricao = c.Element("MEMO").Value,
@@ -96,9 +97,8 @@ namespace Moneta.Infra.Data.Repositories
 
         private void PrepararOfxParaXmlLegivel(string caminhoOfx)
         {
-            string textoOfx = File.ReadAllText(caminhoOfx);
+            string textoOfx = File.ReadAllText(caminhoOfx, Encoding.GetEncoding(1252));
             int inicio = textoOfx.IndexOf("<OFX>");
-            //int fim = textoOfx.Length;
             var textoXml = textoOfx.Substring(inicio);
             File.WriteAllText(caminhoOfx, textoXml);
         }

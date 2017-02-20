@@ -60,8 +60,14 @@ namespace Moneta.Application.ViewModels
         [DisplayName("Vencimento")]
         public DateTime DataVencimento { get; set; }
 
+        [DisplayName("N° Documento")]
+        public string NumeroDocumento { get; set; }
+
         [DisplayName("Pago?")]
         public bool Pago { get; set; }
+
+        [DisplayName("Observação")]
+        public string Observacao { get; set; }
 
         [DisplayName("Transação")]
         public TipoTransacaoEnum TipoDeTransacao { get; set; }
