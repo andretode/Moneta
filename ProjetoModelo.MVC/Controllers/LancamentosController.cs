@@ -9,6 +9,7 @@ using System.Web.Script.Serialization;
 using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Moneta.MVC.Controllers
 {
@@ -167,6 +168,7 @@ namespace Moneta.MVC.Controllers
         public ActionResult Create(LancamentoViewModel lancamento)
         {
             SetSelectLists();
+
             if (ModelState.IsValid)
             {
                 var result = _LancamentoApp.Add(lancamento);

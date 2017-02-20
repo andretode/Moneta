@@ -30,6 +30,8 @@ namespace Moneta.MVC
                   "~/Scripts/bootstrap-colorpicker.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/lancamento-parcelado").Include(
                   "~/Scripts/lancamento-parcelado.js"));
+            bundles.Add(new ScriptBundle("~/bundles/mask-money").Include(
+                "~/Scripts/jquery-maskMoney-3.0.2.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
