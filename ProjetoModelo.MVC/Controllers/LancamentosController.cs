@@ -224,6 +224,39 @@ namespace Moneta.MVC.Controllers
             return View(lancamento);
         }
 
+        public ActionResult ImportarOfx()
+        {
+            SetSelectLists();
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ImportarOfx(string arquivoOfx)
+        {
+            string caminhoOfx = "";
+            Guid contaId = Guid.Parse(Request.Form.Get("contaIdFiltro"));
+
+            if (Request.Files.Count > 0)
+            {
+                var file = Request.Files[0];
+
+                if (file != null && file.ContentLength > 0)
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+                    caminhoOfx = Path.Combine(Server.MapPath("~/"), fileName);
+                    file.SaveAs(caminhoOfx);
+                }
+            }
+
+            if (caminhoOfx!="")
+                _LancamentoApp.ImportarOfx(caminhoOfx, contaId);
+            else
+                ModelState.AddModelError(string.Empty, "O arquivo OFX não foi encontrado");
+
+            return RedirectToAction("Index");
+        }
+
         // GET: Lancamento/Delete/5
         public ActionResult Delete(string jsonLancamento)
         {

@@ -80,7 +80,7 @@ namespace Moneta.Application
                     //##############################################################
                     // TENTAR MELHORAR O LOCAL QUE ESTE TRATAMENTO DEVE SER FEITO
                     var vr = new ValidationResult();
-                    vr.AdicionarErro(new ValidationError("A periodicidade é obrigatórios em caso de lançamento fixo."));
+                    vr.AdicionarErro(new ValidationError("A periodicidade é obrigatória em caso de lançamento fixo."));
                     return DomainToApplicationResult(vr);
                 }
             }
@@ -272,5 +272,11 @@ namespace Moneta.Application
             return valorAjustado;
         }
         #endregion
+
+
+        public void ImportarOfx(string caminhoOfx, Guid contaId)
+        {
+            _lancamentoService.ImportarOfx(caminhoOfx, contaId);
+        }
     }
 }

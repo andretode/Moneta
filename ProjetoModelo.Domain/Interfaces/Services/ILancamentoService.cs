@@ -31,5 +31,6 @@ namespace Moneta.Domain.Interfaces.Services
         void RemoveEmSerie(Lancamento lancamentoEditado);
 
         void RemoveTransferencia(Lancamento lancamento);
+        void ImportarOfx(string caminhoOfx, Guid contaId);
     }
 }

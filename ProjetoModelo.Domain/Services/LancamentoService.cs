@@ -162,6 +162,11 @@ namespace Moneta.Domain.Services
             return listaDeSaldoPorDia;
         }
 
+        public void ImportarOfx(string caminhoOfx, Guid contaId)
+        {
+            _LancamentoRepository.ImportarOfx(caminhoOfx, contaId);
+        }
+
         #region Metodos Privados
         private List<DateTime> SomenteDiasDoMesComMovimentacao(int mes, int ano, IEnumerable<Lancamento> lancamentos)
         {
