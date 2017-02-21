@@ -70,37 +70,5 @@ namespace Moneta.Infra.Data.Repositories
                     return DbSet;
             }
         }
-
-        public void ImportarOfx(string caminhoOfx, Guid contaId)
-        {
-            PrepararOfxParaXmlLegivel(caminhoOfx);
-            XElement doc = XElement.Load(caminhoOfx);
-            IEnumerable<Lancamento> lancamentos = (from c in doc.Descendants("STMTTRN")
-                select new Lancamento
-                {
-                    ContaId = contaId,
-                    // TROCAR ESTE IMPROVISO
-                    CategoriaId = Guid.Parse(Categoria.NenhumGuid), 
-                    Valor = decimal.Parse(c.Element("TRNAMT").Value, NumberFormatInfo.InvariantInfo),
-                    DataVencimento = DateTime.ParseExact(c.Element("DTPOSTED").Value.Substring(0,8), "yyyyMMdd", CultureInfo.InvariantCulture),
-                    Descricao = c.Element("MEMO").Value,
-                    Observacao = c.Element("MEMO").Value,
-                    NumeroDocumento = c.Element("REFNUM").Value
-                });
-
-            foreach(var lancamento in lancamentos)
-            {
-                this.Add(lancamento);
-            }
-            this.Context.SaveChanges();
-        }
-
-        private void PrepararOfxParaXmlLegivel(string caminhoOfx)
-        {
-            string textoOfx = File.ReadAllText(caminhoOfx, Encoding.GetEncoding(1252));
-            int inicio = textoOfx.IndexOf("<OFX>");
-            var textoXml = textoOfx.Substring(inicio);
-            File.WriteAllText(caminhoOfx, textoXml);
-        }
     }
 }

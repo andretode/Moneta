@@ -23,6 +23,5 @@ namespace Moneta.Application.Interfaces
         void RemoveEmSerie(LancamentoViewModel lancamentoViewModel);
 
         void RemoveTransferencia(LancamentoViewModel lancamento);
-        void ImportarOfx(string caminhoOfx, Guid contaId);
     }
 }

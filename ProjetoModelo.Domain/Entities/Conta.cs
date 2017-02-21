@@ -19,6 +19,7 @@ namespace Moneta.Domain.Entities
         public string Descricao { get; set; }
         public bool Ativo { get; set; }
         public virtual ICollection<Lancamento> Lancamentos { get; set; }
+        public virtual ICollection<ExtratoBancario> ExtratosBancarios { get; set; }
         public DateTime DataCadastro { get; set; }
 
         public ValidationResult ResultadoValidacao { get; private set; }

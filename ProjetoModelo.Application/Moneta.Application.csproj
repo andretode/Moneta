@@ -71,6 +71,8 @@
     <Compile Include="AutoMapper\DomainToApplicationMappingProfile.cs" />
     <Compile Include="AutoMapper\ViewModelToDomainMappingProfile.cs" />
     <Compile Include="AutoMapper\DomainToViewModelMappingProfile.cs" />
+    <Compile Include="ExtratoBancarioAppService.cs" />
+    <Compile Include="Interfaces\IExtratoBancarioAppService.cs" />
     <Compile Include="Interfaces\ILancamentoParceladoAppService.cs" />
     <Compile Include="LancamentoParceladoAppService.cs" />
     <Compile Include="LancamentoAppService.cs" />
@@ -86,6 +88,7 @@
     <Compile Include="ViewModels\GraficoSaldoViewModel.cs" />
     <Compile Include="ViewModels\LancamentosDoMesViewModel.cs" />
     <Compile Include="ViewModels\LancamentoParceladoViewModel.cs" />
+    <Compile Include="ViewModels\ExtratoBancarioViewModel.cs" />
     <Compile Include="ViewModels\TransferenciaViewModel.cs" />
     <Compile Include="ViewModels\LancamentoViewModel.cs" />
     <Compile Include="ViewModels\CategoriaViewModel.cs" />

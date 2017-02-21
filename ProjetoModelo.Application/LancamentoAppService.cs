@@ -272,11 +272,5 @@ namespace Moneta.Application
             return valorAjustado;
         }
         #endregion
-
-
-        public void ImportarOfx(string caminhoOfx, Guid contaId)
-        {
-            _lancamentoService.ImportarOfx(caminhoOfx, contaId);
-        }
     }
 }

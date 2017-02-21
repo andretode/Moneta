@@ -75,6 +75,7 @@
     <Compile Include="Context\BaseDbContext.cs" />
     <Compile Include="Context\ContextManager.cs" />
     <Compile Include="Context\MonetaContext.cs" />
+    <Compile Include="EntityConfig\ExtratoBancarioConfiguration.cs" />
     <Compile Include="EntityConfig\LancamentoParceladoConfiguration.cs" />
     <Compile Include="EntityConfig\LancamentoConfiguration.cs" />
     <Compile Include="EntityConfig\CategoriaConfiguration.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ADO\BaseADORepository.cs" />
     <Compile Include="Repositories\ADO\ContaADORepository.cs" />
+    <Compile Include="Repositories\ExtratoBancarioRepository.cs" />
     <Compile Include="Repositories\LancamentoParceladoRepository.cs" />
     <Compile Include="Repositories\LancamentoRepository.cs" />
     <Compile Include="Repositories\CategoriaRepository.cs" />

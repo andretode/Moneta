@@ -18,6 +18,7 @@ namespace Moneta.Application.AutoMapper
         protected override void Configure()
         {
             Mapper.CreateMap<ContaViewModel, Conta>();
+            Mapper.CreateMap<ExtratoBancarioViewModel, ExtratoBancario>();
             Mapper.CreateMap<CategoriaViewModel, Categoria>();
             Mapper.CreateMap<LancamentoViewModel, Lancamento>()
                 .ForMember(d => d.LancamentoParceladoId, o => o.MapFrom(s => s.LancamentoParcelado != null ? s.LancamentoParcelado.LancamentoParceladoId : s.LancamentoParceladoId))

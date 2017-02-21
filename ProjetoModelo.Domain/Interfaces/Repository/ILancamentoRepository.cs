@@ -15,6 +15,5 @@ namespace Moneta.Domain.Interfaces.Repository
         /// <param name="asNoTracking">Informe se a busca deve ser asNoTracking</param>
         /// <returns>Retorna todos os lançamentos do BD</returns>
         IEnumerable<Lancamento> GetAll(bool somenteOsAtivo, bool asNoTracking);
-        void ImportarOfx(string caminhoOfx, Guid contaId);
     }
 }

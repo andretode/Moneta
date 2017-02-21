@@ -24,6 +24,9 @@ namespace Moneta.Infra.Data.EntityConfig
             Property(c => c.Pago)
                 .IsRequired();
 
+            Property(c => c.Observacao)
+                .IsOptional();
+
             Property(c => c.BaseDaSerie)
                 .IsRequired();
 

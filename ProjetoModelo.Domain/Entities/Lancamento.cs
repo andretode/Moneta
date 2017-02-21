@@ -23,7 +23,6 @@ namespace Moneta.Domain.Entities
         public string Descricao { get; set; }
         public decimal Valor { get; set; }
         public DateTime DataVencimento { get; set; }
-        public string NumeroDocumento { get; set; }
         public bool Pago { get; set; }
         public string Observacao { get; set; }
         public Guid ContaId { get; set; }

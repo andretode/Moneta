@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Moneta.Application.ViewModels.ExtratoBancarioViewModel>
+
+@{
+    ViewBag.Title = "Extrato Bancário";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Importar Arquivo OFX", "ImportarOfx")
+</p>
+
+@using (Html.BeginForm("Index", "Contas", new {pesquisa = ""}, FormMethod.Get))
+{
+    <p>
+        Pesquisar por Descrição: @Html.Editor("pesquisa") <input type="submit" value="Pesquisar" class="btn btn-default" />
+    </p>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DataCompensacao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descricao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumeroDocumento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Valor)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataCompensacao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumeroDocumento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Valor)
+            </td>
+            <td>
+                @Html.ActionLink("Associar", "Associar", new { id = item.ExtratoBancarioId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ExtratoBancarioId })
+            </td>
+        </tr>
+    }
+</table>

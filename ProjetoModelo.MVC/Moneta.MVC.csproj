@@ -180,6 +180,7 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ExtratosBancariosController.cs" />
     <Compile Include="Controllers\LancamentosController.cs" />
     <Compile Include="Controllers\ClaimsAdminController.cs" />
     <Compile Include="Controllers\CategoriaController.cs" />
@@ -771,7 +772,8 @@
     <Content Include="Views\Transferencias\Edit.cshtml" />
     <Content Include="Views\Transferencias\Create.cshtml" />
     <Content Include="Views\Transferencias\Delete.cshtml" />
-    <Content Include="Views\Lancamentos\ImportarOfx.cshtml" />
+    <Content Include="Views\ExtratoBancario\ImportarOfx.cshtml" />
+    <Content Include="Views\ExtratoBancario\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
