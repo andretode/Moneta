@@ -59,9 +59,9 @@ namespace Moneta.Application
             Commit();
         }
 
-        public void ImportarOfx(string caminhoOfx, Guid extratoBancarioId)
+        public void ImportarOfx(string caminhoOfx, Guid contaId)
         {
-            _ExtratoBancarioService.ImportarOfx(caminhoOfx, extratoBancarioId);
+            _ExtratoBancarioService.ImportarOfx(caminhoOfx, contaId);
         }
 
         public void Remove(ExtratoBancarioViewModel ExtratoBancarioViewModel)

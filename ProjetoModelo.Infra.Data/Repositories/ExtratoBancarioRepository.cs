@@ -21,14 +21,14 @@ namespace Moneta.Infra.Data.Repositories
             entry.State = EntityState.Deleted;
         }
 
-        public void ImportarOfx(string caminhoOfx, Guid extratoBancarioId)
+        public void ImportarOfx(string caminhoOfx, Guid contaId)
         {
             PrepararOfxParaXmlLegivel(caminhoOfx);
             XElement doc = XElement.Load(caminhoOfx);
             IEnumerable<ExtratoBancario> extratosBancarios = (from c in doc.Descendants("STMTTRN")
                 select new ExtratoBancario
                 {
-                    ExtratoBancarioId = extratoBancarioId,
+                    ContaId = contaId,
                     Valor = decimal.Parse(c.Element("TRNAMT").Value, NumberFormatInfo.InvariantInfo),
                     DataCompensacao = DateTime.ParseExact(c.Element("DTPOSTED").Value.Substring(0, 8), "yyyyMMdd", CultureInfo.InvariantCulture),
                     Descricao = c.Element("MEMO").Value,

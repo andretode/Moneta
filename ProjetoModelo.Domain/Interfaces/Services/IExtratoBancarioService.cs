@@ -7,6 +7,6 @@ namespace Moneta.Domain.Interfaces.Services
     public interface IExtratoBancarioService : IServiceBase<ExtratoBancario>
     {
         ValidationResult Adicionar(ExtratoBancario extratoBancario);
-        void ImportarOfx(string caminhoOfx, Guid extratoBancarioId);
+        void ImportarOfx(string caminhoOfx, Guid contaId);
     }
 }

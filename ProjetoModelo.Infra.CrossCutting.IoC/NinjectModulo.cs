@@ -40,7 +40,7 @@ namespace Moneta.Infra.CrossCutting.IoC
             Bind<ICategoriaRepository>().To<CategoriaRepository>();
             Bind<ILancamentoRepository>().To<LancamentoRepository>();
             Bind<ILancamentoParceladoRepository>().To<LancamentoParceladoRepository>();
-            Bind<IExtratoBancarioService>().To<ExtratoBancarioService>();
+            Bind<IExtratoBancarioRepository>().To<ExtratoBancarioRepository>();
       
             // data repos read only
             Bind<IContaReadOnlyRepository>().To<ContaReadOnlyRepository>();

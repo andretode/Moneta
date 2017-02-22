@@ -772,8 +772,8 @@
     <Content Include="Views\Transferencias\Edit.cshtml" />
     <Content Include="Views\Transferencias\Create.cshtml" />
     <Content Include="Views\Transferencias\Delete.cshtml" />
-    <Content Include="Views\ExtratoBancario\ImportarOfx.cshtml" />
-    <Content Include="Views\ExtratoBancario\Index.cshtml" />
+    <Content Include="Views\ExtratosBancarios\ImportarOfx.cshtml" />
+    <Content Include="Views\ExtratosBancarios\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

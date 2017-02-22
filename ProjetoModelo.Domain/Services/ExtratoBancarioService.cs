@@ -43,9 +43,9 @@ namespace Moneta.Domain.Services
             return resultadoValidacao;
         }
 
-        public void ImportarOfx(string caminhoOfx, Guid extratoBancarioId)
+        public void ImportarOfx(string caminhoOfx, Guid contaId)
         {
-            _ExtratoBancarioRepository.ImportarOfx(caminhoOfx, extratoBancarioId);
+            _ExtratoBancarioRepository.ImportarOfx(caminhoOfx, contaId);
         }
     }
 }

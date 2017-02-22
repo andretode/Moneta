@@ -5,6 +5,6 @@ namespace Moneta.Domain.Interfaces.Repository
 {
     public interface IExtratoBancarioRepository : IRepositoryBase<ExtratoBancario>
     {
-        void ImportarOfx(string caminhoOfx, Guid extratoBancarioId);
+        void ImportarOfx(string caminhoOfx, Guid contaId);
     }
 }

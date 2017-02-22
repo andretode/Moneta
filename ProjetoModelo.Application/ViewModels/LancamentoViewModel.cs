@@ -49,6 +49,7 @@ namespace Moneta.Application.ViewModels
         [DisplayName("Descrição Mais N° da Parcela")]
         public string DescricaoMaisNumeroParcela { get; set; }
 
+        [DataType(DataType.Currency)]
         [Range(typeof(decimal), "-9999999,99", "9999999,99", ErrorMessage="O valor fornecido excede os limites do sistema.")]
         [Required(ErrorMessage = "Preencha o campo")]
         [DisplayName("Valor")]

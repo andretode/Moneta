@@ -7,7 +7,7 @@
 <h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Importar Arquivo OFX", "ImportarOfx")
+    @Html.ActionLink("Importar Arquivo OFX", "ImportarOfx", null, new { @class="btn btn-default" })
 </p>
 
 @using (Html.BeginForm("Index", "Contas", new {pesquisa = ""}, FormMethod.Get))
@@ -17,7 +17,7 @@
     </p>
 }
 
-<table class="table">
+<table class="table table-striped table-condensed">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.DataCompensacao)
@@ -30,6 +30,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Valor)
+        </th>
+        <th>
+            Ações
         </th>
     </tr>
 
@@ -46,11 +49,22 @@
                 @Html.DisplayFor(modelItem => item.NumeroDocumento)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Valor)
+                @if (item.Valor > 0)
+                {
+                    <span style="color:green">
+                        @Html.DisplayFor(modelItem => item.Valor)
+                    </span>
+                }
+                else
+                {
+                    <span style="color:red">
+                        @Html.DisplayFor(modelItem => item.Valor)
+                    </span>
+                }                
             </td>
             <td>
                 @Html.ActionLink("Associar", "Associar", new { id = item.ExtratoBancarioId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ExtratoBancarioId })
+                @Html.ActionLink("Deletar", "Delete", new { id = item.ExtratoBancarioId })
             </td>
         </tr>
     }

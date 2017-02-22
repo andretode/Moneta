@@ -18,6 +18,7 @@ namespace Moneta.Application.ViewModels
         [DisplayName("Descrição")]
         public string Descricao { get; set; }
 
+        [DataType(DataType.Currency)]
         [Range(typeof(decimal), "-9999999,99", "9999999,99", ErrorMessage="O valor fornecido excede os limites do sistema.")]
         [Required(ErrorMessage = "Preencha o campo")]
         [DisplayName("Valor")]
@@ -25,7 +26,7 @@ namespace Moneta.Application.ViewModels
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yy}")]
         [DataType(DataType.DateTime)]
-        [DisplayName("Data da Compensação")]
+        [DisplayName("Compensação")]
         public DateTime DataCompensacao { get; set; }
 
         [DisplayName("N° Documento")]
