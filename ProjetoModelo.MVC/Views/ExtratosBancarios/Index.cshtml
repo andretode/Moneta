@@ -63,8 +63,15 @@
                 }                
             </td>
             <td>
-                @Html.ActionLink("Associar", "Associar", new { id = item.ExtratoBancarioId }) |
-                @Html.ActionLink("Deletar", "Delete", new { id = item.ExtratoBancarioId })
+                <a title="Conciliar com um lançamento"
+                   href="@Url.Action("Conciliar", "ExtratosBancarios", new { id = item.ExtratoBancarioId })">
+                    <i class="icon-white glyphicon glyphicon-new-window"></i>
+                </a>
+                |
+                <a title="Remover extrato" onclick="return confirm('Tem certeza que deseja remover?')"
+                   href="@Url.Action("Delete", "ExtratosBancarios", new { id = item.ExtratoBancarioId })">
+                    <i class="icon-white glyphicon glyphicon-trash"></i>
+                </a>
             </td>
         </tr>
     }

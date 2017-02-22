@@ -78,24 +78,13 @@ namespace Moneta.MVC.Controllers
             return RedirectToAction("Index");
         }
 
-        //// GET: Categoria/Delete/5
-        //public ActionResult Delete(Guid id)
-        //{
-        //    var categoriaViewModel = _categoriaApp.GetById(id);
+        public ActionResult Delete(Guid id)
+        {
+            var extratoBancario = _ExtratoBancarioApp.GetAllReadOnly().Where(c => c.ExtratoBancarioId == id).First(); //_categoriaApp.GetById(id);
+            _ExtratoBancarioApp.Remove(extratoBancario);
 
-        //    return View(categoriaViewModel);
-        //}
-
-        //// POST: Categoria/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(Guid id)
-        //{
-        //    var categoria = _categoriaApp.GetAllReadOnly().Where(c => c.CategoriaId == id).First(); //_categoriaApp.GetById(id);
-        //    _categoriaApp.Remove(categoria);
-
-        //    return RedirectToAction("Index");
-        //}
+            return RedirectToAction("Index");
+        }
 
         private void SetSelectLists()
         {
