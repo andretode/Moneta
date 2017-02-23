@@ -190,6 +190,7 @@
     <Compile Include="Controllers\RolesAdminController.cs" />
     <Compile Include="Controllers\TransferenciasController.cs" />
     <Compile Include="Controllers\UserAdminController.cs" />
+    <Compile Include="CustomHelpers\LancamentoHelper.cs" />
     <Compile Include="DataAnnotation\MultipleButtonAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

@@ -1,6 +1,7 @@
 ﻿@model Moneta.Application.ViewModels.LancamentosDoMesViewModel
 @using Moneta.Infra.CrossCutting.Enums
 @using Newtonsoft.Json;
+@using Moneta.MVC.CustomHelpers;
 
 @{
     ViewBag.Title = "Lançamentos";
@@ -74,15 +75,7 @@
         else
         {
             foreach (var item in @Model.LancamentosAgrupados)
-            {                
-                var jsSettings = new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Ignore,
-                    ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
-                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                };
-                string jsonLancamento = JsonConvert.SerializeObject(item, Formatting.Indented, jsSettings);
-
+            {
                 <tr>
                     @if(item.Lancamentos.Count() > 1)
                     {
@@ -97,82 +90,7 @@
                     }
                     else
                     {
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Lancamentos[0].DataVencimento)
-                        &nbsp;
-                        <span class="visible-xs visible-sm visible-md-inline visible-lg-inline">
-                            @if (item.Lancamentos[0].TipoDeTransacao == TipoTransacaoEnum.Transferencia)
-                            {
-                                <a href="@Url.Action("Details", "Transferencias", new { id = item.Lancamentos[0].LancamentoId })">@item.Lancamentos[0].DescricaoResumida</a>
-                            }
-                            else
-                            {
-                                <a href="@Url.Action("Details", "Lancamentos", new { jsonLancamento })">@item.Lancamentos[0].DescricaoResumida</a>
-                            }
-                        </span>
-                        @Html.HiddenFor(modelItem => item.Lancamentos[0].Descricao)
-                    </td>
-                    <td>
-                        @if (item.Lancamentos[0].LancamentoParceladoId != null)
-                        {
-                            <span class="visible-lg-inline">
-                                <i class="icon-white glyphicon glyphicon-retweet" title="Este é um lançamento s repete em outras datas"></i>
-                            </span>
-                        }
-                        @if (item.Lancamentos[0].TipoDeTransacao == TipoTransacaoEnum.Transferencia && item.Lancamentos[0].LancamentoIdTransferencia != null)
-                        {
-                            <span class="visible-lg-inline">
-                                <i class="icon-white glyphicon glyphicon-transfer" title="Transferência entre contas"></i>
-                            </span>
-                        }
-                        @Html.HiddenFor(modelItem => item.Lancamentos[0].Fake)
-                    </td>
-                    <td>
-                        @if (Model.ContaIdFiltro == Guid.Empty)
-                        {
-                            <span class="visible-md visible-lg">@item.Lancamentos[0].Conta.Descricao</span>
-                        }
-                    </td>
-                    <td>
-                        <button class="btn" style="background-color: @item.Lancamentos[0].Categoria.Cor" title="@item.Lancamentos[0].Categoria.Descricao"></button>
-                        <span class="visible-xs visible-sm visible-md-inline visible-lg-inline">@item.Lancamentos[0].Categoria.Descricao</span>
-                    </td>
-                    <td class="text-right">
-                        @if (item.Lancamentos[0].Valor > 0)
-                        {
-                            <span style="color:green">
-                                @Html.DisplayFor(modelItem => item.Lancamentos[0].Valor)
-                            </span>
-                        }
-                        else
-                        {
-                            <span style="color:red">
-                                @Html.DisplayFor(modelItem => item.Lancamentos[0].Valor)
-                            </span>
-                        }
-                    </td>
-                    <td>
-                        @if (item.Lancamentos[0].Pago)
-                        {
-                            <a title="Clique para informar que não foi pago"
-                               href="@Url.Action("TrocarPago", "Lancamentos", new { jsonLancamento })">
-                                <i class="icon-white glyphicon glyphicon-thumbs-up" style="color:green"></i>
-                            </a>
-                        }
-                        else
-                        {
-                            string corDataVencimentoPago = "gray";
-                            if (!item.Lancamentos[0].Pago && item.Lancamentos[0].DataVencimento < DateTime.Now)
-                            {
-                                corDataVencimentoPago = "red";
-                            }
-
-                            <a title="Clique para informar que foi pago"
-                               href="@Url.Action("TrocarPago", "Lancamentos", new { jsonLancamento })">
-                                <i class="icon-white glyphicon glyphicon-thumbs-down" style="color:@corDataVencimentoPago"></i>
-                            </a>
-                        }
-                    </td>
+                        @Html.DisplayLancamento(item.Lancamentos[0], Model.ContaIdFiltro)
                     }
                     
                 </tr>
