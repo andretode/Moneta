@@ -3,6 +3,7 @@ using Moneta.Infra.CrossCutting.Enums;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 
@@ -10,20 +11,29 @@ namespace Moneta.MVC.CustomHelpers
 {
     public static class LancamentoHelper
     {
-        public static MvcHtmlString DisplayLancamento(this HtmlHelper htmlHelper, LancamentoAgrupadoViewModel lancamentoAgrupado, Guid? contaIdFiltro)
+        public static MvcHtmlString DisplayLancamento<TModel>(this HtmlHelper<TModel> htmlHelper)
+            where TModel : LancamentosDoMesViewModel
         {
-            if (lancamentoAgrupado.Lancamentos.Count() > 1)
-                return DisplayLancamentoAgrupado(lancamentoAgrupado, contaIdFiltro);
-            else
-                return DisplayLancamentoUnico(lancamentoAgrupado.Lancamentos[0], contaIdFiltro);
+            string resultado = "";
+            var contaIdFiltro = htmlHelper.ViewData.Model.ContaIdFiltro;
+            foreach (var lancamentoAgrupado in htmlHelper.ViewData.Model.LancamentosAgrupados)
+            {
+                if (lancamentoAgrupado.Lancamentos.Count() > 1)
+                    resultado += DisplayLancamentoAgrupado(htmlHelper, lancamentoAgrupado, contaIdFiltro);
+                else
+                    resultado += DisplayLancamentoUnico(htmlHelper, lancamentoAgrupado.Lancamentos[0], contaIdFiltro);
+            }
+
+            return MvcHtmlString.Create(resultado.ToString());
         }
 
-        private static MvcHtmlString DisplayLancamentoAgrupado(LancamentoAgrupadoViewModel lancamentoAgrupado, Guid? contaIdFiltro)
+        private static string DisplayLancamentoAgrupado<TModel>(HtmlHelper<TModel> htmlHelper, LancamentoAgrupadoViewModel lancamentoAgrupado, Guid? contaIdFiltro)
+            where TModel : LancamentosDoMesViewModel
         {
             string html = "";
 
             //coluna 1  TEM QUE TROCAR
-            html += "<td>" + lancamentoAgrupado.Lancamentos[0].DataVencimento + "&nbsp;";
+            html += "<td>" + htmlHelper.DisplayFor(modelItem => lancamentoAgrupado.Lancamentos[0].DataVencimento) + "&nbsp;";
             html += "<span class='visible-xs visible-sm visible-md-inline visible-lg-inline'>";
             html += lancamentoAgrupado.Descricao + "</a>";
             html += "</span>";
@@ -47,9 +57,9 @@ namespace Moneta.MVC.CustomHelpers
             html += "<td class='text-right'>";
             decimal soma = lancamentoAgrupado.Lancamentos.Sum(l => l.Valor);
             if (soma > 0)
-                html += "<span style='color:green'>" + soma + "</span>";
+                html += "<span style='color:green'>" + string.Format("{0:C}", soma) + "</span>";
             else
-                html += "<span style='color:red'>" + soma + "</span>";
+                html += "<span style='color:red'>" + string.Format("{0:C}", soma) + "</span>";
             html += "</td>";
 
             //coluna 6 TEM QUE TROCAR
@@ -73,10 +83,11 @@ namespace Moneta.MVC.CustomHelpers
             html += "</td>";
 
             html = "<tr>" + html + "</tr>";
-            return MvcHtmlString.Create(html.ToString());
+            return html;
         }
 
-        private static MvcHtmlString DisplayLancamentoUnico(LancamentoViewModel lancamento, Guid? contaIdFiltro)
+        private static string DisplayLancamentoUnico<TModel>(HtmlHelper<TModel> htmlHelper, LancamentoViewModel lancamento, Guid? contaIdFiltro)
+            where TModel : LancamentosDoMesViewModel
         {
             var jsSettings = new JsonSerializerSettings
             {
@@ -89,7 +100,7 @@ namespace Moneta.MVC.CustomHelpers
             string html = "";
 
             //coluna 1  
-            html += "<td>" + lancamento.DataVencimento + "&nbsp;";
+            html += "<td>" + htmlHelper.DisplayFor(modelItem => lancamento.DataVencimento) + "&nbsp;";
             html += "<span class='visible-xs visible-sm visible-md-inline visible-lg-inline'>";
             if (lancamento.TipoDeTransacao == TipoTransacaoEnum.Transferencia)
                 html += "<a href='@Html.Action('Details', 'Transferencias', new { id = lancamento.LancamentoId })'>" + lancamento.DescricaoResumida + "</a>";
@@ -135,9 +146,9 @@ namespace Moneta.MVC.CustomHelpers
             //coluna 5
             html += "<td class='text-right'>";
             if (lancamento.Valor > 0)
-                html += "<span style='color:green'>" + lancamento.Valor + "</span>";
+                html += "<span style='color:green'>" + string.Format("{0:C}", lancamento.Valor) + "</span>";
             else
-                html += "<span style='color:red'>" + lancamento.Valor + "</span>";
+                html += "<span style='color:red'>" + string.Format("{0:C}",lancamento.Valor) + "</span>";
             html += "</td>";
 
             //coluna 6
@@ -161,7 +172,7 @@ namespace Moneta.MVC.CustomHelpers
             html += "</td>";
 
             html = "<tr>" + html + "</tr>";
-            return MvcHtmlString.Create(html.ToString());
+            return html;
         }
     }
 }

@@ -74,10 +74,7 @@
         }
         else
         {
-            foreach (var item in @Model.LancamentosAgrupados)
-            {
-                @Html.DisplayLancamento(item, Model.ContaIdFiltro)
-            }
+            @Html.DisplayLancamento()
 
             string corSaldoAtualDoMes = (Model.SaldoAtualDoMes > 0 ? "green" : "red");
             string corSaldoDoMes = (Model.SaldoDoMes > 0 ? "green" : "red");
