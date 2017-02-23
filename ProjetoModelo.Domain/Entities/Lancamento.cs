@@ -38,7 +38,8 @@ namespace Moneta.Domain.Entities
         public TipoTransacaoEnum TipoDeTransacao { get; set; }
         public Guid? LancamentoIdTransferencia { get; set; }
         public virtual Lancamento LancamentoTransferencia { get; set; }
-        //public virtual ICollection<Lancamento> LancamentosTransferencia { get; set; }
+        public Guid? GrupoLancamentoId { get; set; }
+        public virtual GrupoLancamento GrupoLancamento { get; set; }
 
         public bool Fake { get; private set; }
         public ValidationResult ResultadoValidacao { get; private set; }

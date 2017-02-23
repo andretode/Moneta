@@ -140,7 +140,7 @@ namespace Moneta.MVC.CustomHelpers
             //coluna 4
             html += "<td>";
             html += "<button class='btn' style='background-color: @item.Lancamentos[0].Categoria.Cor' title=" + lancamento.Categoria.Descricao + "></button>";
-            html += "<span class='visible-xs visible-sm visible-md-inline visible-lg-inline'>" + lancamento.Categoria.Descricao + "</span>";
+            html += "<span class='visible-xs visible-sm visible-md-inline visible-lg-inline'> &nbsp;" + lancamento.Categoria.Descricao + "</span>";
             html += "</td>";
 
             //coluna 5

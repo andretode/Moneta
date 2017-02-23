@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Entities\ExtratoBancario.cs" />
+    <Compile Include="Entities\GrupoLancamento.cs" />
     <Compile Include="Entities\Lancamento.cs" />
     <Compile Include="Entities\Categoria.cs" />
     <Compile Include="Entities\Conta.cs" />
