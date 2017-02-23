@@ -37,6 +37,7 @@
     <Compile Include="Entities\Categoria.cs" />
     <Compile Include="Entities\Conta.cs" />
     <Compile Include="Entities\LancamentoParcelado.cs" />
+    <Compile Include="ValueObjects\LancamentoAgrupado.cs" />
     <Compile Include="Exceptions\CustomException.cs" />
     <Compile Include="Interfaces\Repository\ADO\IContaADORepository.cs" />
     <Compile Include="Interfaces\Repository\IExtratoBancarioRepository.cs" />

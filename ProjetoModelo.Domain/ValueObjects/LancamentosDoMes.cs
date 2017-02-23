@@ -13,6 +13,7 @@ namespace Moneta.Domain.ValueObjects
         public string PesquisarDescricao { get; set; }
         public DateTime MesAnoCompetencia { get; set; }
         public virtual IEnumerable<Lancamento> LancamentosDoMes { get; set; }
+        public virtual IEnumerable<LancamentoAgrupado> LancamentosAgrupados { get; set; }
         public decimal SaldoDoMesAnterior { get; set; }
         public decimal SaldoDoMes { get; set; }
         public decimal SaldoAtualDoMes { get; set; }

@@ -38,5 +38,6 @@ namespace Moneta.Application.ViewModels
         public decimal DespesaTotal { get; set; }
 
         public virtual IEnumerable<LancamentoViewModel> LancamentosDoMes { get; set; }
+        public virtual IEnumerable<LancamentoAgrupadoViewModel> LancamentosAgrupados { get; set; }
     }
 }

@@ -65,7 +65,7 @@
         </tr>
     </thead>
     <tbody>
-        @if (Model.LancamentosDoMes.Count() == 0)
+        @if (Model.LancamentosAgrupados.Count() == 0)
         {
             <tr>
                 <td colspan="6" class="text-danger" align="center">Selecione uma Conta para mostrar os lançamentos relacionados</td>
@@ -73,8 +73,8 @@
         }
         else
         {
-            foreach (var item in @Model.LancamentosDoMes)
-            {
+            foreach (var item in @Model.LancamentosAgrupados)
+            {                
                 var jsSettings = new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore,
@@ -84,62 +84,75 @@
                 string jsonLancamento = JsonConvert.SerializeObject(item, Formatting.Indented, jsSettings);
 
                 <tr>
-                    <td>                            
-                        @Html.DisplayFor(modelItem => item.DataVencimento)
+                    @if(item.Lancamentos.Count() > 1)
+                    {
+                        <td></td>
+                        <td>
+                                <span class="visible-md visible-lg">@item.Descricao</span>
+                        </td>
+    <td></td>
+    <td></td>
+    <td>@item.Lancamentos.Sum(l => l.Valor)</td>
+    <td></td>
+                    }
+                    else
+                    {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Lancamentos[0].DataVencimento)
                         &nbsp;
                         <span class="visible-xs visible-sm visible-md-inline visible-lg-inline">
-                            @if (item.TipoDeTransacao == TipoTransacaoEnum.Transferencia)
+                            @if (item.Lancamentos[0].TipoDeTransacao == TipoTransacaoEnum.Transferencia)
                             {
-                                <a href="@Url.Action("Details", "Transferencias", new { id = item.LancamentoId })">@item.DescricaoResumida</a>
+                                <a href="@Url.Action("Details", "Transferencias", new { id = item.Lancamentos[0].LancamentoId })">@item.Lancamentos[0].DescricaoResumida</a>
                             }
                             else
                             {
-                                <a href="@Url.Action("Details", "Lancamentos", new { jsonLancamento })">@item.DescricaoResumida</a>
+                                <a href="@Url.Action("Details", "Lancamentos", new { jsonLancamento })">@item.Lancamentos[0].DescricaoResumida</a>
                             }
                         </span>
-                        @Html.HiddenFor(modelItem => item.Descricao)
+                        @Html.HiddenFor(modelItem => item.Lancamentos[0].Descricao)
                     </td>
                     <td>
-                        @if (item.LancamentoParceladoId != null)
+                        @if (item.Lancamentos[0].LancamentoParceladoId != null)
                         {
                             <span class="visible-lg-inline">
                                 <i class="icon-white glyphicon glyphicon-retweet" title="Este é um lançamento s repete em outras datas"></i>
                             </span>
                         }
-                        @if(item.TipoDeTransacao == TipoTransacaoEnum.Transferencia && item.LancamentoIdTransferencia != null )
+                        @if (item.Lancamentos[0].TipoDeTransacao == TipoTransacaoEnum.Transferencia && item.Lancamentos[0].LancamentoIdTransferencia != null)
                         {
                             <span class="visible-lg-inline">
                                 <i class="icon-white glyphicon glyphicon-transfer" title="Transferência entre contas"></i>
                             </span>
                         }
-                        @Html.HiddenFor(modelItem => item.Fake)
+                        @Html.HiddenFor(modelItem => item.Lancamentos[0].Fake)
                     </td>
                     <td>
                         @if (Model.ContaIdFiltro == Guid.Empty)
                         {
-                            <span class="visible-md visible-lg">@item.Conta.Descricao</span>
+                            <span class="visible-md visible-lg">@item.Lancamentos[0].Conta.Descricao</span>
                         }
                     </td>
                     <td>
-                        <button class="btn" style="background-color: @item.Categoria.Cor" title="@item.Categoria.Descricao"></button>
-                        <span class="visible-xs visible-sm visible-md-inline visible-lg-inline">@item.Categoria.Descricao</span>
+                        <button class="btn" style="background-color: @item.Lancamentos[0].Categoria.Cor" title="@item.Lancamentos[0].Categoria.Descricao"></button>
+                        <span class="visible-xs visible-sm visible-md-inline visible-lg-inline">@item.Lancamentos[0].Categoria.Descricao</span>
                     </td>
                     <td class="text-right">
-                        @if (item.Valor > 0)
+                        @if (item.Lancamentos[0].Valor > 0)
                         {
                             <span style="color:green">
-                                @Html.DisplayFor(modelItem => item.Valor)
+                                @Html.DisplayFor(modelItem => item.Lancamentos[0].Valor)
                             </span>
                         }
                         else
                         {
                             <span style="color:red">
-                                @Html.DisplayFor(modelItem => item.Valor)
+                                @Html.DisplayFor(modelItem => item.Lancamentos[0].Valor)
                             </span>
                         }
                     </td>
                     <td>
-                        @if (item.Pago)
+                        @if (item.Lancamentos[0].Pago)
                         {
                             <a title="Clique para informar que não foi pago"
                                href="@Url.Action("TrocarPago", "Lancamentos", new { jsonLancamento })">
@@ -149,7 +162,7 @@
                         else
                         {
                             string corDataVencimentoPago = "gray";
-                            if (!item.Pago && item.DataVencimento < DateTime.Now)
+                            if (!item.Lancamentos[0].Pago && item.Lancamentos[0].DataVencimento < DateTime.Now)
                             {
                                 corDataVencimentoPago = "red";
                             }
@@ -160,6 +173,8 @@
                             </a>
                         }
                     </td>
+                    }
+                    
                 </tr>
             }
 

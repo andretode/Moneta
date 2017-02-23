@@ -119,6 +119,25 @@ namespace Moneta.Domain.Services
                     l.DataVencimento.ToString("dd/MM/yy").Contains(lancamentosDoMes.PesquisarDescricao.ToLower())
                     );
 
+            return AgruparLancamentos(agregadoLancamentosDoMes);
+        }
+
+        private AgregadoLancamentosDoMes AgruparLancamentos(AgregadoLancamentosDoMes agregadoLancamentosDoMes)
+        {
+            var lancamentosAgrupados = new List<LancamentoAgrupado>();
+            var lancamentosGrouping = agregadoLancamentosDoMes.LancamentosDoMes.GroupBy(l => l.LancamentoParceladoId);
+            foreach (var lancamentoGrouping in lancamentosGrouping)
+            {
+                var la = new LancamentoAgrupado();
+                la.Descricao = lancamentoGrouping.First().Descricao;
+                la.Lancamentos = new List<Lancamento>();
+                foreach (var l in lancamentoGrouping)
+                {
+                    la.Lancamentos.Add(l);
+                }
+                lancamentosAgrupados.Add(la);
+            }
+            agregadoLancamentosDoMes.LancamentosAgrupados = lancamentosAgrupados;
             return agregadoLancamentosDoMes;
         }
 

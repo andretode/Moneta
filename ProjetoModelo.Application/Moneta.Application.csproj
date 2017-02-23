@@ -86,6 +86,7 @@
     <Compile Include="Validation\ValidationAppError.cs" />
     <Compile Include="Validation\ValidationAppResult.cs" />
     <Compile Include="ViewModels\GraficoSaldoViewModel.cs" />
+    <Compile Include="ViewModels\LancamentoAgrupadoViewModel.cs" />
     <Compile Include="ViewModels\LancamentosDoMesViewModel.cs" />
     <Compile Include="ViewModels\LancamentoParceladoViewModel.cs" />
     <Compile Include="ViewModels\ExtratoBancarioViewModel.cs" />
