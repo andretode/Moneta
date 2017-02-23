@@ -22,7 +22,7 @@ namespace Moneta.MVC.CustomHelpers
 
             string html = "";
 
-            //coluna 1
+            //coluna 1  
             html += "<td>" + lancamento.DataVencimento + "&nbsp;";
             html += "<span class='visible-xs visible-sm visible-md-inline visible-lg-inline'>";
             if (lancamento.TipoDeTransacao == TipoTransacaoEnum.Transferencia)
@@ -78,7 +78,7 @@ namespace Moneta.MVC.CustomHelpers
             html += "<td>";
             if (lancamento.Pago)
             {
-                html += "<a title='Clique para informar que não foi pago' href=''@Html.Action('TrocarPago', 'Lancamentos', new { jsonLancamento })>";
+                html += "<a title='Clique para informar que não foi pago' href='/Lancamentos/TrocarPago?jsonLancamento=" + strLancamento + "'>";
                 html += "<i class='icon-white glyphicon glyphicon-thumbs-up' style='color:green'></i>";
                 html += "</a>";
             }
@@ -89,7 +89,7 @@ namespace Moneta.MVC.CustomHelpers
                     corDataVencimentoPago = "red";
 
                 html += "<a title='Clique para informar que foi pago' href='/Lancamentos/TrocarPago?jsonLancamento=" + strLancamento + "'>";
-                html += "<i class='icon-white glyphicon glyphicon-thumbs-down' style='color:" + corDataVencimentoPago + "></i>";
+                html += "<i class='icon-white glyphicon glyphicon-thumbs-down' style='color:" + corDataVencimentoPago + "'></i>";
                 html += "</a>";
             }
             html += "</td>";
