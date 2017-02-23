@@ -76,24 +76,7 @@
         {
             foreach (var item in @Model.LancamentosAgrupados)
             {
-                <tr>
-                    @if(item.Lancamentos.Count() > 1)
-                    {
-                        <td></td>
-                        <td>
-                                <span class="visible-md visible-lg">@item.Descricao</span>
-                        </td>
-    <td></td>
-    <td></td>
-    <td>@item.Lancamentos.Sum(l => l.Valor)</td>
-    <td></td>
-                    }
-                    else
-                    {
-                        @Html.DisplayLancamento(item.Lancamentos[0], Model.ContaIdFiltro)
-                    }
-                    
-                </tr>
+                @Html.DisplayLancamento(item, Model.ContaIdFiltro)
             }
 
             string corSaldoAtualDoMes = (Model.SaldoAtualDoMes > 0 ? "green" : "red");

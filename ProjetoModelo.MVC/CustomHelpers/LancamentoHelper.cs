@@ -2,6 +2,7 @@
 using Moneta.Infra.CrossCutting.Enums;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 
@@ -9,9 +10,74 @@ namespace Moneta.MVC.CustomHelpers
 {
     public static class LancamentoHelper
     {
-        public static MvcHtmlString DisplayLancamento(this HtmlHelper htmlHelper, LancamentoViewModel lancamento, Guid? contaIdFiltro)
+        public static MvcHtmlString DisplayLancamento(this HtmlHelper htmlHelper, LancamentoAgrupadoViewModel lancamentoAgrupado, Guid? contaIdFiltro)
         {
+            if (lancamentoAgrupado.Lancamentos.Count() > 1)
+                return DisplayLancamentoAgrupado(lancamentoAgrupado, contaIdFiltro);
+            else
+                return DisplayLancamentoUnico(lancamentoAgrupado.Lancamentos[0], contaIdFiltro);
+        }
 
+        private static MvcHtmlString DisplayLancamentoAgrupado(LancamentoAgrupadoViewModel lancamentoAgrupado, Guid? contaIdFiltro)
+        {
+            string html = "";
+
+            //coluna 1  TEM QUE TROCAR
+            html += "<td>" + lancamentoAgrupado.Lancamentos[0].DataVencimento + "&nbsp;";
+            html += "<span class='visible-xs visible-sm visible-md-inline visible-lg-inline'>";
+            html += lancamentoAgrupado.Descricao + "</a>";
+            html += "</span>";
+            html += "</td>";
+
+            //coluna 2
+            html += "<td>&nbsp;";
+            html += "</td>";
+
+            //coluna 3
+            html += "<td>";
+            if (contaIdFiltro == Guid.Empty)
+                html += "<span class='visible-md visible-lg'>" + lancamentoAgrupado.Lancamentos[0].Conta.Descricao + "</span>";
+            html += "</td>";
+
+            //coluna 4
+            html += "<td>&nbsp;";
+            html += "</td>";
+
+            //coluna 5
+            html += "<td class='text-right'>";
+            decimal soma = lancamentoAgrupado.Lancamentos.Sum(l => l.Valor);
+            if (soma > 0)
+                html += "<span style='color:green'>" + soma + "</span>";
+            else
+                html += "<span style='color:red'>" + soma + "</span>";
+            html += "</td>";
+
+            //coluna 6 TEM QUE TROCAR
+            html += "<td>";
+            if (lancamentoAgrupado.Lancamentos[0].Pago)
+            {
+                html += "<a title='Clique para informar que não foi pago' href='/Lancamentos/TrocarPago?id=0'>";
+                html += "<i class='icon-white glyphicon glyphicon-thumbs-up' style='color:green'></i>";
+                html += "</a>";
+            }
+            else
+            {
+                string corDataVencimentoPago = "gray";
+                if (!lancamentoAgrupado.Lancamentos[0].Pago && lancamentoAgrupado.Lancamentos[0].DataVencimento < DateTime.Now)
+                    corDataVencimentoPago = "red";
+
+                html += "<a title='Clique para informar que foi pago' href='/Lancamentos/TrocarPago?id=0'>";
+                html += "<i class='icon-white glyphicon glyphicon-thumbs-down' style='color:" + corDataVencimentoPago + "'></i>";
+                html += "</a>";
+            }
+            html += "</td>";
+
+            html = "<tr>" + html + "</tr>";
+            return MvcHtmlString.Create(html.ToString());
+        }
+
+        private static MvcHtmlString DisplayLancamentoUnico(LancamentoViewModel lancamento, Guid? contaIdFiltro)
+        {
             var jsSettings = new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore,
@@ -94,6 +160,7 @@ namespace Moneta.MVC.CustomHelpers
             }
             html += "</td>";
 
+            html = "<tr>" + html + "</tr>";
             return MvcHtmlString.Create(html.ToString());
         }
     }
