@@ -7,7 +7,10 @@
 <h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Importar Arquivo OFX", "ImportarOfx", null, new { @class="btn btn-default" })
+    <a class="btn btn-default" title="Importar OFX"
+       href="@Url.Action("ImportarOfx", "ExtratosBancarios")">
+        <i class="icon-white glyphicon glyphicon-import"></i>
+    </a>
 </p>
 
 @using (Html.BeginForm("Index", "Contas", new {pesquisa = ""}, FormMethod.Get))

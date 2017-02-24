@@ -1,4 +1,6 @@
 ﻿@model Moneta.Application.ViewModels.GrupoLancamentoViewModel
+@using Moneta.Infra.CrossCutting.Enums
+@using Moneta.Application.ViewModels
 
 @{
     ViewBag.Title = "Detalhes";
@@ -8,7 +10,20 @@
 
 <div>
     <h4>Grupo de Lançamento</h4>
-    <hr />
+    <div>
+        <a class="btn btn-default" title="Voltar" onclick="javascript: window.history.back();">
+            <i class="icon-white glyphicon glyphicon-arrow-left"></i>
+        </a>
+        <a class="btn btn-default" title="Editar"
+           href="@Url.Action("Edit", "GrupoLancamentos", new { id = Model.GrupoLancamentoId })">
+            <i class="icon-white glyphicon glyphicon-edit"></i>
+        </a>
+        <a class="btn btn-default" title="Remover" onclick="return confirm('Tem certeza que deseja remover?')"
+           href="@Url.Action("Delete", "GrupoLancamentos", new { id = Model.GrupoLancamentoId }) ">
+            <i class="icon-white glyphicon glyphicon-trash"></i>
+        </a>
+    </div>
+    <br />
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Descricao)
@@ -33,21 +48,20 @@
         <dd>
             @Html.DisplayFor(model => model.Conta.Descricao)
         </dd>
-
-        <dt></dt>
-        <dd>
-            <br />
-            <a class="btn btn-default" title="Voltar" onclick="javascript: window.history.back();">
-                <i class="icon-white glyphicon glyphicon-arrow-left"></i>
-            </a>
-            <a class="btn btn-default" title="Editar"
-               href="@Url.Action("Edit", "GrupoLancamentos", new { id = Model.GrupoLancamentoId })">
-                <i class="icon-white glyphicon glyphicon-edit"></i>
-            </a>
-            <a class="btn btn-default" title="Remover" onclick="return confirm('Tem certeza que deseja remover?')"
-               href="@Url.Action("Delete", "GrupoLancamentos", new { id = Model.GrupoLancamentoId }) ">
-                <i class="icon-white glyphicon glyphicon-trash"></i>
-            </a>
-        </dd>
     </dl>
+    <hr />
+    <h4>Lançamentos do Grupo</h4>
+    
+    <div>
+        <a class="btn btn-default" title="Adicionar Lançamento"
+           href="@Url.Action("Create", "Lancamentos", new LancamentosDoMesViewModel() { GrupoLancamentoId = Model.GrupoLancamentoId,
+                contaIdFiltro = Model.ContaId, NovaTransacao = TipoTransacaoEnum.Despesa })">
+            <i class="icon-white glyphicon glyphicon-plus"></i>
+        </a>
+        <a class="btn btn-default" title="Importar OFX" onclick="return confirm('Recurso em desenvolvimento. Em breve estará nas novas versões!')"
+           href="   ">
+            <i class="icon-white glyphicon glyphicon-import"></i>
+        </a>
+    </div>
 </div>
+

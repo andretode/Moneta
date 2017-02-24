@@ -16,6 +16,8 @@ namespace Moneta.Application.ViewModels
             set { contaIdFiltro = value; }
         }
 
+        public Guid? GrupoLancamentoId { get; set; }
+
         public string PesquisarDescricao { get; set; }
         public DateTime MesAnoCompetencia { get; set; }
 

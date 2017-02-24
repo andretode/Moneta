@@ -19,17 +19,20 @@ namespace Moneta.MVC.Controllers
         private readonly ILancamentoAppService _LancamentoApp;
         private readonly ICategoriaAppService _CategoriaApp;
         private readonly IContaAppService _ContaApp;
+        private readonly IGrupoLancamentoAppService _GrupoLancamentoApp;
 
         public LancamentosController(
             ILancamentoParceladoAppService LancamentoParceladoApp,
             ILancamentoAppService LancamentoApp,
             ICategoriaAppService CategoriaApp,
-            IContaAppService ContaApp)
+            IContaAppService ContaApp,
+            IGrupoLancamentoAppService GrupoLancamentoApp)
         {
             _LancamentoParceladoApp = LancamentoParceladoApp;
             _LancamentoApp = LancamentoApp;
             _CategoriaApp = CategoriaApp;
             _ContaApp = ContaApp;
+            _GrupoLancamentoApp = GrupoLancamentoApp;
         }
 
         // GET: Lancamento
@@ -156,6 +159,14 @@ namespace Moneta.MVC.Controllers
                 novoLancamento.Conta = _ContaApp.GetById((Guid)lancamentos.ContaIdFiltro);
                 novoLancamento.ContaId = (Guid)lancamentos.ContaIdFiltro;
                 novoLancamento.TipoDeTransacao = lancamentos.NovaTransacao;
+                novoLancamento.DataVencimento = DateTime.Now;
+
+                if (lancamentos.GrupoLancamentoId != null)
+                {
+                    novoLancamento.GrupoLancamentoId = lancamentos.GrupoLancamentoId;
+                    novoLancamento.GrupoLancamento = _GrupoLancamentoApp.GetById((Guid)lancamentos.GrupoLancamentoId);
+                }
+
                 SetSelectLists();
                 return View(novoLancamento);
             }

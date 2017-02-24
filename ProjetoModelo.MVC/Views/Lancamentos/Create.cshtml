@@ -33,10 +33,20 @@
             </div>
         </div>
 
+        @if (Model.GrupoLancamento != null)
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.GrupoLancamento, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <span style="vertical-align: -30%">@Html.DisplayFor(model => model.GrupoLancamento.Descricao)</span>
+                    @Html.ValidationMessageFor(model => model.GrupoLancamento.Descricao, "", new { @class = "text-danger" })
+</div>
+            </div>
+        }
+
         <div class="form-group">
             @Html.LabelFor(model => model.Conta, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-
                 <span style="vertical-align: -30%">@Html.DisplayFor(model => model.Conta.Descricao)</span> 
                 @Html.HiddenFor(model => model.ContaId)
             </div>
@@ -75,8 +85,12 @@
         </div>
     </div>
     
+
     <div class="form-horizontal">
-        <hr />
+    <hr />
+
+    @if (Model.GrupoLancamento == null)
+    {
         <div class="form-group" id="botaoRepetir">
             <div class="control-label col-md-2"></div>
             <div class="col-md-10">
@@ -85,6 +99,7 @@
                 </a>
             </div>
         </div>
+    }
         <div class="form-horizontal">
             <div class="hidden" id="divLancamentoParcelado">
                 <div class="form-group">

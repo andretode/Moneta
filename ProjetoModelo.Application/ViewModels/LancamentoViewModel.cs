@@ -124,5 +124,11 @@ namespace Moneta.Application.ViewModels
         [DisplayName("Transferência")]
         [JsonIgnore]
         public virtual LancamentoViewModel LancamentoTransferencia { get; set; }
+
+        [DisplayName("Grupo")]
+        public Guid? GrupoLancamentoId { get; set; }
+
+        [DisplayName("Grupo")]
+        public virtual GrupoLancamentoViewModel GrupoLancamento { get; set; }
     }
 }
