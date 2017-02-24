@@ -1,29 +1,16 @@
 ﻿@model Moneta.Application.ViewModels.ContaViewModel
-
-@{
-    ViewBag.Title = "Edit";
-}
-
-<h2>Edit</h2>
-
+<h2>Editar</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>ContaViewModel</h4>
+        <h4>Conta</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ContaId)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ContaId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.ContaId, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
-        </div>
-
+        
         <div class="form-group">
             @Html.LabelFor(model => model.Descricao, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -49,15 +36,12 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Savar" class="btn btn-default" />
+                <input value="Cancelar" class="btn btn-default" onclick="javascript: window.history.back();" />
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Voltar para Listagem", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

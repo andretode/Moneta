@@ -16,6 +16,8 @@ namespace Moneta.Domain.Entities
         public string Descricao { get; set; }
         public DateTime DataVencimento { get; set; }
         public virtual ICollection<Lancamento> Lancamentos { get; set; }
+        public Guid ContaId { get; set; }
+        public virtual Conta Conta { get; set; }
         public DateTime DataCadastro { get; set; }
         public ValidationResult ResultadoValidacao { get; private set; }
 
@@ -28,12 +30,18 @@ namespace Moneta.Domain.Entities
         {
             get
             {
-                return Lancamentos.Where(l => l.Pago).Count() > 0;
+                if (Lancamentos != null)
+                    return Lancamentos.Where(l => l.Pago).Count() > 0;
+                else
+                    return false;
             }
             set
             {
-                foreach (var lancamento in Lancamentos)
-                    lancamento.Pago = value;
+                if (Lancamentos != null)
+                {
+                    foreach (var lancamento in Lancamentos)
+                        lancamento.Pago = value;
+                }
             }            
         }
 

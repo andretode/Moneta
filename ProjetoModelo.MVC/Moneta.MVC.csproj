@@ -181,6 +181,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ExtratosBancariosController.cs" />
+    <Compile Include="Controllers\GrupoLancamentosController.cs" />
     <Compile Include="Controllers\LancamentosController.cs" />
     <Compile Include="Controllers\ClaimsAdminController.cs" />
     <Compile Include="Controllers\CategoriaController.cs" />
@@ -775,6 +776,10 @@
     <Content Include="Views\Transferencias\Delete.cshtml" />
     <Content Include="Views\ExtratosBancarios\ImportarOfx.cshtml" />
     <Content Include="Views\ExtratosBancarios\Index.cshtml" />
+    <Content Include="Views\GrupoLancamentos\Create.cshtml" />
+    <Content Include="Views\GrupoLancamentos\Index.cshtml" />
+    <Content Include="Views\GrupoLancamentos\Edit.cshtml" />
+    <Content Include="Views\GrupoLancamentos\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

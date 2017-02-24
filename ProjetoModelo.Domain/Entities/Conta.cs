@@ -20,6 +20,7 @@ namespace Moneta.Domain.Entities
         public bool Ativo { get; set; }
         public virtual ICollection<Lancamento> Lancamentos { get; set; }
         public virtual ICollection<ExtratoBancario> ExtratosBancarios { get; set; }
+        public virtual ICollection<GrupoLancamento> GruposLancamento { get; set; }
         public DateTime DataCadastro { get; set; }
 
         public ValidationResult ResultadoValidacao { get; private set; }

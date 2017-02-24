@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Moneta.Application.ViewModels.GrupoLancamentoViewModel>
+
+@{
+    ViewBag.Title = "Grupos de Lançamento";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Adicionar Grupo", "Create", null, new { @class = "btn btn-default" })
+</p>
+
+<table class="table">
+    <tr style="background-color: #e6e6e6">
+        <th>
+            @Html.DisplayNameFor(model => model.Descricao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataVencimento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Conta)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataCadastro)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Descricao, "Details", new { id = item.GrupoLancamentoId })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataVencimento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Conta.Descricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Conta.DataCadastro)
+            </td>
+        </tr>
+    }
+</table>

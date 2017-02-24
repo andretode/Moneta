@@ -80,7 +80,7 @@ namespace Moneta.MVC.Controllers
 
         public ActionResult Delete(Guid id)
         {
-            var extratoBancario = _ExtratoBancarioApp.GetAllReadOnly().Where(c => c.ExtratoBancarioId == id).First(); //_categoriaApp.GetById(id);
+            var extratoBancario = _ExtratoBancarioApp.GetAllReadOnly().Where(c => c.ExtratoBancarioId == id).First();
             _ExtratoBancarioApp.Remove(extratoBancario);
 
             return RedirectToAction("Index");

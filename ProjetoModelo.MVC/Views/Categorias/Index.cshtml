@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Moneta.Application.ViewModels.CategoriaViewModel>
 
 @{
-    ViewBag.Title = "Lista de Categorias";
+    ViewBag.Title = "Categorias";
 }
 
 <h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Adicionar Categoria", "Create")
+    @Html.ActionLink("Adicionar Categoria", "Create", null, new { @class = "btn btn-default" })
 </p>
 
 @using (Html.BeginForm("Index", "Categoria", new {pesquisa = ""}, FormMethod.Get))
@@ -46,9 +46,14 @@
                 @Html.DisplayFor(modelItem => item.DataCadastro)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new {id = item.CategoriaId}) |
-                @Html.ActionLink("Details", "Details", new {id = item.CategoriaId}) |
-                @Html.ActionLink("Delete", "Delete", new {id = item.CategoriaId})
+                <a title="Editar"
+                   href="@Url.Action("Edit", "Categorias", new { id = item.CategoriaId })">
+                    <i class="icon-white glyphicon glyphicon-edit"></i>
+                </a>
+                <a title="Remover" onclick="return confirm('Tem certeza que deseja remover?')"
+                   href="@Url.Action("Delete", "Categorias", new { id = item.CategoriaId })">
+                    <i class="icon-white glyphicon glyphicon-trash"></i>
+                </a>
             </td>
         </tr>
     }

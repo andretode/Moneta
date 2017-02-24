@@ -21,6 +21,13 @@ namespace Moneta.Infra.Data.EntityConfig
             HasMany(l => l.Lancamentos)
                 .WithOptional(l => l.GrupoLancamento)
                 .HasForeignKey(l => l.GrupoLancamentoId);
+
+            Property(c => c.ContaId)
+                .IsRequired();
+
+            HasRequired(c => c.Conta)
+                .WithMany(c => c.GruposLancamento)
+                .HasForeignKey(c => c.ContaId);
             
             Ignore(t => t.ResultadoValidacao);
         }

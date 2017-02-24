@@ -31,6 +31,13 @@ namespace Moneta.Application.ViewModels
         [DisplayName("Pago?")]
         public bool Pago { get; set; }
 
+        [DisplayName("Conta")]
+        public Guid ContaId { get; set; }
+
+        [DisplayName("Conta")]
+        [JsonIgnore]
+        public virtual ContaViewModel Conta { get; set; }
+
         [DisplayName("Data de Cadastro")]
         [ScaffoldColumn(false)]
         public DateTime DataCadastro { get; set; }

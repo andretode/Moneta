@@ -11,7 +11,7 @@ namespace Moneta.MVC.CustomHelpers
 {
     public static class LancamentoHelper
     {
-        public static MvcHtmlString DisplayLancamento<TModel>(this HtmlHelper<TModel> htmlHelper)
+        public static MvcHtmlString DisplayLancamentos<TModel>(this HtmlHelper<TModel> htmlHelper)
             where TModel : LancamentosDoMesViewModel
         {
             string resultado = "";

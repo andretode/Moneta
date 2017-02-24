@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Moneta.Application.ViewModels.ContaViewModel>
 
 @{
-    ViewBag.Title = "Lista de Contas";
+    ViewBag.Title = "Contas";
 }
 
 <h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Adicionar Conta", "Create")
+    @Html.ActionLink("Adicionar Conta", "Create", null, new { @class = "btn btn-default" })
 </p>
 
 @using (Html.BeginForm("Index", "Contas", new {pesquisa = ""}, FormMethod.Get))
@@ -28,6 +28,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Ativo)
         </th>
+        <th>&nbsp;</th>
     </tr>
 
     @foreach (var item in Model)
@@ -43,9 +44,14 @@
                 @Html.DisplayFor(modelItem => item.Ativo)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new {id = item.ContaId}) |
-                @Html.ActionLink("Details", "Details", new {id = item.ContaId}) |
-                @Html.ActionLink("Delete", "Delete", new {id = item.ContaId})
+                <a title="Editar"
+                   href="@Url.Action("Edit", "Contas", new { id = item.ContaId })">
+                    <i class="icon-white glyphicon glyphicon-edit"></i>
+                </a>
+                <a title="Remover" onclick="return confirm('Tem certeza que deseja remover?')"
+                   href="@Url.Action("Delete", "Contas", new { id = item.ContaId })">
+                    <i class="icon-white glyphicon glyphicon-trash"></i>
+                </a>
             </td>
         </tr>
     }
