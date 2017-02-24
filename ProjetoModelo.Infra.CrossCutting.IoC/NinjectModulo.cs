@@ -25,6 +25,7 @@ namespace Moneta.Infra.CrossCutting.IoC
             Bind<ILancamentoAppService>().To<LancamentoAppService>();
             Bind<ILancamentoParceladoAppService>().To<LancamentoParceladoAppService>();
             Bind<IExtratoBancarioAppService>().To<ExtratoBancarioAppService>();
+            Bind<IGrupoLancamentoAppService>().To<GrupoLancamentoAppService>();
 
             // service
             Bind(typeof(IServiceBase<>)).To(typeof(ServiceBase<>));
@@ -33,6 +34,7 @@ namespace Moneta.Infra.CrossCutting.IoC
             Bind<ILancamentoService>().To<LancamentoService>();
             Bind<ILancamentoParceladoService>().To<LancamentoParceladoService>();
             Bind<IExtratoBancarioService>().To<ExtratoBancarioService>();
+            Bind<IGrupoLancamentoService>().To<GrupoLancamentoService>();
 
             // data repos
             Bind(typeof(IRepositoryBase<>)).To(typeof(RepositoryBase<,>));
@@ -41,6 +43,7 @@ namespace Moneta.Infra.CrossCutting.IoC
             Bind<ILancamentoRepository>().To<LancamentoRepository>();
             Bind<ILancamentoParceladoRepository>().To<LancamentoParceladoRepository>();
             Bind<IExtratoBancarioRepository>().To<ExtratoBancarioRepository>();
+            Bind<IGrupoLancamentoRepository>().To<GrupoLancamentoRepository>();
       
             // data repos read only
             Bind<IContaReadOnlyRepository>().To<ContaReadOnlyRepository>();

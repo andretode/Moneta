@@ -75,6 +75,7 @@
     <Compile Include="Context\BaseDbContext.cs" />
     <Compile Include="Context\ContextManager.cs" />
     <Compile Include="Context\MonetaContext.cs" />
+    <Compile Include="EntityConfig\GrupoLancamentoConfiguration.cs" />
     <Compile Include="EntityConfig\ExtratoBancarioConfiguration.cs" />
     <Compile Include="EntityConfig\LancamentoParceladoConfiguration.cs" />
     <Compile Include="EntityConfig\LancamentoConfiguration.cs" />
@@ -95,10 +96,15 @@
     <Compile Include="Migrations\201702212320518_ExtratoBancario.Designer.cs">
       <DependentUpon>201702212320518_ExtratoBancario.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702241156436_GrupoLancamento.cs" />
+    <Compile Include="Migrations\201702241156436_GrupoLancamento.Designer.cs">
+      <DependentUpon>201702241156436_GrupoLancamento.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ADO\BaseADORepository.cs" />
     <Compile Include="Repositories\ADO\ContaADORepository.cs" />
+    <Compile Include="Repositories\GrupoLancamentoRepository.cs" />
     <Compile Include="Repositories\ExtratoBancarioRepository.cs" />
     <Compile Include="Repositories\LancamentoParceladoRepository.cs" />
     <Compile Include="Repositories\LancamentoRepository.cs" />
@@ -132,6 +138,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702212320518_ExtratoBancario.resx">
       <DependentUpon>201702212320518_ExtratoBancario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702241156436_GrupoLancamento.resx">
+      <DependentUpon>201702241156436_GrupoLancamento.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

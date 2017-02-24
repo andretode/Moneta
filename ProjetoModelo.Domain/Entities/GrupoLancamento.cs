@@ -1,9 +1,7 @@
 ﻿using Moneta.Domain.ValueObjects;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Moneta.Domain.Entities
 {
@@ -17,7 +15,7 @@ namespace Moneta.Domain.Entities
         public Guid GrupoLancamentoId { get; set; }
         public string Descricao { get; set; }
         public DateTime DataVencimento { get; set; }
-        public virtual IEnumerable<Lancamento> Lancamentos { get; set; }
+        public virtual ICollection<Lancamento> Lancamentos { get; set; }
         public DateTime DataCadastro { get; set; }
         public ValidationResult ResultadoValidacao { get; private set; }
 
@@ -25,5 +23,19 @@ namespace Moneta.Domain.Entities
         {
             return true;
         }
+
+        public bool Pago
+        {
+            get
+            {
+                return Lancamentos.Where(l => l.Pago).Count() > 0;
+            }
+            set
+            {
+                foreach (var lancamento in Lancamentos)
+                    lancamento.Pago = value;
+            }            
+        }
+
     }
 }
