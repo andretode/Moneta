@@ -15,12 +15,15 @@ namespace Moneta.Domain.Services
     {
         private readonly ILancamentoRepository _LancamentoRepository;
         private readonly ILancamentoParceladoRepository _LancamentoParceladoRepository;
+        private readonly IGrupoLancamentoRepository _GrupoLancamentoRepository;
 
         public LancamentoService(
+            IGrupoLancamentoRepository GrupoLancamentoRepository,
             ILancamentoParceladoRepository LancamentoParceladoRepository,
             ILancamentoRepository LancamentoRepository)
             : base(LancamentoRepository)
         {
+            _GrupoLancamentoRepository = GrupoLancamentoRepository;
             _LancamentoParceladoRepository = LancamentoParceladoRepository;
             _LancamentoRepository = LancamentoRepository;
         }
@@ -125,18 +128,34 @@ namespace Moneta.Domain.Services
         private AgregadoLancamentosDoMes AgruparLancamentos(AgregadoLancamentosDoMes agregadoLancamentosDoMes)
         {
             var lancamentosAgrupados = new List<LancamentoAgrupado>();
-            var lancamentosGrouping = agregadoLancamentosDoMes.LancamentosDoMes.GroupBy(l => l.LancamentoParceladoId);
-            foreach (var lancamentoGrouping in lancamentosGrouping)
+
+            //agrupa os lançamentos associados a um grupo de lançamentos
+            var lancamentosGrupo = agregadoLancamentosDoMes.LancamentosDoMes
+                .Where(l => l.GrupoLancamentoId != null).GroupBy(l => l.GrupoLancamentoId);
+            foreach (var lancamentoGrupo in lancamentosGrupo)
             {
                 var la = new LancamentoAgrupado();
-                la.Descricao = lancamentoGrouping.First().Descricao;
+                la.Descricao = lancamentoGrupo.First().GrupoLancamento.Descricao;
+
                 la.Lancamentos = new List<Lancamento>();
-                foreach (var l in lancamentoGrouping)
-                {
+                foreach (var l in lancamentoGrupo)
                     la.Lancamentos.Add(l);
-                }
+
                 lancamentosAgrupados.Add(la);
             }
+
+            //inclui os demais lançamentos que não estão associados a um grupo de lançamentos
+            var lancamentosSemGrupo = agregadoLancamentosDoMes.LancamentosDoMes
+                .Where(l => l.GrupoLancamentoId == null);
+            foreach (var lancamento in lancamentosSemGrupo)
+            {
+                var la = new LancamentoAgrupado();
+                la.Descricao = lancamento.Descricao;
+                la.Lancamentos = new List<Lancamento>();
+                la.Lancamentos.Add(lancamento);
+                lancamentosAgrupados.Add(la);
+            }
+
             agregadoLancamentosDoMes.LancamentosAgrupados = lancamentosAgrupados;
             return agregadoLancamentosDoMes;
         }

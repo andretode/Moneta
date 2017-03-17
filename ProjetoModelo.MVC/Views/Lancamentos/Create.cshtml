@@ -39,8 +39,8 @@
                 @Html.LabelFor(model => model.GrupoLancamento, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     <span style="vertical-align: -30%">@Html.DisplayFor(model => model.GrupoLancamento.Descricao)</span>
-                    @Html.ValidationMessageFor(model => model.GrupoLancamento.Descricao, "", new { @class = "text-danger" })
-</div>
+                    @Html.HiddenFor(model => model.GrupoLancamentoId)
+                </div>
             </div>
         }
 

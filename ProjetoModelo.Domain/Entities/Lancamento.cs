@@ -108,6 +108,8 @@ namespace Moneta.Domain.Entities
             clone.DataVencimento = novaDataVencimento;
             clone.TipoDeTransacao = this.TipoDeTransacao;
             clone.IdDaParcelaNaSerie = this.LancamentoId.ToString() + novaDataVencimento; //trocar pelo LancamentoParceladoId
+            clone.GrupoLancamentoId = this.GrupoLancamentoId;
+            clone.GrupoLancamento = this.GrupoLancamento;
             clone.Fake = false;
 
             return clone;
