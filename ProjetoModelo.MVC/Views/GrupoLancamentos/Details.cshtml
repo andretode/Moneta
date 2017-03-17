@@ -49,9 +49,8 @@
             @Html.DisplayFor(model => model.Conta.Descricao)
         </dd>
     </dl>
+
     <hr />
-    <h4>Lançamentos do Grupo</h4>
-    
     <div>
         <a class="btn btn-default" title="Adicionar Lançamento"
            href="@Url.Action("Create", "Lancamentos", new LancamentosDoMesViewModel() { GrupoLancamentoId = Model.GrupoLancamentoId,
@@ -63,5 +62,40 @@
             <i class="icon-white glyphicon glyphicon-import"></i>
         </a>
     </div>
+    <br/>
+    <table class="table">
+        <tr style="background-color: #e6e6e6">
+            <th>
+                @Html.DisplayName("Data")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lancamentos.First().DescricaoResumida)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lancamentos.First().Categoria.Descricao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lancamentos.First().Valor)
+            </th>
+        </tr>
+
+        @foreach (var item in Model.Lancamentos)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataVencimento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DescricaoResumida)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Conta.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Valor)
+                </td>
+            </tr>
+        }
+    </table>
 </div>
 

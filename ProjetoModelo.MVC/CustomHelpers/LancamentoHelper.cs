@@ -40,7 +40,10 @@ namespace Moneta.MVC.CustomHelpers
             html += "</td>";
 
             //coluna 2
-            html += "<td>&nbsp;";
+            html += "<td>";
+            html += "<span class='visible-lg-inline'>";
+            html += "<i class='icon-white glyphicon glyphicon-list' title='Este é um lançamento agrupado'></i>";
+            html += "</span>";
             html += "</td>";
 
             //coluna 3
