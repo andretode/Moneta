@@ -18,7 +18,7 @@ namespace Moneta.MVC.CustomHelpers
             var contaIdFiltro = htmlHelper.ViewData.Model.ContaIdFiltro;
             foreach (var lancamentoAgrupado in htmlHelper.ViewData.Model.LancamentosAgrupados)
             {
-                if (lancamentoAgrupado.Lancamentos.Count() > 1)
+                if (lancamentoAgrupado.Lancamentos.First().GrupoLancamentoId != null)
                     resultado += DisplayLancamentoAgrupado(htmlHelper, lancamentoAgrupado, contaIdFiltro);
                 else
                     resultado += DisplayLancamentoUnico(htmlHelper, lancamentoAgrupado.Lancamentos[0], contaIdFiltro);

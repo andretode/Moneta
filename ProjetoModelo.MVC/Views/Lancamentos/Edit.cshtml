@@ -39,6 +39,7 @@
                 @Html.HiddenFor(model => model.Fake)
                 @Html.HiddenFor(model => model.LancamentoParceladoId)
                 @Html.HiddenFor(model => model.IdDaParcelaNaSerie)
+                @Html.HiddenFor(model => model.GrupoLancamentoId)
                 @if (Model.LancamentoParcelado != null)
                 {
                     @Html.HiddenFor(model => model.LancamentoParcelado.LancamentoParceladoId)

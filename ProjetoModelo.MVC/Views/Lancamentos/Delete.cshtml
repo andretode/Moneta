@@ -45,7 +45,8 @@
     @Html.ValidationMessageFor(model => model.Pago, String.Format(msgErro, "LancamentoParceladoId"), new { @class = "text-danger" })
     @Html.HiddenFor(model => model.LancamentoIdTransferencia)
     @Html.ValidationMessageFor(model => model.LancamentoIdTransferencia, String.Format(msgErro, "LancamentoIdTransferencia"), new { @class = "text-danger" })
-    
+    @Html.HiddenFor(model => model.GrupoLancamentoId)
+    @Html.ValidationMessageFor(model => model.GrupoLancamentoId, String.Format(msgErro, "GrupoLancamentoId"), new { @class = "text-danger" })
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Descricao)
