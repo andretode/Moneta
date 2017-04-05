@@ -86,7 +86,9 @@
                     @Html.DisplayFor(modelItem => item.DataVencimento)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DescricaoResumida)
+                    <a href="/Lancamentos/DetailsLancamentoAgrupado?id=@item.LancamentoId">
+                        @Html.DisplayFor(modelItem => item.DescricaoResumida)
+                    </a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Conta.Descricao)

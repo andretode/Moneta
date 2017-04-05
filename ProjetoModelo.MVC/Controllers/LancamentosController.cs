@@ -150,6 +150,13 @@ namespace Moneta.MVC.Controllers
             return View(lancamento);
         }
 
+        public ActionResult DetailsLancamentoAgrupado(Guid id)
+        {
+            var lancamento = _LancamentoApp.GetById(id);
+
+            return View("Details", lancamento);
+        }
+
         // GET: Lancamento/Create
         public ActionResult Create(LancamentosDoMesViewModel lancamentos)
         {
@@ -252,13 +259,28 @@ namespace Moneta.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var tipoDeAlteracaoDaRepeticao = lancamento.LancamentoParcelado.TipoDeAlteracaoDaRepeticao;
-                lancamento.LancamentoParcelado = _LancamentoParceladoApp.GetByIdReadOnly((Guid)lancamento.LancamentoParceladoId);
-                lancamento.LancamentoParcelado.TipoDeAlteracaoDaRepeticao = tipoDeAlteracaoDaRepeticao;
-                
-                _LancamentoApp.RemoveEmSerie(lancamento);
 
-                return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
+                if (lancamento.LancamentoParcelado == null ||
+                    lancamento.LancamentoParcelado.TipoDeAlteracaoDaRepeticao == 
+                    TipoDeAlteracaoDaRepeticaoEnum.AlterarApenasEste)
+                {
+                    lancamento.Ativo = false;
+                    if (lancamento.Fake)
+                        _LancamentoApp.Add(lancamento);
+                    else
+                        _LancamentoApp.Update(lancamento);
+                }
+                else
+                {
+                    var tipoDeAlteracaoDaRepeticao = lancamento.LancamentoParcelado.TipoDeAlteracaoDaRepeticao;
+                    lancamento.LancamentoParcelado = _LancamentoParceladoApp
+                        .GetByIdReadOnly((Guid) lancamento.LancamentoParceladoId);
+                    lancamento.LancamentoParcelado.TipoDeAlteracaoDaRepeticao = tipoDeAlteracaoDaRepeticao;
+                    _LancamentoApp.RemoveEmSerie(lancamento);
+                }
+
+                return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId, 
+                    MesAnoCompetencia = lancamento.DataVencimento });
             }
             return View(lancamento);
         }

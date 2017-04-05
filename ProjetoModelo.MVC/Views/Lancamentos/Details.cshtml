@@ -35,7 +35,15 @@
                 <h3><span class="label" style="display:block; background-color: @cor">@Model.TipoDeTransacao</span></h3>
             </div>
         </dd>
-
+        @if(Model.GrupoLancamento!=null)
+        {
+            <dt>
+                Grupo
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.GrupoLancamento.Descricao)
+            </dd>
+        }
         <dt>
             @Html.DisplayNameFor(model => model.Descricao)
         </dt>
