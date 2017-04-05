@@ -105,17 +105,33 @@
         <dt></dt>
         <dd>
             <br />
+
+            @using (Html.BeginForm("EditJson", null, FormMethod.Post, new { id = "formLancamentoEditJson" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("jsonLancamento", jsonLancamento)
+            }
+
+            @using (Html.BeginForm("DeleteJson", null, FormMethod.Post, new { id = "formLancamentoDeleteJson" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("jsonLancamento", jsonLancamento)
+            }
+            
             <a class="btn btn-default" title="Voltar" onclick="javascript: window.history.back();">
                 <i class="icon-white glyphicon glyphicon-arrow-left"></i>
             </a>
+
             <a class="btn btn-default" title="Editar"
-               href="@Url.Action("Edit", "Lancamentos", new { jsonLancamento })">
+               href="#" onclick="document.getElementById('formLancamentoEditJson').submit();">
                 <i class="icon-white glyphicon glyphicon-edit"></i>
             </a>
+
             <a class="btn btn-default" title="Remover"
-               href="@Url.Action("Delete", "Lancamentos", new { jsonLancamento }) ">
+               href="#" onclick="document.getElementById('formLancamentoDeleteJson').submit();">
                 <i class="icon-white glyphicon glyphicon-trash"></i>
             </a>
+
         </dd>
     </dl>
 </div>

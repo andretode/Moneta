@@ -208,13 +208,24 @@ namespace Moneta.MVC.Controllers
         }
 
         // GET: Lancamento/Edit/5
-        public ActionResult Edit(string jsonLancamento)
+        //public ActionResult Edit(string jsonLancamento)
+        //{
+        //    var lancamento = JsonConvert.DeserializeObject<LancamentoViewModel>(jsonLancamento);
+        //    RecomporLancamento(lancamento);
+
+        //    SetSelectLists();
+        //    return View(lancamento);
+        //}
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditJson(string jsonLancamento)
         {
             var lancamento = JsonConvert.DeserializeObject<LancamentoViewModel>(jsonLancamento);
             RecomporLancamento(lancamento);
 
             SetSelectLists();
-            return View(lancamento);
+            return View("Edit",lancamento);
         }
 
         // POST: Lancamento/Edit/5
@@ -245,11 +256,20 @@ namespace Moneta.MVC.Controllers
         }
 
         // GET: Lancamento/Delete/5
-        public ActionResult Delete(string jsonLancamento)
+        //public ActionResult Delete(string jsonLancamento)
+        //{
+        //    var lancamento = JsonConvert.DeserializeObject<LancamentoViewModel>(jsonLancamento);
+
+        //    return View(lancamento);
+        //}
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteJson(string jsonLancamento)
         {
             var lancamento = JsonConvert.DeserializeObject<LancamentoViewModel>(jsonLancamento);
 
-            return View(lancamento);
+            return View("Delete", lancamento);
         }
 
         // POST: Lancamento/Delete/5
