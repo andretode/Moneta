@@ -41,5 +41,7 @@ namespace Moneta.Application.ViewModels
 
         [DisplayName("Conta")]
         public virtual ContaViewModel Conta { get; set; }
+
+        public bool Selecionado { get; set; }
     }
 }

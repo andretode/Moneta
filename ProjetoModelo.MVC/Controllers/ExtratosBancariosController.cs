@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Moneta.Application.Interfaces;
 using Moneta.Application.ViewModels;
 using System.IO;
+using System.Collections.Generic;
 
 namespace Moneta.MVC.Controllers
 {
@@ -82,6 +83,18 @@ namespace Moneta.MVC.Controllers
         {
             var extratoBancario = _ExtratoBancarioApp.GetAllReadOnly().Where(c => c.ExtratoBancarioId == id).First();
             _ExtratoBancarioApp.Remove(extratoBancario);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RemoverSelecionados(IEnumerable<ExtratoBancarioViewModel> extratos)
+        {
+            foreach(var e in extratos.Where(ex => ex.Selecionado == true))
+            {
+                Console.WriteLine("Item " + e.Descricao);
+            }
 
             return RedirectToAction("Index");
         }
