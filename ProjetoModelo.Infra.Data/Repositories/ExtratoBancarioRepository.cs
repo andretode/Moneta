@@ -32,7 +32,7 @@ namespace Moneta.Infra.Data.Repositories
                     Valor = decimal.Parse(c.Element("TRNAMT").Value, NumberFormatInfo.InvariantInfo),
                     DataCompensacao = DateTime.ParseExact(c.Element("DTPOSTED").Value.Substring(0, 8), "yyyyMMdd", CultureInfo.InvariantCulture),
                     Descricao = c.Element("MEMO").Value,
-                    NumeroDocumento = c.Element("REFNUM").Value
+                    NumeroDocumento = (c.Element("REFNUM").IsEmpty ? c.Element("FITID").Value : c.Element("REFNUM").Value)
                 });
 
             foreach (var lancamento in extratosBancarios)

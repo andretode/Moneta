@@ -91,11 +91,7 @@ namespace Moneta.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RemoverSelecionados(IEnumerable<ExtratoBancarioViewModel> extratos)
         {
-            foreach(var e in extratos.Where(ex => ex.Selecionado == true))
-            {
-                Console.WriteLine("Item " + e.Descricao);
-            }
-
+            _ExtratoBancarioApp.RemoveAll(extratos.Where(ex => ex.Selecionado));
             return RedirectToAction("Index");
         }
 

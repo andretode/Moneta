@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Moneta.Application.ViewModels.ExtratoBancarioViewModel>
+﻿@model IEnumerable<ExtratoBancarioViewModel>
+@using Moneta.Application.ViewModels
 
 @{
     ViewBag.Title = "Extrato Bancário";
@@ -17,13 +18,6 @@
         <i class="icon-white glyphicon glyphicon-trash"></i>
     </a>
 </p>
-
-@using (Html.BeginForm("Index", "Contas", new {pesquisa = ""}, FormMethod.Get))
-{
-    <p>
-        Pesquisar por Descrição: @Html.Editor("pesquisa") <input type="submit" value="Pesquisar" class="btn btn-default" />
-    </p>
-}
 
 @using (Html.BeginForm("RemoverSelecionados", "ExtratosBancarios", FormMethod.Post, new { id = "formExtratos" }))
 {
@@ -51,46 +45,47 @@
             </th>
         </tr>
 
-        @for (var i = 0; i < Model.Count(); i++)
+        @{var extratos = Model.ToList();}
+        @for(int i = 0; i < Model.Count(); i++)
         {
             <tr>
                 <td>
-                    @Html.CheckBoxFor(x => x.ElementAt(i).Selecionado)
-                    @Html.HiddenFor(x => x.ElementAt(i).ExtratoBancarioId)
+                    @Html.CheckBoxFor(x => extratos[i].Selecionado)
+                    @Html.HiddenFor(x => extratos[i].ExtratoBancarioId)
                 </td>
                 <td>
-                    @Html.DisplayFor(x => x.ElementAt(i).DataCompensacao)
-                    @Html.HiddenFor(x => x.ElementAt(i).DataCompensacao)
+                    @Html.DisplayFor(x => extratos[i].DataCompensacao)
+                    @Html.HiddenFor(x => extratos[i].DataCompensacao)
                 </td>
                 <td>
-                    @Html.DisplayFor(x => x.ElementAt(i).Descricao)
-                    @Html.HiddenFor(x => x.ElementAt(i).Descricao)
+                    @Html.DisplayFor(x => extratos[i].Descricao)
+                    @Html.HiddenFor(x => extratos[i].Descricao)
                 </td>
                 <td>
-                    @Html.DisplayFor(x => x.ElementAt(i).NumeroDocumento)
-                    @Html.HiddenFor(x => x.ElementAt(i).NumeroDocumento)
+                    @Html.DisplayFor(x => extratos[i].NumeroDocumento)
+                    @Html.HiddenFor(x => extratos[i].NumeroDocumento)
                 </td>
                 <td>
-                    @if (Model.ElementAt(i).Valor > 0)
+                    @if (extratos[i].Valor > 0)
                     {
                         <span style="color:green">
-                            @Html.DisplayFor(x => x.ElementAt(i).Valor)
+                            @Html.DisplayFor(x => extratos[i].Valor)
                         </span>
                     }
                     else
                     {
                         <span style="color:red">
-                            @Html.DisplayFor(x => x.ElementAt(i).Valor)
+                            @Html.DisplayFor(x => extratos[i].Valor)
                         </span>
                     }               
                 </td>
                 <td>
                     <a title="Conciliar com um lançamento"
-                       href="@Url.Action("Conciliar", "ExtratosBancarios", new { id = Model.ElementAt(i).ExtratoBancarioId })">
+                       href="@Url.Action("Conciliar", "ExtratosBancarios", new { id = extratos[i].ExtratoBancarioId })">
                         <i class="icon-white glyphicon glyphicon-new-window"></i>
                     </a>
                     <a title="Remover extrato" onclick="return confirm('Tem certeza que deseja remover?')"
-                       href="@Url.Action("Delete", "ExtratosBancarios", new { id = Model.ElementAt(i).ExtratoBancarioId })">
+                       href="@Url.Action("Delete", "ExtratosBancarios", new { id = extratos[i].ExtratoBancarioId })">
                         <i class="icon-white glyphicon glyphicon-trash"></i>
                     </a>
                 </td>
@@ -101,12 +96,6 @@
 
 @section Scripts {
     <script type="text/javascript">
-        $(function () {
-            $("#formExtratos").submit(function (event) {
-                alert("teste");
-                validarSeExisteSelecionados();
-            });
-        });
 
         function validarSeExisteSelecionados()
         {

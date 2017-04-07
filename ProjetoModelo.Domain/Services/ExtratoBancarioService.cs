@@ -47,5 +47,11 @@ namespace Moneta.Domain.Services
         {
             _ExtratoBancarioRepository.ImportarOfx(caminhoOfx, contaId);
         }
+
+        public void RemoveAll(IEnumerable<ExtratoBancario> extratos)
+        {
+            foreach(var extrato in extratos)
+                _ExtratoBancarioRepository.Remove(extrato);
+        }
     }
 }

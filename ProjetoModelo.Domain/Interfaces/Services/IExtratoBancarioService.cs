@@ -1,6 +1,7 @@
 ﻿using Moneta.Domain.Entities;
 using Moneta.Domain.ValueObjects;
 using System;
+using System.Collections.Generic;
 
 namespace Moneta.Domain.Interfaces.Services
 {
@@ -8,5 +9,6 @@ namespace Moneta.Domain.Interfaces.Services
     {
         ValidationResult Adicionar(ExtratoBancario extratoBancario);
         void ImportarOfx(string caminhoOfx, Guid contaId);
+        void RemoveAll(IEnumerable<ExtratoBancario> extratos);
     }
 }

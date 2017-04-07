@@ -61,7 +61,9 @@ namespace Moneta.Application
 
         public void ImportarOfx(string caminhoOfx, Guid contaId)
         {
+            BeginTransaction();
             _ExtratoBancarioService.ImportarOfx(caminhoOfx, contaId);
+            Commit();
         }
 
         public void Remove(ExtratoBancarioViewModel ExtratoBancarioViewModel)
@@ -70,6 +72,15 @@ namespace Moneta.Application
 
             BeginTransaction();
             _ExtratoBancarioService.Remove(ExtratoBancario);
+            Commit();
+        }
+
+        public void RemoveAll(IEnumerable<ExtratoBancarioViewModel> extratos)
+        {
+            var extratosBancarios = Mapper.Map<IEnumerable<ExtratoBancarioViewModel>, IEnumerable<ExtratoBancario>>(extratos);
+
+            BeginTransaction();
+            _ExtratoBancarioService.RemoveAll(extratosBancarios);
             Commit();
         }
 

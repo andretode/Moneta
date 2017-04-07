@@ -14,5 +14,6 @@ namespace Moneta.Application.Interfaces
         //void Update(ContaViewModel contaViewModel);
         void Remove(ExtratoBancarioViewModel extratoBancarioViewModel);
         void ImportarOfx(string caminhoOfx, Guid contaId);
+        void RemoveAll(IEnumerable<ExtratoBancarioViewModel> extratos);
     }
 }
