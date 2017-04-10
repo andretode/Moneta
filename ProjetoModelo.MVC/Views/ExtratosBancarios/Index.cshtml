@@ -106,7 +106,8 @@
             }
             else
             {
-                document.getElementById('formExtratos').submit();
+                if(confirm("Deseja realmente continuar com a remoção?"))
+                    document.getElementById('formExtratos').submit();
             }
         }
 

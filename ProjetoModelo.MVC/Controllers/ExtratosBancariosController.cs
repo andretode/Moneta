@@ -5,6 +5,7 @@ using Moneta.Application.Interfaces;
 using Moneta.Application.ViewModels;
 using System.IO;
 using System.Collections.Generic;
+using System.Xml;
 
 namespace Moneta.MVC.Controllers
 {
@@ -71,10 +72,29 @@ namespace Moneta.MVC.Controllers
                 }
             }
 
-            if (caminhoOfx != "")
+            if (caminhoOfx == "")
+            {
+                ModelState.AddModelError(string.Empty, "Ocorreu um erro ao salvar o arquivo OFX enviado.");
+                SetSelectLists();
+                return View();
+            }
+
+            try
+            {
                 _ExtratoBancarioApp.ImportarOfx(caminhoOfx, contaId);
-            else
-                ModelState.AddModelError(string.Empty, "O arquivo OFX não foi encontrado");
+            }
+            catch (FormatException fx)
+            {
+                ModelState.AddModelError(string.Empty, "O arquivo enviado tem um formato OFX desconhecido. Detalhes técnicos do erro: " + fx.Message);
+                SetSelectLists();
+                return View();
+            }
+            catch (XmlException xe)
+            {
+                ModelState.AddModelError(string.Empty, "O arquivo enviado tem um formato OFX fora do padrão. Detalhes técnicos do erro: " + xe.Message);
+                SetSelectLists();
+                return View();
+            }
 
             return RedirectToAction("Index");
         }
