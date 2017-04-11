@@ -82,11 +82,11 @@
                 <td>
                     <a title="Conciliar com um lançamento"
                        href="@Url.Action("Conciliar", "ExtratosBancarios", new { id = extratos[i].ExtratoBancarioId })">
-                        <i class="icon-white glyphicon glyphicon-new-window"></i>
+                        <i class="icon-white glyphicon glyphicon-link"></i>
                     </a>
-                    <a title="Remover extrato" onclick="return confirm('Tem certeza que deseja remover?')"
-                       href="@Url.Action("Delete", "ExtratosBancarios", new { id = extratos[i].ExtratoBancarioId })">
-                        <i class="icon-white glyphicon glyphicon-trash"></i>
+                    <a title="Criar um lançamento a partir deste"
+                       href="@Url.Action("CriarLancamento", "ExtratosBancarios", new { id = extratos[i].ExtratoBancarioId })">
+                        <i class="icon-white glyphicon glyphicon-new-window"></i>
                     </a>
                 </td>
             </tr>

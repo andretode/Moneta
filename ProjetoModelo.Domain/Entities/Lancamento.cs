@@ -40,6 +40,8 @@ namespace Moneta.Domain.Entities
         public virtual Lancamento LancamentoTransferencia { get; set; }
         public Guid? GrupoLancamentoId { get; set; }
         public virtual GrupoLancamento GrupoLancamento { get; set; }
+        public Guid? ExtratoBancarioId { get; set; }
+        public virtual ExtratoBancario ExtratoBancario { get; set; } 
 
         public bool Fake { get; private set; }
         public ValidationResult ResultadoValidacao { get; private set; }
