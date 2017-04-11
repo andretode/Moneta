@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using Moneta.MVC.HandleError;
+using System.Web.Mvc;
 
 namespace Moneta.MVC
 {
@@ -6,7 +7,7 @@ namespace Moneta.MVC
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
+            filters.Add(new CustomHandleErrorAttribute());
         }
     }
 }
