@@ -160,6 +160,12 @@ namespace Moneta.Domain.Services
             return agregadoLancamentosDoMes;
         }
 
+        public IEnumerable<Lancamento> GetLancamentosSugeridosParaConciliacao(ExtratoBancario extrato)
+        {
+            var lancamentoMaisFake = new LancamentoMaisFakeService(_LancamentoParceladoRepository, _LancamentoRepository);
+            return lancamentoMaisFake.GetAllMaisFake(extrato.DataCompensacao.Month, extrato.DataCompensacao.Year);
+        }
+
         /// <summary>
         /// Busca as receitas, despesas e saldos da movimentação financeira de uma conta por dia
         /// </summary>

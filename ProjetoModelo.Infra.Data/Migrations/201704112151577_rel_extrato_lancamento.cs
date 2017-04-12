@@ -11,16 +11,17 @@ namespace Moneta.Infra.Data.Migrations
             //CreateIndex("dbo.ExtratoBancario", "ExtratoBancarioId");
             //AddForeignKey("dbo.ExtratoBancario", "ExtratoBancarioId", "dbo.Lancamento", "LancamentoId");
 
-/*
-ALTER TABLE `moneta`.`Lancamento` 
-ADD INDEX `IX_ExtratoBancarioId` (`ExtratoBancarioId` ASC);
-ALTER TABLE `moneta`.`Lancamento` 
-ADD CONSTRAINT `FK_Lancamento_ExtratoBancario_ExtratoBancarioId`
-  FOREIGN KEY (`ExtratoBancarioId`)
-  REFERENCES `moneta`.`ExtratoBancario` (`ExtratoBancarioId`)
-  ON DELETE RESTRICT
-  ON UPDATE RESTRICT;
-*/
+            /*
+            ALTER TABLE `moneta`.`Lancamento` 
+            ADD `ExtratoBancarioId` CHAR(36),
+            ADD INDEX `IX_ExtratoBancarioId` (`ExtratoBancarioId` ASC);
+
+            ALTER TABLE moneta.Lancamento
+            ADD CONSTRAINT FK_Lancamento_ExtratoBancario_ExtratoBancarioId
+            FOREIGN KEY (ExtratoBancarioId) REFERENCES moneta.ExtratoBancario(ExtratoBancarioId)
+            ON DELETE RESTRICT
+            ON UPDATE RESTRICT;
+            */
         }
         
         public override void Down()

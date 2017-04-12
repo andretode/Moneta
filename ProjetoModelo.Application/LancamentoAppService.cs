@@ -258,6 +258,12 @@ namespace Moneta.Application
             }
         }
 
+        public IEnumerable<LancamentoViewModel> GetLancamentosSugeridosParaConciliacao(ExtratoBancarioViewModel extrato)
+        {
+            var extratoVM = Mapper.Map<ExtratoBancarioViewModel, ExtratoBancario>(extrato);
+            return Mapper.Map<IEnumerable<Lancamento>, IEnumerable<LancamentoViewModel>>(_lancamentoService.GetLancamentosSugeridosParaConciliacao(extratoVM));
+        }
+
         #region Metodos privados
         private decimal AjustarValorParaSalvar(LancamentoViewModel lancamentoViewModel)
         {

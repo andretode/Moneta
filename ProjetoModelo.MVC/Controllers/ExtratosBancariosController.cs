@@ -7,23 +7,26 @@ using System.IO;
 using System.Collections.Generic;
 using System.Xml;
 using Moneta.Infra.CrossCutting.Enums;
+using Newtonsoft.Json;
 
 namespace Moneta.MVC.Controllers
 {
     public class ExtratosBancariosController : Controller
     {
         private readonly IExtratoBancarioAppService _ExtratoBancarioApp;
+        private readonly ILancamentoAppService _LancamentoAppService;
         private readonly IContaAppService _ContaApp;
 
         public ExtratosBancariosController(
             IExtratoBancarioAppService extratoBancarioApp,
+            ILancamentoAppService lancamentoAppService,
             IContaAppService contaApp)
         {
             _ExtratoBancarioApp = extratoBancarioApp;
+            _LancamentoAppService = lancamentoAppService;
             _ContaApp = contaApp;
         }
 
-        // GET: Categoria
         public ViewResult Index(string pesquisa, int page = 0)
         {
             var extratoBancarioViewModel = _ExtratoBancarioApp.GetAll().OrderBy(c => c.DataCompensacao);
@@ -32,31 +35,14 @@ namespace Moneta.MVC.Controllers
             return View(extratoBancarioViewModel);
         }
 
-
-        //// GET: Categoria/Details/5
-        //public ActionResult Details(Guid id)
-        //{
-        //    var categoriaViewModel = _categoriaApp.GetById(id);
-
-        //    return View(categoriaViewModel);
-        //}
-
-        // GET: Categoria/Create
         public ActionResult Create()
         {
             return View();
         }
 
-
-        public ActionResult ImportarOfx()
-        {
-            SetSelectLists();
-            return View();
-        }
-
         public ActionResult CriarLancamento(Guid id)
         {
-            var eb =_ExtratoBancarioApp.GetById(id);
+            var eb = _ExtratoBancarioApp.GetById(id);
 
             var lancamento = new LancamentoViewModel()
             {
@@ -74,6 +60,12 @@ namespace Moneta.MVC.Controllers
             };
 
             return RedirectToAction("CreateFromExtrato", "Lancamentos", lancamento);
+        }
+
+        public ActionResult ImportarOfx()
+        {
+            SetSelectLists();
+            return View();
         }
 
         [HttpPost]
@@ -128,6 +120,17 @@ namespace Moneta.MVC.Controllers
             _ExtratoBancarioApp.Remove(extratoBancario);
 
             return RedirectToAction("Index");
+        }
+
+        public JsonResult GetLancamentosConciliacao(Guid id)
+        {
+            var extrato = _ExtratoBancarioApp.GetById(id);
+            var lancamentos = _LancamentoAppService.GetLancamentosSugeridosParaConciliacao(extrato);
+            return new JsonResult()
+            {
+                Data = new { lancamentoJson = JsonConvert.SerializeObject(lancamentos) },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };            
         }
 
         [HttpPost]

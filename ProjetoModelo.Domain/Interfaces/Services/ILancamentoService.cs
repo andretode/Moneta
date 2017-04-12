@@ -16,6 +16,7 @@ namespace Moneta.Domain.Interfaces.Services
         void Dispose();
         List<Tuple<DateTime, decimal, decimal, decimal>> GetSaldoDoMesPorDia(AgregadoLancamentosDoMes lancamentosDoMes, bool resumido);
         AgregadoLancamentosDoMes GetLancamentosDoMes(AgregadoLancamentosDoMes lancamentosDoMes);
+        IEnumerable<Lancamento> GetLancamentosSugeridosParaConciliacao(ExtratoBancario extrato);
 
         /// <summary>
         /// Realiza a atualização de todos os lançamentos da série parcelada com base nas alterações do lancamento 

@@ -123,7 +123,7 @@ namespace Moneta.MVC.CustomHelpers
             if (lancamento.LancamentoParceladoId != null)
             {
                 html += "<span class='visible-lg-inline'>";
-                html += "<i class='icon-white glyphicon glyphicon-retweet' title='Este é um lançamento se repete em outras datas'></i>";
+                html += "<i class='icon-white glyphicon glyphicon-retweet' title='Este é um lançamento que se repete em outras datas'></i>";
                 html += "</span>";
             }
             if (lancamento.TipoDeTransacao == TipoTransacaoEnum.Transferencia && lancamento.LancamentoIdTransferencia != null)
