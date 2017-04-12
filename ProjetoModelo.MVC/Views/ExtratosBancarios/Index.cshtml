@@ -113,7 +113,7 @@
             <a href="javascript:closeWindow()" class="pull-right btn-lg" style="" title="Fechar">
                 <i class="icon-white glyphicon glyphicon-remove"></i>
             </a>
-            <input type="hidden" id="idClausula" />
+            <input type="hidden" id="extratoBancarioId" />
         </section>
         <br /><br /><br />
         <section class="col-lg-12">
@@ -158,32 +158,38 @@
             $.getJSON("/ExtratosBancarios/GetLancamentosConciliacao", { id: id }, function (data) {
                 var lancamentosJson = JSON.parse(data.lancamentoJson);
 
-                for (var lancamento in lancamentosJson) {
-                    $('#tableLancamentos tbody').append('<tr class="child espacoEntreColunas">' +
-                        '<td>' + lancamentosJson[lancamento].DataVencimento + '</td>' +
-                        '<td>' + lancamentosJson[lancamento].DescricaoResumida + '</td>' +
-                        '<td>' + lancamentosJson[lancamento].Valor + '</td>' +
-                        '<td><a href="javascript:conciliar()" title="Conciliar este..."><i class="icon-white glyphicon glyphicon-link" ></i></a></td>' +
-                        '</tr>');
+                if (lancamentosJson.length > 0)
+                {
+                    for (var lancamento in lancamentosJson) {
+                        $('#tableLancamentos tbody').append('<tr class="child espacoEntreColunas">' +
+                            '<td>' + lancamentosJson[lancamento].DataVencimento + '</td>' +
+                            '<td>' + lancamentosJson[lancamento].DescricaoResumida + '</td>' +
+                            '<td>' + lancamentosJson[lancamento].Valor + '</td>' +
+                            '<td><a href="javascript:conciliar(\'' + lancamentosJson[lancamento] + '\')" title="Conciliar este..."><i class="icon-white glyphicon glyphicon-link" ></i></a></td>' +
+                            '</tr>');
+                    }
+                }
+                else
+                {
+                    $('#tableLancamentos tbody').append('<tr colspan="4">Não há lançamentos sem conciliação</tr>');
                 }
 
-                $("#idClausula").val(id);
+                $("#extratoBancarioId").val(id);
                 $("#janela-conciliacao").fadeIn();
             });
 
         }
 
         // Envia o lançamento e extrato a serem conciliados
-        function conciliar() {
-            var id = $("#idClausula").val();
+        function conciliar(lancamento) {
+            var extratoBancarioId = $("#extratoBancarioId").val();
 
-            var obs = $("#observacao").val();
-            $.post("/ClausulasContrato/EditarsObservacaoClausula", { id: id, obs: obs }, function (data) {
+            $.post("/ExtratosBancarios/ConciliarLancamento", { lancamento: lancamento, extratoBancarioId: extratoBancarioId }, function (data) {
                 if (data.status === "Ok") {
                     location.reload()
                 }
                 else {
-                    alert("Erro ao atualizar!")
+                    alert("Erro ao realizar a conciliação!")
                     $("#janela-conciliacao").hide();
                 }
 

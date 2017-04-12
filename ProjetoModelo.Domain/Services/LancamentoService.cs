@@ -163,7 +163,7 @@ namespace Moneta.Domain.Services
         public IEnumerable<Lancamento> GetLancamentosSugeridosParaConciliacao(ExtratoBancario extrato)
         {
             var lancamentoMaisFake = new LancamentoMaisFakeService(_LancamentoParceladoRepository, _LancamentoRepository);
-            return lancamentoMaisFake.GetAllMaisFake(extrato.DataCompensacao.Month, extrato.DataCompensacao.Year);
+            return lancamentoMaisFake.GetAllMaisFake(extrato.DataCompensacao.Month, extrato.DataCompensacao.Year).Where(l => l.ExtratoBancarioId == null);
         }
 
         /// <summary>

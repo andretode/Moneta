@@ -133,6 +133,18 @@ namespace Moneta.MVC.Controllers
             };            
         }
 
+        public JsonResult ConciliarLancamento(string lancamento, Guid extratoBancarioId)
+        {
+            //lancamento.ExtratoBancarioId = extratoBancarioId;
+            //_LancamentoAppService.Update(lancamento);
+
+            return new JsonResult()
+            {
+                Data = new { status = "Ok" },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult RemoverSelecionados(IEnumerable<ExtratoBancarioViewModel> extratos)
