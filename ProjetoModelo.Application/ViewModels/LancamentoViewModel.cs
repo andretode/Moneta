@@ -45,7 +45,10 @@ namespace Moneta.Application.ViewModels
                 {
                     int tamanho = 35;
                     int posicaoUltimoCaracter = (this.DescricaoMaisNumeroParcela.Length >= tamanho ? tamanho : this.DescricaoMaisNumeroParcela.Length);
-                    descricaoResumida = DescricaoMaisNumeroParcela.Substring(0, posicaoUltimoCaracter); 
+                    descricaoResumida = DescricaoMaisNumeroParcela.Substring(0, posicaoUltimoCaracter);
+
+                    if (DescricaoMaisNumeroParcela.Length >= tamanho)
+                        descricaoResumida += "...";
                 }
                 return descricaoResumida;
             }

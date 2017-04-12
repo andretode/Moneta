@@ -106,15 +106,16 @@ namespace Moneta.MVC.CustomHelpers
             html += "<td>" + htmlHelper.DisplayFor(modelItem => lancamento.DataVencimento) + "&nbsp;";
             html += "<span class='visible-xs visible-sm visible-md-inline visible-lg-inline'>";
             if (lancamento.TipoDeTransacao == TipoTransacaoEnum.Transferencia)
-                html += "<a href='@Html.Action('Details', 'Transferencias', new { id = lancamento.LancamentoId })'>" + lancamento.DescricaoResumida + "</a>";
+                html += "<a href='@Html.Action('Details', 'Transferencias', new { id = lancamento.LancamentoId, title = '" +
+                    lancamento.DescricaoMaisNumeroParcela + "' })' >" + lancamento.DescricaoResumida + "</a>";
             else
             {
-                html += "<a href='/Lancamentos/Details?jsonLancamento=" + strLancamento + "'>";
+                html += "<a href='/Lancamentos/Details?jsonLancamento=" + strLancamento + "' title = '" + lancamento.DescricaoMaisNumeroParcela + "'>";
                 html += lancamento.DescricaoResumida + "</a>";
             }
                 
             html += "</span>";
-            html += "<input type='hidden' name='Fake' value='" + lancamento.Descricao + "' />";
+            html += "<input type='hidden' name='Fake' value=" + lancamento.Fake + " />";
             html += "</td>";
             
             //coluna 2
