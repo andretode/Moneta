@@ -8,7 +8,7 @@ namespace Moneta.Application.Interfaces
     public interface IExtratoBancarioAppService : IDisposable
     {
         //ValidationAppResult Add(ExtratoBancarioViewModel extratoBancarioViewModel);
-        //ContaViewModel GetById(Guid id);
+        ExtratoBancarioViewModel GetById(Guid id);
         IEnumerable<ExtratoBancarioViewModel> GetAllReadOnly();
         IEnumerable<ExtratoBancarioViewModel> GetAll();
         //void Update(ContaViewModel contaViewModel);

@@ -130,5 +130,11 @@ namespace Moneta.Application.ViewModels
 
         [DisplayName("Grupo")]
         public virtual GrupoLancamentoViewModel GrupoLancamento { get; set; }
+
+        [DisplayName("Extrato Bancário")]
+        public Guid? ExtratoBancarioId { get; set; }
+
+        [DisplayName("Extrato Bancário")]
+        public virtual ExtratoBancarioViewModel ExtratoBancario { get; set; } 
     }
 }

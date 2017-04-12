@@ -104,6 +104,10 @@
     <Compile Include="Migrations\201702241420218_GrupoLancamento_Conta.Designer.cs">
       <DependentUpon>201702241420218_GrupoLancamento_Conta.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704112151577_rel_extrato_lancamento.cs" />
+    <Compile Include="Migrations\201704112151577_rel_extrato_lancamento.Designer.cs">
+      <DependentUpon>201704112151577_rel_extrato_lancamento.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ADO\BaseADORepository.cs" />
@@ -148,6 +152,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702241420218_GrupoLancamento_Conta.resx">
       <DependentUpon>201702241420218_GrupoLancamento_Conta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704112151577_rel_extrato_lancamento.resx">
+      <DependentUpon>201704112151577_rel_extrato_lancamento.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

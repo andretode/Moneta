@@ -69,6 +69,12 @@ namespace Moneta.Infra.Data.EntityConfig
             //    .HasForeignKey(c => c.LancamentoIdTransferencia)
             //    .WillCascadeOnDelete();
 
+            Property(c => c.ExtratoBancarioId)
+                .IsOptional();
+
+            HasOptional(c => c.ExtratoBancario)
+                .WithRequired(e => e.Lancamento);
+
             Ignore(t => t.ResultadoValidacao);
             Ignore(t => t.Fake);
             Ignore(t => t.LancamentoTransferencia);

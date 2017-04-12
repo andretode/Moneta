@@ -180,6 +180,12 @@ namespace Moneta.MVC.Controllers
             return RedirectToAction("Index", new { lancamentos });
         }
 
+        public ActionResult CreateFromExtrato(LancamentoViewModel lancamento)
+        {
+            SetSelectLists();
+            return View(lancamento);
+        }
+
         // POST: Lancamento/Create
         [HttpPost]
         [ValidateAntiForgeryToken]

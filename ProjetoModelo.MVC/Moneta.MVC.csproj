@@ -789,6 +789,7 @@
     <Content Include="Views\GrupoLancamentos\Index.cshtml" />
     <Content Include="Views\GrupoLancamentos\Edit.cshtml" />
     <Content Include="Views\GrupoLancamentos\Details.cshtml" />
+    <Content Include="Views\Lancamentos\CreateFromExtrato.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

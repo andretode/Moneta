@@ -21,6 +21,8 @@ namespace Moneta.Domain.Entities
 
         public ValidationResult ResultadoValidacao { get; private set; }
 
+        public virtual Lancamento Lancamento { get; set; }
+
         public bool IsValid()
         {
             return true;

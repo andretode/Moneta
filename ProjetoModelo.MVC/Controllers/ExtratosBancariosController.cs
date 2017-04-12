@@ -6,6 +6,7 @@ using Moneta.Application.ViewModels;
 using System.IO;
 using System.Collections.Generic;
 using System.Xml;
+using Moneta.Infra.CrossCutting.Enums;
 
 namespace Moneta.MVC.Controllers
 {
@@ -51,6 +52,28 @@ namespace Moneta.MVC.Controllers
         {
             SetSelectLists();
             return View();
+        }
+
+        public ActionResult CriarLancamento(Guid id)
+        {
+            var eb =_ExtratoBancarioApp.GetById(id);
+
+            var lancamento = new LancamentoViewModel()
+            {
+                Conta = eb.Conta,
+                ContaId = eb.ContaId,
+                DataVencimento = eb.DataCompensacao,
+                Descricao = eb.Descricao,
+                ExtratoBancarioId = eb.ExtratoBancarioId,
+                Fake = false,
+                Ativo = true,
+                NumeroDocumento = eb.NumeroDocumento,
+                Pago = true,
+                Valor = eb.Valor,
+                TipoDeTransacao = (eb.Valor <= 0 ? TipoTransacaoEnum.Despesa : TipoTransacaoEnum.Receita)
+            };
+
+            return RedirectToAction("CreateFromExtrato", "Lancamentos", lancamento);
         }
 
         [HttpPost]

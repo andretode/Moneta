@@ -19,7 +19,7 @@ namespace Moneta.Application
         {
             _ExtratoBancarioService = ExtratoBancarioService;
         }
-
+        
         public ValidationAppResult Add(ExtratoBancarioViewModel ExtratoBancarioViewModel)
         {
             var ExtratoBancario= Mapper.Map<ExtratoBancarioViewModel, ExtratoBancario>(ExtratoBancarioViewModel);
