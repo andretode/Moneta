@@ -132,6 +132,12 @@ namespace Moneta.MVC.CustomHelpers
                 html += "<i class='icon-white glyphicon glyphicon-transfer' title='Transferência entre contas'></i>";
                 html += "</span>";
             }
+            if (lancamento.ExtratoBancarioId != null)
+            {
+                html += "<span class='visible-lg-inline'>";
+                html += "<i class='icon-white glyphicon glyphicon-link' title='Este lançamento está conciliado'></i>";
+                html += "</span>";
+            }
             html += "<input type='hidden' name='Fake' value='" + lancamento.Fake + "' />";
             html += "</td>";
 

@@ -22,16 +22,11 @@ namespace Moneta.Domain.Services
             _LancamentoRepository = LancamentoRepository;
         }
 
-        //public override ExtratoBancario GetById(Guid id)
-        //{
-        //    return _ExtratoBancarioRepository.GetById(id);
-        //}
-
         public override IEnumerable<ExtratoBancario> GetAll()
         {
             var extratos = _ExtratoBancarioRepository.GetAll();
 
-            foreach(var extr in extratos)
+            foreach (var extr in extratos)
                 extr.Lancamento = _LancamentoRepository.GetAll().Where(l => l.ExtratoBancarioId == extr.ExtratoBancarioId).SingleOrDefault();
 
             return extratos;
