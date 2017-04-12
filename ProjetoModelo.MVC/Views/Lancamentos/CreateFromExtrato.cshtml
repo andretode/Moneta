@@ -83,7 +83,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input value="Criar" class="btn btn-default" onclick="javascript: validarLancamentoParcelado();" />
+                <input type="submit" value="Criar" class="btn btn-default" />
                 <input value="Cancelar" class="btn btn-default" onclick="javascript: window.history.back();" />
             </div>
         </div>
@@ -92,10 +92,14 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/lancamento-parcelado")
     @Scripts.Render("~/bundles/mask-money")
 
     <script>
+        $(document).ready(function () {
+            // Corrigindo valor que está vindo de outra action com ponto em vez de vírgula.
+            $('#Valor').val($('#Valor').val().replace(".", ","));
+        });
+
         $(function () { // will trigger when the document is ready
             $('.datepicker').datepicker('setDate', new Date('@Model.DataVencimento.ToString("MM/dd/yyyy")'));
         });

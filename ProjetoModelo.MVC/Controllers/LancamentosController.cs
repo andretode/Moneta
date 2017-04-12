@@ -180,12 +180,6 @@ namespace Moneta.MVC.Controllers
             return RedirectToAction("Index", new { lancamentos });
         }
 
-        public ActionResult CreateFromExtrato(LancamentoViewModel lancamento)
-        {
-            SetSelectLists();
-            return View(lancamento);
-        }
-
         // POST: Lancamento/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -210,6 +204,37 @@ namespace Moneta.MVC.Controllers
                     return RedirectToAction("Details", "GrupoLancamentos", new { id = lancamento.GrupoLancamentoId });
                 else
                     return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
+            }
+
+            lancamento.Conta = _ContaApp.GetById(lancamento.ContaId);
+            return View(lancamento);
+        }
+
+        public ActionResult CreateFromExtrato(LancamentoViewModel lancamento, bool nada=true)
+        {
+            SetSelectLists();
+            return View(lancamento);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateFromExtrato(LancamentoViewModel lancamento)
+        {
+            SetSelectLists();
+            if (ModelState.IsValid)
+            {
+                var result = _LancamentoApp.Add(lancamento);
+
+                if (!result.IsValid)
+                {
+                    foreach (var validationAppError in result.Erros)
+                    {
+                        ModelState.AddModelError(string.Empty, validationAppError.Message);
+                    }
+                    return View(lancamento);
+                }
+
+                return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
             }
 
             lancamento.Conta = _ContaApp.GetById(lancamento.ContaId);

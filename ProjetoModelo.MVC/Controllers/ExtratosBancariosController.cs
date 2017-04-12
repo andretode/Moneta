@@ -69,7 +69,7 @@ namespace Moneta.MVC.Controllers
                 Ativo = true,
                 NumeroDocumento = eb.NumeroDocumento,
                 Pago = true,
-                Valor = eb.Valor,
+                Valor = Math.Abs(eb.Valor),
                 TipoDeTransacao = (eb.Valor <= 0 ? TipoTransacaoEnum.Despesa : TipoTransacaoEnum.Receita)
             };
 
