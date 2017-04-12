@@ -50,8 +50,11 @@
         {
             <tr>
                 <td>
-                    @Html.CheckBoxFor(x => extratos[i].Selecionado)
-                    @Html.HiddenFor(x => extratos[i].ExtratoBancarioId)
+                    @if (extratos[i].Lancamento == null)
+                    {
+                        @Html.CheckBoxFor(x => extratos[i].Selecionado)
+                        @Html.HiddenFor(x => extratos[i].ExtratoBancarioId)
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(x => extratos[i].DataCompensacao)
@@ -80,14 +83,17 @@
                     }               
                 </td>
                 <td>
-                    <a title="Conciliar com um lançamento"
-                       href="@Url.Action("Conciliar", "ExtratosBancarios", new { id = extratos[i].ExtratoBancarioId })">
-                        <i class="icon-white glyphicon glyphicon-link"></i>
-                    </a>
-                    <a title="Criar um lançamento a partir deste"
-                       href="@Url.Action("CriarLancamento", "ExtratosBancarios", new { id = extratos[i].ExtratoBancarioId })">
-                        <i class="icon-white glyphicon glyphicon-new-window"></i>
-                    </a>
+                    @if (extratos[i].Lancamento == null)
+                    {
+                        <a title="Conciliar com um lançamento"
+                           href="@Url.Action("Conciliar", "ExtratosBancarios", new { id = extratos[i].ExtratoBancarioId })">
+                            <i class="icon-white glyphicon glyphicon-link"></i>
+                        </a>
+                        <a title="Criar um lançamento a partir deste"
+                           href="@Url.Action("CriarLancamento", "ExtratosBancarios", new { id = extratos[i].ExtratoBancarioId })">
+                            <i class="icon-white glyphicon glyphicon-new-window"></i>
+                        </a>
+                    }
                 </td>
             </tr>
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Moneta.Domain.Entities;
 using Moneta.Domain.Interfaces.Repository;
@@ -10,22 +11,30 @@ namespace Moneta.Domain.Services
     public class ExtratoBancarioService : ServiceBase<ExtratoBancario>, IExtratoBancarioService
     {
         private readonly IExtratoBancarioRepository _ExtratoBancarioRepository;
+        private readonly ILancamentoRepository _LancamentoRepository;
 
         public ExtratoBancarioService(
-            IExtratoBancarioRepository ExtratoBancarioRepository)
+            IExtratoBancarioRepository ExtratoBancarioRepository,
+            ILancamentoRepository LancamentoRepository)
             : base(ExtratoBancarioRepository)
         {
             _ExtratoBancarioRepository = ExtratoBancarioRepository;
+            _LancamentoRepository = LancamentoRepository;
         }
 
-        public override ExtratoBancario GetById(Guid id)
-        {
-            return _ExtratoBancarioRepository.GetById(id);
-        }
+        //public override ExtratoBancario GetById(Guid id)
+        //{
+        //    return _ExtratoBancarioRepository.GetById(id);
+        //}
 
         public override IEnumerable<ExtratoBancario> GetAll()
         {
-            return _ExtratoBancarioRepository.GetAll();
+            var extratos = _ExtratoBancarioRepository.GetAll();
+
+            foreach(var extr in extratos)
+                extr.Lancamento = _LancamentoRepository.GetAll().Where(l => l.ExtratoBancarioId == extr.ExtratoBancarioId).SingleOrDefault();
+
+            return extratos;
         }
 
         public ValidationResult Adicionar(ExtratoBancario ExtratoBancario)
