@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Xml;
 using Moneta.Infra.CrossCutting.Enums;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace Moneta.MVC.Controllers
 {
@@ -133,11 +134,23 @@ namespace Moneta.MVC.Controllers
             };            
         }
 
+        [HttpGet]
+        public ActionResult GetLancamentosConciliacao2(Guid extratoBancarioId)
+        {
+            var extrato = _ExtratoBancarioApp.GetById(extratoBancarioId);
+            var lancamentos = _LancamentoAppService.GetLancamentosSugeridosParaConciliacao(extrato);
+            return PartialView("_LancamentosConciliacao", lancamentos);
+        }
+
         public JsonResult ConciliarLancamento(string lancamentoJson, Guid extratoBancarioId)
         {
             var lancamento = JsonConvert.DeserializeObject<LancamentoViewModel>(lancamentoJson);
             lancamento.ExtratoBancarioId = extratoBancarioId;
-            //_LancamentoAppService.Update(lancamento);
+
+            if (lancamento.Fake)
+                _LancamentoAppService.Add(lancamento);
+            else
+                _LancamentoAppService.Update(lancamento);
 
             return new JsonResult()
             {

@@ -1,0 +1,40 @@
+﻿@model IEnumerable<LancamentoViewModel>
+@using Moneta.Application.ViewModels
+
+@{
+    Layout = null;
+}
+
+<table id="tableLancamentos" class="table table-striped table-condensed">
+    <tbody>
+        <tr>
+            <th>Vencimento</th>
+            <th>Descrição</th>
+            <th>Valor</th>
+            <th></th>
+        </tr>
+
+        @if(Model.Count() > 0)
+        {
+            foreach (var lancamento in Model)
+            {
+                <tr class="child">
+                    <td>@Html.DisplayFor(l => lancamento.DataVencimento)</td>
+                    <td>@Html.DisplayFor(l => lancamento.DescricaoResumida)</td>
+                    <td>@Html.DisplayFor(l => lancamento.Valor)</td>
+                    <td>
+                        <a href="" title="Conciliar este...">
+                            <i class="icon-white glyphicon glyphicon-link"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr class="child">
+                <td>Não há lançamentos para serem conciliados</td>
+            </tr>
+        }
+</tbody>
+</table>

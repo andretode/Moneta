@@ -89,6 +89,15 @@
                            href="javascript:getLancamentosConciliacao('@extratos[i].ExtratoBancarioId')">
                             <i class="icon-white glyphicon glyphicon-link"></i>
                         </a>
+                        
+                        @Ajax.ActionLink("Conciliar", "getlancamentosconciliacao2", new { extratos[i].ExtratoBancarioId }, new AjaxOptions()
+                        {
+                            HttpMethod = "GET",
+                            AllowCache = false,
+                            InsertionMode = InsertionMode.InsertAfter,
+                            UpdateTargetId = "dvConciliacao"
+                        })
+
                         <a title="Criar um lançamento a partir deste"
                            href="@Url.Action("CriarLancamento", "ExtratosBancarios", new { id = extratos[i].ExtratoBancarioId })">
                             <i class="icon-white glyphicon glyphicon-new-window"></i>
@@ -98,6 +107,8 @@
             </tr>
         }
     </table>
+
+    <div id="dvConciliacao"></div>
 }
 
 <!-- 
@@ -135,7 +146,11 @@
 
 
 @section Scripts {
-    <script type="text/javascript">
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
 
     // Valida antes de submeter a requisição
     function validarSeExisteSelecionados() {
@@ -151,6 +166,7 @@
 
     // Pega Lançamentos para serem conciliados
     function getLancamentosConciliacao(id) {
+        $(".child").remove();
         $.getJSON("/ExtratosBancarios/GetLancamentosConciliacao", { id: id }, function (data) {
             var lancamentos = JSON.parse(data.lancamentoJson);
 
@@ -166,7 +182,7 @@
                 }
             }
             else {
-                $('#tableLancamentos tbody').append('<tr colspan="4">Não há lançamentos sem conciliação</tr>');
+                $('#tableLancamentos tbody').append('<tr class="child espacoEntreColunas"><td colspan="4" style="text-align:center">Não há lançamentos para serem conciliados</td></tr>');
             }
 
             $("#janela-conciliacao").fadeIn();
@@ -176,16 +192,18 @@
 
     // Envia o lançamento e extrato a serem conciliados
     function conciliar(lancamentoJson, extratoBancarioId) {
-        $.post("/ExtratosBancarios/ConciliarLancamento", { lancamentoJson: lancamentoJson, extratoBancarioId: extratoBancarioId }, function (data) {
-            if (data.status === "Ok") {
-                location.reload()
+        $.post("/ExtratosBancarios/ConciliarLancamento",
+            {lancamentoJson: lancamentoJson, extratoBancarioId: extratoBancarioId},
+            function (data) {
+                if (data.status === "Ok") {
+                    location.reload()
+                }
+                else {
+                    alert("Erro ao realizar a conciliação!")
+                    $("#janela-conciliacao").hide();
+                }
             }
-            else {
-                alert("Erro ao realizar a conciliação!")
-                $("#janela-conciliacao").hide();
-            }
-
-        });
+        );
     }
 
     // Checkbox selecionar todos

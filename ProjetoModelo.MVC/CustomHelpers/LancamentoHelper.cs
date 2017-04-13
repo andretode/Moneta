@@ -120,22 +120,22 @@ namespace Moneta.MVC.CustomHelpers
             
             //coluna 2
             html += "<td>";
+            if (lancamento.ExtratoBancarioId != null)
+            {
+                html += "<span class='visible-lg-inline'>";
+                html += "<i class='icon-white glyphicon glyphicon-link' title='Este lançamento está conciliado'></i>";
+                html += "</span>&nbsp;";
+            }
             if (lancamento.LancamentoParceladoId != null)
             {
                 html += "<span class='visible-lg-inline'>";
-                html += "<i class='icon-white glyphicon glyphicon-retweet' title='Este é um lançamento que se repete em outras datas'></i>";
-                html += "</span>";
+                html += "<i class='icon-white glyphicon glyphicon-retweet' title='Este lançamento se repete em outras datas'></i>";
+                html += "</span>&nbsp;";
             }
             if (lancamento.TipoDeTransacao == TipoTransacaoEnum.Transferencia && lancamento.LancamentoIdTransferencia != null)
             {
                 html += "<span class=visible-lg-inline>";
                 html += "<i class='icon-white glyphicon glyphicon-transfer' title='Transferência entre contas'></i>";
-                html += "</span>";
-            }
-            if (lancamento.ExtratoBancarioId != null)
-            {
-                html += "<span class='visible-lg-inline'>";
-                html += "<i class='icon-white glyphicon glyphicon-link' title='Este lançamento está conciliado'></i>";
                 html += "</span>";
             }
             html += "<input type='hidden' name='Fake' value='" + lancamento.Fake + "' />";
