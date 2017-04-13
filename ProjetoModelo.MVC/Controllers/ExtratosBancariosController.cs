@@ -133,9 +133,10 @@ namespace Moneta.MVC.Controllers
             };            
         }
 
-        public JsonResult ConciliarLancamento(string lancamento, Guid extratoBancarioId)
+        public JsonResult ConciliarLancamento(string lancamentoJson, Guid extratoBancarioId)
         {
-            //lancamento.ExtratoBancarioId = extratoBancarioId;
+            var lancamento = JsonConvert.DeserializeObject<LancamentoViewModel>(lancamentoJson);
+            lancamento.ExtratoBancarioId = extratoBancarioId;
             //_LancamentoAppService.Update(lancamento);
 
             return new JsonResult()

@@ -113,7 +113,6 @@
             <a href="javascript:closeWindow()" class="pull-right btn-lg" style="" title="Fechar">
                 <i class="icon-white glyphicon glyphicon-remove"></i>
             </a>
-            <input type="hidden" id="extratoBancarioId" />
         </section>
         <br /><br /><br />
         <section class="col-lg-12">
@@ -138,73 +137,66 @@
 @section Scripts {
     <script type="text/javascript">
 
-        // Valida antes de submeter a requisição
-        function validarSeExisteSelecionados()
-        {
-            var numberChecked = $('input:checkbox:checked').length;
-            if (numberChecked == 0)
-            {
-                alert("Selecione pelo menos um item");
+    // Valida antes de submeter a requisição
+    function validarSeExisteSelecionados() {
+        var numberChecked = $('input:checkbox:checked').length;
+        if (numberChecked == 0) {
+            alert("Selecione pelo menos um item");
+        }
+        else {
+            if (confirm("Deseja realmente continuar com a remoção?"))
+                document.getElementById('formExtratos').submit();
+        }
+    }
+
+    // Pega Lançamentos para serem conciliados
+    function getLancamentosConciliacao(id) {
+        $.getJSON("/ExtratosBancarios/GetLancamentosConciliacao", { id: id }, function (data) {
+            var lancamentos = JSON.parse(data.lancamentoJson);
+
+            if (lancamentos.length > 0) {
+                for (var lancamento in lancamentos) {
+                    var lancamentoJson = encodeURIComponent(JSON.stringify(lancamentos[lancamento]));
+                    $('#tableLancamentos tbody').append('<tr class="child espacoEntreColunas">' +
+                        '<td>' + lancamentos[lancamento].DataVencimento + '</td>' +
+                        '<td>' + lancamentos[lancamento].DescricaoResumida + '</td>' +
+                        '<td>' + lancamentos[lancamento].Valor + '</td>' +
+                        '<td><a href="javascript:conciliar(\'' + lancamentoJson + '\', \'' + id + '\')" title="Conciliar este..."><i class="icon-white glyphicon glyphicon-link" ></i></a></td>' +
+                        '</tr>');
+                }
             }
-            else
-            {
-                if(confirm("Deseja realmente continuar com a remoção?"))
-                    document.getElementById('formExtratos').submit();
+            else {
+                $('#tableLancamentos tbody').append('<tr colspan="4">Não há lançamentos sem conciliação</tr>');
             }
-        }
 
-        // Pega Lançamentos para serem conciliados
-        function getLancamentosConciliacao(id) {
-            $.getJSON("/ExtratosBancarios/GetLancamentosConciliacao", { id: id }, function (data) {
-                var lancamentosJson = JSON.parse(data.lancamentoJson);
-
-                if (lancamentosJson.length > 0)
-                {
-                    for (var lancamento in lancamentosJson) {
-                        $('#tableLancamentos tbody').append('<tr class="child espacoEntreColunas">' +
-                            '<td>' + lancamentosJson[lancamento].DataVencimento + '</td>' +
-                            '<td>' + lancamentosJson[lancamento].DescricaoResumida + '</td>' +
-                            '<td>' + lancamentosJson[lancamento].Valor + '</td>' +
-                            '<td><a href="javascript:conciliar(\'' + lancamentosJson[lancamento] + '\')" title="Conciliar este..."><i class="icon-white glyphicon glyphicon-link" ></i></a></td>' +
-                            '</tr>');
-                    }
-                }
-                else
-                {
-                    $('#tableLancamentos tbody').append('<tr colspan="4">Não há lançamentos sem conciliação</tr>');
-                }
-
-                $("#extratoBancarioId").val(id);
-                $("#janela-conciliacao").fadeIn();
-            });
-
-        }
-
-        // Envia o lançamento e extrato a serem conciliados
-        function conciliar(lancamento) {
-            var extratoBancarioId = $("#extratoBancarioId").val();
-
-            $.post("/ExtratosBancarios/ConciliarLancamento", { lancamento: lancamento, extratoBancarioId: extratoBancarioId }, function (data) {
-                if (data.status === "Ok") {
-                    location.reload()
-                }
-                else {
-                    alert("Erro ao realizar a conciliação!")
-                    $("#janela-conciliacao").hide();
-                }
-
-            });
-        }
-
-        // Checkbox selecionar todos
-        $("#selecionarTodos").click(function () {
-            $('input:checkbox').not(this).prop('checked', this.checked);
+            $("#janela-conciliacao").fadeIn();
         });
 
-        // Fecha janela de conciliação
-        function closeWindow() {
-            $("#janela-conciliacao").hide();
-        }
+    }
+
+    // Envia o lançamento e extrato a serem conciliados
+    function conciliar(lancamentoJson, extratoBancarioId) {
+        $.post("/ExtratosBancarios/ConciliarLancamento", { lancamentoJson: lancamentoJson, extratoBancarioId: extratoBancarioId }, function (data) {
+            if (data.status === "Ok") {
+                location.reload()
+            }
+            else {
+                alert("Erro ao realizar a conciliação!")
+                $("#janela-conciliacao").hide();
+            }
+
+        });
+    }
+
+    // Checkbox selecionar todos
+    $("#selecionarTodos").click(function () {
+        $('input:checkbox').not(this).prop('checked', this.checked);
+    });
+
+    // Fecha janela de conciliação
+    function closeWindow() {
+        $("#janela-conciliacao").hide();
+    }
     </script>
 }
 

@@ -55,6 +55,7 @@ namespace Moneta.Application.ViewModels
         }
 
         [DisplayName("Descrição Mais N° da Parcela")]
+        [JsonIgnore]
         public string DescricaoMaisNumeroParcela { get; set; }
 
         [DataType(DataType.Currency)]
@@ -132,12 +133,14 @@ namespace Moneta.Application.ViewModels
         public Guid? GrupoLancamentoId { get; set; }
 
         [DisplayName("Grupo")]
+        [JsonIgnore]
         public virtual GrupoLancamentoViewModel GrupoLancamento { get; set; }
 
         [DisplayName("Extrato Bancário")]
         public Guid? ExtratoBancarioId { get; set; }
 
         [DisplayName("Extrato Bancário")]
+        [JsonIgnore]
         public virtual ExtratoBancarioViewModel ExtratoBancario { get; set; } 
     }
 }
