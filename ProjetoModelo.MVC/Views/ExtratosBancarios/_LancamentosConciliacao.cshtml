@@ -21,7 +21,14 @@
                 <tr class="child">
                     <td>@Html.DisplayFor(l => lancamento.DataVencimento)</td>
                     <td>@Html.DisplayFor(l => lancamento.DescricaoResumida)</td>
-                    <td>@Html.DisplayFor(l => lancamento.Valor)</td>
+                    @{
+                        var cor = "red";
+                        if (lancamento.Valor > 0)
+                        {
+                            cor = "green";
+                        }
+                    }
+                    <td style='color:@cor'>@Html.DisplayFor(l => lancamento.Valor)</td>
                     <td>
                         <a href="" title="Conciliar este...">
                             <i class="icon-white glyphicon glyphicon-link"></i>

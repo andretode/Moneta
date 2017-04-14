@@ -123,19 +123,8 @@ namespace Moneta.MVC.Controllers
             return RedirectToAction("Index");
         }
 
-        public JsonResult GetLancamentosConciliacao(Guid id)
-        {
-            var extrato = _ExtratoBancarioApp.GetById(id);
-            var lancamentos = _LancamentoAppService.GetLancamentosSugeridosParaConciliacao(extrato);
-            return new JsonResult()
-            {
-                Data = new { lancamentoJson = JsonConvert.SerializeObject(lancamentos) },
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };            
-        }
-
         [HttpGet]
-        public ActionResult GetLancamentosConciliacao2(Guid extratoBancarioId)
+        public ActionResult GetLancamentosConciliacao(Guid extratoBancarioId)
         {
             var extrato = _ExtratoBancarioApp.GetById(extratoBancarioId);
             var lancamentos = _LancamentoAppService.GetLancamentosSugeridosParaConciliacao(extrato);
