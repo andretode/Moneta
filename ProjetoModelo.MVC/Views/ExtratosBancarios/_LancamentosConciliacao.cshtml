@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<LancamentoViewModel>
 @using Moneta.Application.ViewModels
+@using Newtonsoft.Json
 
 @{
     Layout = null;
@@ -30,7 +31,10 @@
                     }
                     <td style='color:@cor'>@Html.DisplayFor(l => lancamento.Valor)</td>
                     <td>
-                        <a href="" title="Conciliar este...">
+                        @{
+                            var lancamentoJson = JsonConvert.SerializeObject(lancamento);
+                        }
+                        <a href="javascript:conciliar('@lancamentoJson')" title="Conciliar este...">
                             <i class="icon-white glyphicon glyphicon-link"></i>
                         </a>
                     </td>
