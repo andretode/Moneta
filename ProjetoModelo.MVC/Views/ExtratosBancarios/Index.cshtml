@@ -173,7 +173,6 @@
             lancamentoVM.DataVencimento = StrToDate($('#ExtratoBancario_DataCompensacao').val());
 
         lancamentoJson = JSON.stringify(lancamentoVM);
-        alert(lancamentoJson);
         conciliar(lancamentoJson);
     }
 
@@ -190,7 +189,7 @@
     // Envia o lançamento e extrato a serem conciliados
     function conciliar(lancamentoJson) {
         $.post("/ExtratosBancarios/ConciliarLancamento",
-            { lancamentoJson: lancamentoJson, extratoBancarioId: $('#ExtratoBancarioIdSelecionado').val() },
+            { lancamentoJson: lancamentoJson, extratoBancarioId: $('#ExtratoBancario_ExtratoBancarioId').val() },
             function (data) {
                 if (data.status === "Ok") {
                     location.reload()

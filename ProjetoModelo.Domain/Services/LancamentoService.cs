@@ -162,8 +162,28 @@ namespace Moneta.Domain.Services
 
         public IEnumerable<Lancamento> GetLancamentosSugeridosParaConciliacao(ExtratoBancario extrato)
         {
+            const decimal porc = 0.2M;
+            decimal maxValor = extrato.Valor * (1 - porc);
+            decimal minValor = extrato.Valor * (1+porc);
+
+            const int dias = 7;
+            DateTime maxData = extrato.DataCompensacao.AddDays(dias);
+            DateTime minData = extrato.DataCompensacao.AddDays(-dias);
+
+            if(extrato.Valor > 0)
+            {
+                minValor = extrato.Valor * (1 - porc);
+                maxValor = extrato.Valor * (1 + porc);
+            }
+
             var lancamentoMaisFake = new LancamentoMaisFakeService(_LancamentoParceladoRepository, _LancamentoRepository);
-            return lancamentoMaisFake.GetAllMaisFake(extrato.DataCompensacao.Month, extrato.DataCompensacao.Year).Where(l => l.ExtratoBancarioId == null);
+            var todosNaoConciliados = lancamentoMaisFake.GetAllMaisFake(extrato.DataCompensacao.Month, extrato.DataCompensacao.Year)
+                .Where(l => l.ExtratoBancarioId == null);
+            var sugeridosComValoresProximos = todosNaoConciliados.Where(l => l.Valor > minValor && l.Valor < maxValor)
+                .OrderBy(l => l.DataVencimento);
+            var sugeridosComDatasProximos = sugeridosComValoresProximos.Where(l => l.DataVencimento >= minData
+                && l.DataVencimento <= maxData);
+            return sugeridosComDatasProximos;
         }
 
         /// <summary>
