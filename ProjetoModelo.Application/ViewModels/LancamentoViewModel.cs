@@ -55,7 +55,6 @@ namespace Moneta.Application.ViewModels
         }
 
         [DisplayName("Descrição Mais N° da Parcela")]
-        [JsonIgnore]
         public string DescricaoMaisNumeroParcela { get; set; }
 
         [UIHint("DinheiroColorido")]
