@@ -30,12 +30,13 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DataCompensacao)
-            </th>
-            <th>
+                /
                 @Html.DisplayNameFor(model => model.DescricaoResumida)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NumeroDocumento)
+                <span class="visible-lg">
+                    @Html.DisplayNameFor(model => model.NumeroDocumento)
+                </span>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Valor)
@@ -59,18 +60,19 @@
                 <td>
                     @Html.DisplayFor(x => extratos[i].DataCompensacao)
                     @Html.HiddenFor(x => extratos[i].DataCompensacao)
+
+                    <span class='visible-md-inline visible-lg-inline'>
+                        @Html.DisplayFor(x => extratos[i].Descricao)
+                    </span>
+                    <span class='visible-xs visible-sm'>
+                        @Html.DisplayFor(x => extratos[i].DescricaoResumidaComReticencias)
+                    </span>
                 </td>
                 <td>
-                    @Html.DisplayFor(x => extratos[i].DescricaoResumida)
-                    @if (extratos[i].Descricao.Length >= extratos[i].TamanhoDescricaoResumida)
-                    {
-                        <a title="@extratos[i].Descricao"><b>...</b></a>
-                    }
-                    @Html.HiddenFor(x => extratos[i].DescricaoResumida)
-                </td>
-                <td>
-                    @Html.DisplayFor(x => extratos[i].NumeroDocumento)
-                    @Html.HiddenFor(x => extratos[i].NumeroDocumento)
+                    <span class="visible-lg">
+                        @Html.DisplayFor(x => extratos[i].NumeroDocumento)
+                        @Html.HiddenFor(x => extratos[i].NumeroDocumento)
+                    </span>
                 </td>
                 <td>
                     @Html.DisplayFor(x => extratos[i].Valor)
