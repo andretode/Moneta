@@ -1,0 +1,13 @@
+﻿@model decimal
+
+@{
+    var cor = "red";
+    if (Model > 0)
+    {
+        cor = "green";
+    }
+
+    IFormatProvider formatProvider =
+        new System.Globalization.CultureInfo("pt-BR");
+        <span class="currency" style='color:@cor'>@Model.ToString("C", formatProvider)</span>
+}

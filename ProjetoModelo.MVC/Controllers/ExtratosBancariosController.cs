@@ -128,7 +128,8 @@ namespace Moneta.MVC.Controllers
         {
             var extrato = _ExtratoBancarioApp.GetById(extratoBancarioId);
             var lancamentos = _LancamentoAppService.GetLancamentosSugeridosParaConciliacao(extrato);
-            return PartialView("_LancamentosConciliacao", lancamentos);
+            var conciliacao = new ConciliacaoViewModel { ExtratoBancario = extrato, Lancamentos = lancamentos };
+            return PartialView("_LancamentosConciliacao", conciliacao);
         }
 
         public JsonResult ConciliarLancamento(string lancamentoJson, Guid extratoBancarioId)

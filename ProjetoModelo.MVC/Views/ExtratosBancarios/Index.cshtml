@@ -32,7 +32,7 @@
                 @Html.DisplayNameFor(model => model.DataCompensacao)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Descricao)
+                @Html.DisplayNameFor(model => model.DescricaoResumida)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.NumeroDocumento)
@@ -61,26 +61,19 @@
                     @Html.HiddenFor(x => extratos[i].DataCompensacao)
                 </td>
                 <td>
-                    @Html.DisplayFor(x => extratos[i].Descricao)
-                    @Html.HiddenFor(x => extratos[i].Descricao)
+                    @Html.DisplayFor(x => extratos[i].DescricaoResumida)
+                    @if (extratos[i].Descricao.Length >= extratos[i].TamanhoDescricaoResumida)
+                    {
+                        <a title="@extratos[i].Descricao"><b>...</b></a>
+                    }
+                    @Html.HiddenFor(x => extratos[i].DescricaoResumida)
                 </td>
                 <td>
                     @Html.DisplayFor(x => extratos[i].NumeroDocumento)
                     @Html.HiddenFor(x => extratos[i].NumeroDocumento)
                 </td>
                 <td>
-                    @if (extratos[i].Valor > 0)
-                    {
-                        <span style="color:green">
-                            @Html.DisplayFor(x => extratos[i].Valor)
-                        </span>
-                    }
-                    else
-                    {
-                        <span style="color:red">
-                            @Html.DisplayFor(x => extratos[i].Valor)
-                        </span>
-                    }               
+                    @Html.DisplayFor(x => extratos[i].Valor)
                 </td>
                 <td>
                     @if (extratos[i].Lancamento == null)
@@ -117,7 +110,6 @@
         <br />
         <section class="col-lg-12">
             <div>
-                <div id="dvDescricao"></div>
                 <input type="hidden" id="ExtratoBancarioIdSelecionado" name="ExtratoBancarioIdSelecionado" value="0">
             </div>
         </section>
@@ -138,7 +130,6 @@
     // Pega Lançamentos para serem conciliados
     function getLancamentosConciliacao(id) {
         $('#dvConciliacao').html('<img src="/Content/images/loading.gif">');
-        $('#dvDescricao').html(id);
         $('#ExtratoBancarioIdSelecionado').val(id);
         $.ajax(
         {
@@ -164,6 +155,36 @@
             if (confirm("Deseja realmente continuar com a remoção?"))
                 document.getElementById('formExtratos').submit();
         }
+    }
+
+    // Salvar dados do extrato no lançamento
+    function SalvarEdicaoNoLancamentoVM() {
+        var lancamentoIdSelecionado = $('input[name=radio_lancamentos]:checked').val();
+
+        if (lancamentoIdSelecionado == null)
+            return alert("Selecione um lançamento para ser conciliado");
+
+        var lancamentoJson = $('#Lancamento_' + lancamentoIdSelecionado).val();
+        lancamentoVM = JSON.parse(lancamentoJson);
+        
+        if (document.getElementById("chkValor").checked)
+            lancamentoVM.Valor = $('#ExtratoBancario_Valor').val().replace(",", ".");
+        if (document.getElementById("chkData").checked)
+            lancamentoVM.DataVencimento = StrToDate($('#ExtratoBancario_DataCompensacao').val());
+
+        lancamentoJson = JSON.stringify(lancamentoVM);
+        alert(lancamentoJson);
+        conciliar(lancamentoJson);
+    }
+
+    function StrToDate(strDate)
+    {
+        d = strDate.substring(0, 2);
+        m = strDate.substring(3, 5);
+        y = strDate.substring(6, 10);
+        
+        date = new Date(y, m - 1, d, 0, 0, 0);
+        return date;
     }
 
     // Envia o lançamento e extrato a serem conciliados

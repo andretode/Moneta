@@ -18,7 +18,37 @@ namespace Moneta.Application.ViewModels
         [DisplayName("Descrição")]
         public string Descricao { get; set; }
 
-        [DataType(DataType.Currency)]
+        public int TamanhoDescricaoResumida { 
+            get { return 35; }
+            private set { TamanhoDescricaoResumida = value; }
+        }
+
+        [DisplayName("Descrição")]
+        public string DescricaoResumida {
+            get
+            {
+                string descricaoResumida = "";
+                if (this.Descricao != null)
+                {
+                    int posicaoUltimoCaracter = (this.Descricao.Length >= TamanhoDescricaoResumida ? TamanhoDescricaoResumida : this.Descricao.Length);
+                    descricaoResumida = Descricao.Substring(0, posicaoUltimoCaracter);
+                }
+                return descricaoResumida;
+            }
+        }
+
+        [DisplayName("Descrição")]
+        public string DescricaoResumidaComReticencias
+        {
+            get {
+                if (Descricao.Length >= TamanhoDescricaoResumida)
+                    return DescricaoResumida + "...";
+                else
+                    return DescricaoResumida;
+            } 
+        }
+
+        [UIHint("DinheiroColorido")]
         [Range(typeof(decimal), "-9999999,99", "9999999,99", ErrorMessage="O valor fornecido excede os limites do sistema.")]
         [Required(ErrorMessage = "Preencha o campo")]
         [DisplayName("Valor")]

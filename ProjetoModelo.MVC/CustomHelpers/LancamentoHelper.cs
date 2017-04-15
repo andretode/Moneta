@@ -155,10 +155,7 @@ namespace Moneta.MVC.CustomHelpers
 
             //coluna 5
             html += "<td class='text-right'>";
-            if (lancamento.Valor > 0)
-                html += "<span style='color:green'>" + string.Format("{0:C}", lancamento.Valor) + "</span>";
-            else
-                html += "<span style='color:red'>" + string.Format("{0:C}",lancamento.Valor) + "</span>";
+            html += htmlHelper.DisplayFor(l => lancamento.Valor);
             html += "</td>";
 
             //coluna 6

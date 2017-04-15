@@ -58,7 +58,7 @@ namespace Moneta.Application.ViewModels
         [JsonIgnore]
         public string DescricaoMaisNumeroParcela { get; set; }
 
-        [DataType(DataType.Currency)]
+        [UIHint("DinheiroColorido")]
         [Range(typeof(decimal), "-9999999,99", "9999999,99", ErrorMessage="O valor fornecido excede os limites do sistema.")]
         [Required(ErrorMessage = "Preencha o campo")]
         [DisplayName("Valor")]
