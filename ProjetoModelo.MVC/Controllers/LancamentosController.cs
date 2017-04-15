@@ -20,19 +20,22 @@ namespace Moneta.MVC.Controllers
         private readonly ICategoriaAppService _CategoriaApp;
         private readonly IContaAppService _ContaApp;
         private readonly IGrupoLancamentoAppService _GrupoLancamentoApp;
+        private readonly IExtratoBancarioAppService _ExtratoBancarioApp;
 
         public LancamentosController(
             ILancamentoParceladoAppService LancamentoParceladoApp,
             ILancamentoAppService LancamentoApp,
             ICategoriaAppService CategoriaApp,
             IContaAppService ContaApp,
-            IGrupoLancamentoAppService GrupoLancamentoApp)
+            IGrupoLancamentoAppService GrupoLancamentoApp,
+            IExtratoBancarioAppService ExtratoBancarioApp)
         {
             _LancamentoParceladoApp = LancamentoParceladoApp;
             _LancamentoApp = LancamentoApp;
             _CategoriaApp = CategoriaApp;
             _ContaApp = ContaApp;
             _GrupoLancamentoApp = GrupoLancamentoApp;
+            _ExtratoBancarioApp = ExtratoBancarioApp;
         }
 
         // GET: Lancamento
@@ -344,6 +347,8 @@ namespace Moneta.MVC.Controllers
         {
             lancamento.Conta = _ContaApp.GetById(lancamento.ContaId);
             lancamento.Categoria = _CategoriaApp.GetById(lancamento.CategoriaId);
+            if (lancamento.ExtratoBancarioId != null)
+                lancamento.ExtratoBancario = _ExtratoBancarioApp.GetById((Guid)lancamento.ExtratoBancarioId);
             if (lancamento.LancamentoParceladoId != null)
                 lancamento.LancamentoParcelado = _LancamentoParceladoApp.GetById((Guid)lancamento.LancamentoParceladoId);
             _LancamentoApp.AjustarLancamentoParaExibir(lancamento);

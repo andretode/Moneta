@@ -82,13 +82,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.NumeroDocumento)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.NumeroDocumento)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Observacao)
         </dt>
         <dd>
@@ -134,4 +127,42 @@
 
         </dd>
     </dl>
+
+    @if (Model.ExtratoBancario != null)
+    {
+        <hr />
+        <h4>
+            <i class="icon-white glyphicon glyphicon-link"></i>
+            Extrato Bancário Conciliado
+        </h4>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.ExtratoBancario.Descricao)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ExtratoBancario.Descricao)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ExtratoBancario.Valor)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ExtratoBancario.Valor)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ExtratoBancario.DataCompensacao)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ExtratoBancario.DataCompensacao)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ExtratoBancario.NumeroDocumento)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ExtratoBancario.NumeroDocumento)
+            </dd>
+        </dl>
+    }
 </div>
