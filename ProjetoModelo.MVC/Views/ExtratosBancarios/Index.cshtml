@@ -119,6 +119,12 @@
         <section class="col-lg-12">
             <div id="dvConciliacao"></div>
         </section>
+        <section class="form-group col-md-12">
+            Conciliar com
+            <input type="checkbox" id="chkData" name="chkData" title="Conciliar mantendo a mesma data do extrato" /> mesma data
+            <input type="checkbox" id="chkValor" name="chkValor" title="Conciliar mantendo o mesmo valor do extrato" /> mesmo valor
+            <input value="Conciliar" class="btn btn-default" onclick="javascript: SalvarEdicaoNoLancamentoVM()" />
+        </section>
     </div>
 </div>
 <!--
@@ -144,6 +150,8 @@
                 $('#dvConciliacao').html(data);
             }
         });
+        //alert($(window).width());
+        //$("#janela-conciliacao").css({ top: 0, left: 0 });
         $("#janela-conciliacao").fadeIn();
     }
 
@@ -222,12 +230,17 @@
       padding-right: 1em;
     }
 
+    .autoScrollTable {
+        overflow-y: auto;
+        max-height: 300px;
+    }
+
     .janela-conciliacao {
         display: block;
-        width: 600px;
-        position: absolute;
-        left: -100px;
-        top: 0;
+        width: 60%;
+        position: fixed;
+        left: 20%;
+        top: 55px;
         background: #FFF;
         z-index: 9900;
         padding: 10px;
@@ -247,14 +260,14 @@
         background-color: #000;
     }
 
-    @@media only screen and (max-width: 992px) {
+    @@media only screen and (max-width: 700px) {
 
         .janela-conciliacao {
             display: block;
             width: 90%;
-            position: absolute;
-            left: -50px;
-            top: 0;
+            position: fixed;
+            left: 5%;
+            top: 50px;
             background: #FFF;
             z-index: 9900;
             padding: 10px;

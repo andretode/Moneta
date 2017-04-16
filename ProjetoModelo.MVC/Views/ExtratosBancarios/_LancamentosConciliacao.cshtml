@@ -9,7 +9,7 @@
 
 <p>
     <table width="100%">
-        <tr>
+        <tr class="espacoEntreColunas">
             <td><b>Extrato</b></td>
             <td>
                 @Html.DisplayFor(e => e.ExtratoBancario.DataCompensacao, new { htmlAttributes = new { @class = "form-control" } })
@@ -28,40 +28,36 @@
 </p>
 <br/>
 
-<table id="tableLancamentos" class="table table-striped table-condensed">
-    <tbody>
-        <tr>
-            <th colspan="4">Lançamentos</th>
-        </tr>
+<div class="autoScrollTable">
+    <table id="tableLancamentos" class="table table-striped table-condensed">
+        <tbody>
+            <tr>
+                <th colspan="4">Lançamentos</th>
+            </tr>
 
-        @if(Model.Lancamentos.Count() > 0)
-        {
-            var lancamentos = Model.Lancamentos.ToList();
-            for (int i = 0; i < lancamentos.Count(); i++)
+            @if (Model.Lancamentos.Count() > 0)
+            {
+                var lancamentos = Model.Lancamentos.ToList();
+                for (int i = 0; i < lancamentos.Count(); i++)
+                {
+                    <tr class="child">
+                        <td>
+                            @Html.RadioButton("radio_lancamentos", lancamentos[i].LancamentoId)
+                            <input type="hidden" id="Lancamento_@lancamentos[i].LancamentoId"
+                                   value="@JsonConvert.SerializeObject(lancamentos[i])">
+                        </td>
+                        <td>@Html.DisplayFor(l => lancamentos[i].DataVencimento)</td>
+                        <td>@Html.DisplayFor(l => lancamentos[i].DescricaoResumida)</td>
+                        <td>@Html.DisplayFor(l => lancamentos[i].Valor)</td>
+                    </tr>
+                }
+            }
+            else
             {
                 <tr class="child">
-                    <td>@Html.RadioButton("radio_lancamentos", lancamentos[i].LancamentoId)
-                        <input type="hidden" id="Lancamento_@lancamentos[i].LancamentoId"
-                               value="@JsonConvert.SerializeObject(lancamentos[i])">
-                    </td>
-                    <td>@Html.DisplayFor(l => lancamentos[i].DataVencimento)</td>
-                    <td>@Html.DisplayFor(l => lancamentos[i].DescricaoResumida)</td>
-                    <td>@Html.DisplayFor(l => lancamentos[i].Valor)</td>
+                    <td>Não há lançamentos para serem conciliados</td>
                 </tr>
             }
-        }
-        else
-        {
-            <tr class="child">
-                <td>Não há lançamentos para serem conciliados</td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<div class="form-group col-md-12">
-    Conciliar com 
-    <input type="checkbox" id="chkData" name="chkData" title="Conciliar mantendo a mesma data do extrato" /> mesma data
-    <input type="checkbox" id="chkValor" name="chkValor" title="Conciliar mantendo o mesmo valor do extrato" /> mesmo valor
-    <input value="Conciliar" class="btn btn-default" onclick="javascript: SalvarEdicaoNoLancamentoVM()" />
+        </tbody>
+    </table>
 </div>
