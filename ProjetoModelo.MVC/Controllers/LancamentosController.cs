@@ -351,7 +351,6 @@ namespace Moneta.MVC.Controllers
                 lancamento.ExtratoBancario = _ExtratoBancarioApp.GetById((Guid)lancamento.ExtratoBancarioId);
             if (lancamento.LancamentoParceladoId != null)
                 lancamento.LancamentoParcelado = _LancamentoParceladoApp.GetById((Guid)lancamento.LancamentoParceladoId);
-            _LancamentoApp.AjustarLancamentoParaExibir(lancamento);
         }
 
         private void SetSelectLists()
