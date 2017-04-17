@@ -112,6 +112,7 @@ namespace Moneta.Domain.Entities
             clone.IdDaParcelaNaSerie = this.LancamentoId.ToString() + novaDataVencimento; //trocar pelo LancamentoParceladoId
             clone.GrupoLancamentoId = this.GrupoLancamentoId;
             clone.GrupoLancamento = this.GrupoLancamento;
+            clone.Observacao = this.Observacao;
             clone.Fake = false;
 
             return clone;
