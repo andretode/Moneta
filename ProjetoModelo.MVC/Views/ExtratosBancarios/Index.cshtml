@@ -80,11 +80,11 @@
                 <td>
                     @if (extratos[i].Lancamento == null)
                     {
-                        <a title="Conciliar com um lançamento"
+                        <a title="Conciliar com um lançamento" class="btn btn-xs btn-default"
                            href="javascript:getLancamentosConciliacao('@extratos[i].ExtratoBancarioId')">
                             <i class="icon-white glyphicon glyphicon-link"></i>
                         </a>
-                        <a title="Criar um lançamento a partir deste"
+                        <a title="Criar um lançamento a partir deste" class="btn btn-xs btn-default"
                            href="@Url.Action("CriarLancamento", "ExtratosBancarios", new { id = extratos[i].ExtratoBancarioId })">
                             <i class="icon-white glyphicon glyphicon-new-window"></i>
                         </a>
