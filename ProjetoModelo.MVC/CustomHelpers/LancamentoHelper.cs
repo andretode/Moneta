@@ -94,7 +94,7 @@ namespace Moneta.MVC.CustomHelpers
         {
             var jsSettings = new JsonSerializerSettings
             {
-                NullValueHandling = NullValueHandling.Ignore,
+                //NullValueHandling = NullValueHandling.Ignore,
                 ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
                 PreserveReferencesHandling = PreserveReferencesHandling.Objects
             };
