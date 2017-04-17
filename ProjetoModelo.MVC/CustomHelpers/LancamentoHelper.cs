@@ -123,21 +123,18 @@ namespace Moneta.MVC.CustomHelpers
             html += "<td>";
             if (lancamento.ExtratoBancarioId != null)
             {
-                html += "<span class='visible-lg-inline'>";
-                html += "<i class='icon-white glyphicon glyphicon-link' title='Este lançamento está conciliado'></i>";
-                html += "</span>&nbsp;";
+                html += "<span class='visible-xs visible-sm'><a href='#legendas'><i class='icon-white glyphicon glyphicon-link' title='Este lançamento está conciliado'></i></a></span>";
+                html += "<span class='visible-md-inline visible-lg-inline'><i class='icon-white glyphicon glyphicon-link' title='Este lançamento está conciliado'></i>&nbsp;</span>";
             }
             if (lancamento.LancamentoParceladoId != null)
             {
-                html += "<span class='visible-lg-inline'>";
-                html += "<i class='icon-white glyphicon glyphicon-retweet' title='Este lançamento se repete em outras datas'></i>";
-                html += "</span>&nbsp;";
+                html += "<span class='visible-xs visible-sm'><a href='#legendas'><i class='icon-white glyphicon glyphicon-retweet' title='Este lançamento se repete em outras datas'></i></a></span>";
+                html += "<span class='visible-md-inline visible-lg-inline'><i class='icon-white glyphicon glyphicon-retweet' title='Este lançamento se repete em outras datas'></i>&nbsp;</span>";
             }
             if (lancamento.TipoDeTransacao == TipoTransacaoEnum.Transferencia && lancamento.LancamentoIdTransferencia != null)
             {
-                html += "<span class=visible-lg-inline>";
-                html += "<i class='icon-white glyphicon glyphicon-transfer' title='Transferência entre contas'></i>";
-                html += "</span>";
+                html += "<span class='visible-xs visible-sm'><a href='#legendas'><i class='icon-white glyphicon glyphicon-transfer' title='Transferência entre contas'></i></a></span>";
+                html += "<span class='visible-md-inline visible-lg-inline'><i class='icon-white glyphicon glyphicon-transfer' title='Transferência entre contas'></i>&nbsp;</span>";
             }
             html += "<input type='hidden' name='Fake' value='" + lancamento.Fake + "' />";
             html += "</td>";
