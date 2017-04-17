@@ -84,6 +84,7 @@
                            href="javascript:getLancamentosConciliacao('@extratos[i].ExtratoBancarioId')">
                             <i class="icon-white glyphicon glyphicon-link"></i>
                         </a>
+                        <span class="visible-xs visible-sm"><br /></span>
                         <a title="Criar um lançamento a partir deste" class="btn btn-xs btn-default"
                            href="@Url.Action("CriarLancamento", "ExtratosBancarios", new { id = extratos[i].ExtratoBancarioId })">
                             <i class="icon-white glyphicon glyphicon-new-window"></i>
@@ -123,7 +124,6 @@
             Conciliar com
             <input type="checkbox" id="chkData" name="chkData" title="Conciliar mantendo a mesma data do extrato" /> mesma data
             <input type="checkbox" id="chkValor" name="chkValor" title="Conciliar mantendo o mesmo valor do extrato" /> mesmo valor
-            <input value="Conciliar" class="btn btn-default" onclick="javascript: SalvarEdicaoNoLancamentoVM()" />
         </section>
     </div>
 </div>
@@ -288,5 +288,11 @@
             left: 1%;
             top: 50px;
         }
+    }
+
+    br {
+       content: " ";
+       display: block;
+       margin: 5px 0;
     }
 </style>
