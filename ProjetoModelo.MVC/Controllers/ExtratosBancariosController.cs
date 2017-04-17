@@ -28,10 +28,11 @@ namespace Moneta.MVC.Controllers
             _ContaApp = contaApp;
         }
 
-        public ViewResult Index(string pesquisa, int page = 0)
+        public ViewResult Index(string pesquisa, int page = 0, int quant = -1)
         {
             var extratoBancarioViewModel = _ExtratoBancarioApp.GetAll().OrderBy(c => c.DataCompensacao);
             ViewBag.Pesquisa = pesquisa;
+            ViewBag.quantidadeImportada = quant;
 
             return View(extratoBancarioViewModel);
         }
@@ -73,6 +74,7 @@ namespace Moneta.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ImportarOfx(string arquivoOfx)
         {
+            int quantidadeImportada = 0;
             string caminhoOfx = "";
             Guid contaId = Guid.Parse(Request.Form.Get("contaIdFiltro"));
 
@@ -97,7 +99,7 @@ namespace Moneta.MVC.Controllers
 
             try
             {
-                _ExtratoBancarioApp.ImportarOfx(caminhoOfx, contaId);
+                quantidadeImportada = _ExtratoBancarioApp.ImportarOfx(caminhoOfx, contaId);
             }
             catch (FormatException fx)
             {
@@ -112,7 +114,7 @@ namespace Moneta.MVC.Controllers
                 return View();
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { quant = quantidadeImportada });
         }
 
         public ActionResult Delete(Guid id)

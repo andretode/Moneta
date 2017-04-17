@@ -24,7 +24,7 @@ namespace Moneta.Domain.Services
 
         public override IEnumerable<ExtratoBancario> GetAll()
         {
-            var extratos = _ExtratoBancarioRepository.GetAll();
+            var extratos = _ExtratoBancarioRepository.GetAll().OrderBy(e => e.DataCompensacao).OrderBy(e => e.Descricao);
 
             foreach (var extr in extratos)
                 extr.Lancamento = _LancamentoRepository.GetAll().Where(l => l.ExtratoBancarioId == extr.ExtratoBancarioId).SingleOrDefault();
@@ -47,9 +47,9 @@ namespace Moneta.Domain.Services
             return resultadoValidacao;
         }
 
-        public void ImportarOfx(string caminhoOfx, Guid contaId)
+        public int ImportarOfx(string caminhoOfx, Guid contaId)
         {
-            _ExtratoBancarioRepository.ImportarOfx(caminhoOfx, contaId);
+            return _ExtratoBancarioRepository.ImportarOfx(caminhoOfx, contaId);
         }
 
         public void RemoveAll(IEnumerable<ExtratoBancario> extratos)

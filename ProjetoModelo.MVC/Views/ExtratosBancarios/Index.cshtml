@@ -22,7 +22,15 @@
 @using (Html.BeginForm("RemoverSelecionados", "ExtratosBancarios", FormMethod.Post, new { id = "formExtratos" }))
 {
     @Html.AntiForgeryToken()
-    
+
+    if (ViewBag.quantidadeImportada != -1)
+    {
+        <div class="alert alert-info alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="Fechar">x</a>
+            Foram importados @ViewBag.quantidadeImportada registros
+        </div>
+    }
+
     <table class="table table-striped table-condensed">
         <tr>
             <th>

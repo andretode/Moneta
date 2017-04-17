@@ -13,7 +13,7 @@ namespace Moneta.Application.Interfaces
         IEnumerable<ExtratoBancarioViewModel> GetAll();
         //void Update(ContaViewModel contaViewModel);
         void Remove(ExtratoBancarioViewModel extratoBancarioViewModel);
-        void ImportarOfx(string caminhoOfx, Guid contaId);
+        int ImportarOfx(string caminhoOfx, Guid contaId);
         void RemoveAll(IEnumerable<ExtratoBancarioViewModel> extratos);
     }
 }

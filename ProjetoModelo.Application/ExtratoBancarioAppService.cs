@@ -59,11 +59,13 @@ namespace Moneta.Application
             Commit();
         }
 
-        public void ImportarOfx(string caminhoOfx, Guid contaId)
+        public int ImportarOfx(string caminhoOfx, Guid contaId)
         {
             BeginTransaction();
-            _ExtratoBancarioService.ImportarOfx(caminhoOfx, contaId);
+            var quantidade = _ExtratoBancarioService.ImportarOfx(caminhoOfx, contaId);
             Commit();
+
+            return quantidade;
         }
 
         public void Remove(ExtratoBancarioViewModel ExtratoBancarioViewModel)

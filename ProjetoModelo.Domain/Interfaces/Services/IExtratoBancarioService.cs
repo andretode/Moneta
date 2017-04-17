@@ -8,7 +8,7 @@ namespace Moneta.Domain.Interfaces.Services
     public interface IExtratoBancarioService : IServiceBase<ExtratoBancario>
     {
         ValidationResult Adicionar(ExtratoBancario extratoBancario);
-        void ImportarOfx(string caminhoOfx, Guid contaId);
+        int ImportarOfx(string caminhoOfx, Guid contaId);
         void RemoveAll(IEnumerable<ExtratoBancario> extratos);
     }
 }

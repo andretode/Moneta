@@ -3,10 +3,10 @@ using Moneta.Domain.Entities;
 using Moneta.Domain.Interfaces.Repository;
 using Moneta.Infra.Data.Context;
 using System;
+using System.Linq;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.IO;
 
@@ -21,7 +21,7 @@ namespace Moneta.Infra.Data.Repositories
             entry.State = EntityState.Deleted;
         }
 
-        public void ImportarOfx(string caminhoOfx, Guid contaId)
+        public int ImportarOfx(string caminhoOfx, Guid contaId)
         {
             PrepararOfxParaXmlLegivel(caminhoOfx);
             XElement doc = XElement.Load(caminhoOfx);
@@ -35,11 +35,23 @@ namespace Moneta.Infra.Data.Repositories
                     NumeroDocumento = (c.Element("REFNUM") != null ? c.Element("REFNUM").Value : c.Element("FITID").Value)
                 });
 
-            foreach (var lancamento in extratosBancarios)
+            var mes = extratosBancarios.First().DataCompensacao.Month;
+            var ano = extratosBancarios.First().DataCompensacao.Year;
+            var naoImportados = GetExtratosNovosNaoImportados(mes, ano, extratosBancarios);
+            var quant = naoImportados.Count();
+            foreach (var extrato in naoImportados)
             {
-                this.Add(lancamento);
+                this.Add(extrato);
             }
             this.Context.SaveChanges();
+
+            return quant;
+        }
+
+        private IEnumerable<ExtratoBancario> GetExtratosNovosNaoImportados(int mes, int ano, IEnumerable<ExtratoBancario> extratosNovos)
+        {
+            var extratosJaCadastrados = DbSet.AsNoTracking().Where(e => e.DataCompensacao.Month == mes && e.DataCompensacao.Year == ano);
+            return extratosNovos.Where(e => !extratosJaCadastrados.Any(e2 => e2.NumeroDocumento == e.NumeroDocumento));
         }
 
         private void PrepararOfxParaXmlLegivel(string caminhoOfx)
