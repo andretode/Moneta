@@ -45,7 +45,23 @@ namespace Moneta.MVC.Controllers
         public ActionResult CriarLancamento(Guid id)
         {
             var eb = _ExtratoBancarioApp.GetById(id);
+            var tipoDeTransacao = (eb.Valor <= 0 ? TipoTransacaoEnum.Despesa : TipoTransacaoEnum.Receita);
+            var lancamento = ClonarLancamento(eb, tipoDeTransacao);
 
+            return RedirectToAction("CreateFromExtrato", "Lancamentos", lancamento);
+        }
+
+        public ActionResult CriarTransferencia(Guid id)
+        {
+            var eb = _ExtratoBancarioApp.GetById(id);
+            var lancamento = ClonarLancamento(eb, TipoTransacaoEnum.Transferencia);
+
+            return RedirectToAction("CreateFromExtrato", "Tranferencias", lancamento);
+        }
+
+        private LancamentoViewModel ClonarLancamento(ExtratoBancarioViewModel extrato, TipoTransacaoEnum tipoTransacao)
+        {
+            var eb = extrato;
             var lancamento = new LancamentoViewModel()
             {
                 Conta = eb.Conta,
@@ -58,10 +74,10 @@ namespace Moneta.MVC.Controllers
                 NumeroDocumento = eb.NumeroDocumento,
                 Pago = true,
                 Valor = Math.Abs(eb.Valor),
-                TipoDeTransacao = (eb.Valor <= 0 ? TipoTransacaoEnum.Despesa : TipoTransacaoEnum.Receita)
+                TipoDeTransacao = tipoTransacao
             };
 
-            return RedirectToAction("CreateFromExtrato", "Lancamentos", lancamento);
+            return lancamento;
         }
 
         public ActionResult ImportarOfx()

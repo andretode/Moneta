@@ -795,6 +795,7 @@
     <Content Include="Views\Lancamentos\CreateFromExtrato.cshtml" />
     <Content Include="Views\ExtratosBancarios\_LancamentosConciliacao.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\DinheiroColorido.cshtml" />
+    <Content Include="Views\Transferencias\CreateFromExtrato.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

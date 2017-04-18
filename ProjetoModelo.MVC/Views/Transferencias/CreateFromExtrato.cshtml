@@ -1,0 +1,28 @@
+﻿@model Moneta.Application.ViewModels.TransferenciaViewModel
+@using System.Web.Mvc
+@using Moneta.Application.ViewModels;
+@using Moneta.Infra.CrossCutting.Enums;
+
+@{
+    ViewBag.Title = "Nova Transferência";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formLancamento" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <div class="control-label col-md-2"></div>
+            <div class="col-md-3">
+                <h3><span class="label" style="display:block; background-color: lightblue">Transferência</span></h3>
+                
+            </div>
+        </div>
+    </div>
+}
