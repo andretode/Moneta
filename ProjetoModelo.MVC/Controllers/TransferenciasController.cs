@@ -24,9 +24,10 @@ namespace Moneta.MVC.Controllers
             _ContaApp = ContaApp;
         }
 
-        public ActionResult CreateFromExtrato(LancamentoViewModel lancamento)
+        public ActionResult CreateFromExtrato(TransferenciaViewModel transferencia)
         {
-            return View(lancamento);
+            SetSelectLists();
+            return View(transferencia);
         }
 
         public ActionResult Create(LancamentosDoMesViewModel lancamentos)
