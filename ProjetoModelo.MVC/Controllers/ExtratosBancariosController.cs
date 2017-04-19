@@ -37,6 +37,17 @@ namespace Moneta.MVC.Controllers
             return View(extratoBancarioViewModel);
         }
 
+        public ViewResult AlterarMes(DateTime mesAnoCompetencia, Guid contaIdFiltro, int addMonths)
+        {
+            mesAnoCompetencia = mesAnoCompetencia.AddMonths(addMonths);
+            var extratos = _ExtratoBancarioApp.GetAll().Where(e => e.DataCompensacao.Month == mesAnoCompetencia.Month
+                && e.DataCompensacao.Year == mesAnoCompetencia.Year);
+
+            ViewBag.quantidadeImportada = -1;
+            SetSelectLists();
+            return View("Index", extratos);
+        }
+
         public ActionResult Create()
         {
             return View();

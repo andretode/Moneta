@@ -50,7 +50,7 @@
         <div class="text-center col-xs-4 col-md-4">
             @Model.MesAnoCompetencia.ToString("MMMM yyyy").ToUpper()
         </div>
-        <a class="text-left col-xs-4 col-md-4" title=" próximo mês" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = +1 })">
+        <a class="text-left col-xs-4 col-md-4" title="Próximo mês" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = +1 })">
             <i class="glyphicon glyphicon-chevron-right" style="color: white"></i>
         </a>
     </div>

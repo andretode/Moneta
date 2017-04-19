@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<ExtratoBancarioViewModel>
 @using Moneta.Application.ViewModels
+@using Moneta.MVC.CustomHelpers
 
 @{
     ViewBag.Title = "Extrato Bancário";
@@ -18,6 +19,8 @@
         <i class="icon-white glyphicon glyphicon-trash"></i>
     </a>
 </p>
+
+@Html.MesAnoControle(Model.First().DataCompensacao, Model.First().ContaId, "AlterarMes", "ExtratosBancarios")
 
 @using (Html.BeginForm("RemoverSelecionados", "ExtratosBancarios", FormMethod.Post, new { id = "formExtratos" }))
 {
