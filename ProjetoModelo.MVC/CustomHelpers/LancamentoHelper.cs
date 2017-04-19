@@ -126,11 +126,11 @@ namespace Moneta.MVC.CustomHelpers
                 html += "<span class='visible-xs visible-sm'><a href='#legendas'><i class='icon-white glyphicon glyphicon-link' title='Este lançamento está conciliado'></i></a></span>";
                 html += "<span class='visible-md-inline visible-lg-inline'><i class='icon-white glyphicon glyphicon-link' title='Este lançamento está conciliado'></i>&nbsp;</span>";
             }
-            if (lancamento.LancamentoParceladoId != null)
-            {
-                html += "<span class='visible-xs visible-sm'><a href='#legendas'><i class='icon-white glyphicon glyphicon-retweet' title='Este lançamento se repete em outras datas'></i></a></span>";
-                html += "<span class='visible-md-inline visible-lg-inline'><i class='icon-white glyphicon glyphicon-retweet' title='Este lançamento se repete em outras datas'></i>&nbsp;</span>";
-            }
+            //if (lancamento.LancamentoParceladoId != null)
+            //{
+            //    html += "<span class='visible-xs visible-sm'><a href='#legendas'><i class='icon-white glyphicon glyphicon-retweet' title='Este lançamento se repete em outras datas'></i></a></span>";
+            //    html += "<span class='visible-md-inline visible-lg-inline'><i class='icon-white glyphicon glyphicon-retweet' title='Este lançamento se repete em outras datas'></i>&nbsp;</span>";
+            //}
             if (lancamento.TipoDeTransacao == TipoTransacaoEnum.Transferencia && lancamento.LancamentoIdTransferencia != null)
             {
                 html += "<span class='visible-xs visible-sm'><a href='#legendas'><i class='icon-white glyphicon glyphicon-transfer' title='Transferência entre contas'></i></a></span>";
