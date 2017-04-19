@@ -24,12 +24,6 @@ namespace Moneta.MVC.Controllers
             _ContaApp = ContaApp;
         }
 
-        public ActionResult CreateFromExtrato(TransferenciaViewModel transferencia)
-        {
-            SetSelectLists();
-            return View(transferencia);
-        }
-
         public ActionResult Create(LancamentosDoMesViewModel lancamentos)
         {
             if (ModelState.IsValid)
@@ -111,6 +105,17 @@ namespace Moneta.MVC.Controllers
             _LancamentoApp.RemoveTransferencia(lancamento);
 
             return RedirectToAction("Index", "Lancamentos", new { contaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
+        }
+
+        public ActionResult CreateFromExtrato(LancamentoViewModel lancamento)
+        {
+            SetSelectLists();
+            lancamento.Conta = _ContaApp.GetById(lancamento.ContaId);
+            lancamento.CategoriaId = _CategoriaApp.GetAll().Where(c => c.Descricao == CategoriaViewModel.Nenhum).FirstOrDefault().CategoriaId;
+            var transferencia = new TransferenciaViewModel();
+            transferencia.LancamentoOrigem = lancamento;
+
+            return View(transferencia);
         }
 
         private void SetSelectLists(Guid? contaIdOrigem = null)

@@ -9,7 +9,7 @@
 
 <h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "formLancamento" }))
+@using (Html.BeginForm("Create", null, FormMethod.Post, new { id = "formLancamento" }))
 {
     @Html.AntiForgeryToken()
 
@@ -17,63 +17,62 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <dl>
-            <dt>
-                @Html.DisplayNameFor(model => model.LancamentoOrigem.Descricao)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.LancamentoOrigem.DescricaoMaisNumeroParcela)
-                @Html.HiddenFor(model => model.LancamentoOrigem.Descricao)
-                @Html.HiddenFor(model => model.LancamentoOrigem.LancamentoIdTransferencia)
-            </dd>
+        <h3>Extrato Bancário</h3>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.LancamentoOrigem.Valor)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.LancamentoOrigem.Valor)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.LancamentoOrigem.DataVencimento)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.LancamentoOrigem.DataVencimento)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.LancamentoOrigem.Categoria)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.LancamentoOrigem.Categoria.Descricao)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.LancamentoOrigem.Conta)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.LancamentoOrigem.Conta.Descricao)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.LancamentoOrigem.Observacao)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.LancamentoOrigem.Observacao)
-            </dd>
-        </dl>
-
-        <div class="alert alert-info">
-            
-            <div class="form-group">
-                <strong class="control-label col-md-2">Conta Destino</strong>
-                <div class="col-md-10">
-                    @Html.DropDownList("ContaIdDestino", (SelectList)@ViewBag.Contas, "-- Selecione uma Conta --", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.ContaIdDestino, "", new { @class = "text-danger" })
-                </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.LancamentoOrigem.Descricao, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <span style="vertical-align: -33%">
+                    @Html.DisplayFor(model => model.LancamentoOrigem.Descricao)
+                    @Html.HiddenFor(model => model.LancamentoOrigem.Descricao)
+                    @Html.HiddenFor(model => model.LancamentoOrigem.CategoriaId)
+                </span>
             </div>
+        </div>
 
-            <button class="btn btn-primary btn-sm">Criar</button>
+        <div class="form-group">
+            @Html.LabelFor(model => model.LancamentoOrigem.Valor, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <span style="vertical-align: -33%">
+                    @Html.DisplayFor(model => model.LancamentoOrigem.Valor)
+                    @Html.HiddenFor(model => model.LancamentoOrigem.Valor)
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LancamentoOrigem.DataVencimento, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <span style="vertical-align: -33%">
+                    @Html.DisplayFor(model => model.LancamentoOrigem.DataVencimento)
+                    @Html.HiddenFor(model => model.LancamentoOrigem.DataVencimento)
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Conta Origem", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <span style="vertical-align: -33%">
+                    @Html.DisplayFor(model => model.LancamentoOrigem.Conta.Descricao)
+                    @Html.HiddenFor(model => model.LancamentoOrigem.Conta.ContaId)
+                    @Html.HiddenFor(model => model.LancamentoOrigem.Conta.Descricao)
+                </span>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <strong class="control-label col-md-2">Conta Destino</strong>
+            <div class="col-md-10">
+                @Html.DropDownList("ContaIdDestino", (SelectList)@ViewBag.Contas, "-- Selecione uma Conta --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ContaIdDestino, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button class="btn btn-default">Criar</button>
+            </div>
         </div>
     </div>
 }

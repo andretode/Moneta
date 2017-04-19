@@ -55,10 +55,8 @@ namespace Moneta.MVC.Controllers
         {
             var eb = _ExtratoBancarioApp.GetById(id);
             var lancamento = ClonarLancamento(eb, TipoTransacaoEnum.Transferencia);
-            var transferencia = new TransferenciaViewModel();
-            transferencia.LancamentoOrigem = lancamento;
 
-            return RedirectToAction("CreateFromExtrato", "Transferencias", transferencia);
+            return RedirectToAction("CreateFromExtrato", "Transferencias", lancamento);
         }
 
         private LancamentoViewModel ClonarLancamento(ExtratoBancarioViewModel extrato, TipoTransacaoEnum tipoTransacao)
@@ -75,7 +73,7 @@ namespace Moneta.MVC.Controllers
                 Ativo = true,
                 NumeroDocumento = eb.NumeroDocumento,
                 Pago = true,
-                Valor = Math.Abs(eb.Valor),
+                Valor = (tipoTransacao == TipoTransacaoEnum.Transferencia ? eb.Valor : Math.Abs(eb.Valor)),
                 TipoDeTransacao = tipoTransacao
             };
 

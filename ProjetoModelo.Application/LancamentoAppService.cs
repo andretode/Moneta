@@ -139,6 +139,10 @@ namespace Moneta.Application
         {
             var lancamentoOrigemVM = transferencia.LancamentoOrigem;
             lancamentoOrigemVM.Conta = null;
+
+            //Para garantir que o valor negativo vindo do lançamento vindo do extrato seja ajustado para gerar origem negativa mais a frente no processamento
+            lancamentoOrigemVM.Valor = Math.Abs(lancamentoOrigemVM.Valor);
+            
             var lancamentoOrigem = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoOrigemVM);
             var lancamentoDestino = lancamentoOrigem.CreateLancamentoTransferenciaPar(transferencia.ContaIdDestino);
 
