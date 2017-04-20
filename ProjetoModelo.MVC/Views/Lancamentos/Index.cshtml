@@ -43,17 +43,7 @@
         </div>
     }
 
-    <div style="width:100%;background-color:gray;color:white;display:flex;min-height: 30px;align-items:center;z-index:-1">
-        <a class="text-right col-xs-4 col-md-4" title="Mês Anterior" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = -1 })">
-            <i class="glyphicon glyphicon-chevron-left" style="color: white"></i>
-        </a>
-        <div class="text-center col-xs-4 col-md-4">
-            @Model.MesAnoCompetencia.ToString("MMMM yyyy").ToUpper()
-        </div>
-        <a class="text-left col-xs-4 col-md-4" title="Próximo mês" href="@Url.Action("AlterarMes", "Lancamentos", new { @Model.MesAnoCompetencia, @Model.ContaIdFiltro, addMonths = +1 })">
-            <i class="glyphicon glyphicon-chevron-right" style="color: white"></i>
-        </a>
-    </div>
+    @Html.MesAnoControle(Model.MesAnoCompetencia, (Guid)Model.ContaIdFiltro, "AlterarMes", "Lancamentos")
 </div>
 
 @{string corSaldoDoMesAnterior = (Model.SaldoDoMesAnterior > 0 ? "green" : "red");}
