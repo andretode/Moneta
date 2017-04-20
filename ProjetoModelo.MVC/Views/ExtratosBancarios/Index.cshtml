@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ExtratoBancarioViewModel>
+﻿@model ExtratoBancarioDoMesViewModel
 @using Moneta.Application.ViewModels
 @using Moneta.MVC.CustomHelpers
 
@@ -20,7 +20,7 @@
     </a>
 </p>
 
-@Html.MesAnoControle(Model.First().DataCompensacao, Model.First().ContaId, "AlterarMes", "ExtratosBancarios")
+@Html.MesAnoControle(Model.MesAnoCompetencia, (Guid)Model.ContaIdFiltro, "AlterarMes", "ExtratosBancarios")
 
 @using (Html.BeginForm("RemoverSelecionados", "ExtratosBancarios", FormMethod.Post, new { id = "formExtratos" }))
 {
@@ -40,74 +40,82 @@
                 @Html.CheckBox("selecionarTodos", false, new { @title = "Selecionar todos" })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DataCompensacao)
+                @Html.DisplayName("Data Compensação")
                 /
-                @Html.DisplayNameFor(model => model.DescricaoResumida)
+                @Html.DisplayName("Descrição")
             </th>
             <th>
                 <span class="visible-lg">
-                    @Html.DisplayNameFor(model => model.NumeroDocumento)
+                    @Html.DisplayName("N° Documento")
                 </span>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Valor)
+                @Html.DisplayName("Valor")
             </th>
             <th>
             </th>
         </tr>
 
-        @{var extratos = Model.ToList();}
-        @for(int i = 0; i < Model.Count(); i++)
+        @if (Model.ExtratosDoMes == null)
         {
-            <tr>
-                <td>
-                    @if (extratos[i].Lancamento == null)
-                    {
-                        @Html.CheckBoxFor(x => extratos[i].Selecionado)
-                        @Html.HiddenFor(x => extratos[i].ExtratoBancarioId)
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(x => extratos[i].DataCompensacao)
-                    @Html.HiddenFor(x => extratos[i].DataCompensacao)
-
-                    <span class='visible-md-inline visible-lg-inline'>
-                        @Html.DisplayFor(x => extratos[i].Descricao)
-                    </span>
-                    <span class='visible-xs visible-sm'>
-                        @Html.DisplayFor(x => extratos[i].DescricaoResumidaComReticencias)
-                    </span>
-                </td>
-                <td>
-                    <span class="visible-lg">
-                        @Html.DisplayFor(x => extratos[i].NumeroDocumento)
-                        @Html.HiddenFor(x => extratos[i].NumeroDocumento)
-                    </span>
-                </td>
-                <td>
-                    @Html.DisplayFor(x => extratos[i].Valor)
-                </td>
-                <td>
-                    @if (extratos[i].Lancamento == null)
-                    {
-                        <a title="Conciliar com um lançamento" class="btn btn-xs btn-default"
-                           href="javascript:getLancamentosConciliacao('@extratos[i].ExtratoBancarioId')">
-                            <i class="icon-white glyphicon glyphicon-link"></i>
-                        </a>
-                        <span class="visible-xs visible-sm"><br /></span>
-                        <a title="Criar um lançamento a partir deste" class="btn btn-xs btn-default"
-                           href="@Url.Action("CriarLancamento", "ExtratosBancarios", new { id = extratos[i].ExtratoBancarioId })">
-                            <i class="icon-white glyphicon glyphicon-new-window"></i>
-                        </a>
-                        <span class="visible-xs visible-sm"><br /></span>
-                        <a title="Criar uma transferência a partir deste" class="btn btn-xs btn-default"
-                           href="@Url.Action("CriarTransferencia", "ExtratosBancarios", new { id = extratos[i].ExtratoBancarioId })">
-                            <i class="icon-white glyphicon glyphicon-transfer"></i>
-                        </a>
-                    }
-                </td>
-            </tr>
+            <tr><td colspan="4" class="text-center">Não há extratos neste mês para serem exibidos</td></tr>
         }
+        else
+        {
+            var extratos = Model.ExtratosDoMes.ToList();
+            for (int i = 0; i < Model.ExtratosDoMes.Count(); i++)
+            {
+                <tr>
+                    <td>
+                        @if (extratos[i].Lancamento == null)
+                        {
+                            @Html.CheckBoxFor(x => extratos[i].Selecionado)
+                            @Html.HiddenFor(x => extratos[i].ExtratoBancarioId)
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => extratos[i].DataCompensacao)
+                        @Html.HiddenFor(x => extratos[i].DataCompensacao)
+
+                        <span class='visible-md-inline visible-lg-inline'>
+                            @Html.DisplayFor(x => extratos[i].Descricao)
+                        </span>
+                        <span class='visible-xs visible-sm'>
+                            @Html.DisplayFor(x => extratos[i].DescricaoResumidaComReticencias)
+                        </span>
+                    </td>
+                    <td>
+                        <span class="visible-lg">
+                            @Html.DisplayFor(x => extratos[i].NumeroDocumento)
+                            @Html.HiddenFor(x => extratos[i].NumeroDocumento)
+                        </span>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => extratos[i].Valor)
+                    </td>
+                    <td>
+                        @if (extratos[i].Lancamento == null)
+                        {
+                            <a title="Conciliar com um lançamento" class="btn btn-xs btn-default"
+                               href="javascript:getLancamentosConciliacao('@extratos[i].ExtratoBancarioId')">
+                                <i class="icon-white glyphicon glyphicon-link"></i>
+                            </a>
+                            <span class="visible-xs visible-sm"><br /></span>
+                            <a title="Criar um lançamento a partir deste" class="btn btn-xs btn-default"
+                               href="@Url.Action("CriarLancamento", "ExtratosBancarios", new { id = extratos[i].ExtratoBancarioId })">
+                                <i class="icon-white glyphicon glyphicon-new-window"></i>
+                            </a>
+                            <span class="visible-xs visible-sm"><br /></span>
+                            <a title="Criar uma transferência a partir deste" class="btn btn-xs btn-default"
+                               href="@Url.Action("CriarTransferencia", "ExtratosBancarios", new { id = extratos[i].ExtratoBancarioId })">
+                                <i class="icon-white glyphicon glyphicon-transfer"></i>
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+
     </table>
 }
 

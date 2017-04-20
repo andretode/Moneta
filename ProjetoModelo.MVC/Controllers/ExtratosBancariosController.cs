@@ -30,22 +30,30 @@ namespace Moneta.MVC.Controllers
 
         public ViewResult Index(string pesquisa, int page = 0, int quant = -1)
         {
-            var extratoBancarioViewModel = _ExtratoBancarioApp.GetAll().OrderBy(c => c.DataCompensacao);
+            var extratosDoMes = new ExtratoBancarioDoMesViewModel();
+            extratosDoMes.MesAnoCompetencia = DateTime.Now;
+
+            extratosDoMes.ExtratosDoMes = _ExtratoBancarioApp.GetAll().OrderBy(c => c.DataCompensacao);
             ViewBag.Pesquisa = pesquisa;
             ViewBag.quantidadeImportada = quant;
 
-            return View(extratoBancarioViewModel);
+            return View(extratosDoMes);
         }
 
         public ViewResult AlterarMes(DateTime mesAnoCompetencia, Guid contaIdFiltro, int addMonths)
         {
             mesAnoCompetencia = mesAnoCompetencia.AddMonths(addMonths);
+
+            var extratosDoMes = new ExtratoBancarioDoMesViewModel();
+            extratosDoMes.MesAnoCompetencia = mesAnoCompetencia;
+            extratosDoMes.ContaIdFiltro = contaIdFiltro;
+
             var extratos = _ExtratoBancarioApp.GetAll().Where(e => e.DataCompensacao.Month == mesAnoCompetencia.Month
                 && e.DataCompensacao.Year == mesAnoCompetencia.Year);
 
             ViewBag.quantidadeImportada = -1;
             SetSelectLists();
-            return View("Index", extratos);
+            return View("Index", extratosDoMes);
         }
 
         public ActionResult Create()
