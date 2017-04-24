@@ -40,14 +40,9 @@ namespace Moneta.Application
             return Mapper.Map<ExtratoBancario, ExtratoBancarioViewModel>(_ExtratoBancarioService.GetById(id));
         }
 
-        public IEnumerable<ExtratoBancarioViewModel> GetAll()
+        public IEnumerable<ExtratoBancarioViewModel> GetExtratosDoMes(DateTime mesAnoCompetencia, Guid contaId)
         {
-            return Mapper.Map<IEnumerable<ExtratoBancario>, IEnumerable<ExtratoBancarioViewModel>>(_ExtratoBancarioService.GetAll());
-        }
-
-        public IEnumerable<ExtratoBancarioViewModel> GetAllReadOnly()
-        {
-            return Mapper.Map<IEnumerable<ExtratoBancario>, IEnumerable<ExtratoBancarioViewModel>>(_ExtratoBancarioService.GetAllReadOnly());
+            return Mapper.Map<IEnumerable<ExtratoBancario>, IEnumerable<ExtratoBancarioViewModel>>(_ExtratoBancarioService.GetExtratosDoMes(mesAnoCompetencia, contaId));
         }
 
         public void Update(ExtratoBancarioViewModel ExtratoBancarioViewModel)

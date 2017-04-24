@@ -9,6 +9,8 @@
 <h2>@ViewBag.Title</h2>
 
 <p>
+@using (Html.BeginForm("Index", "ExtratosBancarios", FormMethod.Post, new { id = "formExtratos" }))
+{
     <a class="btn btn-default" title="Importar OFX"
        href="@Url.Action("ImportarOfx", "ExtratosBancarios")">
         <i class="icon-white glyphicon glyphicon-import"></i>
@@ -18,6 +20,13 @@
        href="javascript:validarSeExisteSelecionados()">
         <i class="icon-white glyphicon glyphicon-trash"></i>
     </a>
+
+    
+    @Html.DropDownListFor(model => model.ContaIdFiltro, (SelectList)@ViewBag.Contas, "-- Todas as Contas --", new { @class = "form-control", @style = "display:inline-block" })
+    @Html.EditorFor(model => model.MesAnoCompetencia)
+    @Html.DisplayFor(model => model.MesAnoCompetencia)
+}
+
 </p>
 
 @Html.MesAnoControle(Model.MesAnoCompetencia, (Guid)Model.ContaIdFiltro, "AlterarMes", "ExtratosBancarios")
@@ -158,6 +167,13 @@
 @section Scripts {
 
 <script type="text/javascript">
+
+    // Trata mudança do filtro conta
+    $(function () {
+        $('#ContaIdFiltro').change(function () {
+            $('#formExtratos').submit();    
+        });
+    });
 
     // Pega Lançamentos para serem conciliados
     function getLancamentosConciliacao(id) {

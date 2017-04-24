@@ -9,9 +9,7 @@ namespace Moneta.Application.Interfaces
     {
         //ValidationAppResult Add(ExtratoBancarioViewModel extratoBancarioViewModel);
         ExtratoBancarioViewModel GetById(Guid id);
-        IEnumerable<ExtratoBancarioViewModel> GetAllReadOnly();
-        IEnumerable<ExtratoBancarioViewModel> GetAll();
-        //void Update(ContaViewModel contaViewModel);
+        IEnumerable<ExtratoBancarioViewModel> GetExtratosDoMes(DateTime mesAnoCompetencia, Guid contaId);
         void Remove(ExtratoBancarioViewModel extratoBancarioViewModel);
         int ImportarOfx(string caminhoOfx, Guid contaId);
         void RemoveAll(IEnumerable<ExtratoBancarioViewModel> extratos);

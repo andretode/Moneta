@@ -22,9 +22,15 @@ namespace Moneta.Domain.Services
             _LancamentoRepository = LancamentoRepository;
         }
 
-        public override IEnumerable<ExtratoBancario> GetAll()
+        public IEnumerable<ExtratoBancario> GetExtratosDoMes(DateTime mesAnoCompetencia, Guid contaId)
         {
-            var extratos = _ExtratoBancarioRepository.GetAll().OrderBy(e => e.DataCompensacao).OrderBy(e => e.Descricao);
+            var extratos = _ExtratoBancarioRepository.GetAll()
+                .Where(e => e.DataCompensacao.Month == mesAnoCompetencia.Month && e.DataCompensacao.Year == mesAnoCompetencia.Year);
+
+            if (contaId != Guid.Empty)
+                extratos = extratos.Where(e => e.ContaId == contaId);
+
+            extratos = extratos.OrderBy(e => e.DataCompensacao).OrderBy(e => e.Descricao);
 
             foreach (var extr in extratos)
                 extr.Lancamento = _LancamentoRepository.GetAll().Where(l => l.ExtratoBancarioId == extr.ExtratoBancarioId).SingleOrDefault();

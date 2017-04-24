@@ -28,14 +28,25 @@ namespace Moneta.MVC.Controllers
             _ContaApp = contaApp;
         }
 
-        public ViewResult Index(string pesquisa, int page = 0, int quant = -1)
+        public ViewResult Index(string pesquisa, int quant = -1)
         {
             var extratosDoMes = new ExtratoBancarioDoMesViewModel();
             extratosDoMes.MesAnoCompetencia = DateTime.Now;
 
-            extratosDoMes.ExtratosDoMes = _ExtratoBancarioApp.GetAll().OrderBy(c => c.DataCompensacao);
+            extratosDoMes.ExtratosDoMes = _ExtratoBancarioApp.GetExtratosDoMes(DateTime.Now, Guid.Empty);
             ViewBag.Pesquisa = pesquisa;
             ViewBag.quantidadeImportada = quant;
+            SetSelectLists();
+
+            return View(extratosDoMes);
+        }
+
+        [HttpPost]
+        public ViewResult Index(ExtratoBancarioDoMesViewModel extratosDoMes)
+        {
+            extratosDoMes.ExtratosDoMes = _ExtratoBancarioApp.GetExtratosDoMes(extratosDoMes.MesAnoCompetencia, (Guid)extratosDoMes.contaIdFiltro);
+            ViewBag.quantidadeImportada = -1;
+            SetSelectLists();
 
             return View(extratosDoMes);
         }
@@ -47,9 +58,7 @@ namespace Moneta.MVC.Controllers
             var extratosDoMes = new ExtratoBancarioDoMesViewModel();
             extratosDoMes.MesAnoCompetencia = mesAnoCompetencia;
             extratosDoMes.ContaIdFiltro = contaIdFiltro;
-
-            var extratos = _ExtratoBancarioApp.GetAll().Where(e => e.DataCompensacao.Month == mesAnoCompetencia.Month
-                && e.DataCompensacao.Year == mesAnoCompetencia.Year);
+            extratosDoMes.ExtratosDoMes = _ExtratoBancarioApp.GetExtratosDoMes(mesAnoCompetencia, contaIdFiltro);
 
             ViewBag.quantidadeImportada = -1;
             SetSelectLists();
@@ -150,14 +159,6 @@ namespace Moneta.MVC.Controllers
             }
 
             return RedirectToAction("Index", new { quant = quantidadeImportada });
-        }
-
-        public ActionResult Delete(Guid id)
-        {
-            var extratoBancario = _ExtratoBancarioApp.GetAllReadOnly().Where(c => c.ExtratoBancarioId == id).First();
-            _ExtratoBancarioApp.Remove(extratoBancario);
-
-            return RedirectToAction("Index");
         }
 
         [HttpGet]

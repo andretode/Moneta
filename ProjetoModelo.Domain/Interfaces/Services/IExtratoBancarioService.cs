@@ -10,5 +10,6 @@ namespace Moneta.Domain.Interfaces.Services
         ValidationResult Adicionar(ExtratoBancario extratoBancario);
         int ImportarOfx(string caminhoOfx, Guid contaId);
         void RemoveAll(IEnumerable<ExtratoBancario> extratos);
+        IEnumerable<ExtratoBancario> GetExtratosDoMes(DateTime mesAnoCompetencia, Guid contaId);
     }
 }
