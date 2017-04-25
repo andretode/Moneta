@@ -23,10 +23,10 @@
 
     
     @Html.DropDownListFor(model => model.ContaIdFiltro, (SelectList)@ViewBag.Contas, "-- Todas as Contas --", new { @class = "form-control", @style = "display:inline-block" })
-    @Html.EditorFor(model => model.MesAnoCompetencia)
-    @Html.DisplayFor(model => model.MesAnoCompetencia)
-}
 
+    <!-- Não pude colocar como HiddenFor pois estava colocando o valor com o mes errado. Parece que tem algum JS alterando este valor, mas não desconbri onde -->
+    <input type="hidden" name="MesAnoCompetencia" id="MesAnoCompetencia" value="@Model.MesAnoCompetencia" /> 
+}
 </p>
 
 @Html.MesAnoControle(Model.MesAnoCompetencia, (Guid)Model.ContaIdFiltro, "AlterarMes", "ExtratosBancarios")
