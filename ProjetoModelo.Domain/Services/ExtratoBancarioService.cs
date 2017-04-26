@@ -33,7 +33,7 @@ namespace Moneta.Domain.Services
             if (contaId != Guid.Empty)
                 extratos = extratos.Where(e => e.ContaId == contaId);
 
-            extratos = extratos.OrderBy(e => e.DataCompensacao).OrderBy(e => e.Descricao);
+            extratos = extratos.OrderBy(e => e.DataCompensacao).ThenBy(e => e.Descricao);
 
             foreach (var extr in extratos)
             {
