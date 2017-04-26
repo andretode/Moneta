@@ -31,12 +31,24 @@ namespace Moneta.Application.ViewModels
         [DisplayName("Pago?")]
         public bool Pago { get; set; }
 
+        [DisplayName("Valor")]
+        [UIHint("DinheiroColorido")]
+        public decimal Valor { get; private set; }
+
         [DisplayName("Conta")]
         public Guid ContaId { get; set; }
 
         [DisplayName("Conta")]
         [JsonIgnore]
         public virtual ContaViewModel Conta { get; set; }
+
+        [DisplayName("Extrato Bancário")]
+        [JsonIgnore]
+        public Guid? ExtratoBancarioId { get; set; }
+
+        [DisplayName("Extrato Bancário")]
+        [JsonIgnore]
+        public virtual ExtratoBancarioViewModel ExtratoBancario { get; set; } 
 
         [DisplayName("Data de Cadastro")]
         [ScaffoldColumn(false)]

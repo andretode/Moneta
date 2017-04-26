@@ -46,8 +46,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.LancamentoOrigem.Descricao, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <span style="vertical-align: -30%">@Html.DisplayFor(model => model.LancamentoOrigem.Descricao)</span>
-                @Html.HiddenFor(model => model.LancamentoOrigem.Descricao)
+                @Html.EditorFor(model => model.LancamentoOrigem.Descricao, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LancamentoOrigem.Descricao, "", new { @class = "text-danger" })
             </div>
         </div>
 

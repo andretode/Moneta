@@ -8,7 +8,7 @@ namespace Moneta.Application.ViewModels
 {
     public class ConciliacaoViewModel
     {
-        public IEnumerable<LancamentoViewModel> Lancamentos { get; set; }
+        public IEnumerable<LancamentoAgrupadoViewModel> Lancamentos { get; set; }
         public ExtratoBancarioViewModel ExtratoBancario { get; set; }
     }
 }

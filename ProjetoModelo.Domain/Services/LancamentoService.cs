@@ -13,9 +13,9 @@ namespace Moneta.Domain.Services
 {
     public class LancamentoService : ServiceBase<Lancamento>, ILancamentoService
     {
-        private readonly ILancamentoRepository _LancamentoRepository;
-        private readonly ILancamentoParceladoRepository _LancamentoParceladoRepository;
-        private readonly IGrupoLancamentoRepository _GrupoLancamentoRepository;
+        protected readonly ILancamentoRepository _LancamentoRepository;
+        protected readonly ILancamentoParceladoRepository _LancamentoParceladoRepository;
+        protected readonly IGrupoLancamentoRepository _GrupoLancamentoRepository;
 
         public LancamentoService(
             IGrupoLancamentoRepository GrupoLancamentoRepository,
@@ -122,16 +122,17 @@ namespace Moneta.Domain.Services
                     l.DataVencimento.ToString("dd/MM/yy").Contains(lancamentosDoMes.PesquisarDescricao.ToLower())
                     );
 
-            return AgruparLancamentos(agregadoLancamentosDoMes);
+            agregadoLancamentosDoMes.LancamentosAgrupados = AgruparLancamentos(agregadoLancamentosDoMes.LancamentosDoMes);
+            
+            return agregadoLancamentosDoMes;
         }
 
-        private AgregadoLancamentosDoMes AgruparLancamentos(AgregadoLancamentosDoMes agregadoLancamentosDoMes)
+        protected IEnumerable<LancamentoAgrupado> AgruparLancamentos(IEnumerable<Lancamento> lancamentos)
         {
             var lancamentosAgrupados = new List<LancamentoAgrupado>();
 
             //agrupa os lançamentos associados a um grupo de lançamentos
-            var lancamentosGrupo = agregadoLancamentosDoMes.LancamentosDoMes
-                .Where(l => l.GrupoLancamentoId != null).GroupBy(l => l.GrupoLancamentoId);
+            var lancamentosGrupo = lancamentos.Where(l => l.GrupoLancamentoId != null).GroupBy(l => l.GrupoLancamentoId);
             foreach (var lancamentoGrupo in lancamentosGrupo)
             {
                 var la = new LancamentoAgrupado();
@@ -145,8 +146,7 @@ namespace Moneta.Domain.Services
             }
 
             //inclui os demais lançamentos que não estão associados a um grupo de lançamentos
-            var lancamentosSemGrupo = agregadoLancamentosDoMes.LancamentosDoMes
-                .Where(l => l.GrupoLancamentoId == null);
+            var lancamentosSemGrupo = lancamentos.Where(l => l.GrupoLancamentoId == null);
             foreach (var lancamento in lancamentosSemGrupo)
             {
                 var la = new LancamentoAgrupado();
@@ -164,34 +164,7 @@ namespace Moneta.Domain.Services
                            lg.Lancamentos.FirstOrDefault().GrupoLancamento.DataVencimento
                          select lg;
 
-            agregadoLancamentosDoMes.LancamentosAgrupados = agrupamentoOrdenado;
-            return agregadoLancamentosDoMes;
-        }
-
-        public IEnumerable<Lancamento> GetLancamentosSugeridosParaConciliacao(ExtratoBancario extrato)
-        {
-            const decimal porc = 0.2M;
-            decimal maxValor = extrato.Valor * (1 - porc);
-            decimal minValor = extrato.Valor * (1+porc);
-
-            const int dias = 7;
-            DateTime maxData = extrato.DataCompensacao.AddDays(dias);
-            DateTime minData = extrato.DataCompensacao.AddDays(-dias);
-
-            if(extrato.Valor > 0)
-            {
-                minValor = extrato.Valor * (1 - porc);
-                maxValor = extrato.Valor * (1 + porc);
-            }
-
-            var lancamentoMaisFake = new LancamentoMaisFakeService(_LancamentoParceladoRepository, _LancamentoRepository);
-            var todosNaoConciliados = lancamentoMaisFake.GetAllMaisFake(extrato.DataCompensacao.Month, extrato.DataCompensacao.Year)
-                .Where(l => l.ExtratoBancarioId == null);
-            var sugeridosComValoresProximos = todosNaoConciliados.Where(l => l.Valor > minValor && l.Valor < maxValor)
-                .OrderBy(l => l.DataVencimento);
-            var sugeridosComDatasProximos = sugeridosComValoresProximos.Where(l => l.DataVencimento >= minData
-                && l.DataVencimento <= maxData);
-            return sugeridosComDatasProximos;
+            return agrupamentoOrdenado;
         }
 
         /// <summary>

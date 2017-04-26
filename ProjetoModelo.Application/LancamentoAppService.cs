@@ -16,10 +16,13 @@ namespace Moneta.Application
     public class LancamentoAppService : AppServiceBase<MonetaContext>, ILancamentoAppService
     {
         private readonly ILancamentoService _lancamentoService;
+        private readonly ILancamentoConciliacaoService _lancamentoConciliacaoService;
 
-        public LancamentoAppService(ILancamentoService LancamentoService)
+        public LancamentoAppService(ILancamentoService LancamentoService,
+            ILancamentoConciliacaoService lancamentoConciliacaoService)
         {
             _lancamentoService = LancamentoService;
+            _lancamentoConciliacaoService = lancamentoConciliacaoService;
         }
 
         public LancamentoViewModel GetById(Guid id)
@@ -262,10 +265,10 @@ namespace Moneta.Application
             }
         }
 
-        public IEnumerable<LancamentoViewModel> GetLancamentosSugeridosParaConciliacao(ExtratoBancarioViewModel extrato)
+        public IEnumerable<LancamentoAgrupadoViewModel> GetLancamentosSugeridosParaConciliacao(ExtratoBancarioViewModel extrato)
         {
             var extratoVM = Mapper.Map<ExtratoBancarioViewModel, ExtratoBancario>(extrato);
-            return Mapper.Map<IEnumerable<Lancamento>, IEnumerable<LancamentoViewModel>>(_lancamentoService.GetLancamentosSugeridosParaConciliacao(extratoVM));
+            return Mapper.Map<IEnumerable<LancamentoAgrupado>, IEnumerable<LancamentoAgrupadoViewModel>>(_lancamentoConciliacaoService.GetLancamentosSugeridosParaConciliacao(extratoVM));
         }
 
         #region Metodos privados

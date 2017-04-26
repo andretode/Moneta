@@ -59,11 +59,7 @@ namespace Moneta.MVC.CustomHelpers
 
             //coluna 5
             html += "<td class='text-right'>";
-            decimal soma = lancamentoAgrupado.Lancamentos.Sum(l => l.Valor);
-            if (soma > 0)
-                html += "<span style='color:green'>" + string.Format("{0:C}", soma) + "</span>";
-            else
-                html += "<span style='color:red'>" + string.Format("{0:C}", soma) + "</span>";
+            html += htmlHelper.DisplayFor(l => lancamentoAgrupado.Lancamentos[0].GrupoLancamento.Valor);
             html += "</td>";
 
             //coluna 6 TEM QUE TROCAR

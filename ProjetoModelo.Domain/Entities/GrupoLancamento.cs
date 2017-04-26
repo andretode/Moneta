@@ -18,12 +18,22 @@ namespace Moneta.Domain.Entities
         public virtual ICollection<Lancamento> Lancamentos { get; set; }
         public Guid ContaId { get; set; }
         public virtual Conta Conta { get; set; }
+        public Guid? ExtratoBancarioId { get; set; }
+        public virtual ExtratoBancario ExtratoBancario { get; set; } 
         public DateTime DataCadastro { get; set; }
         public ValidationResult ResultadoValidacao { get; private set; }
 
         public bool IsValid()
         {
             return true;
+        }
+
+        public decimal Valor
+        {
+            get
+            {
+                return Lancamentos.Select(l => l.Valor).Sum();
+            }
         }
 
         public bool Pago

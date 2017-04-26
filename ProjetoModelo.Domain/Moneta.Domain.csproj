@@ -40,7 +40,9 @@
     <Compile Include="Entities\LancamentoParcelado.cs" />
     <Compile Include="Interfaces\Repository\IGrupoLancamentoRepository.cs" />
     <Compile Include="Interfaces\Services\IGrupoLancamentoService.cs" />
+    <Compile Include="Interfaces\Services\ILancamentoConciliacaoService.cs" />
     <Compile Include="Services\GrupoLancamentoService.cs" />
+    <Compile Include="Services\LancamentoConciliacaoService.cs" />
     <Compile Include="ValueObjects\LancamentoAgrupado.cs" />
     <Compile Include="Exceptions\CustomException.cs" />
     <Compile Include="Interfaces\Repository\ADO\IContaADORepository.cs" />

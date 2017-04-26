@@ -19,10 +19,10 @@
             @Html.DisplayNameFor(model => model.DataVencimento)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Conta)
+            @Html.DisplayNameFor(model => model.Valor)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DataCadastro)
+            @Html.DisplayNameFor(model => model.Conta)
         </th>
     </tr>
 
@@ -36,10 +36,10 @@
                 @Html.DisplayFor(modelItem => item.DataVencimento)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Conta.Descricao)
+                @Html.DisplayFor(modelItem => item.Valor)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Conta.DataCadastro)
+                @Html.DisplayFor(modelItem => item.Conta.Descricao)
             </td>
         </tr>
     }

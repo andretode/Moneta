@@ -42,6 +42,14 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.Valor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Valor)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Conta)
         </dt>
 
@@ -73,10 +81,10 @@
                 @Html.DisplayName("Data")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Lancamentos.First().DescricaoResumida)
+                @Html.DisplayNameFor(model => model.Lancamentos.First().Descricao)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Lancamentos.First().Categoria.Descricao)
+                @Html.DisplayNameFor(model => model.Lancamentos.First().Categoria)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Lancamentos.First().Valor)
@@ -95,7 +103,8 @@
                     </a>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Conta.Descricao)
+                    <button class='btn' style='background-color:@item.Categoria.Cor' title="@item.Categoria.Descricao"></button>
+                    <span class='visible-xs visible-sm visible-md-inline visible-lg-inline'> &nbsp;@item.Categoria.Descricao</span>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Valor)

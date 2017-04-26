@@ -33,6 +33,7 @@ namespace Moneta.Infra.CrossCutting.IoC
             Bind<ICategoriaService>().To<CategoriaService>();
             Bind<ILancamentoService>().To<LancamentoService>();
             Bind<ILancamentoParceladoService>().To<LancamentoParceladoService>();
+            Bind<ILancamentoConciliacaoService>().To<LancamentoConciliacaoService>();
             Bind<IExtratoBancarioService>().To<ExtratoBancarioService>();
             Bind<IGrupoLancamentoService>().To<GrupoLancamentoService>();
 

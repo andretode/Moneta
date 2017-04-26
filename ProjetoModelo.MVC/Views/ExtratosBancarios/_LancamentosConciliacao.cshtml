@@ -40,16 +40,33 @@
                 var lancamentos = Model.Lancamentos.ToList();
                 for (int i = 0; i < lancamentos.Count(); i++)
                 {
-                    <tr class="child">
-                        <td>
-                            @Html.RadioButton("radio_lancamentos", lancamentos[i].LancamentoId)
-                            <input type="hidden" id="Lancamento_@lancamentos[i].LancamentoId"
-                                   value="@JsonConvert.SerializeObject(lancamentos[i])">
-                        </td>
-                        <td>@Html.DisplayFor(l => lancamentos[i].DataVencimento)</td>
-                        <td>@Html.DisplayFor(l => lancamentos[i].DescricaoResumida)</td>
-                        <td>@Html.DisplayFor(l => lancamentos[i].Valor)</td>
-                    </tr>
+                    // Verifica se é um lançamento agrupado ou unico
+                    if (lancamentos[i].Lancamentos.FirstOrDefault().GrupoLancamentoId == null)
+                    {
+                        <tr class="child">
+                            <td>
+                                @Html.RadioButton("radio_lancamentos", lancamentos[i].Lancamentos.FirstOrDefault().LancamentoId)
+                                <input type="hidden" id="Lancamento_@lancamentos[i].Lancamentos.FirstOrDefault().LancamentoId"
+                                       value="@JsonConvert.SerializeObject(lancamentos[i].Lancamentos.FirstOrDefault())">
+                            </td>
+                            <td>@Html.DisplayFor(l => lancamentos[i].Lancamentos.FirstOrDefault().DataVencimento)</td>
+                            <td>@Html.DisplayFor(l => lancamentos[i].Lancamentos.FirstOrDefault().DescricaoResumida)</td>
+                            <td>@Html.DisplayFor(l => lancamentos[i].Lancamentos.FirstOrDefault().Valor)</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr class="child">
+                            <td>
+                                @Html.RadioButton("radio_lancamentos", lancamentos[i].Lancamentos.FirstOrDefault().GrupoLancamentoId)
+                                <input type="hidden" id="Lancamento_@lancamentos[i].Lancamentos.FirstOrDefault().GrupoLancamentoId"
+                                       value="@JsonConvert.SerializeObject(lancamentos[i])">
+                            </td>
+                            <td>@Html.DisplayFor(l => lancamentos[i].Lancamentos.FirstOrDefault().GrupoLancamento.DataVencimento)</td>
+                            <td>@Html.DisplayFor(l => lancamentos[i].Lancamentos.FirstOrDefault().GrupoLancamento.Descricao)</td>
+                            <td>@Html.DisplayFor(l => lancamentos[i].Lancamentos.FirstOrDefault().GrupoLancamento.Valor)</td>
+                        </tr>
+                    }
                 }
             }
             else
