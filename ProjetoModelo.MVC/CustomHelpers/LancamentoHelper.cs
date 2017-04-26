@@ -35,6 +35,7 @@ namespace Moneta.MVC.CustomHelpers
             //coluna 1  TEM QUE TROCAR
             html += "<td>" + htmlHelper.DisplayFor(modelItem => lancamentoAgrupado.Lancamentos[0].GrupoLancamento.DataVencimento) + "&nbsp;";
             html += "<span class='visible-xs visible-sm visible-md-inline visible-lg-inline'>";
+            html += "<a href='/GrupoLancamentos/Details/" + lancamentoAgrupado.Lancamentos[0].GrupoLancamentoId + "'>";
             html += lancamentoAgrupado.Descricao + "</a>";
             html += "</span>";
             html += "</td>";
