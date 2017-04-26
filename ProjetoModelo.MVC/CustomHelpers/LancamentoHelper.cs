@@ -33,7 +33,7 @@ namespace Moneta.MVC.CustomHelpers
             string html = "";
 
             //coluna 1  TEM QUE TROCAR
-            html += "<td>" + htmlHelper.DisplayFor(modelItem => lancamentoAgrupado.Lancamentos[0].DataVencimento) + "&nbsp;";
+            html += "<td>" + htmlHelper.DisplayFor(modelItem => lancamentoAgrupado.Lancamentos[0].GrupoLancamento.DataVencimento) + "&nbsp;";
             html += "<span class='visible-xs visible-sm visible-md-inline visible-lg-inline'>";
             html += lancamentoAgrupado.Descricao + "</a>";
             html += "</span>";

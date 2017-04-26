@@ -156,7 +156,15 @@ namespace Moneta.Domain.Services
                 lancamentosAgrupados.Add(la);
             }
 
-            agregadoLancamentosDoMes.LancamentosAgrupados = lancamentosAgrupados;
+            //ordena pela data de vencimento do lançamento, porém, quando agrupado, pega a data de vencimento do agrupamento
+            var agrupamentoOrdenado = from lg in lancamentosAgrupados
+                         orderby
+                           lg.Lancamentos.FirstOrDefault().GrupoLancamentoId == null ? 
+                           lg.Lancamentos.FirstOrDefault().DataVencimento : 
+                           lg.Lancamentos.FirstOrDefault().GrupoLancamento.DataVencimento
+                         select lg;
+
+            agregadoLancamentosDoMes.LancamentosAgrupados = agrupamentoOrdenado;
             return agregadoLancamentosDoMes;
         }
 
