@@ -55,7 +55,8 @@ namespace Moneta.Domain.Services
 
         private IEnumerable<Lancamento> GetLancamentosDeGrupos(ExtratoBancario extrato, decimal maxValor, decimal minValor, DateTime maxData, DateTime minData)
         {
-            var gruposDeLancamento = _GrupoLancamentoRepository.GetAll().Where(l => l.Valor > minValor && l.Valor < maxValor)
+            var gruposDeLancamento = _GrupoLancamentoRepository.GetAll()
+                .Where(l => l.ExtratoBancarioId == null && l.Valor > minValor && l.Valor < maxValor)
                 .OrderBy(l => l.DataVencimento);
 
             var lancamentosDeGrupos = new List<Lancamento>();

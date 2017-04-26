@@ -43,7 +43,6 @@ namespace Moneta.Application.ViewModels
         public virtual ContaViewModel Conta { get; set; }
 
         [DisplayName("Extrato Bancário")]
-        [JsonIgnore]
         public Guid? ExtratoBancarioId { get; set; }
 
         [DisplayName("Extrato Bancário")]

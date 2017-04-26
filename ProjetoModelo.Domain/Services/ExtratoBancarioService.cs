@@ -12,14 +12,17 @@ namespace Moneta.Domain.Services
     {
         private readonly IExtratoBancarioRepository _ExtratoBancarioRepository;
         private readonly ILancamentoRepository _LancamentoRepository;
+        private readonly IGrupoLancamentoRepository _GrupoLancamentoRepository;
 
         public ExtratoBancarioService(
             IExtratoBancarioRepository ExtratoBancarioRepository,
-            ILancamentoRepository LancamentoRepository)
+            ILancamentoRepository LancamentoRepository,
+            IGrupoLancamentoRepository GrupoLancamentoRepository)
             : base(ExtratoBancarioRepository)
         {
             _ExtratoBancarioRepository = ExtratoBancarioRepository;
             _LancamentoRepository = LancamentoRepository;
+            _GrupoLancamentoRepository = GrupoLancamentoRepository;
         }
 
         public IEnumerable<ExtratoBancario> GetExtratosDoMes(DateTime mesAnoCompetencia, Guid contaId)
@@ -33,7 +36,10 @@ namespace Moneta.Domain.Services
             extratos = extratos.OrderBy(e => e.DataCompensacao).OrderBy(e => e.Descricao);
 
             foreach (var extr in extratos)
+            {
                 extr.Lancamento = _LancamentoRepository.GetAll().Where(l => l.ExtratoBancarioId == extr.ExtratoBancarioId).SingleOrDefault();
+                extr.GrupoLancamento = _GrupoLancamentoRepository.GetAll().Where(g => g.ExtratoBancarioId == extr.ExtratoBancarioId).SingleOrDefault();
+            }
 
             return extratos;
         }

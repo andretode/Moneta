@@ -75,5 +75,7 @@ namespace Moneta.Application.ViewModels
         public bool Selecionado { get; set; }
 
         public virtual LancamentoViewModel Lancamento { get; set; }
+
+        public virtual GrupoLancamentoViewModel GrupoLancamento { get; set; }
     }
 }

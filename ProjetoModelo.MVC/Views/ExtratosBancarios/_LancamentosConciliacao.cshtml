@@ -60,7 +60,7 @@
                             <td>
                                 @Html.RadioButton("radio_lancamentos", lancamentos[i].Lancamentos.FirstOrDefault().GrupoLancamentoId)
                                 <input type="hidden" id="Lancamento_@lancamentos[i].Lancamentos.FirstOrDefault().GrupoLancamentoId"
-                                       value="@JsonConvert.SerializeObject(lancamentos[i])">
+                                       value="@JsonConvert.SerializeObject(lancamentos[i].Lancamentos.FirstOrDefault().GrupoLancamento)">
                             </td>
                             <td>@Html.DisplayFor(l => lancamentos[i].Lancamentos.FirstOrDefault().GrupoLancamento.DataVencimento)</td>
                             <td>@Html.DisplayFor(l => lancamentos[i].Lancamentos.FirstOrDefault().GrupoLancamento.Descricao)</td>

@@ -42,6 +42,11 @@ namespace Moneta.MVC.CustomHelpers
 
             //coluna 2
             html += "<td>";
+            if (lancamentoAgrupado.Lancamentos.FirstOrDefault().GrupoLancamento.ExtratoBancarioId != null)
+            {
+                html += "<span class='visible-xs visible-sm'><a href='#legendas'><i class='icon-white glyphicon glyphicon-link' title='Este lançamento está conciliado'></i></a></span>";
+                html += "<span class='visible-md-inline visible-lg-inline'><i class='icon-white glyphicon glyphicon-link' title='Este lançamento está conciliado'></i>&nbsp;</span>";
+            }
             html += "<span class='visible-lg-inline'>";
             html += "<i class='icon-white glyphicon glyphicon-list' title='Este é um lançamento agrupado'></i>";
             html += "</span>";

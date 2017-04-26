@@ -16,15 +16,18 @@ namespace Moneta.MVC.Controllers
     {
         private readonly IExtratoBancarioAppService _ExtratoBancarioApp;
         private readonly ILancamentoAppService _LancamentoAppService;
+        private readonly IGrupoLancamentoAppService _GrupoLancamentoAppService;
         private readonly IContaAppService _ContaApp;
 
         public ExtratosBancariosController(
             IExtratoBancarioAppService extratoBancarioApp,
             ILancamentoAppService lancamentoAppService,
+            IGrupoLancamentoAppService GrupoLancamentoAppService,
             IContaAppService contaApp)
         {
             _ExtratoBancarioApp = extratoBancarioApp;
             _LancamentoAppService = lancamentoAppService;
+            _GrupoLancamentoAppService = GrupoLancamentoAppService;
             _ContaApp = contaApp;
         }
 
@@ -173,12 +176,22 @@ namespace Moneta.MVC.Controllers
         public JsonResult ConciliarLancamento(string lancamentoJson, Guid extratoBancarioId)
         {
             var lancamento = JsonConvert.DeserializeObject<LancamentoViewModel>(lancamentoJson);
-            lancamento.ExtratoBancarioId = extratoBancarioId;
+            var grupoLancamento = JsonConvert.DeserializeObject<GrupoLancamentoViewModel>(lancamentoJson);
 
-            if (lancamento.Fake)
-                _LancamentoAppService.Add(lancamento);
+            if (grupoLancamento.GrupoLancamentoId == null)
+            {
+                lancamento.ExtratoBancarioId = extratoBancarioId;
+
+                if (lancamento.Fake)
+                    _LancamentoAppService.Add(lancamento);
+                else
+                    _LancamentoAppService.Update(lancamento);
+            }
             else
-                _LancamentoAppService.Update(lancamento);
+            {
+                grupoLancamento.ExtratoBancarioId = extratoBancarioId;
+                _GrupoLancamentoAppService.Update(grupoLancamento);
+            }
 
             return new JsonResult()
             {

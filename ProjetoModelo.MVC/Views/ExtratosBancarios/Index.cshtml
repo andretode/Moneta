@@ -76,7 +76,7 @@
             {
                 <tr>
                     <td>
-                        @if (extratos[i].Lancamento == null)
+                        @if (extratos[i].Lancamento == null && extratos[i].GrupoLancamento == null)
                         {
                             @Html.CheckBoxFor(x => extratos[i].Selecionado)
                             @Html.HiddenFor(x => extratos[i].ExtratoBancarioId)
@@ -103,7 +103,7 @@
                         @Html.DisplayFor(x => extratos[i].Valor)
                     </td>
                     <td>
-                        @if (extratos[i].Lancamento == null)
+                        @if (extratos[i].Lancamento == null && extratos[i].GrupoLancamento == null)
                         {
                             <a title="Conciliar com um lançamento" class="btn btn-xs btn-default"
                                href="javascript:getLancamentosConciliacao('@extratos[i].ExtratoBancarioId')">
