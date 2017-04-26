@@ -52,14 +52,18 @@
 
     <hr />
     <div>
+        <a class="btn btn-default" title="Importar OFX" onclick="return confirm('Recurso em desenvolvimento. Em breve estará nas novas versões!')"
+           href="   ">
+            <i class="icon-white glyphicon glyphicon-import"></i>
+        </a>
         <a class="btn btn-default" title="Adicionar Lançamento"
            href="@Url.Action("Create", "Lancamentos", new LancamentosDoMesViewModel() { GrupoLancamentoId = Model.GrupoLancamentoId,
                 contaIdFiltro = Model.ContaId, NovaTransacao = TipoTransacaoEnum.Despesa })">
             <i class="icon-white glyphicon glyphicon-plus"></i>
         </a>
-        <a class="btn btn-default" title="Importar OFX" onclick="return confirm('Recurso em desenvolvimento. Em breve estará nas novas versões!')"
-           href="   ">
-            <i class="icon-white glyphicon glyphicon-import"></i>
+        <a class="btn btn-default" title="Adicionar Transferência"
+           href="@Url.Action("AdicionarTransferencia", "GrupoLancamentos", new { grupoLancamentoId = Model.GrupoLancamentoId }) ">
+            <i class="icon-white glyphicon glyphicon-transfer"></i>
         </a>
     </div>
     <br/>

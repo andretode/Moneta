@@ -12,13 +12,16 @@ namespace Moneta.MVC.Controllers
     {
         private readonly IGrupoLancamentoAppService _grupoLancamentoApp;
         private readonly IContaAppService _contaApp;
+        private readonly ILancamentoAppService _lancamentoApp;
 
         public GrupoLancamentosController(
             IGrupoLancamentoAppService grupoLancamentoApp,
-            IContaAppService contaApp)
+            IContaAppService contaApp,
+            ILancamentoAppService lancamentoApp)
         {
             _grupoLancamentoApp = grupoLancamentoApp;
             _contaApp = contaApp;
+            _lancamentoApp = lancamentoApp;
         }
 
         // GET: GrupoLancamentos
@@ -95,6 +98,27 @@ namespace Moneta.MVC.Controllers
             var grupoLancamentoViewModel = _grupoLancamentoApp.GetAllReadOnly().Where(c => c.GrupoLancamentoId == id).First();
             _grupoLancamentoApp.Remove(grupoLancamentoViewModel);
             return RedirectToAction("Index");
+        }
+
+        public ActionResult AdicionarTransferencia(Guid grupoLancamentoId)
+        {
+            var transferenciaGrupoLancamento = new TransferenciaGrupoLancamentoViewModel(grupoLancamentoId);
+            return View(transferenciaGrupoLancamento);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AdicionarTransferencia(TransferenciaGrupoLancamentoViewModel transferenciaGrupoLancamento)
+        {
+            if (ModelState.IsValid)
+            {
+                var lancamento = _lancamentoApp.GetByIdReadOnly(Guid.Parse(transferenciaGrupoLancamento.TransferenciaId));
+                lancamento.GrupoLancamentoId = transferenciaGrupoLancamento.GrupoLancamentoId;
+                _lancamentoApp.Update(lancamento);
+                return RedirectToAction("Index");
+            }
+
+            return View(transferenciaGrupoLancamento);
         }
 
         private void SetSelectLists()
