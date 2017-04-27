@@ -59,6 +59,7 @@ namespace Moneta.Domain.Services
             {
                 var lancamentoTransferenciaPar = lancamento.LancamentoTransferencia;
                 lancamentoTransferenciaPar.Valor = lancamento.Valor * -1;
+                lancamentoTransferenciaPar.Descricao = lancamento.Descricao;
                 _LancamentoRepository.Update(lancamentoTransferenciaPar);
             }
 
