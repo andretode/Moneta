@@ -87,14 +87,23 @@ namespace Moneta.MVC.Controllers
         public ActionResult TrocarPago(string jsonLancamento)
         {
             var lancamento = JsonConvert.DeserializeObject<LancamentoViewModel>(jsonLancamento);
-            lancamento.Pago = !lancamento.Pago;
 
-            if(lancamento.Fake)
-                _LancamentoApp.Add(lancamento);
+            if (lancamento.GrupoLancamentoId == null)
+            {
+                lancamento.Pago = !lancamento.Pago;
+                if (lancamento.Fake)
+                    _LancamentoApp.Add(lancamento);
+                else
+                    _LancamentoApp.Update(lancamento);
+            }
             else
-                _LancamentoApp.Update(lancamento);
+            {
+                var grupoLancamento = _GrupoLancamentoApp.GetByIdReadOnly((Guid)lancamento.GrupoLancamentoId);
+                _LancamentoApp.TrocarPago(grupoLancamento.Lancamentos);
+            }
 
             return RedirectToAction("Index", new { ContaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
+        
         }
 
         [HttpPost]

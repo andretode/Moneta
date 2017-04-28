@@ -32,7 +32,7 @@ namespace Moneta.Domain.Entities
         {
             get
             {
-                return Lancamentos.Select(l => l.Valor).Sum();
+                return Lancamentos != null ? Lancamentos.Select(l => l.Valor).Sum() : 0;
             }
         }
 

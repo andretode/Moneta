@@ -233,6 +233,15 @@ namespace Moneta.Application
             _lancamentoService.Dispose();
         }
 
+        public void TrocarPago(IEnumerable<LancamentoViewModel> lancamentosViewModel)
+        {
+            var lancamentos = Mapper.Map<IEnumerable<LancamentoViewModel>, IEnumerable<Lancamento>>(lancamentosViewModel);
+
+            BeginTransaction();
+            _lancamentoService.TrocarPago(lancamentos);
+            Commit();
+        }
+
         public List<Tuple<DateTime, decimal, decimal, decimal>> GetSaldoDoMesPorDia(LancamentosDoMesViewModel lancamentosDoMesViewModel, bool resumido)
         {
             var lancamentosDoMes = Mapper.Map<LancamentosDoMesViewModel, AgregadoLancamentosDoMes>(lancamentosDoMesViewModel);

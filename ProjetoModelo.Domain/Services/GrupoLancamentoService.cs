@@ -23,6 +23,11 @@ namespace Moneta.Domain.Services
             return _GrupoLancamentoRepository.GetById(id);
         }
 
+        public GrupoLancamento GetByIdReadOnly(Guid id)
+        {
+            return _GrupoLancamentoRepository.GetByIdReadOnly(id);
+        }
+
         public override IEnumerable<GrupoLancamento> GetAll()
         {
             return _GrupoLancamentoRepository.GetAll();

@@ -1,7 +1,5 @@
-﻿using Moneta.Application.ViewModels;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Moneta.Application.ViewModels
@@ -10,5 +8,27 @@ namespace Moneta.Application.ViewModels
     {
         public string Descricao { get; set; }
         public List<LancamentoViewModel> Lancamentos { get; set; }
+
+        public GrupoLancamentoViewModel GrupoLancamento
+        {
+            get
+            {
+                return Lancamentos.First().GrupoLancamento;
+            }
+        }
+
+        public Guid? GrupoLancamentoId { 
+            get
+            {
+                return GrupoLancamento.GrupoLancamentoId;
+            } 
+        }
+
+        public bool Pago {
+            get
+            {
+                return Lancamentos.Where(l => !l.Pago).Count().Equals(0);
+            }
+        }
     }
 }

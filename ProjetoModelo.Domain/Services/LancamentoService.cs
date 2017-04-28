@@ -168,6 +168,20 @@ namespace Moneta.Domain.Services
             return agrupamentoOrdenado;
         }
 
+        public void TrocarPago(IEnumerable<Lancamento> lancamentos)
+        {
+            if(lancamentos.Count() > 0)
+            {
+                var pago = lancamentos.First().GrupoLancamento.Pago;
+                
+                foreach (var lancamento in lancamentos)
+                {
+                    lancamento.Pago = !pago;
+                    _LancamentoRepository.Update(lancamento);
+                }
+            }
+        }
+
         /// <summary>
         /// Busca as receitas, despesas e saldos da movimentação financeira de uma conta por dia
         /// </summary>
