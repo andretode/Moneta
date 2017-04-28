@@ -175,29 +175,48 @@ namespace Moneta.MVC.Controllers
 
         public JsonResult ConciliarLancamento(string lancamentoJson, Guid extratoBancarioId)
         {
-            var lancamento = JsonConvert.DeserializeObject<LancamentoViewModel>(lancamentoJson);
-            var grupoLancamento = JsonConvert.DeserializeObject<GrupoLancamentoViewModel>(lancamentoJson);
+            GrupoLancamentoViewModel grupoLancamento = null;
+            LancamentoViewModel lancamento = null;
 
-            if (grupoLancamento.GrupoLancamentoId == null)
+            try
             {
-                lancamento.ExtratoBancarioId = extratoBancarioId;
-
-                if (lancamento.Fake)
-                    _LancamentoAppService.Add(lancamento);
-                else
-                    _LancamentoAppService.Update(lancamento);
+                grupoLancamento = JsonConvert.DeserializeObject<GrupoLancamentoViewModel>(lancamentoJson);
             }
-            else
+            catch(JsonSerializationException jse)
             {
-                grupoLancamento.ExtratoBancarioId = extratoBancarioId;
-                _GrupoLancamentoAppService.Update(grupoLancamento);
+                lancamento = JsonConvert.DeserializeObject<LancamentoViewModel>(lancamentoJson);
             }
 
-            return new JsonResult()
+            var jsonResult = new JsonResult()
             {
                 Data = new { status = "Ok" },
                 JsonRequestBehavior = JsonRequestBehavior.AllowGet
             };
+
+            try
+            {
+                if (grupoLancamento == null)
+                {
+                    lancamento.ExtratoBancarioId = extratoBancarioId;
+
+                    if (lancamento.Fake)
+                        _LancamentoAppService.Add(lancamento);
+                    else
+                        _LancamentoAppService.Update(lancamento);
+                }
+                else
+                {
+                    grupoLancamento.ExtratoBancarioId = extratoBancarioId;
+                    _GrupoLancamentoAppService.Update(grupoLancamento);
+                }
+            }
+            catch(Exception ex)
+            {
+                jsonResult.Data = new { status = "Nok" };
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+            }
+
+            return jsonResult;
         }
 
         [HttpPost]
