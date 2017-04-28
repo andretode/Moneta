@@ -106,6 +106,26 @@ namespace Moneta.MVC.Controllers
         
         }
 
+        [HttpGet]
+        public ActionResult Desconciliar(string jsonLancamento)
+        {
+            var lancamento = JsonConvert.DeserializeObject<LancamentoViewModel>(jsonLancamento);
+
+            if (lancamento.GrupoLancamentoId == null)
+            {
+                lancamento.ExtratoBancarioId = null;
+                _LancamentoApp.Update(lancamento);
+            }
+            else
+            {
+                var grupoLancamento = _GrupoLancamentoApp.GetByIdReadOnly((Guid)lancamento.GrupoLancamentoId);
+                grupoLancamento.ExtratoBancarioId = null;
+                _GrupoLancamentoApp.Update(grupoLancamento);
+            }
+
+            return RedirectToAction("Index", new { ContaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
+        }
+
         [HttpPost]
         [MultipleButton(Name = "action", Argument = "Pesquisar")]
         public ActionResult Pesquisar(LancamentosDoMesViewModel lancamentos)

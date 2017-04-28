@@ -198,6 +198,7 @@ namespace Moneta.MVC.Controllers
                 if (grupoLancamento == null)
                 {
                     lancamento.ExtratoBancarioId = extratoBancarioId;
+                    lancamento.Pago = true;
 
                     if (lancamento.Fake)
                         _LancamentoAppService.Add(lancamento);
