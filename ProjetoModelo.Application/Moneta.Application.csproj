@@ -91,7 +91,7 @@
     <Compile Include="ViewModels\ExtratoBancarioDoMesViewModel.cs" />
     <Compile Include="ViewModels\GraficosViewModel.cs" />
     <Compile Include="ViewModels\GrupoLancamentoViewModel.cs" />
-    <Compile Include="ViewModels\GraficoSaldoViewModel.cs" />
+    <Compile Include="ViewModels\GraficoSaldoDoMesViewModel.cs" />
     <Compile Include="ViewModels\LancamentoAgrupadoViewModel.cs" />
     <Compile Include="ViewModels\LancamentosDoMesViewModel.cs" />
     <Compile Include="ViewModels\LancamentoParceladoViewModel.cs" />

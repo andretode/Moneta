@@ -1,6 +1,29 @@
-﻿<div class="jumbotron">
+﻿@model Moneta.Application.ViewModels.GraficoSaldoDoMesViewModel
+
+<div class="jumbotron">
     <h2>Seja bem vindo ao $ Moneta!</h2>
     <p class="lead">Seu software de gestão financeira pessoal.</p>
 </div>
 
-@Html.Action("GraficoSaldoDoMes", "Lancamentos")
+@*<div class="form-horizontal">
+        @using (Html.BeginForm("GraficoSaldoDoMes", "Lancamentos", new { @Model }, FormMethod.Get, new { id = "formFiltros" }))
+        {
+            @Html.DropDownList("ContaIdFiltro", (SelectList)@ViewBag.Contas, "-- Todas as Contas --", new { @class = "form-control" })
+        }
+    </div>*@
+
+<canvas id="graficoSaldoDoMes"></canvas>
+
+@section Scripts {
+    <script src="~/Scripts/charts.js/Chart.bundle.min-2.3.0.js"></script>
+    <script src="~/Scripts/charts.js/GraficoSaldoDoMes.js"></script>
+    <script type="text/javascript">
+        gerarGraficoSaldoDoMes('@Model.ArrayDeDias', '@Model.ArrayDeReceitas', '@Model.ArrayDeDespesas', '@Model.ArrayDeSaldos');
+
+        $(function () {
+            $('#ContaIdFiltro').change(function () {
+                $('#formFiltros').submit();
+            });
+        });
+    </script>
+}

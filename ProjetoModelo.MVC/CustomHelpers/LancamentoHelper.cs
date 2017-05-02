@@ -30,6 +30,7 @@ namespace Moneta.MVC.CustomHelpers
         private static string DisplayLancamentoAgrupado<TModel>(HtmlHelper<TModel> htmlHelper, LancamentoAgrupadoViewModel lancamentoAgrupado, Guid? contaIdFiltro)
             where TModel : LancamentosDoMesViewModel
         {
+            var strLancamento = LancamentoToJson(lancamentoAgrupado.Lancamentos.First());
             string html = "";
 
             //coluna 1  TEM QUE TROCAR
@@ -42,10 +43,11 @@ namespace Moneta.MVC.CustomHelpers
 
             //coluna 2
             html += "<td>";
-            if (lancamentoAgrupado.Lancamentos.FirstOrDefault().GrupoLancamento.ExtratoBancarioId != null)
+            if (lancamentoAgrupado.GrupoLancamento.ExtratoBancarioId != null)
             {
-                html += "<span class='visible-xs visible-sm'><a href='#legendas'><i class='icon-white glyphicon glyphicon-link' title='Este lançamento está conciliado'></i></a></span>";
-                html += "<span class='visible-md-inline visible-lg-inline'><i class='icon-white glyphicon glyphicon-link' title='Este lançamento está conciliado'></i>&nbsp;</span>";
+                html += "<a title='Clique para desfazer a conciliação' href='/Lancamentos/Desconciliar?jsonLancamento=" + strLancamento + "'>";
+                html += "<span><i class='icon-white glyphicon glyphicon-link'></i>&nbsp;</span>";
+                html += "</a>";
             }
             html += "<span class='visible-lg-inline'>";
             html += "<i class='icon-white glyphicon glyphicon-list' title='Este é um lançamento agrupado'></i>";
@@ -69,19 +71,17 @@ namespace Moneta.MVC.CustomHelpers
 
             //coluna 6 TEM QUE TROCAR
             html += "<td>";
-            if (lancamentoAgrupado.Lancamentos[0].Pago)
+            if (lancamentoAgrupado.Pago)
             {
-                html += "<a title='Clique para informar que não foi pago' href='/Lancamentos/TrocarPago?id=0'>";
+                html += "<a title='Clique para informar que não foi pago' href='/Lancamentos/TrocarPago?jsonLancamento=" + strLancamento + "'>";
                 html += "<i class='icon-white glyphicon glyphicon-thumbs-up' style='color:green'></i>";
                 html += "</a>";
             }
             else
             {
-                string corDataVencimentoPago = "gray";
-                if (!lancamentoAgrupado.Lancamentos[0].Pago && lancamentoAgrupado.Lancamentos[0].DataVencimento < DateTime.Now)
-                    corDataVencimentoPago = "red";
+                string corDataVencimentoPago = lancamentoAgrupado.GrupoLancamento.DataVencimento < DateTime.Now ? "red" : "gray";
 
-                html += "<a title='Clique para informar que foi pago' href='/Lancamentos/TrocarPago?id=0'>";
+                html += "<a title='Clique para informar que foi pago' href='/Lancamentos/TrocarPago?jsonLancamento=" + strLancamento + "'>";
                 html += "<i class='icon-white glyphicon glyphicon-thumbs-down' style='color:" + corDataVencimentoPago + "'></i>";
                 html += "</a>";
             }
@@ -94,14 +94,7 @@ namespace Moneta.MVC.CustomHelpers
         private static string DisplayLancamentoUnico<TModel>(HtmlHelper<TModel> htmlHelper, LancamentoViewModel lancamento, Guid? contaIdFiltro)
             where TModel : LancamentosDoMesViewModel
         {
-            var jsSettings = new JsonSerializerSettings
-            {
-                //NullValueHandling = NullValueHandling.Ignore,
-                ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects
-            };
-            string strLancamento = JsonConvert.SerializeObject(lancamento, Formatting.Indented, jsSettings);
-
+            var strLancamento = LancamentoToJson(lancamento);
             string html = "";
 
             //coluna 1  
@@ -125,8 +118,9 @@ namespace Moneta.MVC.CustomHelpers
             html += "<td>";
             if (lancamento.ExtratoBancarioId != null)
             {
-                html += "<span class='visible-xs visible-sm'><a href='#legendas'><i class='icon-white glyphicon glyphicon-link' title='Este lançamento está conciliado'></i></a></span>";
-                html += "<span class='visible-md-inline visible-lg-inline'><i class='icon-white glyphicon glyphicon-link' title='Este lançamento está conciliado'></i>&nbsp;</span>";
+                html += "<a title='Clique para desfazer a conciliação' href='/Lancamentos/Desconciliar?jsonLancamento=" + strLancamento + "'>";
+                html += "<span><i class='icon-white glyphicon glyphicon-link'></i>&nbsp;</span>";
+                html += "</a>";
             }
             //if (lancamento.LancamentoParceladoId != null)
             //{
@@ -180,6 +174,18 @@ namespace Moneta.MVC.CustomHelpers
 
             html = "<tr>" + html + "</tr>";
             return html;
+        }
+
+        private static string LancamentoToJson(LancamentoViewModel lancamento)
+        {
+            var jsSettings = new JsonSerializerSettings
+            {
+                //NullValueHandling = NullValueHandling.Ignore,
+                ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
+                PreserveReferencesHandling = PreserveReferencesHandling.Objects
+            };
+
+            return JsonConvert.SerializeObject(lancamento, Formatting.Indented, jsSettings);
         }
     }
 }

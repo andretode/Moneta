@@ -56,19 +56,6 @@ namespace Moneta.MVC.Controllers
             return View(lancamentos);
         }
 
-        public ActionResult GraficoSaldoDoMes(Guid? ContaIdFiltro)
-        {
-            ContaIdFiltro = (ContaIdFiltro == null ? Guid.Empty : (Guid)ContaIdFiltro);
-
-            var lancamentosDoMes = new LancamentosDoMesViewModel();
-            lancamentosDoMes.ContaIdFiltro = (Guid)ContaIdFiltro;
-            lancamentosDoMes.MesAnoCompetencia = DateTime.Now;
-            var listaSaldoDoMesPorDia = _LancamentoApp.GetSaldoDoMesPorDia(lancamentosDoMes, false);
-
-            SetSelectLists();
-            return View(listaSaldoDoMesPorDia);
-        }
-
         public ViewResult AlterarMes(DateTime MesAnoCompetencia, Guid ContaIdFiltro, int addMonths)
         {
             var lancamentosDoMes = new LancamentosDoMesViewModel();

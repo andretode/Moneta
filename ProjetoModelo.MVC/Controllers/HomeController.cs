@@ -1,6 +1,7 @@
 ﻿using Moneta.Application.Interfaces;
 using Moneta.Application.ViewModels;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Web.Mvc;
 
@@ -16,22 +17,18 @@ namespace Moneta.MVC.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            return View(GraficoSaldoDoMes(Guid.Empty));
         }
 
-
-        public ActionResult About()
+        private GraficoSaldoDoMesViewModel GraficoSaldoDoMes(Guid? ContaIdFiltro)
         {
-            ViewBag.Message = "Your application description page.";
+            ContaIdFiltro = (ContaIdFiltro == null ? Guid.Empty : (Guid)ContaIdFiltro);
 
-            return View();
-        }
+            var lancamentosDoMes = new LancamentosDoMesViewModel();
+            lancamentosDoMes.ContaIdFiltro = (Guid)ContaIdFiltro;
+            lancamentosDoMes.MesAnoCompetencia = DateTime.Now;
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            return new GraficoSaldoDoMesViewModel(_LancamentoApp.GetSaldoDoMesPorDia(lancamentosDoMes, false));
         }
 
         public ActionResult SignOut()

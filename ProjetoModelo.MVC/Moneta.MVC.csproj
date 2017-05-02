@@ -295,6 +295,8 @@
     <None Include="Properties\PublishProfiles\Moneta.pubxml" />
     <None Include="Properties\PublishProfiles\Teste.pubxml" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
+    <Content Include="Scripts\charts.js\Chart.bundle.min-2.3.0.js" />
+    <Content Include="Scripts\charts.js\GraficoSaldoDoMes.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
     <Content Include="Scripts\jquery-1.12.4.min.map" />
@@ -782,7 +784,6 @@
     <Content Include="Views\Lancamentos\Details.cshtml" />
     <Content Include="Views\Lancamentos\Edit.cshtml" />
     <Content Include="Views\Lancamentos\Index.cshtml" />
-    <Content Include="Views\Lancamentos\GraficoSaldoDoMes.cshtml" />
     <Content Include="Views\Transferencias\Details.cshtml" />
     <Content Include="Views\Transferencias\Edit.cshtml" />
     <Content Include="Views\Transferencias\Create.cshtml" />
