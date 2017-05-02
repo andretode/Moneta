@@ -248,6 +248,12 @@ namespace Moneta.Application
             return _lancamentoService.GetSaldoDoMesPorDia(lancamentosDoMes, resumido);
         }
 
+        public List<Tuple<string, decimal>> GetSaldoPorCategoria()
+        {
+            //var lancamentosDoMes = Mapper.Map<LancamentosDoMesViewModel, AgregadoLancamentosDoMes>(lancamentosDoMesViewModel);
+            return _lancamentoService.GetSaldoPorCategoria();
+        }
+
         public LancamentosDoMesViewModel GetLancamentosDoMes(LancamentosDoMesViewModel lancamentosDoMesViewModel)
         {
             AgregadoLancamentosDoMes lancamentosDoMes = Mapper.Map<LancamentosDoMesViewModel, AgregadoLancamentosDoMes>(lancamentosDoMesViewModel);

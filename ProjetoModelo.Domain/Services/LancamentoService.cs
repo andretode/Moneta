@@ -222,6 +222,23 @@ namespace Moneta.Domain.Services
             return listaDeSaldoPorDia;
         }
 
+        public List<Tuple<string, decimal>> GetSaldoPorCategoria()
+        {
+            var listaDeSaldoPorCategoria = new List<Tuple<string, decimal>>();
+            var lancamentosDoMes = new AgregadoLancamentosDoMes();
+            lancamentosDoMes.MesAnoCompetencia = DateTime.Now;
+            var agregadoLancamentosDoMes = GetLancamentosDoMes(lancamentosDoMes);
+
+            var lancamentosPorCategoria = agregadoLancamentosDoMes.LancamentosDoMes.GroupBy(l => l.Categoria);
+
+            foreach (var lancamento in lancamentosPorCategoria)
+            {
+                listaDeSaldoPorCategoria.Add(new Tuple<string, decimal>(lancamento.First().Categoria.Descricao, lancamento.Sum(l => l.Valor)));
+            }
+
+            return listaDeSaldoPorCategoria;
+        }
+
         #region Metodos Privados
         private List<DateTime> SomenteDiasDoMesComMovimentacao(int mes, int ano, IEnumerable<Lancamento> lancamentos)
         {
