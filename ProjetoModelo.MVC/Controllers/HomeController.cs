@@ -17,10 +17,14 @@ namespace Moneta.MVC.Controllers
 
         public ActionResult Index()
         {
-            return View(GraficoSaldoDoMes(Guid.Empty));
+            var graficosViewModel = new GraficosViewModel();
+            graficosViewModel.GraficoSaldoDoMes = GetDadosSaldoDoMes(Guid.Empty);
+            graficosViewModel.GraficoSaldoPorCategoria = GetDadosSaldoPorCategoria();
+
+            return View(graficosViewModel);
         }
 
-        private GraficoSaldoDoMesViewModel GraficoSaldoDoMes(Guid? ContaIdFiltro)
+        private GraficoSaldoDoMesViewModel GetDadosSaldoDoMes(Guid? ContaIdFiltro)
         {
             ContaIdFiltro = (ContaIdFiltro == null ? Guid.Empty : (Guid)ContaIdFiltro);
 
@@ -29,6 +33,11 @@ namespace Moneta.MVC.Controllers
             lancamentosDoMes.MesAnoCompetencia = DateTime.Now;
 
             return new GraficoSaldoDoMesViewModel(_LancamentoApp.GetSaldoDoMesPorDia(lancamentosDoMes, false));
+        }
+
+        private GraficoSaldoPorCategoriaViewModel GetDadosSaldoPorCategoria()
+        {
+            return new GraficoSaldoPorCategoriaViewModel(_LancamentoApp.GetSaldoPorCategoria());
         }
 
         public ActionResult SignOut()

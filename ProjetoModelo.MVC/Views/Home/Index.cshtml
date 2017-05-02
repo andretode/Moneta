@@ -1,4 +1,4 @@
-﻿@model Moneta.Application.ViewModels.GraficoSaldoDoMesViewModel
+﻿@model Moneta.Application.ViewModels.GraficosViewModel
 
 <div class="jumbotron">
     <h2>Seja bem vindo ao $ Moneta!</h2>
@@ -12,18 +12,28 @@
         }
     </div>*@
 
-<canvas id="graficoSaldoDoMes"></canvas>
+<div>
+    <canvas id="graficoSaldoPorCategoria"></canvas>
+</div>
+<br /><hr />
+<div>
+    <canvas id="graficoSaldoDoMes"></canvas>
+</div>
+
 
 @section Scripts {
-    <script src="~/Scripts/charts.js/Chart.bundle.min-2.3.0.js"></script>
-    <script src="~/Scripts/charts.js/GraficoSaldoDoMes.js"></script>
-    <script type="text/javascript">
-        gerarGraficoSaldoDoMes('@Model.ArrayDeDias', '@Model.ArrayDeReceitas', '@Model.ArrayDeDespesas', '@Model.ArrayDeSaldos');
+<script src="~/Scripts/charts.js/Chart.bundle.min-2.3.0.js"></script>
+<script src="~/Scripts/charts.js/GraficoSaldoDoMes.js"></script>
+<script src="~/Scripts/charts.js/GraficoSaldoPorCategoria.js"></script>
+<script type="text/javascript">
+    gerarGraficoSaldoDoMes('@Model.GraficoSaldoDoMes.ArrayDeDias', '@Model.GraficoSaldoDoMes.ArrayDeReceitas',
+        '@Model.GraficoSaldoDoMes.ArrayDeDespesas', '@Model.GraficoSaldoDoMes.ArrayDeSaldos');
+    gerarGraficoSaldoPorCategoria('@Html.Raw(Model.GraficoSaldoPorCategoria.ArrayDeCategorias)', '@Model.GraficoSaldoPorCategoria.ArrayDeSaldos');
 
-        $(function () {
-            $('#ContaIdFiltro').change(function () {
-                $('#formFiltros').submit();
-            });
+    $(function () {
+        $('#ContaIdFiltro').change(function () {
+            $('#formFiltros').submit();
         });
-    </script>
+    });
+</script>
 }

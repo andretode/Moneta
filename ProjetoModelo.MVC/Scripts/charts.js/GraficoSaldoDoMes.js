@@ -1,4 +1,6 @@
-﻿function gerarGraficoSaldoDoMes(arrayDeDias, arrayDeReceitas, arrayDeDespesas, arrayDeSaldos) {
+﻿
+function gerarGraficoSaldoDoMes(arrayDeDias, arrayDeReceitas, arrayDeDespesas, arrayDeSaldos)
+{
     var arrayDeDiasRazor = arrayDeDias;
     var arrayDeDiasJs = arrayDeDiasRazor.split(',');
 
