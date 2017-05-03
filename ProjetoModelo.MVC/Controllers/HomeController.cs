@@ -10,17 +10,21 @@ namespace Moneta.MVC.Controllers
     public class HomeController : Controller
     {
         private readonly ILancamentoAppService _LancamentoApp;
-        public HomeController(ILancamentoAppService LancamentoApp)
+        private readonly IContaAppService _ContaApp;
+        public HomeController(ILancamentoAppService LancamentoApp,
+            IContaAppService ContaApp)
         {
             _LancamentoApp = LancamentoApp;
+            _ContaApp = ContaApp;
         }
 
-        public ActionResult Index()
+        public ActionResult Index(Guid? ContaIdFiltro)
         {
             var graficosViewModel = new GraficosViewModel();
-            graficosViewModel.GraficoSaldoDoMes = GetDadosSaldoDoMes(Guid.Empty);
-            graficosViewModel.GraficoSaldoPorCategoria = GetDadosSaldoPorCategoria();
+            graficosViewModel.GraficoSaldoDoMes = GetDadosSaldoDoMes(ContaIdFiltro);
+            graficosViewModel.GraficoSaldoPorCategoria = GetDadosSaldoPorCategoria(ContaIdFiltro);
 
+            SetSelectLists();
             return View(graficosViewModel);
         }
 
@@ -35,9 +39,9 @@ namespace Moneta.MVC.Controllers
             return new GraficoSaldoDoMesViewModel(_LancamentoApp.GetSaldoDoMesPorDia(lancamentosDoMes, false));
         }
 
-        private GraficoSaldoPorCategoriaViewModel GetDadosSaldoPorCategoria()
+        private GraficoSaldoPorCategoriaViewModel GetDadosSaldoPorCategoria(Guid? ContaIdFiltro)
         {
-            return _LancamentoApp.GetDespesasPorCategoria();
+            return _LancamentoApp.GetDespesasPorCategoria(ContaIdFiltro);
         }
 
         public ActionResult SignOut()
@@ -45,6 +49,11 @@ namespace Moneta.MVC.Controllers
             ViewBag.Message = "Sair";
 
             return View();
+        }
+
+        private void SetSelectLists()
+        {
+            ViewBag.Contas = new SelectList(_ContaApp.GetAll(), "ContaId", "Descricao");
         }
     }
 }
