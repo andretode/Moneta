@@ -5,21 +5,21 @@
     <p class="lead">Seu software de gestão financeira pessoal.</p>
 </div>
 
-@*<div class="form-horizontal">
-        @using (Html.BeginForm("GraficoSaldoDoMes", "Lancamentos", new { @Model }, FormMethod.Get, new { id = "formFiltros" }))
-        {
-            @Html.DropDownList("ContaIdFiltro", (SelectList)@ViewBag.Contas, "-- Todas as Contas --", new { @class = "form-control" })
-        }
-    </div>*@
+<div class="form-horizontal">
+    @using (Html.BeginForm("GraficoSaldoDoMes", "Lancamentos", new { @Model }, FormMethod.Get, new { id = "formFiltros" }))
+    {
+        @Html.DropDownList("ContaIdFiltro", (SelectList)@ViewBag.Contas, "-- Todas as Contas --", new { @class = "form-control" })
+    }
+</div>
 
 <div>
-    <canvas id="graficoSaldoPorCategoria"></canvas>
+    <canvas class="visible-xs visible-sm" id="GraficoSaldoPorCategoria-Mobile" height="350"></canvas>
+    <canvas class="visible-md visible-lg" id="GraficoSaldoPorCategoria-Desktop"></canvas>
 </div>
 <br /><hr />
 <div>
     <canvas id="graficoSaldoDoMes"></canvas>
 </div>
-
 
 @section Scripts {
 <script src="~/Scripts/charts.js/Chart.bundle.min-2.3.0.js"></script>

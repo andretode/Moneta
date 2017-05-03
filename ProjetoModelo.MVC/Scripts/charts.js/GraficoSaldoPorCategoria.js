@@ -14,16 +14,24 @@ function gerarGraficoSaldoPorCategoria(arrayDeCategoriasJson, arrayDeCoresJson, 
                 hoverBackgroundColor: arrayDeCores
             }]
     };
-
+    
     var options = {
         title: {
-                display: true,
-                text: 'Despesas por Categoria'
+            display: true,
+            text: 'Despesas por Categoria',
+            responsive: true
         }
     }
 
-    var ctx = document.getElementById("graficoSaldoPorCategoria");
-    var myDoughnutChart = new Chart(ctx, {
+    var ctxDesktop = document.getElementById("GraficoSaldoPorCategoria-Desktop");
+    var myDoughnutChart = new Chart(ctxDesktop, {
+        type: 'doughnut',
+        data: data,
+        options: options
+    });
+
+    var ctxMobile = document.getElementById("GraficoSaldoPorCategoria-Mobile");
+    var myDoughnutChart = new Chart(ctxMobile, {
         type: 'doughnut',
         data: data,
         options: options
