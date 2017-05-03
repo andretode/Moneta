@@ -37,7 +37,7 @@ namespace Moneta.MVC.Controllers
 
         private GraficoSaldoPorCategoriaViewModel GetDadosSaldoPorCategoria()
         {
-            return new GraficoSaldoPorCategoriaViewModel(_LancamentoApp.GetSaldoPorCategoria());
+            return _LancamentoApp.GetDespesasPorCategoria();
         }
 
         public ActionResult SignOut()

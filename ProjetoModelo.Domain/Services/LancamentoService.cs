@@ -222,18 +222,26 @@ namespace Moneta.Domain.Services
             return listaDeSaldoPorDia;
         }
 
-        public List<Tuple<string, decimal>> GetSaldoPorCategoria()
+        public List<SaldoPorCategoria> GetDespesasPorCategoria()
         {
-            var listaDeSaldoPorCategoria = new List<Tuple<string, decimal>>();
+            var listaDeSaldoPorCategoria = new List<SaldoPorCategoria>();
             var lancamentosDoMes = new AgregadoLancamentosDoMes();
             lancamentosDoMes.MesAnoCompetencia = DateTime.Now;
             var agregadoLancamentosDoMes = GetLancamentosDoMes(lancamentosDoMes);
 
-            var lancamentosPorCategoria = agregadoLancamentosDoMes.LancamentosDoMes.GroupBy(l => l.Categoria);
+            var lancamentosPorCategoria = agregadoLancamentosDoMes.LancamentosDoMes
+                .Where(l => l.TipoDeTransacao == TipoTransacaoEnum.Despesa 
+                    //&& l.Pago == true
+                    && l.Categoria.Descricao != Categoria.Nenhum)
+                .GroupBy(l => l.Categoria);
 
             foreach (var lancamento in lancamentosPorCategoria)
             {
-                listaDeSaldoPorCategoria.Add(new Tuple<string, decimal>(lancamento.First().Categoria.Descricao, lancamento.Sum(l => l.Valor)));
+                listaDeSaldoPorCategoria.Add(new SaldoPorCategoria() { 
+                    Categoria = lancamento.First().Categoria.Descricao,
+                    CorHex = lancamento.First().Categoria.Cor,
+                    Saldo = lancamento.Sum(l => l.Valor)
+                });
             }
 
             return listaDeSaldoPorCategoria;

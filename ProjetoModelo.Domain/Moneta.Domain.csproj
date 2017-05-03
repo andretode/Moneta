@@ -82,6 +82,7 @@
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="ValueObjects\EnderecosCliente.cs" />
     <Compile Include="ValueObjects\LancamentosDoMes.cs" />
+    <Compile Include="ValueObjects\SaldoPorCategoria.cs" />
     <Compile Include="ValueObjects\ValidationError.cs" />
     <Compile Include="ValueObjects\ValidationResult.cs" />
   </ItemGroup>

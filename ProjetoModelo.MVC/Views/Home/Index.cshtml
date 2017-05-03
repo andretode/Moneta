@@ -28,7 +28,9 @@
 <script type="text/javascript">
     gerarGraficoSaldoDoMes('@Model.GraficoSaldoDoMes.ArrayDeDias', '@Model.GraficoSaldoDoMes.ArrayDeReceitas',
         '@Model.GraficoSaldoDoMes.ArrayDeDespesas', '@Model.GraficoSaldoDoMes.ArrayDeSaldos');
-    gerarGraficoSaldoPorCategoria('@Html.Raw(Model.GraficoSaldoPorCategoria.ArrayDeCategorias)', '@Model.GraficoSaldoPorCategoria.ArrayDeSaldos');
+    gerarGraficoSaldoPorCategoria('@Html.Raw(Model.GraficoSaldoPorCategoria.ArrayDeCategorias)',
+        '@Html.Raw(Model.GraficoSaldoPorCategoria.ArrayDeCores)',
+        '@Model.GraficoSaldoPorCategoria.ArrayDeSaldos');
 
     $(function () {
         $('#ContaIdFiltro').change(function () {

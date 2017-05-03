@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Moneta.Domain.ValueObjects;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +10,18 @@ namespace Moneta.Application.ViewModels
 {
     public class GraficoSaldoPorCategoriaViewModel
     {
-        public GraficoSaldoPorCategoriaViewModel(List<Tuple<string, decimal>> dadosDoGrafico)
+        public GraficoSaldoPorCategoriaViewModel(List<SaldoPorCategoria> listaSaldoPorCategoria)
         {
-            if (dadosDoGrafico != null)
+            if (listaSaldoPorCategoria != null)
             {
-                ArrayDeCategorias =  JsonConvert.SerializeObject(dadosDoGrafico.Select(d => d.Item1).ToArray());
-                ArrayDeSaldos = JsonConvert.SerializeObject(dadosDoGrafico.Select(d => Math.Abs(d.Item2)).ToArray());
+                ArrayDeCategorias = JsonConvert.SerializeObject(listaSaldoPorCategoria.Select(d => d.Categoria).ToArray());
+                ArrayDeCores = JsonConvert.SerializeObject(listaSaldoPorCategoria.Select(d => d.CorHex).ToArray());
+                ArrayDeSaldos = JsonConvert.SerializeObject(listaSaldoPorCategoria.Select(d => Math.Abs(d.Saldo)).ToArray());
             }
         }
 
         public string ArrayDeCategorias { get; set; }
+        public string ArrayDeCores { get; set; }
         public string ArrayDeSaldos { get; set; }
     }
 }
