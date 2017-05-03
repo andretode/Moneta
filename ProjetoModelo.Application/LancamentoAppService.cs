@@ -248,9 +248,9 @@ namespace Moneta.Application
             return _lancamentoService.GetSaldoDoMesPorDia(lancamentosDoMes, resumido);
         }
 
-        public GraficoSaldoPorCategoriaViewModel GetDespesasPorCategoria()
+        public GraficoSaldoPorCategoriaViewModel GetDespesasPorCategoria(Guid? ContaIdFiltro)
         {
-            return new GraficoSaldoPorCategoriaViewModel(_lancamentoService.GetDespesasPorCategoria());
+            return new GraficoSaldoPorCategoriaViewModel(_lancamentoService.GetDespesasPorCategoria(ContaIdFiltro));
         }
 
         public LancamentosDoMesViewModel GetLancamentosDoMes(LancamentosDoMesViewModel lancamentosDoMesViewModel)

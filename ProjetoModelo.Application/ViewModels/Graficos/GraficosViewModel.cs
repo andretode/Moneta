@@ -7,5 +7,7 @@ namespace Moneta.Application.ViewModels
     {
         public GraficoSaldoDoMesViewModel GraficoSaldoDoMes { get; set; }
         public GraficoSaldoPorCategoriaViewModel GraficoSaldoPorCategoria { get; set; }
+
+        public Guid? ContaIdFiltro { get; set; }
     }
 }
