@@ -11,7 +11,9 @@
     @using (Html.BeginForm("Index", "Home", FormMethod.Get, new { id = "formFiltros" }))
     {
         @Html.DropDownListFor(g => g.ContaIdFiltro, (SelectList)@ViewBag.Contas, "-- Todas as Contas --", new { @class = "form-control" })
-        <input type="hidden" name="MesAnoCompetencia" id="MesAnoCompetencia" value="@Model.MesAnoCompetencia" />
+        
+        @*Por algum motivo o hidden for está setando errado o valor da data*@
+        <input type="hidden" name="MesAnoCompetencia" id="MesAnoCompetencia" value="@Model.MesAnoCompetencia.ToString("yyyy-MM-dd")" />
     }
 </div>
 @Html.MesAnoControle(Model.MesAnoCompetencia, (Guid)Model.ContaIdFiltro, "AlterarMes", "Home")
