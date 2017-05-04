@@ -1,5 +1,6 @@
 ﻿@model Moneta.Application.ViewModels.GraficosViewModel
 @using Newtonsoft.Json
+@using Moneta.MVC.CustomHelpers
 
 <div class="jumbotron">
     <h2>Seja bem vindo ao $ Moneta!</h2>
@@ -7,12 +8,13 @@
 </div>
 
 <div class="form-horizontal">
-    @using (Html.BeginForm(null, null, new { @Model.ContaIdFiltro }, FormMethod.Get, new { id = "formFiltros" }))
+    @using (Html.BeginForm("Index", "Home", FormMethod.Get, new { id = "formFiltros" }))
     {
         @Html.DropDownListFor(g => g.ContaIdFiltro, (SelectList)@ViewBag.Contas, "-- Todas as Contas --", new { @class = "form-control" })
+        <input type="hidden" name="MesAnoCompetencia" id="MesAnoCompetencia" value="@Model.MesAnoCompetencia" />
     }
 </div>
-
+@Html.MesAnoControle(Model.MesAnoCompetencia, (Guid)Model.ContaIdFiltro, "AlterarMes", "Home")
 <div>
     
     @{

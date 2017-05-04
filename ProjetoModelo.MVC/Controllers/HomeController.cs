@@ -18,14 +18,27 @@ namespace Moneta.MVC.Controllers
             _ContaApp = ContaApp;
         }
 
-        public ActionResult Index(Guid? ContaIdFiltro)
+        public ActionResult Index(GraficosViewModel graficosViewModel)
         {
-            var graficosViewModel = new GraficosViewModel();
-            graficosViewModel.GraficoSaldoDoMes = GetDadosSaldoDoMes(ContaIdFiltro);
-            graficosViewModel.GraficoSaldoPorCategoria = GetDadosSaldoPorCategoria(ContaIdFiltro);
+            graficosViewModel.GraficoSaldoDoMes = GetDadosSaldoDoMes(graficosViewModel.ContaIdFiltro);
+            graficosViewModel.GraficoSaldoPorCategoria = GetDadosSaldoPorCategoria(graficosViewModel.ContaIdFiltro, graficosViewModel.MesAnoCompetencia);
 
             SetSelectLists();
             return View(graficosViewModel);
+        }
+
+        public ViewResult AlterarMes(DateTime mesAnoCompetencia, Guid contaIdFiltro, int addMonths)
+        {
+            mesAnoCompetencia = mesAnoCompetencia.AddMonths(addMonths);
+
+            var graficosViewModel = new GraficosViewModel();
+            graficosViewModel.MesAnoCompetencia = mesAnoCompetencia;
+            graficosViewModel.ContaIdFiltro = contaIdFiltro;
+            graficosViewModel.GraficoSaldoDoMes = GetDadosSaldoDoMes(graficosViewModel.ContaIdFiltro);
+            graficosViewModel.GraficoSaldoPorCategoria = GetDadosSaldoPorCategoria(graficosViewModel.ContaIdFiltro, mesAnoCompetencia);
+
+            SetSelectLists();
+            return View("Index", graficosViewModel);
         }
 
         private GraficoSaldoDoMesViewModel GetDadosSaldoDoMes(Guid? ContaIdFiltro)
@@ -39,9 +52,9 @@ namespace Moneta.MVC.Controllers
             return new GraficoSaldoDoMesViewModel(_LancamentoApp.GetSaldoDoMesPorDia(lancamentosDoMes, false));
         }
 
-        private GraficoSaldoPorCategoriaViewModel GetDadosSaldoPorCategoria(Guid? ContaIdFiltro)
+        private GraficoSaldoPorCategoriaViewModel GetDadosSaldoPorCategoria(Guid ContaIdFiltro, DateTime mesAnoCompetencia)
         {
-            return _LancamentoApp.GetDespesasPorCategoria(ContaIdFiltro);
+            return _LancamentoApp.GetDespesasPorCategoria(ContaIdFiltro, mesAnoCompetencia);
         }
 
         public ActionResult SignOut()
