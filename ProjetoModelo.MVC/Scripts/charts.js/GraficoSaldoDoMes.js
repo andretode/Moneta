@@ -51,7 +51,7 @@ function gerarGraficoSaldoDoMes(arrayDeDias, arrayDeReceitas, arrayDeDespesas, a
                 }]
             },
             title: {
-                display: true,
+                display: false,
                 text: 'Saldo por dia'
             }
         }

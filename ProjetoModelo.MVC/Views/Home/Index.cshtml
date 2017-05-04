@@ -17,8 +17,9 @@
     }
 </div>
 @Html.MesAnoControle(Model.MesAnoCompetencia, (Guid)Model.ContaIdFiltro, "AlterarMes", "Home")
+<br />
 <div>
-    
+    <h4 class="text-center">Despesas por Categoria</h4>
     @{
         var arrayDeSaldo = JsonConvert.DeserializeObject<IEnumerable<string>>(Model.GraficoSaldoPorCategoria.ArrayDeCategorias);
         if (arrayDeSaldo.Count() > 0)
@@ -28,7 +29,6 @@
         }
         else
         {
-            <h4 class="text-center">Despesas por Categoria</h4>
             <div class="text-center text-primary">Não há informações suficientes para gerar o gráfico</div>
         }
     }
@@ -36,6 +36,7 @@
 </div>
 <br /><hr />
 <div>
+    <h4 class="text-center">Saldo por Dia</h4>
     <canvas id="graficoSaldoDoMes"></canvas>
 </div>
 

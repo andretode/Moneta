@@ -19,7 +19,7 @@ function gerarGraficoSaldoPorCategoria(arrayDeCategoriasJson, arrayDeCoresJson, 
 
         var options = {
             title: {
-                display: true,
+                display: false,
                 text: 'Despesas por Categoria',
                 responsive: true
             }
