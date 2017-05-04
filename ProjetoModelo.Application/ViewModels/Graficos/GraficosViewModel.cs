@@ -21,5 +21,7 @@ namespace Moneta.Application.ViewModels
         [DataType(DataType.DateTime)]
         [DisplayName("Mês/Ano")]
         public DateTime MesAnoCompetencia { get; set; }
+
+        public bool SomentePagos { get; set; }
     }
 }

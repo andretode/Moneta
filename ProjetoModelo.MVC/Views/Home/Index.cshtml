@@ -16,24 +16,21 @@
         <input type="hidden" name="MesAnoCompetencia" id="MesAnoCompetencia" value="@Model.MesAnoCompetencia.ToString("yyyy-MM-dd")" />
     }
 </div>
+
 @Html.MesAnoControle(Model.MesAnoCompetencia, (Guid)Model.ContaIdFiltro, "AlterarMes", "Home")
+
+<!-- GRAFICO DESPESAS POR CATEGORIA -->
 <br />
+<div id="divProcessando"></div>
 <div>
     <h4 class="text-center">Despesas por Categoria</h4>
-    @{
-        var arrayDeSaldo = JsonConvert.DeserializeObject<IEnumerable<string>>(Model.GraficoSaldoPorCategoria.ArrayDeCategorias);
-        if (arrayDeSaldo.Count() > 0)
-        {
-            <canvas class="visible-xs visible-sm" id="GraficoSaldoPorCategoria-Mobile" height="350"></canvas>
-            <canvas class="visible-md visible-lg" id="GraficoSaldoPorCategoria-Desktop"></canvas>
-        }
-        else
-        {
-            <div class="text-center text-primary">Não há informações suficientes para gerar o gráfico</div>
-        }
-    }
-
+    <div>
+        @Html.CheckBox("ckbSomentePagos") Mostrar somente despesas pagas
+    </div>
+    <div id="divGraficoSaldoPorCategoria"></div>
 </div>
+
+<!-- GRAFICO SALDO POR DIA -->
 <br /><hr />
 <div>
     <h4 class="text-center">Saldo por Dia</h4>
@@ -55,6 +52,25 @@
         $('#ContaIdFiltro').change(function () {
             $('#formFiltros').submit();
         });
+
+        $('#ckbSomentePagos').change(function () {
+            var somentePagos = document.getElementById("ckbSomentePagos").checked;
+            getDadosDespesasPorCategoria('@Model.ContaIdFiltro', '@Model.MesAnoCompetencia.ToString("yyyy-MM-dd")', somentePagos);
+        });
     });
+
+    function getDadosDespesasPorCategoria(contaIdFiltro, mesAnoCompetencia, somentePagos) {
+        $.get("/Home/GetDadosDespesasPorCategoria",
+            { ContaIdFiltro: contaIdFiltro, MesAnoCompetencia: mesAnoCompetencia, SomentePagos: somentePagos },
+            function (data) {
+                if (data.status === 'Ok') {
+                    gerarGraficoSaldoPorCategoria(data.arrayDeCategorias, data.arrayDeCores, data.arrayDeSaldos);
+                }
+                else {
+                    alert("Desculpa, ocorreu na geração do gráfico!");
+                }
+            }
+        );
+    }
 </script>
 }

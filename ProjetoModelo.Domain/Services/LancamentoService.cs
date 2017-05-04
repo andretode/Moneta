@@ -222,7 +222,7 @@ namespace Moneta.Domain.Services
             return listaDeSaldoPorDia;
         }
 
-        public List<SaldoPorCategoria> GetDespesasPorCategoria(Guid ContaIdFiltro, DateTime mesAnoCompetencia)
+        public List<SaldoPorCategoria> GetDespesasPorCategoria(Guid ContaIdFiltro, DateTime mesAnoCompetencia, bool pago)
         {
             var listaDeSaldoPorCategoria = new List<SaldoPorCategoria>();
             var lancamentosDoMes = new AgregadoLancamentosDoMes();
@@ -233,13 +233,18 @@ namespace Moneta.Domain.Services
             
             var agregadoLancamentosDoMes = GetLancamentosDoMes(lancamentosDoMes);
 
-            var lancamentosPorCategoria = agregadoLancamentosDoMes.LancamentosDoMes
+            var lancamentosFiltrados = agregadoLancamentosDoMes.LancamentosDoMes
                 .Where(l => l.TipoDeTransacao == TipoTransacaoEnum.Despesa
-                    && l.Pago == true
-                    && l.Categoria.Descricao != Categoria.Nenhum)
-                .GroupBy(l => l.Categoria);
+                    && l.Categoria.Descricao != Categoria.Nenhum);
 
-            foreach (var lancamento in lancamentosPorCategoria)
+            if(pago)
+            {
+                lancamentosFiltrados = lancamentosFiltrados.Where(l => l.Pago == true);
+            }
+
+            var agrupadosPorCategoria = lancamentosFiltrados.GroupBy(l => l.Categoria);
+
+            foreach (var lancamento in agrupadosPorCategoria)
             {
                 listaDeSaldoPorCategoria.Add(new SaldoPorCategoria() { 
                     Categoria = lancamento.First().Categoria.Descricao,
