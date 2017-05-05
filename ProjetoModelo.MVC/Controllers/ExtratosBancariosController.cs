@@ -219,10 +219,10 @@ namespace Moneta.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RemoverSelecionados(IEnumerable<ExtratoBancarioViewModel> extratos)
+        public ActionResult RemoverSelecionados(IEnumerable<ExtratoBancarioViewModel> extratos, Guid ContaIdFiltro, DateTime MesAnoCompetencia)
         {
             _ExtratoBancarioApp.RemoveAll(extratos.Where(ex => ex.Selecionado));
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { ContaIdFiltro, MesAnoCompetencia });
         }
 
         private void SetSelectLists()

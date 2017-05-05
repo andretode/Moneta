@@ -31,18 +31,25 @@
 
 @Html.MesAnoControle(Model.MesAnoCompetencia, (Guid)Model.ContaIdFiltro, "AlterarMes", "ExtratosBancarios")
 
-@using (Html.BeginForm("RemoverSelecionados", "ExtratosBancarios", FormMethod.Post, new { id = "formExtratos" }))
+@using (Html.BeginForm("RemoverSelecionados", "ExtratosBancarios", new { @Model.ContaIdFiltro, @Model.MesAnoCompetencia }, FormMethod.Post, new { id = "formExtratosRemover" }))
 {
     @Html.AntiForgeryToken()
 
     if (ViewBag.quantidadeImportada != -1)
     {
-        <div class="alert alert-info alert-dismissable">
+        <div>
             <a href="#" class="close" data-dismiss="alert" aria-label="Fechar">x</a>
-            Foram importados @ViewBag.quantidadeImportada registros.
-            @if(@ViewBag.quantidadeImportada == 0)
+            @if (@ViewBag.quantidadeImportada == 0)
             {
-                <span>Isto ocorreu por já estarem no sistema ou por não serem da competência do mês/ano.</span>
+                <div class="alert alert-warning">
+                    Nenhum registro foi importado por já estarem no sistema ou por não serem da mesma competência (mês/ano) da tela atual.
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    Foram importados @ViewBag.quantidadeImportada registros.
+                </div>
             }
         </div>
     }
@@ -169,7 +176,6 @@
 -->
 
 @section Scripts {
-
 <script type="text/javascript">
 
     // Trata mudança do filtro conta
@@ -207,7 +213,7 @@
         }
         else {
             if (confirm("Deseja realmente continuar com a remoção?"))
-                document.getElementById('formExtratos').submit();
+                document.getElementById('formExtratosRemover').submit();
         }
     }
 
