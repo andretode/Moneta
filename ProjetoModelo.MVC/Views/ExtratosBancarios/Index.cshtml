@@ -12,7 +12,7 @@
 @using (Html.BeginForm("Index", "ExtratosBancarios", FormMethod.Post, new { id = "formExtratos" }))
 {
     <a class="btn btn-default" title="Importar OFX"
-       href="@Url.Action("ImportarOfx", "ExtratosBancarios")">
+       href="@Url.Action("ImportarOfx", "ExtratosBancarios", @Model)">
         <i class="icon-white glyphicon glyphicon-import"></i>
     </a>
 
@@ -39,7 +39,11 @@
     {
         <div class="alert alert-info alert-dismissable">
             <a href="#" class="close" data-dismiss="alert" aria-label="Fechar">x</a>
-            Foram importados @ViewBag.quantidadeImportada registros
+            Foram importados @ViewBag.quantidadeImportada registros.
+            @if(@ViewBag.quantidadeImportada == 0)
+            {
+                <span>Isto ocorreu por já estarem no sistema ou por não serem da competência do mês/ano.</span>
+            }
         </div>
     }
 

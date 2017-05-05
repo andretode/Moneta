@@ -10,6 +10,11 @@ namespace Moneta.Application.ViewModels
 {
     public class ExtratoBancarioDoMesViewModel
     {
+        public ExtratoBancarioDoMesViewModel()
+        {
+            MesAnoCompetencia = DateTime.Now;
+        }
+
         public Guid? contaIdFiltro = Guid.Empty;
 
         [DisplayName("Filtro Conta")]

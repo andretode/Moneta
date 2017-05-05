@@ -31,12 +31,10 @@ namespace Moneta.MVC.Controllers
             _ContaApp = contaApp;
         }
 
-        public ViewResult Index(string pesquisa, int quant = -1)
+        public ViewResult Index(ExtratoBancarioDoMesViewModel extratosDoMes, string pesquisa, int quant = -1)
         {
-            var extratosDoMes = new ExtratoBancarioDoMesViewModel();
-            extratosDoMes.MesAnoCompetencia = DateTime.Now;
 
-            extratosDoMes.ExtratosDoMes = _ExtratoBancarioApp.GetExtratosDoMes(DateTime.Now, Guid.Empty);
+            extratosDoMes.ExtratosDoMes = _ExtratoBancarioApp.GetExtratosDoMes(extratosDoMes.MesAnoCompetencia, (Guid)extratosDoMes.ContaIdFiltro);
             ViewBag.Pesquisa = pesquisa;
             ViewBag.quantidadeImportada = quant;
             SetSelectLists();
@@ -111,19 +109,18 @@ namespace Moneta.MVC.Controllers
             return lancamento;
         }
 
-        public ActionResult ImportarOfx()
+        public ActionResult ImportarOfx(ExtratoBancarioDoMesViewModel extratoDoMes)
         {
             SetSelectLists();
-            return View();
+            return View(extratoDoMes);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ImportarOfx(string arquivoOfx)
+        public ActionResult ImportarOfx(string arquivoOfx, DateTime MesAnoCompetencia, Guid ContaIdFiltro)
         {
             int quantidadeImportada = 0;
             string caminhoOfx = "";
-            Guid contaId = Guid.Parse(Request.Form.Get("contaIdFiltro"));
 
             if (Request.Files.Count > 0)
             {
@@ -146,7 +143,7 @@ namespace Moneta.MVC.Controllers
 
             try
             {
-                quantidadeImportada = _ExtratoBancarioApp.ImportarOfx(caminhoOfx, contaId);
+                quantidadeImportada = _ExtratoBancarioApp.ImportarOfx(caminhoOfx, ContaIdFiltro, MesAnoCompetencia);
             }
             catch (FormatException fx)
             {
@@ -160,8 +157,8 @@ namespace Moneta.MVC.Controllers
                 SetSelectLists();
                 return View();
             }
-
-            return RedirectToAction("Index", new { quant = quantidadeImportada });
+            
+            return RedirectToAction("Index", new { quant = quantidadeImportada, ContaIdFiltro, MesAnoCompetencia });
         }
 
         [HttpGet]

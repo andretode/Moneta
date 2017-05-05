@@ -34,6 +34,7 @@
   <ItemGroup>
     <Compile Include="Entities\ExtratoBancario.cs" />
     <Compile Include="Entities\GrupoLancamento.cs" />
+    <Compile Include="Entities\IExtratoOfx.cs" />
     <Compile Include="Entities\Lancamento.cs" />
     <Compile Include="Entities\Categoria.cs" />
     <Compile Include="Entities\Conta.cs" />
@@ -42,6 +43,7 @@
     <Compile Include="Interfaces\Services\IGrupoLancamentoService.cs" />
     <Compile Include="Interfaces\Services\ILancamentoConciliacaoService.cs" />
     <Compile Include="Services\GrupoLancamentoService.cs" />
+    <Compile Include="Services\ImportacaoOfxService.cs" />
     <Compile Include="Services\LancamentoConciliacaoService.cs" />
     <Compile Include="ValueObjects\LancamentoAgrupado.cs" />
     <Compile Include="Exceptions\CustomException.cs" />
@@ -89,6 +91,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

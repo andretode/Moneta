@@ -3,7 +3,7 @@ using System;
 
 namespace Moneta.Domain.Entities
 {
-    public class ExtratoBancario
+    public class ExtratoBancario : IExtratoOfx
     {
         public ExtratoBancario()
         {

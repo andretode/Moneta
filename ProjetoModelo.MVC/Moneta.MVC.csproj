@@ -800,6 +800,7 @@
     <Content Include="Views\Shared\DisplayTemplates\DinheiroColorido.cshtml" />
     <Content Include="Views\Transferencias\CreateFromExtrato.cshtml" />
     <Content Include="Views\GrupoLancamentos\AdicionarTransferencia.cshtml" />
+    <Content Include="Views\GrupoLancamentos\ImportarOfx.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

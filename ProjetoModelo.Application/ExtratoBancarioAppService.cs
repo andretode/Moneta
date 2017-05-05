@@ -54,10 +54,10 @@ namespace Moneta.Application
             Commit();
         }
 
-        public int ImportarOfx(string caminhoOfx, Guid contaId)
+        public int ImportarOfx(string caminhoOfx, Guid contaId, DateTime mesAnoCompetencia)
         {
             BeginTransaction();
-            var quantidade = _ExtratoBancarioService.ImportarOfx(caminhoOfx, contaId);
+            var quantidade = _ExtratoBancarioService.ImportarOfx(caminhoOfx, contaId, mesAnoCompetencia);
             Commit();
 
             return quantidade;

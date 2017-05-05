@@ -11,7 +11,7 @@ namespace Moneta.Application.Interfaces
         ExtratoBancarioViewModel GetById(Guid id);
         IEnumerable<ExtratoBancarioViewModel> GetExtratosDoMes(DateTime mesAnoCompetencia, Guid contaId);
         void Remove(ExtratoBancarioViewModel extratoBancarioViewModel);
-        int ImportarOfx(string caminhoOfx, Guid contaId);
+        int ImportarOfx(string caminhoOfx, Guid contaId, DateTime mesAnoCompetencia);
         void RemoveAll(IEnumerable<ExtratoBancarioViewModel> extratos);
     }
 }

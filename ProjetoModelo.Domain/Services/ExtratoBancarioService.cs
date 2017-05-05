@@ -59,9 +59,19 @@ namespace Moneta.Domain.Services
             return resultadoValidacao;
         }
 
-        public int ImportarOfx(string caminhoOfx, Guid contaId)
+        public int ImportarOfx(string caminhoOfx, Guid contaId, DateTime mesAnoCompetencia)
         {
-            return _ExtratoBancarioRepository.ImportarOfx(caminhoOfx, contaId);
+            IEnumerable<IExtratoOfx> extratosExistentesNoMes = _ExtratoBancarioRepository.GetAllReadOnly().Where(e => 
+                e.DataCompensacao.Month == mesAnoCompetencia.Month &&
+                e.DataCompensacao.Year == mesAnoCompetencia.Year);
+            var novosExtratosOfx = (IEnumerable<ExtratoBancario>)ImportacaoOfxService.ImportarNovosExtratosOfx(caminhoOfx, contaId, extratosExistentesNoMes, mesAnoCompetencia);
+
+            foreach(var extrato in novosExtratosOfx)
+            {
+                _ExtratoBancarioRepository.Add(extrato);
+            }
+
+            return novosExtratosOfx.Count();
         }
 
         public void RemoveAll(IEnumerable<ExtratoBancario> extratos)
