@@ -1,5 +1,7 @@
-﻿@{
-    ViewBag.Title = "Importar OFX";
+﻿@model Moneta.Application.ViewModels.GrupoLancamentoViewModel
+
+@{
+    ViewBag.Title = "Importar OFX do Cartão de Crédito";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -14,7 +16,16 @@
 
         <div class="form-group">
             @Html.Label("Conta", htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.DropDownList("contaIdFiltro", (SelectList)@ViewBag.Contas, "-- Selecione a Conta --", new { @class = "form-control" })
+            @Html.DropDownListFor(e => e.ContaId, (SelectList)@ViewBag.Contas, "-- Selecione a Conta --", new { @class = "form-control", @value = Model.ContaId })
+            @Html.HiddenFor(g => g.GrupoLancamentoId)
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Mês/Ano", htmlAttributes: new { @class = "control-label col-md-2" })
+            <span style="vertical-align: -33%">
+                @Model.DataVencimento.ToString("MMMM/yyyy").ToUpper()
+                <input type="hidden" name="DataVencimento" id="DataVencimento" value="@Model.DataVencimento.ToString("yyyy-MM-dd")" />
+            </span>
         </div>
 
         <div class="form-group">
@@ -38,8 +49,7 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script type="text/javascript">
-        function IsValidForm()
-        {
+        function IsValidForm() {
             if ($('#contaIdFiltro').val() == "") {
                 alert("Selecione uma conta!");
                 return false;

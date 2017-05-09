@@ -182,6 +182,29 @@ namespace Moneta.Domain.Services
             }
         }
 
+        public int ImportarOfxParaGrupoDeLancamento(string caminhoOfx, Guid contaId, DateTime mesAnoCompetencia, Guid grupoLancamentoId)
+        {
+            var novosLancamentosOfx = new List<Lancamento>();
+            IEnumerable<IExtratoOfx> lancamentosExistentesNoGrupo = _LancamentoRepository.GetAllReadOnly().Where(e =>
+                e.DataVencimento.Month == mesAnoCompetencia.Month &&
+                e.DataVencimento.Year == mesAnoCompetencia.Year &&
+                e.GrupoLancamentoId == grupoLancamentoId);
+
+
+            IEnumerable<IExtratoOfx> extratosOfx = ImportacaoOfxService.ImportarNovosExtratosOfx(caminhoOfx, contaId, lancamentosExistentesNoGrupo, mesAnoCompetencia, true);
+
+            foreach(var extrato in extratosOfx)
+                novosLancamentosOfx.Add(new Lancamento(extrato, grupoLancamentoId));
+
+            foreach (var lancamento in novosLancamentosOfx)
+            {
+                _LancamentoRepository.Add(lancamento);
+            }
+
+            return novosLancamentosOfx.Count();
+        }
+
+
         /// <summary>
         /// Busca as receitas, despesas e saldos da movimentação financeira de uma conta por dia
         /// </summary>

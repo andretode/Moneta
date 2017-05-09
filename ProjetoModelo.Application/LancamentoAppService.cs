@@ -242,6 +242,15 @@ namespace Moneta.Application
             Commit();
         }
 
+        public int ImportarOfxParaGrupoDeLancamento(string caminhoOfx, Guid contaId, DateTime mesAnoCompetencia, Guid grupoLancamentoId)
+        {
+            BeginTransaction();
+            var quantidade = _lancamentoService.ImportarOfxParaGrupoDeLancamento(caminhoOfx, contaId, mesAnoCompetencia, grupoLancamentoId);
+            Commit();
+
+            return quantidade;
+        }
+
         public List<Tuple<DateTime, decimal, decimal, decimal>> GetSaldoDoMesPorDia(LancamentosDoMesViewModel lancamentosDoMesViewModel, bool resumido)
         {
             var lancamentosDoMes = Mapper.Map<LancamentosDoMesViewModel, AgregadoLancamentosDoMes>(lancamentosDoMesViewModel);

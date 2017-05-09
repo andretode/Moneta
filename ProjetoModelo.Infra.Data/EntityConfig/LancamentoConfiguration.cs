@@ -27,6 +27,9 @@ namespace Moneta.Infra.Data.EntityConfig
             Property(c => c.Observacao)
                 .IsOptional();
 
+            Property(c => c.NumeroDocumento)
+                .IsOptional();
+
             Property(c => c.BaseDaSerie)
                 .IsRequired();
 
@@ -78,6 +81,7 @@ namespace Moneta.Infra.Data.EntityConfig
             Ignore(t => t.ResultadoValidacao);
             Ignore(t => t.Fake);
             Ignore(t => t.LancamentoTransferencia);
+            Ignore(t => t.DataCompensacao);
         }
     }
 }

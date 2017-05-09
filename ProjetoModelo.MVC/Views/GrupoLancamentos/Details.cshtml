@@ -63,8 +63,8 @@
 
     <hr />
     <div>
-        <a class="btn btn-default" title="Importar OFX" onclick="return confirm('Recurso em desenvolvimento. Em breve estará nas novas versões!')"
-           href="   ">
+        <a class="btn btn-default" title="Importar OFX"
+           href="@Url.Action("ImportarOfx", "GrupoLancamentos", new { @Model.ContaId, @Model.DataVencimento, @Model.GrupoLancamentoId })">
             <i class="icon-white glyphicon glyphicon-import"></i>
         </a>
         <a class="btn btn-default" title="Adicionar Lançamento"
@@ -77,6 +77,26 @@
             <i class="icon-white glyphicon glyphicon-transfer"></i>
         </a>
     </div>
+    <br />
+    @if (ViewBag.quantidadeImportada != -1)
+    {
+    <div>
+        @if (@ViewBag.quantidadeImportada != null && @ViewBag.quantidadeImportada == 0)
+        {
+            <div class="alert alert-warning alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="Fechar">x</a>
+                Nenhum registro foi importado por já estarem no sistema ou por não serem da mesma competência (mês/ano) da tela atual.
+            </div>
+        }
+        else if (@ViewBag.quantidadeImportada != null && @ViewBag.quantidadeImportada > 0)
+        {
+            <div class="alert alert-info alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="Fechar">x</a>
+                Foram importados @ViewBag.quantidadeImportada registros.
+            </div>
+        }
+    </div>
+    }
     <br/>
     <table class="table">
         <tr style="background-color: #e6e6e6">

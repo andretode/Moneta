@@ -8,23 +8,50 @@ using System.Threading.Tasks;
 
 namespace Moneta.Domain.Entities
 {
-    public class Lancamento
+    public class Lancamento : IExtratoOfx
     {
         public Lancamento()
         {
-            LancamentoId = Guid.NewGuid();
-            Ativo = true;
-            Pago = false;
-            Fake = false;
-            BaseDaSerie = false;
+            Inicializar();
+        }
+
+        public Lancamento(IExtratoOfx extratoOfx, Guid grupoLancamentoId)
+        {
+            Inicializar();
+            this.ContaId = extratoOfx.ContaId;
+            this.DataCompensacao = extratoOfx.DataCompensacao;
+            this.Descricao = extratoOfx.Descricao;
+            this.NumeroDocumento = extratoOfx.NumeroDocumento;
+            this.Valor = extratoOfx.Valor;
+            this.GrupoLancamentoId = grupoLancamentoId;
+            this.CategoriaId = new Guid(Categoria.NenhumGuid);
+            
+            if(Valor > 0)
+                this.TipoDeTransacao = TipoTransacaoEnum.Receita;
+            else
+                this.TipoDeTransacao = TipoTransacaoEnum.Despesa;
+        }
+
+        private void Inicializar()
+        {
+            this.LancamentoId = Guid.NewGuid();
+            this.Ativo = true;
+            this.Pago = false;
+            this.Fake = false;
+            this.BaseDaSerie = false;
         }
 
         public Guid LancamentoId { get; set; }
         public string Descricao { get; set; }
         public decimal Valor { get; set; }
         public DateTime DataVencimento { get; set; }
+        public DateTime DataCompensacao {
+            get { return DataVencimento; }
+            set { DataVencimento = value; }
+        }
         public bool Pago { get; set; }
         public string Observacao { get; set; }
+        public string NumeroDocumento { get; set; }
         public Guid ContaId { get; set; }
         public virtual Conta Conta { get; set; }
         public Guid CategoriaId { get; set; }

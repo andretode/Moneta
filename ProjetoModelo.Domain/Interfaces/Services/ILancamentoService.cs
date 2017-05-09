@@ -33,5 +33,6 @@ namespace Moneta.Domain.Interfaces.Services
 
         void RemoveTransferencia(Lancamento lancamento);
         void TrocarPago(IEnumerable<Lancamento> lancamentos);
+        int ImportarOfxParaGrupoDeLancamento(string caminhoOfx, Guid contaId, DateTime mesAnoCompetencia, Guid grupoLancamentoId);
     }
 }

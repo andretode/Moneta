@@ -98,19 +98,22 @@ namespace Moneta.Domain.Services
         private void LancamentosFixosDentroDoMes(int periodicidadeEmDias, List<Lancamento> lancamentosOriginaisMaisOsFakes,
             LancamentoParcelado lancamentoFixo, Lancamento lancamentoBase, int mes, int ano)
         {
-            var diaDaSemanaDoVencimento = lancamentoBase.DataVencimento.DayOfWeek;
-            var diaDaSemanaDoPrimeiroDiaDoMes = new DateTime(ano, mes, 1).DayOfWeek;
-            var deltaDia = diaDaSemanaDoVencimento - diaDaSemanaDoPrimeiroDiaDoMes + 1;
-            deltaDia = (deltaDia < 1 ? deltaDia + periodicidadeEmDias : deltaDia);
-
-            var dataVencimento = new DateTime(ano, mes, deltaDia);
-
-            while (dataVencimento.Month == mes)
+            if(lancamentoBase != null)
             {
-                Lancamento lancamentoFakeSeguinte = lancamentoBase.CloneFake(dataVencimento);
-                InserirFakeApto(lancamentosOriginaisMaisOsFakes, lancamentoFakeSeguinte);
+                var diaDaSemanaDoVencimento = lancamentoBase.DataVencimento.DayOfWeek;
+                var diaDaSemanaDoPrimeiroDiaDoMes = new DateTime(ano, mes, 1).DayOfWeek;
+                var deltaDia = diaDaSemanaDoVencimento - diaDaSemanaDoPrimeiroDiaDoMes + 1;
+                deltaDia = (deltaDia < 1 ? deltaDia + periodicidadeEmDias : deltaDia);
 
-                dataVencimento = dataVencimento.AddDays(periodicidadeEmDias);
+                var dataVencimento = new DateTime(ano, mes, deltaDia);
+
+                while (dataVencimento.Month == mes)
+                {
+                    Lancamento lancamentoFakeSeguinte = lancamentoBase.CloneFake(dataVencimento);
+                    InserirFakeApto(lancamentosOriginaisMaisOsFakes, lancamentoFakeSeguinte);
+
+                    dataVencimento = dataVencimento.AddDays(periodicidadeEmDias);
+                }
             }
         }
 

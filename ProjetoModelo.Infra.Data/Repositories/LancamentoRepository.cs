@@ -25,7 +25,8 @@ namespace Moneta.Infra.Data.Repositories
         public override Lancamento GetById(Guid id)
         {
             var lancamento = DbSet.Find(id);
-            lancamento.LancamentoTransferencia = DbSet.Find(lancamento.LancamentoIdTransferencia);
+            if (lancamento != null)
+                lancamento.LancamentoTransferencia = DbSet.Find(lancamento.LancamentoIdTransferencia);
             return lancamento;
         }
 

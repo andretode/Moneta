@@ -26,5 +26,6 @@ namespace Moneta.Application.Interfaces
 
         void RemoveTransferencia(LancamentoViewModel lancamento);
         void TrocarPago(IEnumerable<LancamentoViewModel> lancamentos);
+        int ImportarOfxParaGrupoDeLancamento(string caminhoOfx, Guid contaId, DateTime mesAnoCompetencia, Guid grupoLancamentoId);
     }
 }

@@ -38,16 +38,17 @@
     if (ViewBag.quantidadeImportada != -1)
     {
         <div>
-            <a href="#" class="close" data-dismiss="alert" aria-label="Fechar">x</a>
             @if (@ViewBag.quantidadeImportada == 0)
             {
-                <div class="alert alert-warning">
+                <div class="alert alert-warning alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="Fechar">x</a>
                     Nenhum registro foi importado por já estarem no sistema ou por não serem da mesma competência (mês/ano) da tela atual.
                 </div>
             }
             else
             {
-                <div class="alert alert-info">
+                <div class="alert alert-info alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="Fechar">x</a>
                     Foram importados @ViewBag.quantidadeImportada registros.
                 </div>
             }

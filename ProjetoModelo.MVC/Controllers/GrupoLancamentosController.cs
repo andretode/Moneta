@@ -34,8 +34,9 @@ namespace Moneta.MVC.Controllers
         }
 
         // GET: GrupoLancamentos/Details/5
-        public ActionResult Details(Guid id)
+        public ActionResult Details(Guid id, int? quant)
         {
+            ViewBag.quantidadeImportada = quant;
             var grupoLancamento = _grupoLancamentoApp.GetById(id);
             return View(grupoLancamento);
         }
@@ -123,20 +124,18 @@ namespace Moneta.MVC.Controllers
             return View(transferenciaGrupoLancamento);
         }
 
-        public ActionResult ImportarOfx()
+        public ActionResult ImportarOfx(GrupoLancamentoViewModel grupo)
         {
             SetSelectLists();
-            return View();
+            return View(grupo);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ImportarOfx(string arquivoOfx)
+        public ActionResult ImportarOfx(string arquivoOfx, GrupoLancamentoViewModel grupo)
         {
             int quantidadeImportada = 0;
             string caminhoOfx = "";
-            Guid contaId = Guid.Parse(Request.Form.Get("contaIdFiltro"));
 
             if (Request.Files.Count > 0)
             {
@@ -154,27 +153,27 @@ namespace Moneta.MVC.Controllers
             {
                 ModelState.AddModelError(string.Empty, "Ocorreu um erro ao salvar o arquivo OFX enviado.");
                 SetSelectLists();
-                return View();
+                return View(grupo);
             }
 
             try
             {
-                quantidadeImportada = 0; //_ExtratoBancarioApp.ImportarOfx(caminhoOfx, contaId);
+                quantidadeImportada = _lancamentoApp.ImportarOfxParaGrupoDeLancamento(caminhoOfx, grupo.ContaId, grupo.DataVencimento, grupo.GrupoLancamentoId);
             }
             catch (FormatException fx)
             {
                 ModelState.AddModelError(string.Empty, "O arquivo enviado tem um formato OFX desconhecido. Detalhes técnicos do erro: " + fx.Message);
                 SetSelectLists();
-                return View();
+                return View(grupo);
             }
             catch (XmlException xe)
             {
                 ModelState.AddModelError(string.Empty, "O arquivo enviado tem um formato OFX fora do padrão. Detalhes técnicos do erro: " + xe.Message);
                 SetSelectLists();
-                return View();
+                return View(grupo);
             }
 
-            return RedirectToAction("Index", new { quant = quantidadeImportada });
+            return RedirectToAction("Details", new { id = grupo.GrupoLancamentoId, quant = quantidadeImportada });
         }
 
         private void SetSelectLists()
