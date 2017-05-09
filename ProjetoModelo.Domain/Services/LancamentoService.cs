@@ -92,22 +92,9 @@ namespace Moneta.Domain.Services
             var contaId = lancamentosDoMes.ContaIdFiltro;
             var dataUltimoDiaMesAnterior = GetDataUltimoDiaMesAnterior(mes, ano);
             var agregadoLancamentosDoMes = new AgregadoLancamentosDoMes();
-            
-            var lancamentosMesAnteriorTodasAsContas = _LancamentoRepository.GetAll().Where(l => l.DataVencimento <= dataUltimoDiaMesAnterior);
 
-            var aux = lancamentosMesAnteriorTodasAsContas.Where(l => l.ContaId == contaId).OrderByDescending(l => l.DataVencimento);
-
-            if (lancamentosDoMes.ContaIdFiltro == Guid.Empty)
-                agregadoLancamentosDoMes.SaldoDoMesAnterior = lancamentosMesAnteriorTodasAsContas.Where(l => l.BaseDaSerie == false).Sum(l => l.Valor); // Remove da soma o lançamento que é base da série
-            else
-                agregadoLancamentosDoMes.SaldoDoMesAnterior = lancamentosMesAnteriorTodasAsContas.Where(l => l.ContaId == contaId && l.BaseDaSerie == false).Sum(l => l.Valor); // Remove da soma o lançamento que é base da série
-
-            var lancamentoMaisFake = new LancamentoMaisFakeService(_LancamentoParceladoRepository, _LancamentoRepository);
-            var lancamentosDoMesTodasAsContasMaisFake = lancamentoMaisFake.GetAllMaisFake(mes, ano);
-            if (lancamentosDoMes.ContaIdFiltro == Guid.Empty)
-                agregadoLancamentosDoMes.LancamentosDoMes = lancamentosDoMesTodasAsContasMaisFake.OrderBy(l => l.DataVencimento).ThenBy(l => l.DataCadastro);
-            else
-                agregadoLancamentosDoMes.LancamentosDoMes = lancamentosDoMesTodasAsContasMaisFake.Where(l => l.ContaId == contaId).OrderBy(l => l.DataVencimento).ThenBy(l => l.DataCadastro);
+            agregadoLancamentosDoMes.SaldoDoMesAnterior = CalcularSaldoDoMesAnterior(dataUltimoDiaMesAnterior, contaId);
+            agregadoLancamentosDoMes.LancamentosDoMes = GetTodosLancamentosDoMes(mes, ano, contaId);
 
             agregadoLancamentosDoMes.SaldoDoMes = agregadoLancamentosDoMes.LancamentosDoMes.Sum(l => l.Valor) 
                 + agregadoLancamentosDoMes.SaldoDoMesAnterior;
@@ -126,6 +113,28 @@ namespace Moneta.Domain.Services
             agregadoLancamentosDoMes.LancamentosAgrupados = AgruparLancamentos(agregadoLancamentosDoMes.LancamentosDoMes);
             
             return agregadoLancamentosDoMes;
+        }
+
+        private decimal CalcularSaldoDoMesAnterior(DateTime dataUltimoDiaMesAnterior, Guid contaId)
+        {
+            var lancamentosMesAnterior = _LancamentoRepository.GetAll()
+                .Where(l => l.DataVencimento <= dataUltimoDiaMesAnterior && !l.BaseDaSerie);
+
+            if (contaId != Guid.Empty)
+                lancamentosMesAnterior = lancamentosMesAnterior.Where(l => l.ContaId == contaId);
+
+            return lancamentosMesAnterior.Sum(l => l.Valor);
+        }
+
+        private IEnumerable<Lancamento> GetTodosLancamentosDoMes(int mes, int ano, Guid contaId)
+        {
+            var lancamentoMaisFake = new LancamentoMaisFakeService(_LancamentoParceladoRepository, _LancamentoRepository);
+            var lancamentosDoMes = lancamentoMaisFake.GetAllMaisFake(mes, ano);
+
+            if (contaId != Guid.Empty)
+                lancamentosDoMes = lancamentosDoMes.Where(l => l.ContaId == contaId).ToList();
+
+            return lancamentosDoMes.OrderBy(l => l.DataVencimento).ThenBy(l => l.DataCadastro);
         }
 
         protected IEnumerable<LancamentoAgrupado> AgruparLancamentos(IEnumerable<Lancamento> lancamentos)
