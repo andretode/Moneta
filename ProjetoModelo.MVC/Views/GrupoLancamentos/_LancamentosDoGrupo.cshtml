@@ -1,0 +1,78 @@
+﻿@model Moneta.Application.ViewModels.GrupoLancamentoViewModel
+@using Moneta.Application.ViewModels
+@using Moneta.Infra.CrossCutting.Enums
+
+<div>
+    <a class="btn btn-default" title="Importar OFX"
+       href="@Url.Action("ImportarOfx", "GrupoLancamentos", new { @Model.ContaId, @Model.DataVencimento, @Model.GrupoLancamentoId })">
+        <i class="icon-white glyphicon glyphicon-import"></i>
+    </a>
+    <a class="btn btn-default" title="Adicionar Lançamento"
+       href="@Url.Action("Create", "Lancamentos", new LancamentosDoMesViewModel() { GrupoLancamentoId = Model.GrupoLancamentoId,
+                contaIdFiltro = Model.ContaId, NovaTransacao = TipoTransacaoEnum.Despesa })">
+        <i class="icon-white glyphicon glyphicon-plus"></i>
+    </a>
+    <a class="btn btn-default" title="Adicionar Transferência"
+       href="@Url.Action("AdicionarTransferencia", "GrupoLancamentos", new { grupoLancamentoId = Model.GrupoLancamentoId }) ">
+        <i class="icon-white glyphicon glyphicon-transfer"></i>
+    </a>
+</div>
+<br />
+@if (ViewBag.quantidadeImportada != -1)
+{
+    <div>
+        @if (@ViewBag.quantidadeImportada != null && @ViewBag.quantidadeImportada == 0)
+        {
+            <div class="alert alert-warning alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="Fechar">x</a>
+                Nenhum registro foi importado por já estarem no sistema ou por não serem da mesma competência (mês/ano) da tela atual.
+            </div>
+        }
+        else if (@ViewBag.quantidadeImportada != null && @ViewBag.quantidadeImportada > 0)
+        {
+            <div class="alert alert-info alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="Fechar">x</a>
+                Foram importados @ViewBag.quantidadeImportada registros.
+            </div>
+        }
+    </div>
+}
+<br />
+<table class="table">
+    <tr style="background-color: #e6e6e6">
+        <th>
+            @Html.DisplayName("Data")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lancamentos.First().Descricao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lancamentos.First().Categoria)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lancamentos.First().Valor)
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Lancamentos.OrderBy(l => l.DataVencimento))
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataVencimento)
+            </td>
+            <td>
+                <a href="/Lancamentos/DetailsLancamentoAgrupado?id=@item.LancamentoId">
+                    @Html.DisplayFor(modelItem => item.DescricaoResumida)
+                </a>
+            </td>
+            <td>
+                <button class='btn' style='background-color:@item.Categoria.Cor' title="@item.Categoria.Descricao"></button>
+                <span class='visible-xs visible-sm visible-md-inline visible-lg-inline'> &nbsp;@item.Categoria.Descricao</span>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Valor)
+            </td>
+        </tr>
+    }
+</table>
+

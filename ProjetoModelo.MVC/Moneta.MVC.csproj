@@ -801,6 +801,7 @@
     <Content Include="Views\Transferencias\CreateFromExtrato.cshtml" />
     <Content Include="Views\GrupoLancamentos\AdicionarTransferencia.cshtml" />
     <Content Include="Views\GrupoLancamentos\ImportarOfx.cshtml" />
+    <Content Include="Views\GrupoLancamentos\_LancamentosDoGrupo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
