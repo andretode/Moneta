@@ -65,3 +65,15 @@
     </div>
 </div>
 
+@section Scripts {
+    <script type="text/javascript">
+        function editarCategoria(lancamentoId) {
+            $('#divCategoriaEdit_' + lancamentoId).show();
+            $('#divCategoriaDisplay_' + lancamentoId).hide();
+        }
+        function cancelarEdicao(lancamentoId) {
+            $('#divCategoriaEdit_' + lancamentoId).hide();
+            $('#divCategoriaDisplay_' + lancamentoId).show();
+        }
+    </script>
+}

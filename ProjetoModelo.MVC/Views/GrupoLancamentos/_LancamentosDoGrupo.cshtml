@@ -66,8 +66,19 @@
                 </a>
             </td>
             <td>
-                <button class='btn' style='background-color:@item.Categoria.Cor' title="@item.Categoria.Descricao"></button>
-                <span class='visible-xs visible-sm visible-md-inline visible-lg-inline'> &nbsp;@item.Categoria.Descricao</span>
+                <div id="divCategoriaDisplay_@item.LancamentoId">
+                    <button class='btn' style='background-color:@item.Categoria.Cor' title="@item.Categoria.Descricao" onclick="editarCategoria('@item.LancamentoId')"></button>
+                    <span class='visible-xs visible-sm visible-md-inline visible-lg-inline'> &nbsp;@item.Categoria.Descricao</span>
+                </div>
+                <div id="divCategoriaEdit_@item.LancamentoId" style="display: none">
+                    @Html.DropDownList("Categoria_" + item.LancamentoId, (SelectList)@ViewBag.Categorias, null, new { @class = "form-control", @style = "max-width:150px; display:inline" })
+                    <button class='btn btn-xs btn-primary' title="Salvar" onclick="salvarEdicao('@item.LancamentoId')" >
+                        <i class="icon-white glyphicon glyphicon-floppy-save"></i>
+                    </button>
+                    <button class='btn btn-xs btn-danger' title="Cancelar" onclick="cancelarEdicao('@item.LancamentoId')">
+                        <i class="icon-white glyphicon glyphicon-remove-circle"></i>
+                    </button>
+                </div>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Valor)

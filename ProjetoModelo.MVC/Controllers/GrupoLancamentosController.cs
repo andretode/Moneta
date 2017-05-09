@@ -15,15 +15,18 @@ namespace Moneta.MVC.Controllers
         private readonly IGrupoLancamentoAppService _grupoLancamentoApp;
         private readonly IContaAppService _contaApp;
         private readonly ILancamentoAppService _lancamentoApp;
+        private readonly ICategoriaAppService _categoriaApp;
 
         public GrupoLancamentosController(
             IGrupoLancamentoAppService grupoLancamentoApp,
             IContaAppService contaApp,
-            ILancamentoAppService lancamentoApp)
+            ILancamentoAppService lancamentoApp,
+            ICategoriaAppService categoriaApp)
         {
             _grupoLancamentoApp = grupoLancamentoApp;
             _contaApp = contaApp;
             _lancamentoApp = lancamentoApp;
+            _categoriaApp = categoriaApp;
         }
 
         // GET: GrupoLancamentos
@@ -38,6 +41,7 @@ namespace Moneta.MVC.Controllers
         {
             ViewBag.quantidadeImportada = quant;
             var grupoLancamento = _grupoLancamentoApp.GetById(id);
+            SetSelectLists();
             return View(grupoLancamento);
         }
 
@@ -179,6 +183,7 @@ namespace Moneta.MVC.Controllers
         private void SetSelectLists()
         {
             ViewBag.Contas = new SelectList(_contaApp.GetAll(), "ContaId", "Descricao");
+            ViewBag.Categorias = new SelectList(_categoriaApp.GetAll(), "CategoriaId", "Descricao");
         }
     }
 }
