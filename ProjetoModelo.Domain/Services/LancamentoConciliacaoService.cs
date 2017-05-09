@@ -37,7 +37,7 @@ namespace Moneta.Domain.Services
             var lancamentosDeGrupos = GetLancamentosDeGrupos(extrato, maxValor, minValor, maxData, minData);
             var lancamentosUnicosMaisOsDeGrupo = lancamentosUnicos.Union(lancamentosDeGrupos);
 
-            return AgruparLancamentos(lancamentosUnicosMaisOsDeGrupo);
+            return this._LancamentoDoMesService.AgruparLancamentos(lancamentosUnicosMaisOsDeGrupo);
         }
 
         private IEnumerable<Lancamento> GetLancamentosUnicos(ExtratoBancario extrato, decimal maxValor, decimal minValor, DateTime maxData, DateTime minData)

@@ -47,6 +47,7 @@
     <Compile Include="Services\GrupoLancamentoService.cs" />
     <Compile Include="Services\ImportacaoOfxService.cs" />
     <Compile Include="Services\LancamentoConciliacaoService.cs" />
+    <Compile Include="Services\LancamentoDoMesService.cs" />
     <Compile Include="ValueObjects\LancamentoAgrupado.cs" />
     <Compile Include="Exceptions\CustomException.cs" />
     <Compile Include="Interfaces\Repository\ADO\IContaADORepository.cs" />

@@ -114,7 +114,7 @@
             </th>
         </tr>
 
-        @foreach (var item in Model.Lancamentos)
+        @foreach (var item in Model.Lancamentos.OrderBy(l => l.DataVencimento))
         {
             <tr>
                 <td>
