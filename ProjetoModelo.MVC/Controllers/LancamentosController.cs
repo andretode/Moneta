@@ -260,6 +260,28 @@ namespace Moneta.MVC.Controllers
             return View(lancamento);
         }
 
+        public JsonResult EditarCategoria(Guid lancamentoId, Guid categoriaId)
+        {
+            var jsonResult = new JsonResult()
+            {
+                Data = new { status = "Ok" },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+
+            try
+            {
+                var lancamento = _LancamentoApp.GetById(lancamentoId);
+                lancamento.CategoriaId = categoriaId;
+                _LancamentoApp.Update(lancamento);
+            }
+            catch(Exception)
+            {
+                jsonResult.Data = new { status = "Nok" };
+            }
+
+            return jsonResult;
+        }
+
         // GET: Lancamento/Edit/5
         public ActionResult Edit()
         {

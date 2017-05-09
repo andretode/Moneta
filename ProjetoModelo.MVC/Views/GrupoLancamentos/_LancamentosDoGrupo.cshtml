@@ -72,7 +72,7 @@
                 </div>
                 <div id="divCategoriaEdit_@item.LancamentoId" style="display: none">
                     @Html.DropDownList("Categoria_" + item.LancamentoId, (SelectList)@ViewBag.Categorias, null, new { @class = "form-control", @style = "max-width:150px; display:inline" })
-                    <button class='btn btn-xs btn-primary' title="Salvar" onclick="salvarEdicao('@item.LancamentoId')" >
+                    <button class='btn btn-xs btn-primary' title="Salvar" onclick="salvarEdicao('@item.LancamentoId')">
                         <i class="icon-white glyphicon glyphicon-floppy-save"></i>
                     </button>
                     <button class='btn btn-xs btn-danger' title="Cancelar" onclick="esconderEdicao('@item.LancamentoId')">

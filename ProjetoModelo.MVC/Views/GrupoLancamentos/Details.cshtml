@@ -72,6 +72,7 @@
             var categoriaSelecionada = $("#Categoria_" + lancamentoId + " option:selected").text();
             $("#spanCategoriaDescricao_" + lancamentoId).html("&nbsp" + categoriaSelecionada);
             esconderEdicao(lancamentoId);
+            processarEdicao(lancamentoId, $('#Categoria_' + lancamentoId).val());
         }
 
         function mostrarEdicao(lancamentoId) {
@@ -81,6 +82,21 @@
         function esconderEdicao(lancamentoId) {
             $('#divCategoriaEdit_' + lancamentoId).hide();
             $('#divCategoriaDisplay_' + lancamentoId).show();
+        }
+
+        function processarEdicao(lancamentoId, categoriaId) {
+            $.post("/Lancamentos/EditarCategoria",
+                { lancamentoId: lancamentoId, categoriaId: categoriaId },
+                function (data) {
+                    if (data.status === "Ok") {
+                        location.reload()
+                        alert("Salvo com sucesso!");
+                    }
+                    else {
+                        alert("Erro ao salvar a categoria!")
+                    }
+                }
+            );
         }
     </script>
 }
