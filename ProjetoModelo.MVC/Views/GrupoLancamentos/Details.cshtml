@@ -67,11 +67,18 @@
 
 @section Scripts {
     <script type="text/javascript">
-        function editarCategoria(lancamentoId) {
+        function salvarEdicao(lancamentoId)
+        {
+            var categoriaSelecionada = $("#Categoria_" + lancamentoId + " option:selected").text();
+            $("#spanCategoriaDescricao_" + lancamentoId).html("&nbsp" + categoriaSelecionada);
+            esconderEdicao(lancamentoId);
+        }
+
+        function mostrarEdicao(lancamentoId) {
             $('#divCategoriaEdit_' + lancamentoId).show();
             $('#divCategoriaDisplay_' + lancamentoId).hide();
         }
-        function cancelarEdicao(lancamentoId) {
+        function esconderEdicao(lancamentoId) {
             $('#divCategoriaEdit_' + lancamentoId).hide();
             $('#divCategoriaDisplay_' + lancamentoId).show();
         }

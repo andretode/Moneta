@@ -66,16 +66,16 @@
                 </a>
             </td>
             <td>
-                <div id="divCategoriaDisplay_@item.LancamentoId" onclick="editarCategoria('@item.LancamentoId')" title="Clique para editar a categoria">
+                <div id="divCategoriaDisplay_@item.LancamentoId" onclick="mostrarEdicao('@item.LancamentoId')" title="Clique para editar a categoria">
                     <button class='btn' style='background-color:@item.Categoria.Cor'></button>
-                    <span> &nbsp;@item.Categoria.Descricao</span>
+                    <span id="spanCategoriaDescricao_@item.LancamentoId">&nbsp;@item.Categoria.Descricao</span>
                 </div>
                 <div id="divCategoriaEdit_@item.LancamentoId" style="display: none">
                     @Html.DropDownList("Categoria_" + item.LancamentoId, (SelectList)@ViewBag.Categorias, null, new { @class = "form-control", @style = "max-width:150px; display:inline" })
                     <button class='btn btn-xs btn-primary' title="Salvar" onclick="salvarEdicao('@item.LancamentoId')" >
                         <i class="icon-white glyphicon glyphicon-floppy-save"></i>
                     </button>
-                    <button class='btn btn-xs btn-danger' title="Cancelar" onclick="cancelarEdicao('@item.LancamentoId')">
+                    <button class='btn btn-xs btn-danger' title="Cancelar" onclick="esconderEdicao('@item.LancamentoId')">
                         <i class="icon-white glyphicon glyphicon-remove-circle"></i>
                     </button>
                 </div>
