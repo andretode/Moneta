@@ -110,11 +110,7 @@ namespace Moneta.Domain.Services
         public int ImportarOfxParaGrupoDeLancamento(string caminhoOfx, Guid contaId, DateTime mesAnoCompetencia, Guid grupoLancamentoId)
         {
             var novosLancamentosOfx = new List<Lancamento>();
-            IEnumerable<IExtratoOfx> lancamentosExistentesNoGrupo = _LancamentoRepository.GetAllReadOnly().Where(e =>
-                e.DataVencimento.Month == mesAnoCompetencia.Month &&
-                e.DataVencimento.Year == mesAnoCompetencia.Year &&
-                e.GrupoLancamentoId == grupoLancamentoId);
-
+            IEnumerable<IExtratoOfx> lancamentosExistentesNoGrupo = _GrupoLancamentoRepository.GetById(grupoLancamentoId).Lancamentos;
 
             IEnumerable<IExtratoOfx> extratosOfx = ImportacaoOfxService.ImportarNovosExtratosOfx(caminhoOfx, contaId, lancamentosExistentesNoGrupo, mesAnoCompetencia, true);
 
