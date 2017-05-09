@@ -30,11 +30,7 @@ namespace Moneta.Domain.Services
             if(cartao)
             {
                 extratosBancarios.RemoveAt(0); //Remove o primeiro item que refere-se ao pagamento do cartão do mês anterior
-
-                //Pega datas também do mês anterior, visto que o cartão registra compras feitas naquele mês.
-                extratosBancariosDoMes = extratosBancarios.Where(e =>
-                (e.DataCompensacao.Month == mesAnoCompetencia.Month || e.DataCompensacao.Month == mesAnoCompetencia.Month - 1)
-                && e.DataCompensacao.Year == mesAnoCompetencia.Year);
+                extratosBancariosDoMes = extratosBancarios; //Não filtra por mes pois há lançamentos que foram parcelados e a compra pode ter sido muitos meses antes.
             }
             else
                 extratosBancariosDoMes = extratosBancarios.Where(e => e.DataCompensacao.Month == mesAnoCompetencia.Month
