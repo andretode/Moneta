@@ -5,7 +5,6 @@
 
 function gerarGraficoOrcadoVsRealizado(arrayDeCategoriasJson, arrayDeCoresJson, arrayDeSaldosRealizadosJson, arrayDeOrcamentosJson)
 {
-    alert(arrayDeCategoriasJson + "\n" + arrayDeSaldosRealizadosJson + "\n" + arrayDeOrcamentosJson);
     if (arrayDeCategoriasJson == "" || arrayDeCategoriasJson == null)
     {
         incluirMsgDadosInsuficientes();
