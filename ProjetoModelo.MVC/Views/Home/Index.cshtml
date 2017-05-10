@@ -22,8 +22,10 @@
 <!-- GRAFICO ORÇADO X REALIZADO -->
 <br /><hr />
 <div>
-    <h4 class="text-center">Saldo por Dia</h4>
-    <canvas id="graficoOrcadoVsRealizado"></canvas>
+    <h4 class="text-center">Orçado x Realizado</h4>
+    <div id="divGraficoOrcadoVsRealizado">
+        <canvas id="graficoOrcadoVsRealizado"></canvas>
+    </div>
 </div>
 
 <!-- GRAFICO DESPESAS POR CATEGORIA -->
@@ -55,10 +57,10 @@
     gerarGraficoSaldoPorCategoria('@Html.Raw(Model.GraficoSaldoPorCategoria.ArrayDeCategorias)',
         '@Html.Raw(Model.GraficoSaldoPorCategoria.ArrayDeCores)',
         '@Model.GraficoSaldoPorCategoria.ArrayDeSaldosRealizados');
-    gerarGraficoOrcadoVsRealizado('@Html.Raw(Model.GraficoSaldoPorCategoria.ArrayDeCategorias)',
-        '@Html.Raw(Model.GraficoSaldoPorCategoria.ArrayDeCores)',
-        '@Model.GraficoSaldoPorCategoria.ArrayDeSaldosRealizados',
-        '@Model.GraficoSaldoPorCategoria.ArrayDeOrcamentos');
+    gerarGraficoOrcadoVsRealizado('@Html.Raw(Model.GraficoOrcadoVsRealizado.ArrayDeCategorias)',
+        '@Html.Raw(Model.GraficoOrcadoVsRealizado.ArrayDeCores)',
+        '@Model.GraficoOrcadoVsRealizado.ArrayDeSaldosRealizados',
+        '@Model.GraficoOrcadoVsRealizado.ArrayDeOrcamentos');
 
     $(function () {
         $('#ContaIdFiltro').change(function () {

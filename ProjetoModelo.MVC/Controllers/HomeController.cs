@@ -26,6 +26,7 @@ namespace Moneta.MVC.Controllers
         {
             graficosViewModel.GraficoSaldoDoMes = GetDadosSaldoDoMes(graficosViewModel.ContaIdFiltro);
             graficosViewModel.GraficoSaldoPorCategoria = GetDadosSaldoPorCategoria(graficosViewModel.ContaIdFiltro, graficosViewModel.MesAnoCompetencia);
+            graficosViewModel.GraficoOrcadoVsRealizado = GetDadosSaldoPorCategoria(graficosViewModel.ContaIdFiltro, graficosViewModel.MesAnoCompetencia, true);
 
             SetSelectLists();
             return View(graficosViewModel);
@@ -73,6 +74,7 @@ namespace Moneta.MVC.Controllers
             graficosViewModel.ContaIdFiltro = contaIdFiltro;
             graficosViewModel.GraficoSaldoDoMes = GetDadosSaldoDoMes(graficosViewModel.ContaIdFiltro);
             graficosViewModel.GraficoSaldoPorCategoria = GetDadosSaldoPorCategoria(graficosViewModel.ContaIdFiltro, mesAnoCompetencia);
+            graficosViewModel.GraficoOrcadoVsRealizado = GetDadosSaldoPorCategoria(graficosViewModel.ContaIdFiltro, graficosViewModel.MesAnoCompetencia, true);
 
             SetSelectLists();
             return View("Index", graficosViewModel);

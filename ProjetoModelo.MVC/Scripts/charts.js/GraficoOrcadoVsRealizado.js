@@ -1,10 +1,11 @@
 ﻿function incluirMsgDadosInsuficientes()
 {
-    $('#divGraficoSaldoPorCategoria').html('<div class="text-center text-primary">Não há informações suficientes para gerar o gráfico</div>');
+    $('#divGraficoOrcadoVsRealizado').html('<div class="text-center text-primary">Não há informações suficientes para gerar o gráfico</div>');
 }
 
 function gerarGraficoOrcadoVsRealizado(arrayDeCategoriasJson, arrayDeCoresJson, arrayDeSaldosRealizadosJson, arrayDeOrcamentosJson)
 {
+    alert(arrayDeCategoriasJson + "\n" + arrayDeSaldosRealizadosJson + "\n" + arrayDeOrcamentosJson);
     if (arrayDeCategoriasJson == "" || arrayDeCategoriasJson == null)
     {
         incluirMsgDadosInsuficientes();

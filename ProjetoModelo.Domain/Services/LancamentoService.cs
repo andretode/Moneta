@@ -186,7 +186,9 @@ namespace Moneta.Domain.Services
                 lancamentosFiltrados = lancamentosFiltrados.Where(l => l.Pago == true);
             }
 
-            var agrupadosPorCategoria = lancamentosFiltrados.GroupBy(l => l.Categoria);
+            var agrupadosPorCategoria = lancamentosFiltrados
+                .OrderBy(l => l.Categoria.Descricao)
+                .GroupBy(l => l.Categoria);
 
             foreach (var lancamento in agrupadosPorCategoria)
             {
