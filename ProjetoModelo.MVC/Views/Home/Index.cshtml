@@ -19,6 +19,13 @@
 
 @Html.MesAnoControle(Model.MesAnoCompetencia, (Guid)Model.ContaIdFiltro, "AlterarMes", "Home")
 
+<!-- GRAFICO ORÇADO X REALIZADO -->
+<br /><hr />
+<div>
+    <h4 class="text-center">Saldo por Dia</h4>
+    <canvas id="graficoOrcadoVsRealizado"></canvas>
+</div>
+
 <!-- GRAFICO DESPESAS POR CATEGORIA -->
 <br />
 <div id="divProcessando"></div>
@@ -41,12 +48,17 @@
 <script src="~/Scripts/charts.js/Chart.bundle.min-2.3.0.js"></script>
 <script src="~/Scripts/charts.js/GraficoSaldoDoMes.js"></script>
 <script src="~/Scripts/charts.js/GraficoSaldoPorCategoria.js"></script>
+<script src="~/Scripts/charts.js/GraficoOrcadoVsRealizado.js"></script>
 <script type="text/javascript">
     gerarGraficoSaldoDoMes('@Model.GraficoSaldoDoMes.ArrayDeDias', '@Model.GraficoSaldoDoMes.ArrayDeReceitas',
         '@Model.GraficoSaldoDoMes.ArrayDeDespesas', '@Model.GraficoSaldoDoMes.ArrayDeSaldos');
     gerarGraficoSaldoPorCategoria('@Html.Raw(Model.GraficoSaldoPorCategoria.ArrayDeCategorias)',
         '@Html.Raw(Model.GraficoSaldoPorCategoria.ArrayDeCores)',
-        '@Model.GraficoSaldoPorCategoria.ArrayDeSaldos');
+        '@Model.GraficoSaldoPorCategoria.ArrayDeSaldosRealizados');
+    gerarGraficoOrcadoVsRealizado('@Html.Raw(Model.GraficoSaldoPorCategoria.ArrayDeCategorias)',
+        '@Html.Raw(Model.GraficoSaldoPorCategoria.ArrayDeCores)',
+        '@Model.GraficoSaldoPorCategoria.ArrayDeSaldosRealizados',
+        '@Model.GraficoSaldoPorCategoria.ArrayDeOrcamentos');
 
     $(function () {
         $('#ContaIdFiltro').change(function () {

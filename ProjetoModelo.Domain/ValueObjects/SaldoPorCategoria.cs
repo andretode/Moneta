@@ -11,5 +11,6 @@ namespace Moneta.Domain.ValueObjects
         public string Categoria { get; set; }
         public string CorHex { get; set; }
         public decimal Saldo { get; set; }
+        public decimal OrcamentoMensal { get; set; }
     }
 }

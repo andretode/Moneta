@@ -190,9 +190,11 @@ namespace Moneta.Domain.Services
 
             foreach (var lancamento in agrupadosPorCategoria)
             {
+                var orcadoMensal = lancamento.First().Categoria.OrcamentoMensal;
                 listaDeSaldoPorCategoria.Add(new SaldoPorCategoria() { 
                     Categoria = lancamento.First().Categoria.Descricao,
                     CorHex = lancamento.First().Categoria.Cor,
+                    OrcamentoMensal = (orcadoMensal == null ? 0 : (decimal)orcadoMensal),
                     Saldo = lancamento.Sum(l => l.Valor)
                 });
             }

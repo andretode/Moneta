@@ -16,12 +16,14 @@ namespace Moneta.Application.ViewModels
             {
                 ArrayDeCategorias = JsonConvert.SerializeObject(listaSaldoPorCategoria.Select(d => d.Categoria).ToArray());
                 ArrayDeCores = JsonConvert.SerializeObject(listaSaldoPorCategoria.Select(d => d.CorHex).ToArray());
-                ArrayDeSaldos = JsonConvert.SerializeObject(listaSaldoPorCategoria.Select(d => Math.Abs(d.Saldo)).ToArray());
+                ArrayDeSaldosRealizados = JsonConvert.SerializeObject(listaSaldoPorCategoria.Select(d => Math.Abs(d.Saldo)).ToArray());
+                ArrayDeOrcamentos = JsonConvert.SerializeObject(listaSaldoPorCategoria.Select(c => c.OrcamentoMensal).ToArray());
             }
         }
 
         public string ArrayDeCategorias { get; set; }
         public string ArrayDeCores { get; set; }
-        public string ArrayDeSaldos { get; set; }
+        public string ArrayDeSaldosRealizados { get; set; }
+        public string ArrayDeOrcamentos { get; set; }
     }
 }

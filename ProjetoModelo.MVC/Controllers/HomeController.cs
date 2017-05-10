@@ -11,11 +11,15 @@ namespace Moneta.MVC.Controllers
     {
         private readonly ILancamentoAppService _LancamentoApp;
         private readonly IContaAppService _ContaApp;
+        private readonly ICategoriaAppService _CategoriaApp;
+
         public HomeController(ILancamentoAppService LancamentoApp,
-            IContaAppService ContaApp)
+            IContaAppService ContaApp,
+            ICategoriaAppService CategoriaApp)
         {
             _LancamentoApp = LancamentoApp;
             _ContaApp = ContaApp;
+            _CategoriaApp = CategoriaApp;
         }
 
         public ActionResult Index(GraficosViewModel graficosViewModel)
@@ -26,7 +30,7 @@ namespace Moneta.MVC.Controllers
             SetSelectLists();
             return View(graficosViewModel);
         }
-
+        
         [HttpGet]
         public JsonResult GetDadosDespesasPorCategoria(GraficosViewModel graficosViewModel)
         {
@@ -43,7 +47,7 @@ namespace Moneta.MVC.Controllers
                         status = "Ok",
                         arrayDeCategorias = graficoSaldoPorCategoria.ArrayDeCategorias,
                         arrayDeCores = graficoSaldoPorCategoria.ArrayDeCores,
-                        arrayDeSaldos = graficoSaldoPorCategoria.ArrayDeSaldos
+                        arrayDeSaldos = graficoSaldoPorCategoria.ArrayDeSaldosRealizados
                     },
                     JsonRequestBehavior = JsonRequestBehavior.AllowGet
                 };

@@ -297,6 +297,7 @@
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\charts.js\Chart.bundle.min-2.3.0.js" />
     <Content Include="Scripts\charts.js\GraficoSaldoDoMes.js" />
+    <Content Include="Scripts\charts.js\GraficoOrcadoVsRealizado.js" />
     <Content Include="Scripts\charts.js\GraficoSaldoPorCategoria.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
