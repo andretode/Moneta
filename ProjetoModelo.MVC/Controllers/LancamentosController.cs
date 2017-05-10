@@ -270,13 +270,13 @@ namespace Moneta.MVC.Controllers
 
             try
             {
-                var lancamento = _LancamentoApp.GetById(lancamentoId);
+                var lancamento = _LancamentoApp.GetByIdReadOnly(lancamentoId);
                 lancamento.CategoriaId = categoriaId;
                 _LancamentoApp.Update(lancamento);
             }
-            catch(Exception)
+            catch(Exception ex)
             {
-                jsonResult.Data = new { status = "Nok" };
+                jsonResult.Data = new { status = "Nok", erro = ex.Message };
             }
 
             return jsonResult;
