@@ -72,7 +72,7 @@
             var categoriaSelecionada = $("#Categoria_" + lancamentoId + " option:selected").text();
             $("#spanCategoriaDescricao_" + lancamentoId).html("&nbsp" + categoriaSelecionada);
             $("#btnCategoria_" + lancamentoId).hide();
-            //$("#btnCategoria_" + lancamentoId).html('<img src="/Content/images/loading.gif" heigth="25" width="25">');
+            $("#spanLoading_" + lancamentoId).html('<img src="/Content/images/loading.gif" heigth="25" width="25">');
             esconderEdicao(lancamentoId);
             processarEdicao(lancamentoId, $('#Categoria_' + lancamentoId).val());
         }

@@ -68,6 +68,7 @@
             <td>
                 <div id="divCategoriaDisplay_@item.LancamentoId" onclick="mostrarEdicao('@item.LancamentoId')" title="Clique para editar a categoria">
                     <button id="btnCategoria_@item.LancamentoId" class='btn' style='background-color:@item.Categoria.Cor'></button>
+                    <span id="spanLoading_@item.LancamentoId"></span>
                     <span id="spanCategoriaDescricao_@item.LancamentoId">&nbsp;@item.Categoria.Descricao</span>
                 </div>
                 <div id="divCategoriaEdit_@item.LancamentoId" style="display: none">
