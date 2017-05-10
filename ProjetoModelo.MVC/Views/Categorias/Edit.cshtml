@@ -33,9 +33,21 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.OrcamentoMensal, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                <div class="inner-addon">
+                    <i class="glyphicon glyphicon-usd left-addon"></i>
+                    <i class="right-addon glyphicon glyphicon-info-sign" data-toggle="tooltip" title="Defina este valor para gerar o gráfico Orçado x Realizado"></i>
+                    @Html.EditorFor(model => model.OrcamentoMensal, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                @Html.ValidationMessageFor(model => model.OrcamentoMensal, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.DataCadastro, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DisplayFor(model => model.DataCadastro, new { htmlAttributes = new { @class = "form-control" } })
+                <span style="vertical-align: -33%">@Html.DisplayFor(model => model.DataCadastro, new { htmlAttributes = new { @class = "form-control" } })</span>
             </div>
         </div>
 
@@ -49,6 +61,7 @@
 }
 
 <link rel="stylesheet" href="~/Content/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+<link rel="stylesheet" href="~/Content/campos-com-icone.css">
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

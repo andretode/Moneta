@@ -26,8 +26,14 @@ namespace Moneta.Application.ViewModels
         [Required(ErrorMessage = "Preencha o campo")]
         [MaxLength(7, ErrorMessage = "Máximo {0} caracteres")]
         [MinLength(7, ErrorMessage = "Mínimo {0} caracteres")]
-        [DisplayName("Cor Hexadecimal")]
+        [DisplayName("Cor")]
         public string Cor { get; set; }
+
+        [UIHint("DinheiroColorido")]
+        [Range(typeof(decimal), "-9999999,99", "9999999,99", ErrorMessage = "O valor fornecido excede os limites do sistema.")]
+        [Required(ErrorMessage = "Preencha o campo")]
+        [DisplayName("Orçamento Mensal")]
+        public decimal OrcamentoMensal { get; set; }
 
         [DisplayName("Data de Cadastro")]
         [ScaffoldColumn(false)]

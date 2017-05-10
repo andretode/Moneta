@@ -15,6 +15,9 @@ namespace Moneta.Infra.Data.EntityConfig
             Property(c => c.Cor)
                 .IsRequired();
 
+            Property(c => c.OrcamentoMensal)
+                .IsOptional();
+
             Property(c => c.DataCadastro)
                 .IsRequired();
 

@@ -18,6 +18,7 @@ namespace Moneta.Domain.Entities
         public Guid CategoriaId { get; set; }
         public string Descricao { get; set; }
         public string Cor { get; set; }
+        public decimal? OrcamentoMensal { get; set; }
         public virtual ICollection<Lancamento> Lancamentos { get; set; }
         public DateTime DataCadastro { get; set; }
         public const string Nenhum = "Nenhum";

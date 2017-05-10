@@ -7,15 +7,8 @@
 <h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Adicionar Categoria", "Create", null, new { @class = "btn btn-default" })
+    @Html.ActionLink("Adicionar Categoria", "Create", null, new { @class = "btn btn-primary" })
 </p>
-
-@using (Html.BeginForm("Index", "Categoria", new {pesquisa = ""}, FormMethod.Get))
-{
-    <p>
-        Pesquisar por Descrição: @Html.Editor("pesquisa") <input type="submit" value="Pesquisar" class="btn btn-default" />
-    </p>
-}
 
 <table class="table">
     <tr style="background-color: #e6e6e6">
@@ -24,6 +17,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Cor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrcamentoMensal)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DataCadastro)
@@ -39,8 +35,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Descricao)
             </td>
-            <td style="color: @item.Cor">
-                @Html.DisplayFor(modelItem => item.Cor)
+            <td>
+                <button class='btn' style='background-color:@item.Cor'></button>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrcamentoMensal)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DataCadastro)
