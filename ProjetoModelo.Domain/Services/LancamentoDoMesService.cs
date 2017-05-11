@@ -14,6 +14,7 @@ namespace Moneta.Domain.Services
         protected readonly ILancamentoParceladoRepository _LancamentoParceladoRepository;
         protected readonly IGrupoLancamentoRepository _GrupoLancamentoRepository;
         protected readonly LancamentoMaisFakeService _LancamentoMaisFakeService;
+        protected readonly LancamentoDeTodosOsGruposService _LancamentoDeTodosOsGruposService;
 
         public LancamentoDoMesService(
             ILancamentoRepository LancamentoRepository,
@@ -24,6 +25,7 @@ namespace Moneta.Domain.Services
             _LancamentoParceladoRepository = LancamentoParceladoRepository;
             _GrupoLancamentoRepository = GrupoLancamentoRepository;
             _LancamentoMaisFakeService = new LancamentoMaisFakeService(_LancamentoParceladoRepository, _LancamentoRepository);
+            _LancamentoDeTodosOsGruposService = new LancamentoDeTodosOsGruposService(_GrupoLancamentoRepository);
         }
 
         public AgregadoLancamentosDoMes GetLancamentosDoMes(AgregadoLancamentosDoMes lancamentosDoMes)
@@ -65,39 +67,33 @@ namespace Moneta.Domain.Services
 
         private decimal CalcularSaldoDoMesAnterior(DateTime dataUltimoDiaMesAnterior, Guid contaId)
         {
-            var lancamentosMesAnterior = _LancamentoRepository.GetAll()
-                .Where(l => l.DataVencimento <= dataUltimoDiaMesAnterior && !l.BaseDaSerie);
+            var lancamentosMesAnteriorExcetoDeGrupos = _LancamentoRepository.GetAll()
+                .Where(l => l.DataVencimento <= dataUltimoDiaMesAnterior 
+                    && !l.BaseDaSerie 
+                    && l.GrupoLancamentoId == null);
+
+            var lancamentosDeTodosOsGrupos = _LancamentoDeTodosOsGruposService.GetLancamentosDeTodosOsGruposDosMesesAnteriores(dataUltimoDiaMesAnterior);
+            var lancamentosDoMesAnterior = lancamentosMesAnteriorExcetoDeGrupos.Union(lancamentosDeTodosOsGrupos);
 
             if (contaId != Guid.Empty)
-                lancamentosMesAnterior = lancamentosMesAnterior.Where(l => l.ContaId == contaId);
+                lancamentosDoMesAnterior = lancamentosDoMesAnterior.Where(l => l.ContaId == contaId);
 
-            return lancamentosMesAnterior.Sum(l => l.Valor);
+            return lancamentosDoMesAnterior.Sum(l => l.Valor);
         }
 
         private IEnumerable<Lancamento> GetTodosLancamentosDoMes(int mes, int ano, Guid contaId)
         {
-            var lancamentosDoMesExcetoDeGrupos = _LancamentoMaisFakeService.GetAllMaisFake(mes, ano).Where(l => l.GrupoLancamentoId == null);
-            var lancamentosDeTodosOsGrupos = GetLancamentosDeTodosOsGrupos(mes, ano);
+            var lancamentosDoMesExcetoDeGrupos = _LancamentoMaisFakeService
+                .GetAllMaisFake(mes, ano)
+                .Where(l => l.GrupoLancamentoId == null);
+
+            var lancamentosDeTodosOsGrupos = _LancamentoDeTodosOsGruposService.GetLancamentosDeTodosOsGruposDoMes(mes, ano);
             var lancamentosDoMes = lancamentosDoMesExcetoDeGrupos.Union(lancamentosDeTodosOsGrupos);
 
             if (contaId != Guid.Empty)
                 lancamentosDoMes = lancamentosDoMes.Where(l => l.ContaId == contaId).ToList();
 
             return lancamentosDoMes.OrderBy(l => l.DataVencimento).ThenBy(l => l.DataCadastro);
-        }
-
-        private IEnumerable<Lancamento> GetLancamentosDeTodosOsGrupos(int mes, int ano)
-        {
-            var gruposDoMes = _GrupoLancamentoRepository.GetAll().Where(g => g.DataVencimento.Month == mes && g.DataVencimento.Year == ano);
-
-            var lancamentos = new List<Lancamento>();
-            foreach(var grupo in gruposDoMes)
-            {
-                if (grupo.Lancamentos != null)
-                    lancamentos.AddRange(grupo.Lancamentos);
-            }
-
-            return lancamentos;
         }
 
         public IEnumerable<LancamentoAgrupado> AgruparLancamentos(IEnumerable<Lancamento> lancamentos)
