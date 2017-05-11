@@ -48,43 +48,54 @@
 
 @{string corSaldoDoMesAnterior = (Model.SaldoDoMesAnterior > 0 ? "green" : "red");}
 
-<table class="table table-striped table-condensed">
-    <thead>
-        <tr style="background-color: #e6e6e6">
-            <th colspan="5" class="text-right">Saldo do Mês Anterior: <span style="color: @corSaldoDoMesAnterior">@Html.DisplayFor(model => model.SaldoDoMesAnterior)</span></th>
-            <th><i title="O saldo é contabilizado independente se o lançamento foi ou não pago" class="glyphicon glyphicon-info-sign"></i></th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model.LancamentosAgrupados.Count() == 0)
-        {
-            <tr>
-                <td colspan="6" class="text-danger" align="center">Selecione uma Conta para mostrar os lançamentos relacionados</td>
+@using (Html.BeginForm("RemoverSelecionados", "Lancamentos", new { @Model.ContaIdFiltro, @Model.MesAnoCompetencia }, FormMethod.Post, new { id = "formLancamentosRemover" }))
+{
+    @Html.AntiForgeryToken()
+    <table class="table table-striped table-condensed">
+        <thead>
+            <tr style="background-color: #e6e6e6">
+                <th>
+                    <a id="botaoRemoverSelecionados" class="btn btn-default btn-xs" title="Remover itens selecionados"
+                        href="javascript:validarSeExisteSelecionados()">
+                        <i class="icon-white glyphicon glyphicon-trash"></i>
+                    </a>
+                </th>
+                <th colspan="5" class="text-right">Saldo do Mês Anterior: <span style="color: @corSaldoDoMesAnterior">@Html.DisplayFor(model => model.SaldoDoMesAnterior)</span></th>
+                <th><i title="O saldo é contabilizado independente se o lançamento foi ou não pago" class="glyphicon glyphicon-info-sign"></i></th>
             </tr>
-        }
-        else
-        {
-            @Html.DisplayLancamentos()
+        </thead>
+        <tbody>
+            @if (Model.LancamentosAgrupados.Count() == 0)
+            {
+                <tr>
+                    <td colspan="6" class="text-danger" align="center">Selecione uma Conta para mostrar os lançamentos relacionados</td>
+                </tr>
+            }
+            else
+            {
 
-            string corSaldoAtualDoMes = (Model.SaldoAtualDoMes > 0 ? "green" : "red");
-            string corSaldoDoMes = (Model.SaldoDoMes > 0 ? "green" : "red");
+                @Html.DisplayLancamentos()
 
-            <tr>
-                <td colspan="2" class="text-left">
-                    <h6>Receitas previstas no mês: <span style="color:green">@Html.DisplayFor(model => model.ReceitaTotal)</span></h6>
-                    <h6>Despesas previstas no mês: <span style="color:red">@Html.DisplayFor(model => model.DespesaTotal)</span></h6>
-                </td>
-                <td colspan="3" class="text-right">
-                    <h5>Saldo atual: <strong style="color: @corSaldoAtualDoMes">@Html.DisplayFor(model => model.SaldoAtualDoMes)</strong></h5>
-                    <h6>Previsto para o fim do mês: <strong style="color: @corSaldoDoMes">@Html.DisplayFor(model => model.SaldoDoMes)</strong></h6>
-                </td>
-                <td>
-                    <h5><i title="O saldo é contabilizado considerando o saldo do mês anterior" class="glyphicon glyphicon-info-sign"></i></h5>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                string corSaldoAtualDoMes = (Model.SaldoAtualDoMes > 0 ? "green" : "red");
+                string corSaldoDoMes = (Model.SaldoDoMes > 0 ? "green" : "red");
+
+                <tr>
+                    <td colspan="2" class="text-left">
+                        <h6>Receitas previstas no mês: <span style="color:green">@Html.DisplayFor(model => model.ReceitaTotal)</span></h6>
+                        <h6>Despesas previstas no mês: <span style="color:red">@Html.DisplayFor(model => model.DespesaTotal)</span></h6>
+                    </td>
+                    <td colspan="3" class="text-right">
+                        <h5>Saldo atual: <strong style="color: @corSaldoAtualDoMes">@Html.DisplayFor(model => model.SaldoAtualDoMes)</strong></h5>
+                        <h6>Previsto para o fim do mês: <strong style="color: @corSaldoDoMes">@Html.DisplayFor(model => model.SaldoDoMes)</strong></h6>
+                    </td>
+                    <td>
+                        <h5><i title="O saldo é contabilizado considerando o saldo do mês anterior" class="glyphicon glyphicon-info-sign"></i></h5>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 <div class="col-md-12">
     <a name="legendas"></a>
@@ -122,6 +133,18 @@
             }
             else {
                 return true;
+            }
+        }
+
+        // Valida antes de submeter a requisição
+        function validarSeExisteSelecionados() {
+            var numberChecked = $('input:checkbox:checked').length;
+            if (numberChecked == 0) {
+                alert("Selecione pelo menos um item");
+            }
+            else {
+                if (confirm("Deseja realmente continuar com a remoção?"))
+                    document.getElementById('formLancamentosRemover').submit();
             }
         }
     </script>

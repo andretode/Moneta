@@ -17,12 +17,15 @@ namespace Moneta.Application
     {
         private readonly ILancamentoService _lancamentoService;
         private readonly ILancamentoConciliacaoService _lancamentoConciliacaoService;
+        private readonly ILancamentoParceladoAppService _lancamentoParceladoServiceApp;
 
         public LancamentoAppService(ILancamentoService LancamentoService,
-            ILancamentoConciliacaoService lancamentoConciliacaoService)
+            ILancamentoConciliacaoService lancamentoConciliacaoService,
+            ILancamentoParceladoAppService lancamentoParceladoServiceApp)
         {
             _lancamentoService = LancamentoService;
             _lancamentoConciliacaoService = lancamentoConciliacaoService;
+            _lancamentoParceladoServiceApp = lancamentoParceladoServiceApp;
         }
 
         public LancamentoViewModel GetById(Guid id)
@@ -221,10 +224,36 @@ namespace Moneta.Application
 
         public void Remove(LancamentoViewModel LancamentoViewModel)
         {
-            var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(LancamentoViewModel);
-
+            
             BeginTransaction();
-            _lancamentoService.Remove(lancamento);
+
+            if (LancamentoViewModel.LancamentoParcelado == null ||
+                LancamentoViewModel.LancamentoParcelado.TipoDeAlteracaoDaRepeticao ==
+                    TipoDeAlteracaoDaRepeticaoEnum.AlterarApenasEste)
+            {
+                LancamentoViewModel.Ativo = false;
+                if (LancamentoViewModel.Fake)
+                    Add(LancamentoViewModel);
+                else
+                    _lancamentoService.Remove(Mapper.Map<LancamentoViewModel, Lancamento>(LancamentoViewModel));
+            }
+            else
+            {
+                var tipoDeAlteracaoDaRepeticao = LancamentoViewModel.LancamentoParcelado.TipoDeAlteracaoDaRepeticao;
+                LancamentoViewModel.LancamentoParcelado = _lancamentoParceladoServiceApp
+                    .GetByIdReadOnly((Guid)LancamentoViewModel.LancamentoParceladoId);
+                LancamentoViewModel.LancamentoParcelado.TipoDeAlteracaoDaRepeticao = tipoDeAlteracaoDaRepeticao;
+                RemoveEmSerie(LancamentoViewModel);
+            }
+
+            Commit();
+        }
+
+        public void RemoveAll(IEnumerable<LancamentoViewModel> lancamentos)
+        {
+            BeginTransaction();
+            foreach (var l in lancamentos)
+                Remove(l);
             Commit();
         }
 

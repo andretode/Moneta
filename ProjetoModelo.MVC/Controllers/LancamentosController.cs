@@ -114,6 +114,17 @@ namespace Moneta.MVC.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult RemoverSelecionados(IEnumerable<LancamentoAgrupadoViewModel> lancamentosAgrupados, Guid ContaIdFiltro, DateTime MesAnoCompetencia)
+        {
+            var lancamentosSelecionados = lancamentosAgrupados
+                .Where(agrupado => agrupado.Lancamentos.First().Selecionado)
+                .Select(agrupados => agrupados.Lancamentos.First());
+            _LancamentoApp.RemoveAll(lancamentosSelecionados);
+            return RedirectToAction("Index", new { ContaIdFiltro, MesAnoCompetencia });
+        }
+
+        [HttpPost]
         [MultipleButton(Name = "action", Argument = "Pesquisar")]
         public ActionResult Pesquisar(LancamentosDoMesViewModel lancamentos)
         {
@@ -350,25 +361,7 @@ namespace Moneta.MVC.Controllers
             var grupoLancamentoId = lancamento.GrupoLancamentoId;
             if (ModelState.IsValid)
             {
-
-                if (lancamento.LancamentoParcelado == null ||
-                    lancamento.LancamentoParcelado.TipoDeAlteracaoDaRepeticao == 
-                    TipoDeAlteracaoDaRepeticaoEnum.AlterarApenasEste)
-                {
-                    lancamento.Ativo = false;
-                    if (lancamento.Fake)
-                        _LancamentoApp.Add(lancamento);
-                    else
-                        _LancamentoApp.Remove(lancamento);// Update(lancamento);
-                }
-                else
-                {
-                    var tipoDeAlteracaoDaRepeticao = lancamento.LancamentoParcelado.TipoDeAlteracaoDaRepeticao;
-                    lancamento.LancamentoParcelado = _LancamentoParceladoApp
-                        .GetByIdReadOnly((Guid) lancamento.LancamentoParceladoId);
-                    lancamento.LancamentoParcelado.TipoDeAlteracaoDaRepeticao = tipoDeAlteracaoDaRepeticao;
-                    _LancamentoApp.RemoveEmSerie(lancamento);
-                }
+                _LancamentoApp.Remove(lancamento);
 
                 if (grupoLancamentoId != null)
                     return RedirectToAction("Details", "GrupoLancamentos", new { id = lancamento.GrupoLancamentoId });

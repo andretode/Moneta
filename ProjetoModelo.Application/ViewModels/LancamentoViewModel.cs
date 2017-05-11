@@ -140,6 +140,8 @@ namespace Moneta.Application.ViewModels
 
         [DisplayName("Extrato Bancário")]
         [JsonIgnore]
-        public virtual ExtratoBancarioViewModel ExtratoBancario { get; set; } 
+        public virtual ExtratoBancarioViewModel ExtratoBancario { get; set; }
+
+        public bool Selecionado { get; set; }
     }
 }

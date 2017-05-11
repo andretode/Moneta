@@ -19,16 +19,6 @@
 
 @Html.MesAnoControle(Model.MesAnoCompetencia, (Guid)Model.ContaIdFiltro, "AlterarMes", "Home")
 
-<!-- GRAFICO ORÇADO X REALIZADO -->
-<br /><hr />
-<div>
-    <h4 class="text-center">Orçado x Realizado</h4>
-    <div id="divGraficoOrcadoVsRealizado">
-        <canvas class="visible-xs visible-sm" id="GraficoOrcadoVsRealizado_Mobile" height="350"></canvas>
-        <canvas class="visible-md visible-lg" id="GraficoOrcadoVsRealizado_Desktop"></canvas>
-    </div>
-</div>
-
 <!-- GRAFICO DESPESAS POR CATEGORIA -->
 <br />
 <div id="divProcessando"></div>
@@ -38,6 +28,16 @@
         @Html.CheckBox("ckbSomentePagos") Mostrar somente despesas pagas
     </div>
     <div id="divGraficoSaldoPorCategoria"></div>
+</div>
+
+<!-- GRAFICO ORÇADO X REALIZADO -->
+<br /><hr />
+<div>
+    <h4 class="text-center">Orçado x Realizado</h4>
+    <div id="divGraficoOrcadoVsRealizado">
+        <canvas class="visible-xs visible-sm" id="GraficoOrcadoVsRealizado_Mobile" height="350"></canvas>
+        <canvas class="visible-md visible-lg" id="GraficoOrcadoVsRealizado_Desktop"></canvas>
+    </div>
 </div>
 
 <!-- GRAFICO SALDO POR DIA -->
