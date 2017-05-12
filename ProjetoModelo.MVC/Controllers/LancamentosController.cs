@@ -264,7 +264,7 @@ namespace Moneta.MVC.Controllers
                     return View(lancamento);
                 }
 
-                return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
+                return RedirectToAction("Index", "ExtratosBancarios",  new { contaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
             }
 
             lancamento.Conta = _ContaApp.GetById(lancamento.ContaId);
