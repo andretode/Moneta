@@ -115,8 +115,8 @@ namespace Moneta.Application
                 if (i == 0)
                 {
                     novoLancamento = lancamento.Clone(lancamento.DataVencimento);
+                    lancamento.LancamentoParcelado.LancamentoBaseId = novoLancamento.LancamentoId;
                     novoLancamento.LancamentoParcelado = lancamento.LancamentoParcelado;
-                    novoLancamento.LancamentoParcelado.LancamentoBaseId = lancamento.LancamentoId;
                 }
                 else
                 {
@@ -235,7 +235,10 @@ namespace Moneta.Application
                 if (LancamentoViewModel.Fake)
                     Add(LancamentoViewModel);
                 else
-                    _lancamentoService.Remove(Mapper.Map<LancamentoViewModel, Lancamento>(LancamentoViewModel));
+                {
+                    var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(LancamentoViewModel);
+                    _lancamentoService.Remove(lancamento);
+                }
             }
             else
             {

@@ -10,16 +10,27 @@ using System.Xml.Linq;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using Moneta.Infra.Data.Repositories.ADO;
 
 namespace Moneta.Infra.Data.Repositories
 {
     public class LancamentoRepository : RepositoryBase<Lancamento, MonetaContext>, ILancamentoRepository
     {
+        private readonly LancamentoADORepository _LancamentoADORepository;
+        public LancamentoRepository()
+        {
+            _LancamentoADORepository = new LancamentoADORepository();
+        }
+
         public override void Remove(Lancamento lancamento)
         {
+            var id = lancamento.LancamentoParceladoId;
+            lancamento.LancamentoParcelado = null;
             var entry = Context.Entry(lancamento);
             DbSet.Attach(lancamento);
             entry.State = EntityState.Deleted;
+
+            //_LancamentoADORepository.DeleteAllLancamentosAndLancamentosParceladosSemBase(id);
         }
 
         public override Lancamento GetById(Guid id)

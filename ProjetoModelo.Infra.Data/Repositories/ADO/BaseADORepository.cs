@@ -13,7 +13,7 @@ namespace Moneta.Infra.Data.Repositories.ADO
         {
             get
             {
-                return new DatabaseProviderFactory().Create("ProjetoModelo");
+                return new DatabaseProviderFactory().Create("Moneta");
             }
         }
     }

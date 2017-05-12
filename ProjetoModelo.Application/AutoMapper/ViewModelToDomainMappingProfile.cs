@@ -23,7 +23,10 @@ namespace Moneta.Application.AutoMapper
             Mapper.CreateMap<LancamentoAgrupadoViewModel, LancamentoAgrupado>();
             Mapper.CreateMap<GrupoLancamentoViewModel, GrupoLancamento>();
             Mapper.CreateMap<LancamentoViewModel, Lancamento>()
-                .ForMember(d => d.LancamentoParceladoId, o => o.MapFrom(s => s.LancamentoParcelado != null ? s.LancamentoParcelado.LancamentoParceladoId : s.LancamentoParceladoId))
+                .ForMember(d => d.LancamentoParceladoId, o => o
+                    .MapFrom(s => s.LancamentoParceladoId == Guid.Empty ?
+                        s.LancamentoParcelado.LancamentoParceladoId :
+                        s.LancamentoParceladoId))
                 .AfterMap((src, dest) =>
                 {
                     if (dest.LancamentoParcelado != null && dest.LancamentoParcelado.DataInicio == DateTime.MinValue)
