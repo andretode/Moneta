@@ -115,6 +115,19 @@ namespace Moneta.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public ActionResult AdicionarDespesa(LancamentoViewModel lancamento)
+        {
+            if (ModelState.IsValid)
+            {
+                _lancamentoApp.Add(lancamento);
+                return RedirectToAction("Details", new { id = lancamento.GrupoLancamentoId });
+            }
+
+            return View("Details", lancamento);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult AdicionarTransferencia(TransferenciaGrupoLancamentoViewModel transferenciaGrupoLancamento)
         {
             if (ModelState.IsValid)

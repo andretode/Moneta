@@ -3,18 +3,16 @@
 @using Moneta.Infra.CrossCutting.Enums
 
 <div>
-    <a class="btn btn-default" title="Importar OFX"
-       href="@Url.Action("ImportarOfx", "GrupoLancamentos", new { @Model.ContaId, @Model.DataVencimento, @Model.GrupoLancamentoId })">
-        <i class="icon-white glyphicon glyphicon-import"></i>
-    </a>
-    <a class="btn btn-default" title="Adicionar Lançamento"
-       href="@Url.Action("Create", "Lancamentos", new LancamentosDoMesViewModel() { GrupoLancamentoId = Model.GrupoLancamentoId,
-                contaIdFiltro = Model.ContaId, NovaTransacao = TipoTransacaoEnum.Despesa })">
+    <button class="btn btn-primary" onclick="javascript: adicionarLancamento()">
         <i class="icon-white glyphicon glyphicon-plus"></i>
-    </a>
+    </button>
     <a class="btn btn-default" title="Adicionar Transferência"
        href="@Url.Action("AdicionarTransferencia", "GrupoLancamentos", new { grupoLancamentoId = Model.GrupoLancamentoId }) ">
         <i class="icon-white glyphicon glyphicon-transfer"></i>
+    </a>
+    <a class="btn btn-default" title="Importar OFX"
+       href="@Url.Action("ImportarOfx", "GrupoLancamentos", new { @Model.ContaId, @Model.DataVencimento, @Model.GrupoLancamentoId })">
+        <i class="icon-white glyphicon glyphicon-import"></i>
     </a>
 </div>
 <br />
@@ -87,4 +85,3 @@
         </tr>
     }
 </table>
-

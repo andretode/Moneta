@@ -1,4 +1,5 @@
 ﻿@model Moneta.Application.ViewModels.GrupoLancamentoViewModel
+@using Moneta.Application.ViewModels
 
 @{
     ViewBag.Title = "Detalhes";
@@ -65,6 +66,12 @@
     </div>
 </div>
 
+@Html.Partial("_AdicionarLancamento", new LancamentoViewModel() { 
+    ContaId = Model.Conta.ContaId,
+    DataVencimento = Model.DataVencimento,
+    GrupoLancamentoId = Model.GrupoLancamentoId 
+});
+
 @section Scripts {
     <script type="text/javascript">
         function salvarEdicao(lancamentoId)
@@ -99,5 +106,51 @@
                 }
             );
         }
+        
+        function adicionarLancamento() {
+            $("#divModalNovoLancamento").fadeIn();
+        }
+
+        function criarLancamento() {
+            if (validarForm())
+            {
+                $("#formCriarLancamento").submit();
+            }
+        }
+
+        function closeWindow() {
+            $("#divModalNovoLancamento").hide();
+        }
+
+        function validarForm()
+        {
+            var tipoTransacao = $('input[name="TipoDeTransacao"]:checked').val();
+            if (tipoTransacao == null)
+            {
+                alert("Informe o tipo de transação");
+                return false;
+            }
+
+            if ($("#Descricao").val() == "") {
+                alert("Preencha a descrição");
+                $("#Descricao").focus();
+                return false;
+            }
+
+            if ($("#Valor").val() == "" || $("#Valor").val() == "0,00") {
+                alert("Preencha o valor");
+                $("#Valor").focus();
+                return false;
+            }
+
+            if ($("#CategoriaId").val() == "") {
+                alert("Selecione a categoria");
+                $("#CategoriaId").focus();
+                return false;
+            }
+            
+            return true;
+        }
+
     </script>
 }
