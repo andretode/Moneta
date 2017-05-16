@@ -35,7 +35,7 @@ namespace Moneta.Domain.Services
 
         public override IEnumerable<Categoria> GetAll()
         {
-            return _categoriaRepository.GetAll();
+            return _categoriaRepository.GetAll().OrderBy(c => c.Descricao);
             //return _categoriaReadOnlyRepository.GetAll();
         }
 
