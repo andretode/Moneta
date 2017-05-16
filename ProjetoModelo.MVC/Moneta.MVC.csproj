@@ -804,6 +804,8 @@
     <Content Include="Views\GrupoLancamentos\ImportarOfx.cshtml" />
     <Content Include="Views\GrupoLancamentos\_LancamentosDoGrupo.cshtml" />
     <Content Include="Views\GrupoLancamentos\_AdicionarLancamento.cshtml" />
+    <Content Include="Views\GrupoLancamentos\_PesquisarGrupoLancamento.cshtml" />
+    <Content Include="Views\GrupoLancamentos\_ListagemGruposPesquisados.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

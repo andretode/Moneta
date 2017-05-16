@@ -93,6 +93,7 @@
     <Compile Include="ViewModels\Graficos\GraficosViewModel.cs" />
     <Compile Include="ViewModels\GrupoLancamentoViewModel.cs" />
     <Compile Include="ViewModels\Graficos\GraficoSaldoDoMesViewModel.cs" />
+    <Compile Include="ViewModels\GrupoPesquisaViewModel.cs" />
     <Compile Include="ViewModels\LancamentoAgrupadoViewModel.cs" />
     <Compile Include="ViewModels\LancamentosDoMesViewModel.cs" />
     <Compile Include="ViewModels\LancamentoParceladoViewModel.cs" />

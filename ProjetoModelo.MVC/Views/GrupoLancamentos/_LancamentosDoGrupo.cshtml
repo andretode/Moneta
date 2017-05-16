@@ -3,8 +3,11 @@
 @using Moneta.Infra.CrossCutting.Enums
 
 <div>
-    <button class="btn btn-primary" onclick="javascript: adicionarLancamento()">
+    <button class="btn btn-primary" title="Adicionar Lançamento" onclick="javascript: adicionarLancamento()">
         <i class="icon-white glyphicon glyphicon-plus"></i>
+    </button>
+    <button class="btn btn-default" title="Pesquisar Lançamento Dividido" onclick="javascript: pesquisarGrupoLancamento()">
+        <i class="icon-white glyphicon glyphicon-search"></i>
     </button>
     <a class="btn btn-default" title="Adicionar Transferência"
        href="@Url.Action("AdicionarTransferencia", "GrupoLancamentos", new { grupoLancamentoId = Model.GrupoLancamentoId }) ">

@@ -120,6 +120,10 @@
     <Compile Include="Migrations\201705101410363_Categoria_OrcamentoMensal.Designer.cs">
       <DependentUpon>201705101410363_Categoria_OrcamentoMensal.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705161634158_GrupoLancamentoPai.cs" />
+    <Compile Include="Migrations\201705161634158_GrupoLancamentoPai.Designer.cs">
+      <DependentUpon>201705161634158_GrupoLancamentoPai.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ADO\BaseADORepository.cs" />
@@ -177,6 +181,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705101410363_Categoria_OrcamentoMensal.resx">
       <DependentUpon>201705101410363_Categoria_OrcamentoMensal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705161634158_GrupoLancamentoPai.resx">
+      <DependentUpon>201705161634158_GrupoLancamentoPai.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

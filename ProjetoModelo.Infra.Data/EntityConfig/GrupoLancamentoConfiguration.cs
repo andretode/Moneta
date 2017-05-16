@@ -34,7 +34,10 @@ namespace Moneta.Infra.Data.EntityConfig
 
             HasOptional(c => c.ExtratoBancario)
                 .WithRequired(e => e.GrupoLancamento);
-            
+
+            Property(c => c.GrupoLancamentoIdPai)
+                .IsOptional();
+                                    
             Ignore(t => t.ResultadoValidacao);
         }
     }

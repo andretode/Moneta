@@ -70,7 +70,9 @@
     ContaId = Model.Conta.ContaId,
     DataVencimento = Model.DataVencimento,
     GrupoLancamentoId = Model.GrupoLancamentoId 
-});
+})
+
+@Html.Partial("_PesquisarGrupoLancamento", new GrupoPesquisaViewModel())
 
 @section Scripts {
     <script type="text/javascript">
@@ -107,6 +109,32 @@
             );
         }
         
+        function pesquisarGrupoLancamento() {
+            $("#divModalGrupoPesquisa").fadeIn();
+        }
+
+        function getGruposLancamento() {
+            var descricaoGrupoPesquisa = $("#DescricaoGrupoPesquisa").val();
+
+            if (descricaoGrupoPesquisa.length <= 2)
+                return;
+
+            //$('#ExtratoBancarioIdSelecionado').val(id);
+            $('#divListagem').html('<img src="/Content/images/loading.gif">');
+            $.ajax(
+            {
+                type: 'GET',
+                url: '/GrupoLancamentos/PesquisarGrupos?descricaoGrupoPesquisa=' + descricaoGrupoPesquisa,
+                dataType: 'html',
+                cache: false,
+                async: true,
+                success: function (data) {
+                    $('#divListagem').html(data);
+                }
+            });
+            //$("#janela-conciliacao").fadeIn();
+        }
+        
         function adicionarLancamento() {
             $("#divModalNovoLancamento").fadeIn();
         }
@@ -120,6 +148,10 @@
 
         function closeWindow() {
             $("#divModalNovoLancamento").hide();
+        }
+
+        function closeModalGrupoPesquisa() {
+            $("#divModalGrupoPesquisa").hide();
         }
 
         function validarForm()
