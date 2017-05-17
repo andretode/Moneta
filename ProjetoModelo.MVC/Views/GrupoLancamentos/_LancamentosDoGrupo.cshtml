@@ -6,9 +6,6 @@
     <button class="btn btn-primary" title="Adicionar Lançamento" onclick="javascript: adicionarLancamento()">
         <i class="icon-white glyphicon glyphicon-plus"></i>
     </button>
-    <button class="btn btn-default" title="Pesquisar Lançamento Dividido" onclick="javascript: pesquisarGrupoLancamento()">
-        <i class="icon-white glyphicon glyphicon-search"></i>
-    </button>
     <a class="btn btn-default" title="Adicionar Transferência"
        href="@Url.Action("AdicionarTransferencia", "GrupoLancamentos", new { grupoLancamentoId = Model.GrupoLancamentoId }) ">
         <i class="icon-white glyphicon glyphicon-transfer"></i>
@@ -17,6 +14,9 @@
        href="@Url.Action("ImportarOfx", "GrupoLancamentos", new { @Model.ContaId, @Model.DataVencimento, @Model.GrupoLancamentoId })">
         <i class="icon-white glyphicon glyphicon-import"></i>
     </a>
+    <button class="btn btn-default" title="Pesquisar Lançamento Dividido" onclick="javascript: pesquisarGrupoLancamento()">
+        <i class="icon-white glyphicon glyphicon-search"></i>
+    </button>
 </div>
 <br />
 @if (ViewBag.quantidadeImportada != -1)
