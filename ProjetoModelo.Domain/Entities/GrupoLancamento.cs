@@ -21,7 +21,8 @@ namespace Moneta.Domain.Entities
         public Guid ContaId { get; set; }
         public virtual Conta Conta { get; set; }
         public Guid? ExtratoBancarioId { get; set; }
-        public virtual ExtratoBancario ExtratoBancario { get; set; } 
+        public virtual ExtratoBancario ExtratoBancario { get; set; }
+        public string NumeroDocumento { get; set; }
         public DateTime DataCadastro { get; set; }
         public ValidationResult ResultadoValidacao { get; private set; }
 

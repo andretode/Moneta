@@ -37,7 +37,10 @@ namespace Moneta.Infra.Data.EntityConfig
 
             Property(c => c.GrupoLancamentoIdPai)
                 .IsOptional();
-                                    
+
+            Property(c => c.NumeroDocumento)
+                .IsOptional();
+
             Ignore(t => t.ResultadoValidacao);
         }
     }

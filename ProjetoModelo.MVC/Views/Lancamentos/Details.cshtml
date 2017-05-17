@@ -81,12 +81,25 @@
             @Html.DisplayFor(model => model.Conta.Descricao)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Observacao)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Observacao)
-        </dd>
+        @if (Model.NumeroDocumento != null && Model.NumeroDocumento != "")
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.NumeroDocumento)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.NumeroDocumento)
+            </dd>
+        }
+
+        @if (Model.Observacao != null && Model.Observacao != "")
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Observacao)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Observacao)
+            </dd>
+        }
         
         <dt>
             @Html.DisplayNameFor(model => model.Pago)
@@ -117,6 +130,22 @@
                 @Html.AntiForgeryToken()
                 @Html.Hidden("jsonLancamento", jsonLancamento)
             }
+
+            @using (Html.BeginForm("Dividir", "GrupoLancamentos",
+                new GrupoLancamentoViewModel {
+                    ContaId = Model.ContaId,
+                    ExtratoBancarioId = Model.ExtratoBancarioId,
+                    GrupoLancamentoIdPai = Model.GrupoLancamentoId,
+                    Descricao = Model.Descricao,
+                    DataVencimento = Model.DataVencimento,
+                    NumeroDocumento = Model.NumeroDocumento,
+                    LancamentoIdDividido = Model.LancamentoId
+                },
+                FormMethod.Post,
+                new { id = "formLancamentoDividirJson" }))
+            {
+                @Html.AntiForgeryToken()
+            }
             
             <a class="btn btn-default" title="Voltar" onclick="javascript: window.history.back();">
                 <i class="icon-white glyphicon glyphicon-arrow-left"></i>
@@ -125,6 +154,11 @@
             <a class="btn btn-default" title="Editar"
                href="#" onclick="document.getElementById('formLancamentoEditJson').submit();">
                 <i class="icon-white glyphicon glyphicon-edit"></i>
+            </a>
+
+            <a class="btn btn-default" title="Dividir"
+               href="#" onclick="document.getElementById('formLancamentoDividirJson').submit();">
+                <i class="icon-white glyphicon glyphicon-list-alt"></i>
             </a>
 
             <a class="btn btn-default" title="Remover"

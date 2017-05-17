@@ -32,18 +32,18 @@ namespace Moneta.MVC.Controllers
         // GET: GrupoLancamentos
         public ActionResult Index()
         {
-            var gruposLancamento = _grupoLancamentoApp.GetAll().OrderBy(c => c.Descricao);
+            var gruposLancamento = _grupoLancamentoApp.GetAllExcetoGruposFilhos();
             return View(gruposLancamento);
         }
 
         [HttpGet]
-        public ActionResult PesquisarGrupos(string descricaoGrupoPesquisa)
+        public ActionResult PesquisarGrupos(string descricaoGrupoPesquisa, Guid grupoLancamentoIdPai)
         {
             var grupoPesquisaViewModel = new GrupoPesquisaViewModel { DescricaoGrupoPesquisa = descricaoGrupoPesquisa };
 
             if(descricaoGrupoPesquisa.Length > 2)
             {
-                grupoPesquisaViewModel.Grupos = FilterGrupoByDescricao(descricaoGrupoPesquisa);
+                grupoPesquisaViewModel.Grupos = FilterGrupoByDescricao(descricaoGrupoPesquisa, grupoLancamentoIdPai);
             }
 
             return PartialView("_ListagemGruposPesquisados", grupoPesquisaViewModel);
@@ -73,44 +73,44 @@ namespace Moneta.MVC.Controllers
             return jsonResult;
         }
 
-        private IEnumerable<GrupoLancamentoViewModel> FilterGrupoByDescricao(string descricaoGrupoPesquisa)
+        private IEnumerable<GrupoLancamentoViewModel> FilterGrupoByDescricao(string descricaoGrupoPesquisa, Guid grupoLancamentoIdPai)
         {
             var filtros = descricaoGrupoPesquisa.Split(' ');
-            var _todosOsGrupos = _grupoLancamentoApp.GetAll();
+            var _todosOsGrupos = _grupoLancamentoApp.GetAllExcetoGruposFilhos().Where(g => g.GrupoLancamentoId != grupoLancamentoIdPai);
             IEnumerable<GrupoLancamentoViewModel> gruposFiltrados = null;
 
             switch (filtros.Count())
             {
                 case 1:
-                    gruposFiltrados = from alimentos in _todosOsGrupos
-                                         where alimentos.Descricao.ToLowerInvariant().Contains(filtros[0].ToLowerInvariant())
-                                         select alimentos;
+                    gruposFiltrados = from grupos in _todosOsGrupos
+                                         where grupos.Descricao.ToLowerInvariant().Contains(filtros[0].ToLowerInvariant())
+                                         select grupos;
                     break;
                 case 2:
-                    gruposFiltrados = from alimentos in _todosOsGrupos
-                                         where alimentos.Descricao.ToLowerInvariant().Contains(filtros[0].ToLowerInvariant())
-                                         && alimentos.Descricao.ToLowerInvariant().Contains(filtros[1].ToLowerInvariant())
-                                         select alimentos;
+                    gruposFiltrados = from grupos in _todosOsGrupos
+                                         where grupos.Descricao.ToLowerInvariant().Contains(filtros[0].ToLowerInvariant())
+                                         && grupos.Descricao.ToLowerInvariant().Contains(filtros[1].ToLowerInvariant())
+                                         select grupos;
                     break;
                 case 3:
-                    gruposFiltrados = from alimentos in _todosOsGrupos
-                                         where alimentos.Descricao.ToLowerInvariant().Contains(filtros[0].ToLowerInvariant())
-                                         && alimentos.Descricao.ToLowerInvariant().Contains(filtros[1].ToLowerInvariant())
-                                         && alimentos.Descricao.ToLowerInvariant().Contains(filtros[2].ToLowerInvariant())
-                                         select alimentos;
+                    gruposFiltrados = from grupos in _todosOsGrupos
+                                         where grupos.Descricao.ToLowerInvariant().Contains(filtros[0].ToLowerInvariant())
+                                         && grupos.Descricao.ToLowerInvariant().Contains(filtros[1].ToLowerInvariant())
+                                         && grupos.Descricao.ToLowerInvariant().Contains(filtros[2].ToLowerInvariant())
+                                         select grupos;
                     break;
                 case 4:
-                    gruposFiltrados = from alimentos in _todosOsGrupos
-                                         where alimentos.Descricao.ToLowerInvariant().Contains(filtros[0].ToLowerInvariant())
-                                         && alimentos.Descricao.ToLowerInvariant().Contains(filtros[1].ToLowerInvariant())
-                                         && alimentos.Descricao.ToLowerInvariant().Contains(filtros[2].ToLowerInvariant())
-                                         && alimentos.Descricao.ToLowerInvariant().Contains(filtros[3].ToLowerInvariant())
-                                         select alimentos;
+                    gruposFiltrados = from grupos in _todosOsGrupos
+                                      where grupos.Descricao.ToLowerInvariant().Contains(filtros[0].ToLowerInvariant())
+                                        && grupos.Descricao.ToLowerInvariant().Contains(filtros[1].ToLowerInvariant())
+                                        && grupos.Descricao.ToLowerInvariant().Contains(filtros[2].ToLowerInvariant())
+                                        && grupos.Descricao.ToLowerInvariant().Contains(filtros[3].ToLowerInvariant())
+                                        select grupos;
                     break;
                 default:
-                    gruposFiltrados = from alimentos in _todosOsGrupos
-                                         where alimentos.Descricao.ToLowerInvariant().Contains(descricaoGrupoPesquisa.ToLowerInvariant())
-                                         select alimentos;
+                    gruposFiltrados = from grupos in _todosOsGrupos
+                                      where grupos.Descricao.ToLowerInvariant().Contains(descricaoGrupoPesquisa.ToLowerInvariant())
+                                      select grupos;
                     break;
             }
 
@@ -157,6 +157,19 @@ namespace Moneta.MVC.Controllers
 
             SetSelectLists();
             return View(grupoLancamento);
+        }
+
+        public ActionResult Dividir(GrupoLancamentoViewModel grupoLancamento)
+        {
+            if (ModelState.IsValid)
+            {
+                _lancamentoApp.Remove(_lancamentoApp.GetByIdReadOnly((Guid)grupoLancamento.LancamentoIdDividido));
+                var result = _grupoLancamentoApp.Add(grupoLancamento);
+                return RedirectToAction("Details", new { id = grupoLancamento.GrupoLancamentoId });
+            }
+
+            SetSelectLists();
+            return View("Create", grupoLancamento);
         }
 
         // GET: GrupoLancamentos/Edit/5

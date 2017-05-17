@@ -110,7 +110,8 @@ namespace Moneta.Domain.Services
         public int ImportarOfxParaGrupoDeLancamento(string caminhoOfx, Guid contaId, DateTime mesAnoCompetencia, Guid grupoLancamentoId)
         {
             var novosLancamentosOfx = new List<Lancamento>();
-            IEnumerable<IExtratoOfx> lancamentosExistentesNoGrupo = _GrupoLancamentoRepository.GetById(grupoLancamentoId).Lancamentos;
+            var grupoReceptor = _GrupoLancamentoRepository.GetById(grupoLancamentoId);
+            IEnumerable<IExtratoOfx> lancamentosExistentesNoGrupo = IncluirLancamentosDivididosDoGrupo(grupoReceptor);
 
             IEnumerable<IExtratoOfx> extratosOfx = ImportacaoOfxService.ImportarNovosExtratosOfx(caminhoOfx, contaId, lancamentosExistentesNoGrupo, mesAnoCompetencia, true);
 
@@ -123,6 +124,17 @@ namespace Moneta.Domain.Services
             }
 
             return novosLancamentosOfx.Count();
+        }
+
+        private IEnumerable<Lancamento> IncluirLancamentosDivididosDoGrupo(GrupoLancamento grupoReceptor)
+        {
+            var lancamentosDivididos = new List<Lancamento>();
+            foreach (var grupo in grupoReceptor.GruposDeLancamentos)
+            {
+                lancamentosDivididos.AddRange(grupo.Lancamentos);
+            }
+
+            return grupoReceptor.Lancamentos.Union(lancamentosDivididos);
         }
 
 

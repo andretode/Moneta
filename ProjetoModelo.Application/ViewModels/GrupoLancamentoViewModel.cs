@@ -58,5 +58,11 @@ namespace Moneta.Application.ViewModels
         public ICollection<LancamentoViewModel> Lancamentos { get; set; }
         public ICollection<GrupoLancamentoViewModel> GruposDeLancamentos { get; set; }
 
+        [MaxLength(100, ErrorMessage = "Máximo {0} caracteres")]
+        [MinLength(2, ErrorMessage = "Mínimo {0} caracteres")]
+        [DisplayName("N° Doc")]
+        public string NumeroDocumento { get; set; }
+
+        public Guid? LancamentoIdDividido { get; set; }
     }
 }

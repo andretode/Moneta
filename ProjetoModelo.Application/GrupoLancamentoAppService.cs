@@ -45,9 +45,12 @@ namespace Moneta.Application
             return Mapper.Map<GrupoLancamento, GrupoLancamentoViewModel>(_GrupoLancamentoService.GetByIdReadOnly(id));
         }
 
-        public IEnumerable<GrupoLancamentoViewModel> GetAll()
+        public IEnumerable<GrupoLancamentoViewModel> GetAllExcetoGruposFilhos()
         {
-            return Mapper.Map<IEnumerable<GrupoLancamento>, IEnumerable<GrupoLancamentoViewModel>>(_GrupoLancamentoService.GetAll());
+            var gruposPai = _GrupoLancamentoService.GetAll()
+                .Where(g => g.GrupoLancamentoIdPai == null)
+                .OrderBy(c => c.DataVencimento);
+            return Mapper.Map<IEnumerable<GrupoLancamento>, IEnumerable<GrupoLancamentoViewModel>>(gruposPai);
         }
 
         public IEnumerable<GrupoLancamentoViewModel> GetAllReadOnly()

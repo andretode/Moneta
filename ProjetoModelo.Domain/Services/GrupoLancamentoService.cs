@@ -11,12 +11,15 @@ namespace Moneta.Domain.Services
     public class GrupoLancamentoService : ServiceBase<GrupoLancamento>, IGrupoLancamentoService
     {
         private readonly IGrupoLancamentoRepository _GrupoLancamentoRepository;
+        private readonly ILancamentoRepository _LancamentoRepository;
 
         public GrupoLancamentoService(
-            IGrupoLancamentoRepository GrupoLancamentoRepository)
+            IGrupoLancamentoRepository GrupoLancamentoRepository,
+            ILancamentoRepository LancamentoRepository)
             : base(GrupoLancamentoRepository)
         {
             _GrupoLancamentoRepository = GrupoLancamentoRepository;
+            _LancamentoRepository = LancamentoRepository;
         }
 
         public override GrupoLancamento GetById(Guid id)
@@ -34,6 +37,14 @@ namespace Moneta.Domain.Services
         public override IEnumerable<GrupoLancamento> GetAll()
         {
             return _GrupoLancamentoRepository.GetAll();
+        }
+
+        public override void Remove(GrupoLancamento grupoLancamento)
+        {
+            foreach (var lancamento in _LancamentoRepository.GetAllReadOnly().Where(l => l.GrupoLancamentoId == grupoLancamento.GrupoLancamentoId))
+                _LancamentoRepository.Remove(lancamento);
+
+            _GrupoLancamentoRepository.Remove(grupoLancamento);
         }
 
         public ValidationResult Adicionar(GrupoLancamento GrupoLancamento)

@@ -58,6 +58,16 @@
         <dd>
             @Html.DisplayFor(model => model.Conta.Descricao)
         </dd>
+
+        @if (Model.NumeroDocumento != null && Model.NumeroDocumento != "")
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.NumeroDocumento)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.NumeroDocumento)
+            </dd>
+        }
     </dl>
 
     <hr />
@@ -69,7 +79,8 @@
 @Html.Partial("_AdicionarLancamento", new LancamentoViewModel() { 
     ContaId = Model.Conta.ContaId,
     DataVencimento = Model.DataVencimento,
-    GrupoLancamentoId = Model.GrupoLancamentoId 
+    GrupoLancamentoId = Model.GrupoLancamentoId,
+    NumeroDocumento = Model.NumeroDocumento
 })
 
 @Html.Partial("_PesquisarGrupoLancamento", new GrupoPesquisaViewModel())
@@ -124,7 +135,7 @@
             $.ajax(
             {
                 type: 'GET',
-                url: '/GrupoLancamentos/PesquisarGrupos?descricaoGrupoPesquisa=' + descricaoGrupoPesquisa,
+                url: '/GrupoLancamentos/PesquisarGrupos?descricaoGrupoPesquisa=' + descricaoGrupoPesquisa + "&grupoLancamentoIdPai=@Model.GrupoLancamentoId",
                 dataType: 'html',
                 cache: false,
                 async: true,

@@ -10,11 +10,9 @@ namespace Moneta.Application.Interfaces
         ValidationAppResult Add(GrupoLancamentoViewModel grupoLancamentoViewModel);
         GrupoLancamentoViewModel GetById(Guid id);
         GrupoLancamentoViewModel GetByIdReadOnly(Guid id);
-        IEnumerable<GrupoLancamentoViewModel> GetAll();
+        IEnumerable<GrupoLancamentoViewModel> GetAllExcetoGruposFilhos();
         IEnumerable<GrupoLancamentoViewModel> GetAllReadOnly();
         void Update(GrupoLancamentoViewModel grupoLancamentoViewModel);
         void Remove(GrupoLancamentoViewModel grupoLancamentoViewModel);
-        //int ObterTotalRegistros(string pesquisa);
-        //IEnumerable<GrupoLancamentoViewModel> ObterGrupoLancamentosGrid(int page, string pesquisa);
     }
 }
