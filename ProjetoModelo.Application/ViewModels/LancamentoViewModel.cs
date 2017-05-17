@@ -143,5 +143,13 @@ namespace Moneta.Application.ViewModels
         public virtual ExtratoBancarioViewModel ExtratoBancario { get; set; }
 
         public bool Selecionado { get; set; }
+
+        public bool PodeSerDividido
+        {
+            get
+            {
+                return GrupoLancamento == null;
+            }
+        }
     }
 }

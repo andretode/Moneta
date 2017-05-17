@@ -17,13 +17,13 @@ namespace Moneta.Domain.Services
 
         public IEnumerable<Lancamento> GetLancamentosDeTodosOsGruposDoMes(int mes, int ano)
         {
-            var gruposDoMes = _GrupoLancamentoRepository.GetAll().Where(g => g.DataVencimento.Month == mes && g.DataVencimento.Year == ano);
+            var gruposDoMes = _GrupoLancamentoRepository.GetAll().Where(g => g.DataVencimento.Month == mes && g.DataVencimento.Year == ano && g.GrupoLancamentoIdPai == null);
             return GetLancamentosDeTodosOsGrupos(gruposDoMes);
         }
 
         public IEnumerable<Lancamento> GetLancamentosDeTodosOsGruposDosMesesAnteriores(DateTime dataUltimoDiaMesAnterior)
         {
-            var gruposDoMes = _GrupoLancamentoRepository.GetAll().Where(g => g.DataVencimento <= dataUltimoDiaMesAnterior);
+            var gruposDoMes = _GrupoLancamentoRepository.GetAll().Where(g => g.DataVencimento <= dataUltimoDiaMesAnterior && g.GrupoLancamentoIdPai == null);
             return GetLancamentosDeTodosOsGrupos(gruposDoMes);
         }
 
@@ -32,8 +32,18 @@ namespace Moneta.Domain.Services
             var lancamentos = new List<Lancamento>();
             foreach (var g in grupos)
             {
+                // Pega os lançamentos únicos
                 if (g.Lancamentos != null)
                     lancamentos.AddRange(g.Lancamentos);
+
+                // Pega os lançamentos dos grupos filhos
+                if(g.GruposDeLancamentos != null)
+                {
+                    foreach(var g2 in g.GruposDeLancamentos)
+                    {
+                        lancamentos.AddRange(g2.Lancamentos);
+                    }
+                }
             }
 
             return lancamentos;

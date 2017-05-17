@@ -156,10 +156,13 @@
                 <i class="icon-white glyphicon glyphicon-edit"></i>
             </a>
 
-            <a class="btn btn-default" title="Dividir"
-               href="#" onclick="document.getElementById('formLancamentoDividirJson').submit();">
-                <i class="icon-white glyphicon glyphicon-list-alt"></i>
-            </a>
+            @if (Model.PodeSerDividido)
+            {
+                <a class="btn btn-default" title="Dividir"
+                   href="#" onclick="document.getElementById('formLancamentoDividirJson').submit();">
+                    <i class="icon-white glyphicon glyphicon-list-alt"></i>
+                </a>
+            }
 
             <a class="btn btn-default" title="Remover"
                href="#" onclick="document.getElementById('formLancamentoDeleteJson').submit();">
