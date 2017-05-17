@@ -49,6 +49,30 @@ namespace Moneta.MVC.Controllers
             return PartialView("_ListagemGruposPesquisados", grupoPesquisaViewModel);
         }
 
+        [HttpPost]
+        public JsonResult IncluirGrupoLancamento(Guid grupoLancamentoIdPai, Guid grupoLancamentoIdFilho)
+        {
+            var jsonResult = new JsonResult()
+            {
+                Data = new { status = "Ok" },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+
+            try
+            {
+                var grupoLancamentoFilho = _grupoLancamentoApp.GetByIdReadOnly(grupoLancamentoIdFilho);
+                grupoLancamentoFilho.GrupoLancamentoIdPai = grupoLancamentoIdPai;
+                _grupoLancamentoApp.Update(grupoLancamentoFilho);
+            }
+            catch (Exception)
+            {
+                jsonResult.Data = new { status = "Nok" };
+                //Elmah.ErrorSignal.FromCurrentContext().Raise(ex);
+            }
+
+            return jsonResult;
+        }
+
         private IEnumerable<GrupoLancamentoViewModel> FilterGrupoByDescricao(string descricaoGrupoPesquisa)
         {
             var filtros = descricaoGrupoPesquisa.Split(' ');

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Moneta.Domain.Entities;
 using Moneta.Domain.Interfaces.Repository;
@@ -20,7 +21,9 @@ namespace Moneta.Domain.Services
 
         public override GrupoLancamento GetById(Guid id)
         {
-            return _GrupoLancamentoRepository.GetById(id);
+            var grupo = _GrupoLancamentoRepository.GetById(id);
+            grupo.GruposDeLancamentos = _GrupoLancamentoRepository.GetAll().Where(g => g.GrupoLancamentoIdPai == id).ToList();
+            return grupo;
         }
 
         public GrupoLancamento GetByIdReadOnly(Guid id)

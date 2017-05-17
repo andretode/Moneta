@@ -132,9 +132,27 @@
                     $('#divListagem').html(data);
                 }
             });
-            //$("#janela-conciliacao").fadeIn();
         }
         
+        function incluirGrupoLancamento() {
+            var grupoIdSelecionado = $('input[name=radio_grupos]:checked').val();
+
+            if (grupoIdSelecionado == null)
+                return alert("Selecione um lançamento");
+
+            $.post("/GrupoLancamentos/IncluirGrupoLancamento",
+                { grupoLancamentoIdPai: '@Model.GrupoLancamentoId' , grupoLancamentoIdFilho: grupoIdSelecionado },
+                function (data) {
+                    if (data.status === "Ok") {
+                        location.reload();
+                    }
+                    else {
+                        alert("Erro ao incluir o lançamento!");
+                    }
+                }
+            );
+        }
+
         function adicionarLancamento() {
             $("#divModalNovoLancamento").fadeIn();
         }

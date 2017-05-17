@@ -27,7 +27,7 @@
                             @Html.EditorFor(model => model.DescricaoGrupoPesquisa, new
                             {
                                 htmlAttributes =
-                                    new { @class = "form-control", @placeholder = "Digite para começar a pesquisar", @onkeyup = "getGruposLancamento()", @autocomplete = "off" }
+                                    new { @class = "form-control", @placeholder = "Digite ao menos 3 caracteres...", @onkeyup = "getGruposLancamento()", @autocomplete = "off" }
                             })
                         </div>
                     </div>
@@ -39,7 +39,7 @@
         </div>
         <br />
         <div class="col-md-12">
-            <a class="btn btn-sm btn-primary" href="javascript: selecionarGrupoLancamento()">Selecionar</a>
+            <a class="btn btn-sm btn-primary" href="javascript: incluirGrupoLancamento()">Incluir</a>
             <a class="btn btn-sm btn-default" href="javascript: closeModalGrupoPesquisa()">Cancelar</a>
         </div>
     </div>
@@ -51,6 +51,11 @@
 <style>
     tr.espacoEntreColunas > td {
         padding-right: 1em;
+    }
+
+    .autoScrollTable {
+        overflow-y: auto;
+        max-height: 250px;
     }
 
     .modalBox {

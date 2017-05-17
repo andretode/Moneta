@@ -55,6 +55,16 @@
         </th>
     </tr>
 
+    <tr>
+        <td colspan="4"><b> Lançamentos Únicos:</b></td>
+    </tr>
+    @if (Model.Lancamentos.Count() == 0)
+    {
+        <tr>
+            <td class="text-center" colspan="4"><i>Nenhum</i></td>
+        </tr>
+    }
+
     @foreach (var item in Model.Lancamentos.OrderBy(l => l.DataVencimento))
     {
         <tr>
@@ -84,6 +94,35 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Valor)
+            </td>
+        </tr>
+    }
+
+    <tr>
+        <td colspan="4"><b> Lançamentos Divididos:</b></td>
+    </tr>
+    @if (Model.GruposDeLancamentos.Count() == 0)
+    {
+        <tr>
+            <td class="text-center" colspan="4"><i>Nenhum</i></td>
+        </tr>
+    }
+
+    @foreach(var grupo in Model.GruposDeLancamentos.OrderBy(l => l.DataVencimento))
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => grupo.DataVencimento)
+            </td>
+            <td>
+                <a href="/GrupoLancamentos/Details?id=@grupo.GrupoLancamentoId">
+                    @Html.DisplayFor(modelItem => grupo.Descricao)
+                </a>
+            </td>
+            <td>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => grupo.Valor)                
             </td>
         </tr>
     }

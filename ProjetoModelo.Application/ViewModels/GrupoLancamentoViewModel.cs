@@ -47,13 +47,16 @@ namespace Moneta.Application.ViewModels
 
         [DisplayName("Extrato Bancário")]
         [JsonIgnore]
-        public virtual ExtratoBancarioViewModel ExtratoBancario { get; set; } 
+        public virtual ExtratoBancarioViewModel ExtratoBancario { get; set; }
+
+        public Guid? GrupoLancamentoIdPai { get; set; }
 
         [DisplayName("Data de Cadastro")]
         [ScaffoldColumn(false)]
         public DateTime DataCadastro { get; set; }
         
         public ICollection<LancamentoViewModel> Lancamentos { get; set; }
+        public ICollection<GrupoLancamentoViewModel> GruposDeLancamentos { get; set; }
 
     }
 }

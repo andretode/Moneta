@@ -15,7 +15,7 @@
                 {
                     <tr class="child">
                         <td>
-                            @Html.RadioButton("radio_lancamentos", grupos[i].GrupoLancamentoId)
+                            @Html.RadioButton("radio_grupos", grupos[i].GrupoLancamentoId)
                             <input type="hidden" id="Grupo_@grupos[i].GrupoLancamentoId"
                                     value="@JsonConvert.SerializeObject(grupos[i])">
                         </td>

@@ -34,7 +34,9 @@ namespace Moneta.Domain.Entities
         {
             get
             {
-                return Lancamentos != null ? Lancamentos.Select(l => l.Valor).Sum() : 0;
+                var valorTotal = Lancamentos != null ? Lancamentos.Select(l => l.Valor).Sum() : 0;
+                valorTotal += GruposDeLancamentos != null ? GruposDeLancamentos.Select(l => l.Valor).Sum() : 0;
+                return valorTotal;
             }
         }
 
