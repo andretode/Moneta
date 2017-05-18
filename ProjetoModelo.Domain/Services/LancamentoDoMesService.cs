@@ -109,11 +109,7 @@ namespace Moneta.Domain.Services
 
                 la.Lancamentos = new List<Lancamento>();
                 foreach (var l in lancamentoGrupo)
-                {
-                    l.GrupoLancamento.GruposDeLancamentos = _GrupoLancamentoRepository.GetAll()
-                        .Where(g => g.GrupoLancamentoIdPai == l.GrupoLancamentoId).ToList();
                     la.Lancamentos.Add(l);
-                }
 
                 lancamentosAgrupados.Add(la);
             }
