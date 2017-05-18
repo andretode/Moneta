@@ -128,6 +128,10 @@
     <Compile Include="Migrations\201705171325007_GrupoLancamento_NumeroDocumento.Designer.cs">
       <DependentUpon>201705171325007_GrupoLancamento_NumeroDocumento.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705181620177_GrupoLancamento_Nav_Entre_GrupoPai_e_Filhos.cs" />
+    <Compile Include="Migrations\201705181620177_GrupoLancamento_Nav_Entre_GrupoPai_e_Filhos.Designer.cs">
+      <DependentUpon>201705181620177_GrupoLancamento_Nav_Entre_GrupoPai_e_Filhos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ADO\BaseADORepository.cs" />
@@ -191,6 +195,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705171325007_GrupoLancamento_NumeroDocumento.resx">
       <DependentUpon>201705171325007_GrupoLancamento_NumeroDocumento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705181620177_GrupoLancamento_Nav_Entre_GrupoPai_e_Filhos.resx">
+      <DependentUpon>201705181620177_GrupoLancamento_Nav_Entre_GrupoPai_e_Filhos.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

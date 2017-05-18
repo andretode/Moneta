@@ -17,6 +17,7 @@ namespace Moneta.Domain.Entities
         public DateTime DataVencimento { get; set; }
         public virtual ICollection<Lancamento> Lancamentos { get; set; }
         public virtual ICollection<GrupoLancamento> GruposDeLancamentos { get; set; }
+        public virtual GrupoLancamento GrupoLancamentoPai { get; set; }
         public Guid? GrupoLancamentoIdPai { get; set; }
         public Guid ContaId { get; set; }
         public virtual Conta Conta { get; set; }

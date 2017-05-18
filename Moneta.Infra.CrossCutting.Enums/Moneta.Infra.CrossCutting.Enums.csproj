@@ -36,6 +36,7 @@
     <Compile Include="PeriodicidadeEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TipoDeAlteracaoDaRepeticaoEnum.cs" />
+    <Compile Include="TipoGrupoLancamentoEnum.cs" />
     <Compile Include="TipoRepeticaoEnum.cs" />
     <Compile Include="TipoTransacaoEnum.cs" />
   </ItemGroup>

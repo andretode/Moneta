@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Moneta.Infra.CrossCutting.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,6 +9,8 @@ namespace Moneta.Application.ViewModels
     {
         public string Descricao { get; set; }
         public List<LancamentoViewModel> Lancamentos { get; set; }
+
+        public TipoGrupoLancamentoEnum TipoGrupoLancamento { get; private set; }
 
         public GrupoLancamentoViewModel GrupoLancamento
         {

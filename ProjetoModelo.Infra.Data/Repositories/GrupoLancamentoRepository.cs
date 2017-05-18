@@ -16,13 +16,6 @@ namespace Moneta.Infra.Data.Repositories
             entry.State = EntityState.Deleted;
         }
 
-        public override GrupoLancamento GetById(Guid id)
-        {
-            var grupo = DbSet.Find(id);
-            grupo.GruposDeLancamentos = DbSet.Where(g => g.GrupoLancamentoIdPai == id).ToList();
-            return grupo;
-        }
-
         public GrupoLancamento GetByIdReadOnly(Guid id)
         {
             base.Context.SetProxyCreationEnabledToFalse();

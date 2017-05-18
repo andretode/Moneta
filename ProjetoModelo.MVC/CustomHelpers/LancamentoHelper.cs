@@ -20,9 +20,9 @@ namespace Moneta.MVC.CustomHelpers
             var lancamentosAgrupados = htmlHelper.ViewData.Model.LancamentosAgrupados.ToArray();
             for(int i = 0; i < lancamentosAgrupados.Count(); i++)
             {
-                if (lancamentosAgrupados[i].Lancamentos.First().GrupoLancamentoId != null)
+                if (lancamentosAgrupados[i].TipoGrupoLancamento == TipoGrupoLancamentoEnum.GrupoPai)
                     resultado += DisplayLancamentoAgrupado(htmlHelper, lancamentosAgrupados, i, contaIdFiltro);
-                else
+                else if (lancamentosAgrupados[i].TipoGrupoLancamento == TipoGrupoLancamentoEnum.Unico)
                     resultado += DisplayLancamentoUnico(htmlHelper, lancamentosAgrupados, i, contaIdFiltro);
             }
 
