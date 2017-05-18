@@ -148,7 +148,7 @@ namespace Moneta.Application.ViewModels
         {
             get
             {
-                return GrupoLancamento == null;
+                return (GrupoLancamento == null ? true : GrupoLancamento.GrupoLancamentoIdPai == null);
             }
         }
     }
