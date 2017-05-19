@@ -23,6 +23,7 @@ namespace Moneta.MVC.CustomHelpers
                             <i class='glyphicon glyphicon-chevron-left' style='color: white'></i>
                         </a>
                         <div class='text-center col-xs-4 col-md-4'>
+                            <input class='form-control datepicker text-box text-center' type='datetime' name='mesAnoCompetencia' id='mesAnoCompetencia' 
                                 value='{2}' aria-invalid='false' style='background-color : gray; color:white' onchange='enviar()' onkeydown='isKeyEnter()'>
                             <input id='contaIdFiltro' name='contaIdFiltro' type='hidden' value='{3}'>
                             <input id='addMonths' name='addMonths' type='hidden' value='0'>
