@@ -182,8 +182,10 @@
     // Trata mudança do filtro conta
     $(function () {
         $('#ContaIdFiltro').change(function () {
-            $('#formExtratos').submit();    
+            $('#formExtratos').submit();
         });
+
+        $('.datepicker').datepicker('setDate', new Date('@Model.MesAnoCompetencia.ToString("MM/dd/yyyy")'));
     });
 
     // Pega Lançamentos para serem conciliados
@@ -227,7 +229,7 @@
 
         var lancamentoJson = $('#Lancamento_' + lancamentoIdSelecionado).val();
         lancamentoVM = JSON.parse(lancamentoJson);
-        
+
         if (document.getElementById("chkValor").checked)
             lancamentoVM.Valor = $('#ExtratoBancario_Valor').val().replace(",", ".");
         if (document.getElementById("chkData").checked)
@@ -242,7 +244,7 @@
         d = strDate.substring(0, 2);
         m = strDate.substring(3, 5);
         y = strDate.substring(6, 10);
-        
+
         date = new Date(y, m - 1, d, 0, 0, 0);
         return date;
     }

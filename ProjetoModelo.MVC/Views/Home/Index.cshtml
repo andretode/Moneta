@@ -72,6 +72,8 @@
             var somentePagos = document.getElementById("ckbSomentePagos").checked;
             getDadosDespesasPorCategoria('@Model.ContaIdFiltro', '@Model.MesAnoCompetencia.ToString("yyyy-MM-dd")', somentePagos);
         });
+
+        $('.datepicker').datepicker('setDate', new Date('@Model.MesAnoCompetencia.ToString("MM/dd/yyyy")'));
     });
 
     function getDadosDespesasPorCategoria(contaIdFiltro, mesAnoCompetencia, somentePagos) {

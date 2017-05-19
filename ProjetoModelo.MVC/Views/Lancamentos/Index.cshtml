@@ -123,6 +123,8 @@
                 clicouPesquisar = true;
                 $('#formFiltros').submit();
             });
+
+            $('.datepicker').datepicker('setDate', new Date('@Model.MesAnoCompetencia.ToString("MM/dd/yyyy")'));
         });
 
         function IsValidForm()
