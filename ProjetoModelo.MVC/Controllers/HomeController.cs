@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace Moneta.MVC.Controllers
 {
+    [Authorize(Roles = "UsuarioPlanoBasico")]
     public class HomeController : Controller
     {
         private readonly ILancamentoAppService _LancamentoApp;

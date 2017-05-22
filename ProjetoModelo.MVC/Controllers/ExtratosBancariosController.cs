@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Moneta.MVC.Controllers
 {
+    [Authorize(Roles = "UsuarioPlanoBasico")]
     public class ExtratosBancariosController : Controller
     {
         private readonly IExtratoBancarioAppService _ExtratoBancarioApp;

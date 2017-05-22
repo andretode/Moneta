@@ -232,6 +232,7 @@
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Content\images\loading.gif" />
+    <Content Include="Content\images\unauthorize.png" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -806,6 +807,7 @@
     <Content Include="Views\GrupoLancamentos\_AdicionarLancamento.cshtml" />
     <Content Include="Views\GrupoLancamentos\_PesquisarGrupoLancamento.cshtml" />
     <Content Include="Views\GrupoLancamentos\_ListagemGruposPesquisados.cshtml" />
+    <Content Include="Views\Shared\UnAuthorized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

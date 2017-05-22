@@ -6,6 +6,7 @@ using Moneta.Application.ViewModels;
 
 namespace Moneta.MVC.Controllers
 {
+    [Authorize(Roles = "UsuarioPlanoBasico")]
     public class CategoriasController : Controller
     {
         private readonly ICategoriaAppService _categoriaApp;

@@ -10,6 +10,7 @@ using System.Xml;
 
 namespace Moneta.MVC.Controllers
 {
+    [Authorize(Roles = "UsuarioPlanoBasico")]
     public class GrupoLancamentosController : Controller
     {
         private readonly IGrupoLancamentoAppService _grupoLancamentoApp;

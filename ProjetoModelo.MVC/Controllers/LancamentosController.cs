@@ -13,6 +13,7 @@ using System.Threading;
 
 namespace Moneta.MVC.Controllers
 {
+    [Authorize(Roles = "UsuarioPlanoBasico")]
     public class LancamentosController : Controller
     {
         private readonly ILancamentoParceladoAppService _LancamentoParceladoApp;

@@ -13,7 +13,7 @@ using Moneta.MVC.ViewModels;
 
 namespace Moneta.MVC.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class RolesAdminController : Controller
     {
         public RolesAdminController()
