@@ -11,7 +11,7 @@ namespace Moneta.MVC.CustomHelpers
             string formAction = "/" + controllerName + "/" + actionName;
             string hrefAnterior = "href='/" + controllerName + "/" + actionName + "?mesAnoCompetencia=" + 
                 mesAnoCompetencia.ToString("yyyy-MM-dd") + "&contaIdFiltro=" + contaIdFiltro + "&addMonths=-1'";
-            string strMesAno = mesAnoCompetencia.ToString("dd/MM/yy");
+            string strMesAno = mesAnoCompetencia.ToString("yyyy-MM");
             string hrefProximo = "href='/" + controllerName + "/" + actionName + "?mesAnoCompetencia=" +
                 mesAnoCompetencia.ToString("yyyy-MM-dd") + "&contaIdFiltro=" + contaIdFiltro + "&addMonths=+1'";
 
@@ -25,12 +25,10 @@ namespace Moneta.MVC.CustomHelpers
                             <i class='glyphicon glyphicon-chevron-left' style='color:black'></i>
                         </a>
                         <div class='text-center col-xs-6 col-md-6'>
-                            <input class='visible-xs visible-sm form-control text-box text-center' type='datetime' name='mesAnoCompetencia' id='mesAnoCompetencia' 
-                                value='{2}' aria-invalid='false' style='background-color:#CDCDCD;margin:auto;font-weight:bold;' onchange='enviar()' onkeydown='isKeyEnter()'>
-                            <input class='visible-md visible-lg form-control datepicker text-box text-center' type='datetime' name='mesAnoCompetencia' id='mesAnoCompetencia' 
-                                value='{2}' aria-invalid='false' style='background-color:#CDCDCD;margin:auto;font-weight:bold;' onchange='enviar()' onkeydown='isKeyEnter()'>
-                            <input id='contaIdFiltro' name='contaIdFiltro' type='hidden' value='{3}'>
+                            <input class='form-control text-center' type='month' name='mesAnoCompetencia' id='mesAnoCompetencia'
+                                value='{2}' style='background-color:#CDCDCD;margin:auto;' onchange='enviar()'>
                             <input id='addMonths' name='addMonths' type='hidden' value='0'>
+                            <input id='contaIdFiltro' name='contaIdFiltro' type='hidden' value='{3}'>
                         </div>
                         <a class='text-left col-xs-3 col-md-3' title='Próximo mês' {4} >
                             <i class='glyphicon glyphicon-chevron-right' style='color:black'></i>
@@ -39,13 +37,11 @@ namespace Moneta.MVC.CustomHelpers
                 </form>
                 <script>
                     function enviar() {{
+                        if(document.getElementById('mesAnoCompetencia').value == '')
+                            return;
+
                         var form = document.getElementById('formAnoMesCompetencia');
                         form.submit();
-                    }}
-                    function isKeyEnter() {{
-                        if(event.keyCode == 13) {{
-                            enviar();
-                        }}
                     }}
                 </script>
                 ";
