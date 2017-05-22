@@ -47,7 +47,7 @@ Temporary Items
 .apdisk
 
 # configuracoes minhas
-packages/
+packages/?*/
 obj/
 bin/
 *.ofx
