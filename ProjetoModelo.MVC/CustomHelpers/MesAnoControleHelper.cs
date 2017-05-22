@@ -24,7 +24,7 @@ namespace Moneta.MVC.CustomHelpers
                         <a class='text-right col-xs-3 col-md-3' title='Mês Anterior' {1} >
                             <i class='glyphicon glyphicon-chevron-left' style='color:black'></i>
                         </a>
-                        <div class='text-center col-xs-6 col-md-6'>
+                        <div class='text-center col-xs-6 col-md-6' style='min-width:200px;'>
                             <input class='form-control text-center' type='month' name='mesAnoCompetencia' id='mesAnoCompetencia'
                                 value='{2}' style='background-color:#CDCDCD;margin:auto;' onchange='enviar()'>
                             <input id='addMonths' name='addMonths' type='hidden' value='0'>
