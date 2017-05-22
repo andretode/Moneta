@@ -243,6 +243,7 @@ namespace Moneta.MVC.Controllers
         public ActionResult CreateFromExtrato(LancamentoViewModel lancamento, bool nada=true)
         {
             SetSelectLists();
+            lancamento.Conta = _ContaApp.GetById(lancamento.ContaId);
             return View(lancamento);
         }
 
