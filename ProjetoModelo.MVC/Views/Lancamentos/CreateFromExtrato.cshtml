@@ -68,7 +68,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DataVencimento, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DataVencimento, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                <input type="date" id="DataVencimento" name="DataVencimento" class="form-control" value="@Model.DataVencimento.ToString("yyyy-MM-dd")">
                 @Html.ValidationMessageFor(model => model.DataVencimento, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -106,10 +106,6 @@
         $(document).ready(function () {
             // Corrigindo valor que está vindo de outra action com ponto em vez de vírgula.
             $('#Valor').val($('#Valor').val().replace(".", ","));
-        });
-
-        $(function () { // will trigger when the document is ready
-            $('.datepicker').datepicker('setDate', new Date('@Model.DataVencimento.ToString("MM/dd/yyyy")'));
         });
 
         $(function () {

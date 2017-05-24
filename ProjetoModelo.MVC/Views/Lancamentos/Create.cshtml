@@ -63,7 +63,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Valor, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Valor, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Valor, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "0.01" } })
                 @Html.ValidationMessageFor(model => model.Valor, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -71,7 +71,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DataVencimento, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DataVencimento, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                <input type="date" id="DataVencimento" name="DataVencimento" class="form-control" value="@Model.DataVencimento.ToString("yyyy-MM-dd")" >
                 @Html.ValidationMessageFor(model => model.DataVencimento, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -149,17 +149,13 @@
 }
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/lancamento-parcelado")
     @Scripts.Render("~/bundles/mask-money")
+    @Scripts.Render("~/bundles/lancamento-parcelado")
 
     <script>
-        $(function () { // will trigger when the document is ready
-            $('.datepicker').datepicker('setDate', new Date('@Model.DataVencimento.ToString("MM/dd/yyyy")'));
-        });
-
-        $(function () {
-            $('#Valor').maskMoney({ prefix: 'R$ ', allowNegative: true, thousands: '', decimal: ',', affixesStay: false });
-        })
+        //$(function () {
+        //    $('#Valor').maskMoney({ prefix: 'R$ ', allowNegative: true, thousands: '', decimal: ',', affixesStay: false });
+        //})
     </script>
+
 }

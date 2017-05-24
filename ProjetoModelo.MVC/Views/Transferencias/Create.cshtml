@@ -62,7 +62,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.LancamentoOrigem.DataVencimento, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.LancamentoOrigem.DataVencimento, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                <input type="date" id="LancamentoOrigem_DataVencimento" name="LancamentoOrigem.DataVencimento" class="form-control"
+                       value="@Model.LancamentoOrigem.DataVencimento.ToString("yyyy-MM-dd")">
                 @Html.ValidationMessageFor(model => model.LancamentoOrigem.DataVencimento, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -78,10 +79,4 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-
-    <script>
-        $(function () { // will trigger when the document is ready
-            $('.datepicker').datepicker('setDate', new Date('@Model.LancamentoOrigem.DataVencimento.ToString("MM/dd/yyyy")'));
-        });
-    </script>
 }

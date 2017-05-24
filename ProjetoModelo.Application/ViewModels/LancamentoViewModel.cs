@@ -58,13 +58,14 @@ namespace Moneta.Application.ViewModels
         public string DescricaoMaisNumeroParcela { get; set; }
 
         [UIHint("DinheiroColorido")]
-        [Range(typeof(decimal), "-9999999,99", "9999999,99", ErrorMessage="O valor fornecido excede os limites do sistema.")]
+        //[Range(typeof(decimal), "-9999999,99", "9999999,99", ErrorMessage="O valor fornecido excede os limites do sistema.")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:N2}")]
         [Required(ErrorMessage = "Preencha o campo")]
         [DisplayName("Valor")]
         public decimal Valor { get; set; }
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yy}")]
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date)]
         [DisplayName("Vencimento")]
         public DateTime DataVencimento { get; set; }
 
