@@ -218,6 +218,12 @@ namespace Moneta.MVC.Controllers
         {
             SetSelectLists();
 
+            if (lancamento.Valor == 0 && ModelState["Valor"].Value.AttemptedValue != "")
+            {
+                lancamento.Valor = Decimal.Parse(ModelState["Valor"].Value.AttemptedValue.Replace('.', ','));
+                ModelState["Valor"].Errors.Clear();
+            }
+
             if (ModelState.IsValid)
             {
                 var result = _LancamentoApp.Add(lancamento);

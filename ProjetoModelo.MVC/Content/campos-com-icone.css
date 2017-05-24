@@ -12,7 +12,7 @@
 
 /* align glyph */
 .inner-addon .left-addon  { left:  0px; pointer-events: none; }
-.inner-addon .right-addon { right: 20px;}
+.inner-addon .right-addon { right: -5px;}
 
 /* add padding  */
 .inner-addon input  { padding-left:  30px; }
