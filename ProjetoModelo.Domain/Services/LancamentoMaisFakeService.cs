@@ -99,7 +99,16 @@ namespace Moneta.Domain.Services
                             LancamentosFixosDentroDoMes((int)PeriodicidadeEnum.Quinzenal, lancamentosOriginaisMaisOsFakes, lancamentoFixo, lancamentoBase, mes, ano);
                             break;
                         case (int)PeriodicidadeEnum.Mensal:
-                            LancamentoFixoMensal(lancamentosOriginaisMaisOsFakes, lancamentoBase, mes, ano);
+                            LancamentoFixoNoMensal(lancamentosOriginaisMaisOsFakes, lancamentoBase, mes, ano);
+                            break;
+                        case (int)PeriodicidadeEnum.Trimestral:
+                            LancamentoFixoForaDoMensal(3, lancamentosOriginaisMaisOsFakes, lancamentoBase, mes, ano);
+                            break;
+                        case (int)PeriodicidadeEnum.Semestral:
+                            LancamentoFixoForaDoMensal(6, lancamentosOriginaisMaisOsFakes, lancamentoBase, mes, ano);
+                            break;
+                        case (int)PeriodicidadeEnum.Anual:
+                            LancamentoFixoForaDoMensal(12, lancamentosOriginaisMaisOsFakes, lancamentoBase, mes, ano);
                             break;
                     }
                 }
@@ -132,11 +141,34 @@ namespace Moneta.Domain.Services
             }
         }
 
-        private void LancamentoFixoMensal(List<Lancamento> lancamentosOriginaisMaisOsFakes, Lancamento lancamentoOriginal, int mes, int ano)
+        private void LancamentoFixoForaDoMensal(int perioricidadeEmMeses, List<Lancamento> lancamentosOriginaisMaisOsFakes, Lancamento lancamentoOriginal, int mes, int ano)
+        {
+            if(IsMesConsultadoDentroDaPeriodicidade(perioricidadeEmMeses, lancamentoOriginal, mes, ano))
+            {
+                LancamentoFixoNoMensal(lancamentosOriginaisMaisOsFakes, lancamentoOriginal, mes, ano);
+            }
+        }
+
+        private void LancamentoFixoNoMensal(List<Lancamento> lancamentosOriginaisMaisOsFakes, Lancamento lancamentoOriginal, int mes, int ano)
         {
             var dia = GaratirQueDiaEstejaNoMes(ano, mes, lancamentoOriginal.DataVencimento.Day);
             var novoLancamentoFake = lancamentoOriginal.CloneFake(new DateTime(ano, mes, dia));
             InserirFakeApto(lancamentosOriginaisMaisOsFakes, novoLancamentoFake);
+        }
+
+        private bool IsMesConsultadoDentroDaPeriodicidade(int perioricidadeEmMeses, Lancamento lancamentoOriginal, int mes, int ano)
+        {
+            var dataMesConsultado = new DateTime(ano, mes, lancamentoOriginal.DataVencimento.Day);
+            var diffEmMeses = DiffEmMeses(lancamentoOriginal.DataVencimento, dataMesConsultado);
+            return (diffEmMeses % perioricidadeEmMeses) == 0;
+        }
+
+        private int DiffEmMeses(DateTime dataInicio, DateTime dataFim)
+        {
+            var anoDelta = dataFim.Year - dataInicio.Year;
+            var mesDelta = dataFim.Month - dataInicio.Month;
+
+            return mesDelta + (anoDelta * 12);
         }
 
         private void InserirFakeApto(List<Lancamento> lancamentosOriginaisMaisOsFakes, Lancamento novoFake)
