@@ -214,6 +214,8 @@ namespace Moneta.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AdicionarDespesa(LancamentoViewModel lancamento)
         {
+            Util.TratarLancamentoValorHtml5Number(lancamento, ModelState);
+
             if (ModelState.IsValid)
             {
                 _lancamentoApp.Add(lancamento);

@@ -60,7 +60,7 @@
                 <div class="inner-addon">
                     <i class="glyphicon glyphicon-usd left-addon"></i>
                     <i class="right-addon glyphicon glyphicon-info-sign" data-toggle="tooltip" title="A alteração deste valor acarreta também na alteração de seu lançamento par."></i>
-                    @Html.EditorFor(model => model.Valor, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.Valor, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "0.01" } })
                 </div>
                 @Html.ValidationMessageFor(model => model.Valor, "", new { @class = "text-danger" })
             </div>

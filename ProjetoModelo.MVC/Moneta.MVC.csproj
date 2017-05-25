@@ -195,6 +195,7 @@
     <Compile Include="Controllers\RolesAdminController.cs" />
     <Compile Include="Controllers\TransferenciasController.cs" />
     <Compile Include="Controllers\UserAdminController.cs" />
+    <Compile Include="Controllers\Util.cs" />
     <Compile Include="CustomHelpers\LancamentoHelper.cs" />
     <Compile Include="CustomHelpers\MesAnoControleHelper.cs" />
     <Compile Include="DataAnnotation\MultipleButtonAttribute.cs" />

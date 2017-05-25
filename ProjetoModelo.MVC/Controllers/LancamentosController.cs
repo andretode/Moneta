@@ -217,12 +217,7 @@ namespace Moneta.MVC.Controllers
         public ActionResult Create(LancamentoViewModel lancamento)
         {
             SetSelectLists();
-
-            if (lancamento.Valor == 0 && ModelState["Valor"].Value.AttemptedValue != "")
-            {
-                lancamento.Valor = Decimal.Parse(ModelState["Valor"].Value.AttemptedValue.Replace('.', ','));
-                ModelState["Valor"].Errors.Clear();
-            }
+            Util.TratarLancamentoValorHtml5Number(lancamento, ModelState);
 
             if (ModelState.IsValid)
             {
@@ -259,6 +254,8 @@ namespace Moneta.MVC.Controllers
         public ActionResult CreateFromExtrato(LancamentoViewModel lancamento)
         {
             SetSelectLists();
+            Util.TratarLancamentoValorHtml5Number(lancamento, ModelState);
+
             if (ModelState.IsValid)
             {
                 var result = _LancamentoApp.Add(lancamento);
@@ -324,6 +321,8 @@ namespace Moneta.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(LancamentoViewModel lancamento)
         {
+            Util.TratarLancamentoValorHtml5Number(lancamento, ModelState);
+
             if (ModelState.IsValid)
             {
                 if (lancamento.LancamentoParcelado == null || 

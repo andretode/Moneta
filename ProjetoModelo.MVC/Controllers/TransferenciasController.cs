@@ -43,6 +43,8 @@ namespace Moneta.MVC.Controllers
         public ActionResult Create(TransferenciaViewModel transferencia)
         {
             SetSelectLists(transferencia.LancamentoOrigem.ContaId);
+            Util.TratarLancamentoValorHtml5Number(transferencia, ModelState);
+
             if (ModelState.IsValid)
             {
                 transferencia.LancamentoOrigem.ContaId = transferencia.LancamentoOrigem.Conta.ContaId;
@@ -82,6 +84,8 @@ namespace Moneta.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(LancamentoViewModel lancamento)
         {
+            Util.TratarLancamentoValorHtml5Number(lancamento, ModelState);
+
             if (ModelState.IsValid)
             {
                 _LancamentoApp.Update(lancamento);
