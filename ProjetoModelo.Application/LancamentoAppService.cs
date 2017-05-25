@@ -122,11 +122,26 @@ namespace Moneta.Application
                 {
                     switch (lancamento.LancamentoParcelado.Periodicidade)
                     {
+                        case (int)PeriodicidadeEnum.Diario:
+                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddDays(i));
+                            break;
                         case (int)PeriodicidadeEnum.Semanal:
                             novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddDays(i * 7));
                             break;
+                        case (int)PeriodicidadeEnum.Quinzenal:
+                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddDays(i * 15));
+                            break;
                         case (int)PeriodicidadeEnum.Mensal:
                             novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddMonths(i));
+                            break;
+                        case (int)PeriodicidadeEnum.Trimestral:
+                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddMonths(i * 3));
+                            break;
+                        case (int)PeriodicidadeEnum.Semestral:
+                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddMonths(i * 6));
+                            break;
+                        case (int)PeriodicidadeEnum.Anual:
+                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddYears(i));
                             break;
                     }
                 }
