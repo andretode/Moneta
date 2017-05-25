@@ -75,10 +75,25 @@ namespace Moneta.Domain.Services
             lancamentoUpdateEmSerieService.UpdateEmSerie(lancamentoEditado);
         }
 
-        public void RemoveEmSerie(Lancamento lancamentoEditado)
+        public void RemoveEmSerie(Lancamento lancamento)
         {
             var lancamentoDeleteEmSerieService = new LancamentoDeleteEmSerieService(_LancamentoParceladoRepository, _LancamentoRepository);
-            lancamentoDeleteEmSerieService.DeleteEmSerie(lancamentoEditado);
+            lancamentoDeleteEmSerieService.DeleteEmSerie(lancamento);
+            RemoverBaseDaSerieSeIncluso(lancamento);
+        }
+
+        /// <summary>
+        /// Remove Lancamento Base e LancamentoParcelado quando o primeiro lançamento da série é selecionado para 'remover este e os seguintes'.
+        /// </summary>
+        /// <param name="lancamento">O lançamento selecionado pelo usuário</param>
+        private void RemoverBaseDaSerieSeIncluso(Lancamento lancamento)
+        {
+            var lancamentoBaseDaSerie = _LancamentoRepository.GetById(lancamento.LancamentoParcelado.LancamentoBaseId);
+            if (lancamentoBaseDaSerie.DataVencimento == lancamento.DataVencimento)
+            {
+                _LancamentoParceladoRepository.Remove(lancamento.LancamentoParcelado);
+                _LancamentoRepository.Remove(lancamentoBaseDaSerie);
+            }
         }
 
         public void RemoveTransferencia(Lancamento lancamento)
