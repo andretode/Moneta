@@ -22,8 +22,6 @@ namespace Moneta.Application.Interfaces
         IEnumerable<LancamentoAgrupadoViewModel> GetLancamentosSugeridosParaConciliacao(ExtratoBancarioViewModel extrato);
         void AjustarLancamentoParaExibir(LancamentoViewModel lancamentoViewModel);
         void UpdateEmSerie(LancamentoViewModel lancamentoViewModel);
-        void RemoveEmSerie(LancamentoViewModel lancamentoViewModel);
-
         void RemoveTransferencia(LancamentoViewModel lancamento);
         void TrocarPago(IEnumerable<LancamentoViewModel> lancamentos);
         int ImportarOfxParaGrupoDeLancamento(string caminhoOfx, Guid contaId, DateTime mesAnoCompetencia, Guid grupoLancamentoId);
