@@ -105,14 +105,16 @@ namespace Moneta.Domain.Services
                 var deltaDia = diaDaSemanaDoVencimento - diaDaSemanaDoPrimeiroDiaDoMes + 1;
                 deltaDia = (deltaDia < 1 ? deltaDia + periodicidadeEmDias : deltaDia);
 
-                var dataVencimento = new DateTime(ano, mes, deltaDia);
+                var dataVencimentoFake = new DateTime(ano, mes, deltaDia);
+                if (dataVencimentoFake < lancamentoBase.DataVencimento)
+                    dataVencimentoFake = lancamentoBase.DataVencimento;
 
-                while (dataVencimento.Month == mes)
+                while (dataVencimentoFake.Month == mes)
                 {
-                    Lancamento lancamentoFakeSeguinte = lancamentoBase.CloneFake(dataVencimento);
+                    Lancamento lancamentoFakeSeguinte = lancamentoBase.CloneFake(dataVencimentoFake);
                     InserirFakeApto(lancamentosOriginaisMaisOsFakes, lancamentoFakeSeguinte);
 
-                    dataVencimento = dataVencimento.AddDays(periodicidadeEmDias);
+                    dataVencimentoFake = dataVencimentoFake.AddDays(periodicidadeEmDias);
                 }
             }
         }
