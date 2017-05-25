@@ -41,6 +41,11 @@ namespace Moneta.Domain.Services
             return _LancamentoRepository.GetByIdReadOnly(id);
         }
 
+        public IEnumerable<Lancamento> GetLancamentosParceladosAtivos(Guid lancamentoParceladoId)
+        {
+            return _LancamentoRepository.GetAll().Where(l => l.LancamentoParceladoId == lancamentoParceladoId && l.Ativo);
+        }
+
         public ValidationResult Adicionar(Lancamento lancamento)
         {
             var resultadoValidacao = new ValidationResult();
@@ -79,22 +84,22 @@ namespace Moneta.Domain.Services
         {
             var lancamentoDeleteEmSerieService = new LancamentoDeleteEmSerieService(_LancamentoParceladoRepository, _LancamentoRepository);
             lancamentoDeleteEmSerieService.DeleteEmSerie(lancamento);
-            RemoverBaseDaSerieSeIncluso(lancamento);
+            //RemoverBaseDaSerieSeIncluso(lancamento);
         }
 
         /// <summary>
         /// Remove Lancamento Base e LancamentoParcelado quando o primeiro lançamento da série é selecionado para 'remover este e os seguintes'.
         /// </summary>
         /// <param name="lancamento">O lançamento selecionado pelo usuário</param>
-        private void RemoverBaseDaSerieSeIncluso(Lancamento lancamento)
-        {
-            var lancamentoBaseDaSerie = _LancamentoRepository.GetById(lancamento.LancamentoParcelado.LancamentoBaseId);
-            if (lancamentoBaseDaSerie.DataVencimento == lancamento.DataVencimento)
-            {
-                _LancamentoParceladoRepository.Remove(lancamento.LancamentoParcelado);
-                _LancamentoRepository.Remove(lancamentoBaseDaSerie);
-            }
-        }
+        //private void RemoverBaseDaSerieSeIncluso(Lancamento lancamento)
+        //{
+        //    var lancamentoBaseDaSerie = _LancamentoRepository.GetById(lancamento.LancamentoParcelado.LancamentoBaseId);
+        //    if (lancamentoBaseDaSerie.DataVencimento == lancamento.DataVencimento)
+        //    {
+        //        _LancamentoParceladoRepository.Remove(lancamento.LancamentoParcelado);
+        //        _LancamentoRepository.Remove(lancamentoBaseDaSerie);
+        //    }
+        //}
 
         public void RemoveTransferencia(Lancamento lancamento)
         {

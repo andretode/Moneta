@@ -14,7 +14,7 @@ namespace Moneta.Domain.Interfaces.Repository
         void Remove(TEntity obj);
         IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
 
-        void BeginTransaction();
-        void Commit();
+        //void BeginTransaction();
+        //void Commit();
     }
 }

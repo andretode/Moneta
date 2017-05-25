@@ -76,14 +76,7 @@ namespace Moneta.Domain.Services
                 else
                     lancamentoBase = _LancamentoRepository.GetById(lancamentoFixo.LancamentoBaseId);
 
-                if (lancamentoBase == null || !lancamentoBase.Ativo)
-                {
-                    //Remove o LancamentoParcelado uma vez que ele não é mais necessário devido a base ter sido removida.
-                    _LancamentoParceladoRepository.BeginTransaction();
-                    _LancamentoParceladoRepository.Remove(lancamentoFixo);
-                    _LancamentoParceladoRepository.Commit();
-                }
-                else
+                if (lancamentoBase != null || lancamentoBase.Ativo)
                 {
                     lancamentosOriginaisMaisOsFakes.Remove(lancamentoBase); //Remove ele pois ele não é exibido, serve somente como base para gerar os demais
 

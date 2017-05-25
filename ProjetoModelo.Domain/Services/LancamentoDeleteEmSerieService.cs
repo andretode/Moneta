@@ -53,9 +53,9 @@ namespace Moneta.Domain.Services
             lancamentoRemovido.LancamentoParcelado = _LancamentoParceladoRepository.GetById((Guid)lancamentoRemovido.LancamentoParceladoId);
             
             //Garante que o lançamento base está sendo adicionado apenas uma vez
-            var lancamentoBase = _LancamentoRepository.GetByIdReadOnly(lancamentoRemovido.LancamentoParcelado.LancamentoBaseId);
-            if (!lancamentosASeremRemovidos.Exists(l => l.LancamentoId == lancamentoBase.LancamentoId))
-                lancamentosASeremRemovidos.Add(lancamentoBase);
+            //var lancamentoBase = _LancamentoRepository.GetByIdReadOnly(lancamentoRemovido.LancamentoParcelado.LancamentoBaseId);
+            //if (!lancamentosASeremRemovidos.Exists(l => l.LancamentoId == lancamentoBase.LancamentoId))
+            //    lancamentosASeremRemovidos.Add(lancamentoBase);
 
             foreach (var l in lancamentosASeremRemovidos)
             {

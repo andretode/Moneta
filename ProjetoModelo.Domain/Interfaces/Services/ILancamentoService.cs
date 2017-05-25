@@ -9,6 +9,7 @@ namespace Moneta.Domain.Interfaces.Services
     {
         Lancamento GetById(Guid id);
         Lancamento GetByIdReadOnly(Guid id);
+        IEnumerable<Lancamento> GetLancamentosParceladosAtivos(Guid lancamentoParceladoId);
         ValidationResult Adicionar(Lancamento lancamento);
         //Lancamento GetByIdReadOnly(Guid id);
         void Update(Lancamento lancamento);

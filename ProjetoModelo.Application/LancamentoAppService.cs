@@ -167,7 +167,22 @@ namespace Moneta.Application
                 RemoveEmSerie(LancamentoViewModel);
             }
 
+            RemoverBaseSeNaoExistemLancamentosNaSerie(LancamentoViewModel);
+
             Commit();
+        }
+
+        private void RemoverBaseSeNaoExistemLancamentosNaSerie(LancamentoViewModel LancamentoViewModel)
+        {
+            var lancamentosParcelados = _lancamentoService.GetLancamentosParceladosAtivos((Guid)LancamentoViewModel.LancamentoParceladoId);
+            LancamentoViewModel.LancamentoParcelado = _lancamentoParceladoServiceApp.GetById((Guid)LancamentoViewModel.LancamentoParceladoId);
+            if (lancamentosParcelados.Count() == 0)
+            {
+                foreach (var l in LancamentoViewModel.LancamentoParcelado.Lancamentos)
+                    Remove(l);
+
+                _lancamentoParceladoServiceApp.Remove(LancamentoViewModel.LancamentoParcelado);
+            }
         }
 
         public void RemoveAll(IEnumerable<LancamentoViewModel> lancamentos)
