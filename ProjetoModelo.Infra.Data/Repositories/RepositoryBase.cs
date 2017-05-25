@@ -18,11 +18,23 @@ namespace Moneta.Infra.Data.Repositories
         
         protected IDbSet<TEntity> DbSet;
         protected readonly IDbContext Context;
+        private IUnitOfWork<TContext> _uow;
 
         public RepositoryBase()
         {
             Context = _contextManager.GetContext();
             DbSet = Context.Set<TEntity>();
+        }
+
+        public virtual void BeginTransaction()
+        {
+            _uow = ServiceLocator.Current.GetInstance<IUnitOfWork<TContext>>();
+            _uow.BeginTransaction();
+        }
+
+        public virtual void Commit()
+        {
+            _uow.SaveChanges();
         }
 
         public virtual void Add(TEntity obj)

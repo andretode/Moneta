@@ -331,10 +331,10 @@ namespace Moneta.Application
                             novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddDays(i));
                             break;
                         case (int)PeriodicidadeEnum.Semanal:
-                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddDays(i * 7));
+                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddDays(i * (int)PeriodicidadeEnum.Semanal));
                             break;
                         case (int)PeriodicidadeEnum.Quinzenal:
-                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddDays(i * 15));
+                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddDays(i * (int)PeriodicidadeEnum.Quinzenal));
                             break;
                         case (int)PeriodicidadeEnum.Mensal:
                             novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddMonths(i));

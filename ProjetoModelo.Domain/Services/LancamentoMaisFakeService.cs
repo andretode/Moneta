@@ -76,19 +76,32 @@ namespace Moneta.Domain.Services
                 else
                     lancamentoBase = _LancamentoRepository.GetById(lancamentoFixo.LancamentoBaseId);
 
-                lancamentosOriginaisMaisOsFakes.Remove(lancamentoBase); //Remove ele pois ele não é exibido, serve somente como base para gerar os demais
-
-                switch (lancamentoFixo.Periodicidade)
+                if (lancamentoBase == null || !lancamentoBase.Ativo)
                 {
-                    case (int)PeriodicidadeEnum.Semanal:
-                        LancamentosFixosDentroDoMes((int)PeriodicidadeEnum.Semanal, lancamentosOriginaisMaisOsFakes, lancamentoFixo, lancamentoBase, mes, ano);
-                        break;
-                    case (int)PeriodicidadeEnum.Quinzenal:
-                        LancamentosFixosDentroDoMes((int)PeriodicidadeEnum.Quinzenal, lancamentosOriginaisMaisOsFakes, lancamentoFixo, lancamentoBase, mes, ano);
-                        break;
-                    case (int)PeriodicidadeEnum.Mensal:
-                        LancamentoFixoMensal(lancamentosOriginaisMaisOsFakes, lancamentoBase, mes, ano);
-                        break;
+                    //Remove o LancamentoParcelado uma vez que ele não é mais necessário devido a base ter sido removida.
+                    _LancamentoParceladoRepository.BeginTransaction();
+                    _LancamentoParceladoRepository.Remove(lancamentoFixo);
+                    _LancamentoParceladoRepository.Commit();
+                }
+                else
+                {
+                    lancamentosOriginaisMaisOsFakes.Remove(lancamentoBase); //Remove ele pois ele não é exibido, serve somente como base para gerar os demais
+
+                    switch (lancamentoFixo.Periodicidade)
+                    {
+                        case (int)PeriodicidadeEnum.Diario:
+                            LancamentosFixosDentroDoMes((int)PeriodicidadeEnum.Diario, lancamentosOriginaisMaisOsFakes, lancamentoFixo, lancamentoBase, mes, ano);
+                            break;
+                        case (int)PeriodicidadeEnum.Semanal:
+                            LancamentosFixosDentroDoMes((int)PeriodicidadeEnum.Semanal, lancamentosOriginaisMaisOsFakes, lancamentoFixo, lancamentoBase, mes, ano);
+                            break;
+                        case (int)PeriodicidadeEnum.Quinzenal:
+                            LancamentosFixosDentroDoMes((int)PeriodicidadeEnum.Quinzenal, lancamentosOriginaisMaisOsFakes, lancamentoFixo, lancamentoBase, mes, ano);
+                            break;
+                        case (int)PeriodicidadeEnum.Mensal:
+                            LancamentoFixoMensal(lancamentosOriginaisMaisOsFakes, lancamentoBase, mes, ano);
+                            break;
+                    }
                 }
             }
 
