@@ -49,113 +49,19 @@ namespace Moneta.Application
 
             lancamentoViewModel.Valor = AjustarValorParaSalvar(lancamentoViewModel);
 
-            ValidationResult result = null;
             if (lancamentoViewModel.LancamentoParcelado != null && lancamentoViewModel.LancamentoParcelado.TipoDeRepeticao == TipoRepeticao.Parcelado)
             {
-                if (lancamentoViewModel.LancamentoParcelado.Periodicidade != 0 && lancamentoViewModel.LancamentoParcelado.NumeroParcelas > 1)
-                {
-                    var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
-                    result = AdicionarLancamentosParcelados(lancamento);
-                }
-                else
-                {
-                    //##############################################################
-                    // TENTAR MELHORAR O LOCAL QUE ESTE TRATAMENTO DEVE SER FEITO
-                    var vr = new ValidationResult();
-                    vr.AdicionarErro(new ValidationError("A periodicidade e n° de parcelas são obrigatórios em caso de parcelamento."));
-                    return DomainToApplicationResult(vr);
-                }
+                return TratarLancamentoParcelado(lancamentoViewModel);
             }
             else if (lancamentoViewModel.LancamentoParcelado != null && lancamentoViewModel.LancamentoParcelado.TipoDeRepeticao == TipoRepeticao.Fixo)
             {
-                if (lancamentoViewModel.LancamentoParcelado.Periodicidade != 0)
-                {
-                    lancamentoViewModel.LancamentoParcelado.LancamentoBaseId = lancamentoViewModel.LancamentoId;
-                    lancamentoViewModel.BaseDaSerie = true;
-
-                    var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
-
-                    BeginTransaction();
-                    result = _lancamentoService.Adicionar(lancamento);
-                    if (!result.IsValid)
-                        return DomainToApplicationResult(result);
-                    Commit();
-                }
-                else
-                {
-                    //##############################################################
-                    // TENTAR MELHORAR O LOCAL QUE ESTE TRATAMENTO DEVE SER FEITO
-                    var vr = new ValidationResult();
-                    vr.AdicionarErro(new ValidationError("A periodicidade é obrigatória em caso de lançamento fixo."));
-                    return DomainToApplicationResult(vr);
-                }
+                return TratarLancamentoFixo(lancamentoViewModel);
             }
             else {
-                lancamentoViewModel.LancamentoParcelado = null;
-                var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
-
-                BeginTransaction();
-                result = _lancamentoService.Adicionar(lancamento);
-                if (!result.IsValid)
-                    return DomainToApplicationResult(result);
-                Commit();
+                return TratarLancamentoUnico(lancamentoViewModel);
             }
-
-            return DomainToApplicationResult(result);
         }
-
-        private ValidationResult AdicionarLancamentosParcelados(Lancamento lancamento)
-        {
-            ValidationResult result = null;
-            for (int i = 0; i < lancamento.LancamentoParcelado.NumeroParcelas; i++)
-            {
-                Lancamento novoLancamento = null;
-
-                //O primeiro lançamento precisa ser associado ao LancamentoParcelado para criá-lo em BD
-                if (i == 0)
-                {
-                    novoLancamento = lancamento.Clone(lancamento.DataVencimento);
-                    lancamento.LancamentoParcelado.LancamentoBaseId = novoLancamento.LancamentoId;
-                    novoLancamento.LancamentoParcelado = lancamento.LancamentoParcelado;
-                }
-                else
-                {
-                    switch (lancamento.LancamentoParcelado.Periodicidade)
-                    {
-                        case (int)PeriodicidadeEnum.Diario:
-                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddDays(i));
-                            break;
-                        case (int)PeriodicidadeEnum.Semanal:
-                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddDays(i * 7));
-                            break;
-                        case (int)PeriodicidadeEnum.Quinzenal:
-                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddDays(i * 15));
-                            break;
-                        case (int)PeriodicidadeEnum.Mensal:
-                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddMonths(i));
-                            break;
-                        case (int)PeriodicidadeEnum.Trimestral:
-                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddMonths(i * 3));
-                            break;
-                        case (int)PeriodicidadeEnum.Semestral:
-                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddMonths(i * 6));
-                            break;
-                        case (int)PeriodicidadeEnum.Anual:
-                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddYears(i));
-                            break;
-                    }
-                }
-
-                BeginTransaction();
-                result = _lancamentoService.Adicionar(novoLancamento);
-                if (!result.IsValid)
-                    return result;
-                Commit();
-            }
-
-            return result;
-        }
-
+        
         public ValidationAppResult AddTransferencia(TransferenciaViewModel transferencia)
         {
             var lancamentoOrigemVM = transferencia.LancamentoOrigem;
@@ -342,6 +248,119 @@ namespace Moneta.Application
         }
 
         #region Metodos privados
+
+
+        private ValidationAppResult TratarLancamentoParcelado(LancamentoViewModel lancamentoViewModel)
+        {
+            if (lancamentoViewModel.LancamentoParcelado.Periodicidade != 0 && lancamentoViewModel.LancamentoParcelado.NumeroParcelas > 1)
+            {
+                var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
+                return DomainToApplicationResult(AdicionarLancamentosParcelados(lancamento));
+            }
+            else
+            {
+                //##############################################################
+                // TENTAR MELHORAR O LOCAL QUE ESTE TRATAMENTO DEVE SER FEITO
+                var vr = new ValidationResult();
+                vr.AdicionarErro(new ValidationError("A periodicidade e n° de parcelas são obrigatórios em caso de parcelamento."));
+                return DomainToApplicationResult(vr);
+            }
+        }
+
+        private ValidationAppResult TratarLancamentoFixo(LancamentoViewModel lancamentoViewModel)
+        {
+            ValidationResult result = null;
+            if (lancamentoViewModel.LancamentoParcelado.Periodicidade != 0)
+            {
+                lancamentoViewModel.LancamentoParcelado.LancamentoBaseId = lancamentoViewModel.LancamentoId;
+                lancamentoViewModel.BaseDaSerie = true;
+
+                var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
+
+                BeginTransaction();
+                result = _lancamentoService.Adicionar(lancamento);
+                if (!result.IsValid)
+                    return DomainToApplicationResult(result);
+                Commit();
+            }
+            else
+            {
+                //##############################################################
+                // TENTAR MELHORAR O LOCAL QUE ESTE TRATAMENTO DEVE SER FEITO
+                var vr = new ValidationResult();
+                vr.AdicionarErro(new ValidationError("A periodicidade é obrigatória em caso de lançamento fixo."));
+                return DomainToApplicationResult(vr);
+            }
+
+            return DomainToApplicationResult(result);
+        }
+
+        private ValidationAppResult TratarLancamentoUnico(LancamentoViewModel lancamentoViewModel)
+        {
+            lancamentoViewModel.LancamentoParcelado = null;
+            var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
+
+            BeginTransaction();
+            var result = _lancamentoService.Adicionar(lancamento);
+            if (!result.IsValid)
+                return DomainToApplicationResult(result);
+            Commit();
+
+            return DomainToApplicationResult(result);
+        }
+
+        private ValidationResult AdicionarLancamentosParcelados(Lancamento lancamento)
+        {
+            ValidationResult result = null;
+            for (int i = 0; i < lancamento.LancamentoParcelado.NumeroParcelas; i++)
+            {
+                Lancamento novoLancamento = null;
+
+                //O primeiro lançamento precisa ser associado ao LancamentoParcelado para criá-lo em BD
+                if (i == 0)
+                {
+                    novoLancamento = lancamento.Clone(lancamento.DataVencimento);
+                    lancamento.LancamentoParcelado.LancamentoBaseId = novoLancamento.LancamentoId;
+                    novoLancamento.LancamentoParcelado = lancamento.LancamentoParcelado;
+                }
+                else
+                {
+                    switch (lancamento.LancamentoParcelado.Periodicidade)
+                    {
+                        case (int)PeriodicidadeEnum.Diario:
+                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddDays(i));
+                            break;
+                        case (int)PeriodicidadeEnum.Semanal:
+                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddDays(i * 7));
+                            break;
+                        case (int)PeriodicidadeEnum.Quinzenal:
+                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddDays(i * 15));
+                            break;
+                        case (int)PeriodicidadeEnum.Mensal:
+                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddMonths(i));
+                            break;
+                        case (int)PeriodicidadeEnum.Trimestral:
+                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddMonths(i * 3));
+                            break;
+                        case (int)PeriodicidadeEnum.Semestral:
+                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddMonths(i * 6));
+                            break;
+                        case (int)PeriodicidadeEnum.Anual:
+                            novoLancamento = lancamento.Clone(lancamento.DataVencimento.AddYears(i));
+                            break;
+                    }
+                }
+
+                BeginTransaction();
+                result = _lancamentoService.Adicionar(novoLancamento);
+                if (!result.IsValid)
+                    return result;
+                Commit();
+            }
+
+            return result;
+        }
+
         private decimal AjustarValorParaSalvar(LancamentoViewModel lancamentoViewModel)
         {
             decimal valorAjustado;
