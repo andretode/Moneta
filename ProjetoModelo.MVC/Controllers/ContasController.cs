@@ -18,14 +18,9 @@ namespace Moneta.MVC.Controllers
         }
 
         // GET: Conta
-        public ViewResult Index(string pesquisa, int page = 0)
+        public ViewResult Index()
         {
-            var contaViewModel = _contaApp.ObterContasGrid(page * 5, pesquisa);
-            ViewBag.PaginaAtual = page;
-            ViewBag.Pesquisa = pesquisa;
-            ViewBag.TotalRegistros = _contaApp.ObterTotalRegistros(pesquisa);
-
-
+            var contaViewModel = _contaApp.GetAll();
             return View(contaViewModel);
         }
 

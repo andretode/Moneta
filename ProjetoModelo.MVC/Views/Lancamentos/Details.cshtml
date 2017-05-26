@@ -119,13 +119,13 @@
         <dd>
             <br />
 
-            @using (Html.BeginForm("EditJson", null, FormMethod.Post, new { id = "formLancamentoEditJson" }))
+            @using (Html.BeginForm("Edit", null, FormMethod.Get, new { id = "formLancamentoEditJson" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.Hidden("jsonLancamento", jsonLancamento)
             }
 
-            @using (Html.BeginForm("DeleteJson", null, FormMethod.Post, new { id = "formLancamentoDeleteJson" }))
+            @using (Html.BeginForm("Delete", null, FormMethod.Get, new { id = "formLancamentoDeleteJson" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.Hidden("jsonLancamento", jsonLancamento)

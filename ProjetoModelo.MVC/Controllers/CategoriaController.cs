@@ -18,14 +18,9 @@ namespace Moneta.MVC.Controllers
         }
 
         // GET: Categoria
-        public ViewResult Index(string pesquisa, int page = 0)
+        public ViewResult Index()
         {
             var categoriaViewModel = _categoriaApp.GetAll().OrderBy(c => c.Descricao);
-            ViewBag.PaginaAtual = page;
-            ViewBag.Pesquisa = pesquisa;
-            ViewBag.TotalRegistros = categoriaViewModel.Count();
-
-
             return View(categoriaViewModel);
         }
 
