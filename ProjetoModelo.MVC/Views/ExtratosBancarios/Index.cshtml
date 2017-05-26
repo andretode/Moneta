@@ -11,7 +11,7 @@
 <p>
 @using (Html.BeginForm("Index", "ExtratosBancarios", FormMethod.Post, new { id = "formExtratos" }))
 {
-    <a class="btn btn-default" title="Importar OFX"
+    <a class="btn btn-primary" title="Importar OFX"
        href="@Url.Action("ImportarOfx", "ExtratosBancarios", @Model)">
         <i class="icon-white glyphicon glyphicon-import"></i>
     </a>
@@ -169,6 +169,7 @@
             <input type="checkbox" id="chkData" name="chkData" title="Conciliar mantendo a mesma data do extrato" /> mesma data
             <input type="checkbox" id="chkValor" name="chkValor" title="Conciliar mantendo o mesmo valor do extrato" /> mesmo valor
             <button class="btn btn-sm btn-primary" onclick="javascript: SalvarEdicaoNoLancamentoVM()">Conciliar</button>
+            <button class="btn btn-sm btn-default" onclick="javascript: closeWindow()">Cancelar</button>
         </section>
     </div>
 </div>

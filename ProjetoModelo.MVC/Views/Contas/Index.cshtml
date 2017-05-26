@@ -7,18 +7,13 @@
 <h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Adicionar Conta", "Create", null, new { @class = "btn btn-default" })
+    <a class="btn btn-primary" href="~/Contas/Create" title="Adicionar Conta">
+        <i class="glyphicon glyphicon-plus"></i>
+    </a>
 </p>
 
-@using (Html.BeginForm("Index", "Contas", new {pesquisa = ""}, FormMethod.Get))
-{
-    <p>
-        Pesquisar por Descrição: @Html.Editor("pesquisa") <input type="submit" value="Pesquisar" class="btn btn-default" />
-    </p>
-}
-
 <table class="table">
-    <tr>
+    <tr style="background-color: #e6e6e6">
         <th>
             @Html.DisplayNameFor(model => model.Descricao)
         </th>

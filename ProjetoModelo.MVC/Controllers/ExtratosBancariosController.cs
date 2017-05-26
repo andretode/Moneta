@@ -122,6 +122,7 @@ namespace Moneta.MVC.Controllers
         {
             int quantidadeImportada = 0;
             string caminhoOfx = "";
+            var extratoDoMes = new ExtratoBancarioDoMesViewModel() { ContaIdFiltro = ContaIdFiltro, MesAnoCompetencia = MesAnoCompetencia };
 
             if (Request.Files.Count > 0)
             {
@@ -139,7 +140,7 @@ namespace Moneta.MVC.Controllers
             {
                 ModelState.AddModelError(string.Empty, "Ocorreu um erro ao salvar o arquivo OFX enviado.");
                 SetSelectLists();
-                return View();
+                return View(extratoDoMes);
             }
 
             try
@@ -150,13 +151,13 @@ namespace Moneta.MVC.Controllers
             {
                 ModelState.AddModelError(string.Empty, "O arquivo enviado tem um formato OFX desconhecido. Detalhes técnicos do erro: " + fx.Message);
                 SetSelectLists();
-                return View();
+                return View(extratoDoMes);
             }
             catch (XmlException xe)
             {
                 ModelState.AddModelError(string.Empty, "O arquivo enviado tem um formato OFX fora do padrão. Detalhes técnicos do erro: " + xe.Message);
                 SetSelectLists();
-                return View();
+                return View(extratoDoMes);
             }
             
             return RedirectToAction("Index", new { quant = quantidadeImportada, ContaIdFiltro, MesAnoCompetencia });
