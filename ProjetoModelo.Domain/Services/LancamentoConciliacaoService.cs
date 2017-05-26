@@ -1,5 +1,6 @@
 ﻿using Moneta.Domain.Entities;
 using Moneta.Domain.Interfaces.Repository;
+using Moneta.Domain.Interfaces.Repository.ADO;
 using Moneta.Domain.Interfaces.Services;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,9 @@ namespace Moneta.Domain.Services
         public LancamentoConciliacaoService(
             IGrupoLancamentoRepository GrupoLancamentoRepository,
             ILancamentoParceladoRepository LancamentoParceladoRepository,
+            ILancamentoParceladoADORepository LancamentoParceladoADORepository,
             ILancamentoRepository LancamentoRepository)
-            : base(GrupoLancamentoRepository, LancamentoParceladoRepository, LancamentoRepository)
+            : base(GrupoLancamentoRepository, LancamentoParceladoRepository, LancamentoParceladoADORepository, LancamentoRepository)
         {
         }
 

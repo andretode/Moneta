@@ -54,9 +54,9 @@ namespace Moneta.Domain.Services
             return resultadoValidacao;
         }
 
-        public void ForceDelete(Guid lancamentoParceladoId)
+        public void ClearAll(Guid lancamentoParceladoId)
         {
-            _LancamentoParceladoADORepository.ForceDelete(lancamentoParceladoId);
+            _LancamentoParceladoADORepository.ClearAll(lancamentoParceladoId);
         }
     }
 }

@@ -17,6 +17,7 @@ namespace Moneta.Infra.Data.Repositories
     public class LancamentoRepository : RepositoryBase<Lancamento, MonetaContext>, ILancamentoRepository
     {
         private readonly LancamentoADORepository _LancamentoADORepository;
+
         public LancamentoRepository()
         {
             _LancamentoADORepository = new LancamentoADORepository();
@@ -29,8 +30,11 @@ namespace Moneta.Infra.Data.Repositories
             var entry = Context.Entry(lancamento);
             DbSet.Attach(lancamento);
             entry.State = EntityState.Deleted;
+        }
 
-            //_LancamentoADORepository.DeleteAllLancamentosAndLancamentosParceladosSemBase(id);
+        public void ForceRemove(Guid id)
+        {
+            _LancamentoADORepository.ForceRemove(id);
         }
 
         public override Lancamento GetById(Guid id)

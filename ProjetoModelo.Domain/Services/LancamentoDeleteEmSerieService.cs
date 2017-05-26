@@ -1,5 +1,6 @@
 ﻿using Moneta.Domain.Entities;
 using Moneta.Domain.Interfaces.Repository;
+using Moneta.Domain.Interfaces.Repository.ADO;
 using Moneta.Infra.CrossCutting.Enums;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,15 @@ namespace Moneta.Domain.Services
     {
         private readonly ILancamentoRepository _LancamentoRepository;
         private readonly ILancamentoParceladoRepository _LancamentoParceladoRepository;
+        private readonly ILancamentoParceladoADORepository _LancamentoParceladoADORepository;
 
         public LancamentoDeleteEmSerieService(
             ILancamentoParceladoRepository LancamentoParceladoRepository,
+            ILancamentoParceladoADORepository LancamentoParceladoADORepository,
             ILancamentoRepository LancamentoRepository)
         {
             _LancamentoParceladoRepository = LancamentoParceladoRepository;
+            _LancamentoParceladoADORepository = LancamentoParceladoADORepository;
             _LancamentoRepository = LancamentoRepository;
         }
 
@@ -38,7 +42,9 @@ namespace Moneta.Domain.Services
             }
             else if (lancamentoRemovido.LancamentoParcelado.TipoDeAlteracaoDaRepeticao == TipoDeAlteracaoDaRepeticaoEnum.AlterarEsteESeguintes)
             {
-                SalvarFakesQueNaoSofreramRemoçãoNaSerie(lancamentoRemovido, dataVencimentoAnterior);
+                if (lancamentoRemovido.LancamentoParcelado.IsFixo())
+                    SalvarFakesQueNaoSofreramRemoçãoNaSerie(lancamentoRemovido, dataVencimentoAnterior);
+
                 RemoverLancamentosNaoFakeEsteSeguintes(lancamentoRemovido, dataVencimentoAnterior);
             }
         }
@@ -75,8 +81,11 @@ namespace Moneta.Domain.Services
             var lancamentosSomenteFake = lancamentosMaisFake.Where(l => l.Fake == true && l.DataVencimento < dataVencimentoAnterior && l.LancamentoParceladoId == lancamentoRemovido.LancamentoParceladoId);
             foreach (var lf in lancamentosSomenteFake)
             {
+                lf.LancamentoParceladoId = null;
+                lf.IdDaParcelaNaSerie = null;
                 _LancamentoRepository.Add(lf);
             }
+            _LancamentoParceladoADORepository.ForceRemove(lancamentoRemovido.LancamentoParceladoId);
         }
     }
 }

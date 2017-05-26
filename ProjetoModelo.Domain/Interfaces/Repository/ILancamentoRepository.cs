@@ -7,7 +7,8 @@ namespace Moneta.Domain.Interfaces.Repository
     public interface ILancamentoRepository : IRepositoryBase<Lancamento>
     {
         Lancamento GetByIdReadOnly(Guid id);
-        
+        void ForceRemove(Guid id);
+
         /// <summary>
         /// Pega todos os lançamentos do BD
         /// </summary>

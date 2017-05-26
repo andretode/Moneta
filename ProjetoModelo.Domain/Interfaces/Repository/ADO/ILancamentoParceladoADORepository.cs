@@ -8,6 +8,7 @@ namespace Moneta.Domain.Interfaces.Repository.ADO
 {
     public interface ILancamentoParceladoADORepository
     {
-        void ForceDelete(Guid lancamentoParceladoId);
+        void ClearAll(Guid lancamentoParceladoId);
+        void ForceRemove(Guid? lancamentoParceladoId);
     }
 }

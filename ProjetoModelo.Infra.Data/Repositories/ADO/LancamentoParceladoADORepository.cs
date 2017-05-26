@@ -9,7 +9,7 @@ namespace Moneta.Infra.Data.Repositories
 {
     public class LancamentoParceladoADORepository : BaseADORepository, ILancamentoParceladoADORepository
     {
-        public void ForceDelete(Guid lancamentoParceladoId)
+        public void ClearAll(Guid lancamentoParceladoId)
         {
             using (IDbConnection cn = Connection)
             {
@@ -25,6 +25,20 @@ namespace Moneta.Infra.Data.Repositories
                 sqlLancamentoParcelado = String.Format(sqlLancamentoParcelado, lancamentoParceladoId);
 
                 cn.ExecuteScalar(sqlLancamentoParcelado);
+            }
+        }
+
+        public void ForceRemove(Guid? lancamentoParceladoId)
+        {
+            using (IDbConnection cn = Connection)
+            {
+                cn.Open();
+
+                var sqlLancamentosParcelados = @"DELETE FROM Lancamento
+                    WHERE LancamentoParceladoId = '{0}'";
+                sqlLancamentosParcelados = String.Format(sqlLancamentosParcelados, lancamentoParceladoId);
+
+                cn.ExecuteScalar(sqlLancamentosParcelados);
             }
         }
     }

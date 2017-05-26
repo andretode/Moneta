@@ -31,6 +31,11 @@ namespace Moneta.Domain.Entities
             return tipoRepeticao;
         }
 
+        public bool IsFixo()
+        {
+            return NumeroParcelas == null;
+        }
+
         public bool IsValid()
         {
             return true;

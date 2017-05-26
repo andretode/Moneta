@@ -143,53 +143,71 @@ namespace Moneta.Application
             Commit();
         }
 
-        public void Remove(LancamentoViewModel LancamentoViewModel)
+        public void Remove(LancamentoViewModel lancamentoViewModel)
         {
             
             BeginTransaction();
 
-            if (LancamentoViewModel.LancamentoParcelado == null ||
-                LancamentoViewModel.LancamentoParcelado.TipoDeAlteracaoDaRepeticao ==
+            if (lancamentoViewModel.LancamentoParcelado == null ||
+                lancamentoViewModel.LancamentoParcelado.TipoDeAlteracaoDaRepeticao ==
                     TipoDeAlteracaoDaRepeticaoEnum.AlterarApenasEste)
             {
-                LancamentoViewModel.Ativo = false;
-                if (LancamentoViewModel.Fake)
-                    Add(LancamentoViewModel);
-                else
-                {
-                    var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(LancamentoViewModel);
-                    _lancamentoService.Remove(lancamento);
-                }
+                RemoverApenasEste(lancamentoViewModel);
             }
             else
             {
-                var tipoDeAlteracaoDaRepeticao = LancamentoViewModel.LancamentoParcelado.TipoDeAlteracaoDaRepeticao;
-                LancamentoViewModel.LancamentoParcelado = _lancamentoParceladoServiceApp
-                    .GetByIdReadOnly((Guid)LancamentoViewModel.LancamentoParceladoId);
-                LancamentoViewModel.LancamentoParcelado.TipoDeAlteracaoDaRepeticao = tipoDeAlteracaoDaRepeticao;
-                RemoveEmSerie(LancamentoViewModel);
+                var tipoDeAlteracaoDaRepeticao = lancamentoViewModel.LancamentoParcelado.TipoDeAlteracaoDaRepeticao;
+                lancamentoViewModel.LancamentoParcelado = _lancamentoParceladoServiceApp
+                    .GetByIdReadOnly((Guid)lancamentoViewModel.LancamentoParceladoId);
+                lancamentoViewModel.LancamentoParcelado.TipoDeAlteracaoDaRepeticao = tipoDeAlteracaoDaRepeticao;
+                RemoveEmSerie(lancamentoViewModel);
             }
 
             Commit();
 
-            RemoverBaseSeNaoExistemLancamentosNaSerie(LancamentoViewModel);
+            RemoverBaseSeNaoExistemLancamentosNaSerie(lancamentoViewModel.LancamentoParceladoId);
         }
 
-        private void RemoverBaseSeNaoExistemLancamentosNaSerie(LancamentoViewModel LancamentoViewModel)
+        private void RemoverApenasEste(LancamentoViewModel lancamentoViewModel)
         {
-            var lancamentosParcelados = _lancamentoService.GetLancamentosParceladosAtivos((Guid)LancamentoViewModel.LancamentoParceladoId);
-            if (lancamentosParcelados.Count() == 0)
+            if (lancamentoViewModel.Fake)
             {
-                _lancamentoParceladoService.ForceDelete(((Guid)LancamentoViewModel.LancamentoParceladoId));
+                lancamentoViewModel.Ativo = false;
+                Add(lancamentoViewModel);
+            }
+            else
+            {
+                var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
+                _lancamentoService.ForceRemove(lancamento.LancamentoId);
+            }
+        }
+
+        private void RemoverBaseSeNaoExistemLancamentosNaSerie(Guid? lancamentoParceladoId)
+        {
+            if (lancamentoParceladoId != null && lancamentoParceladoId != Guid.Empty)
+            {
+                var lancamentosParcelados = _lancamentoService.GetLancamentosParceladosAtivos((Guid)lancamentoParceladoId);
+                if (lancamentosParcelados.Count() == 0)
+                {
+                    _lancamentoParceladoService.ClearAll(((Guid)lancamentoParceladoId));
+                }
             }
         }
 
         public void RemoveAll(IEnumerable<LancamentoViewModel> lancamentos)
         {
+            Guid? lancamentoParceladoId = Guid.Empty;
+            if(lancamentos.Count() != 0 )
+                lancamentoParceladoId = lancamentos.FirstOrDefault().LancamentoParceladoId;
+
             BeginTransaction();
+
             foreach (var l in lancamentos)
-                Remove(l);
+                RemoverApenasEste(l);
+
             Commit();
+
+            RemoverBaseSeNaoExistemLancamentosNaSerie(lancamentoParceladoId);
         }
 
         public void Dispose()

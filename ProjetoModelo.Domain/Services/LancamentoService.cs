@@ -15,17 +15,20 @@ namespace Moneta.Domain.Services
     {
         protected readonly ILancamentoRepository _LancamentoRepository;
         protected readonly ILancamentoParceladoRepository _LancamentoParceladoRepository;
+        protected readonly ILancamentoParceladoADORepository _LancamentoParceladoADORepository;
         protected readonly IGrupoLancamentoRepository _GrupoLancamentoRepository;
         protected readonly LancamentoDoMesService _LancamentoDoMesService;
 
         public LancamentoService(
             IGrupoLancamentoRepository GrupoLancamentoRepository,
             ILancamentoParceladoRepository LancamentoParceladoRepository,
+            ILancamentoParceladoADORepository LancamentoParceladoADORepository,
             ILancamentoRepository LancamentoRepository)
             : base(LancamentoRepository)
         {
             _GrupoLancamentoRepository = GrupoLancamentoRepository;
             _LancamentoParceladoRepository = LancamentoParceladoRepository;
+            _LancamentoParceladoADORepository = LancamentoParceladoADORepository;
             _LancamentoRepository = LancamentoRepository;
             _LancamentoDoMesService = new LancamentoDoMesService(_LancamentoRepository, 
                 _LancamentoParceladoRepository, _GrupoLancamentoRepository);
@@ -80,26 +83,16 @@ namespace Moneta.Domain.Services
             lancamentoUpdateEmSerieService.UpdateEmSerie(lancamentoEditado);
         }
 
-        public void RemoveEmSerie(Lancamento lancamento)
+        public void ForceRemove(Guid id)
         {
-            var lancamentoDeleteEmSerieService = new LancamentoDeleteEmSerieService(_LancamentoParceladoRepository, _LancamentoRepository);
-            lancamentoDeleteEmSerieService.DeleteEmSerie(lancamento);
-            //RemoverBaseDaSerieSeIncluso(lancamento);
+            _LancamentoRepository.ForceRemove(id);
         }
 
-        /// <summary>
-        /// Remove Lancamento Base e LancamentoParcelado quando o primeiro lançamento da série é selecionado para 'remover este e os seguintes'.
-        /// </summary>
-        /// <param name="lancamento">O lançamento selecionado pelo usuário</param>
-        //private void RemoverBaseDaSerieSeIncluso(Lancamento lancamento)
-        //{
-        //    var lancamentoBaseDaSerie = _LancamentoRepository.GetById(lancamento.LancamentoParcelado.LancamentoBaseId);
-        //    if (lancamentoBaseDaSerie.DataVencimento == lancamento.DataVencimento)
-        //    {
-        //        _LancamentoParceladoRepository.Remove(lancamento.LancamentoParcelado);
-        //        _LancamentoRepository.Remove(lancamentoBaseDaSerie);
-        //    }
-        //}
+        public void RemoveEmSerie(Lancamento lancamento)
+        {
+            var lancamentoDeleteEmSerieService = new LancamentoDeleteEmSerieService(_LancamentoParceladoRepository, _LancamentoParceladoADORepository, _LancamentoRepository);
+            lancamentoDeleteEmSerieService.DeleteEmSerie(lancamento);
+        }
 
         public void RemoveTransferencia(Lancamento lancamento)
         {

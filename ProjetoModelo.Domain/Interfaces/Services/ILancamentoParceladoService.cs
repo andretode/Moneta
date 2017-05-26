@@ -9,6 +9,6 @@ namespace Moneta.Domain.Interfaces.Services
     {
         ValidationResult Adicionar(LancamentoParcelado lancamento);
         LancamentoParcelado GetByIdReadOnly(Guid id);
-        void ForceDelete(Guid lancamentoParceladoId);
+        void ClearAll(Guid lancamentoParceladoId);
     }
 }
