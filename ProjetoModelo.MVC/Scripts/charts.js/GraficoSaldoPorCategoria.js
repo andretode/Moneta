@@ -36,6 +36,23 @@ function gerarGraficoSaldoPorCategoria(arrayDeCategoriasJson, arrayDeCoresJson, 
             display: false,
             text: 'Despesas por Categoria',
             responsive: true
+        },
+        tooltips: {
+			callbacks: {
+				label: function(tooltipItem, data) {
+				    var allData = data.datasets[tooltipItem.datasetIndex].data;
+					var tooltipLabel = data.labels[tooltipItem.index];
+					var tooltipData = allData[tooltipItem.index];
+					var strValor = 'R$ ' + tooltipData.toFixed(2);
+					strValor = strValor.replace('.', ',');
+					var total = 0;
+					for (var i in allData) {
+						total += allData[i];
+					}
+					var tooltipPercentage = Math.round((tooltipData / total) * 100);
+					return tooltipLabel + ': ' + strValor + ' (' + tooltipPercentage + '%)';
+				}
+            }
         }
     }
 
