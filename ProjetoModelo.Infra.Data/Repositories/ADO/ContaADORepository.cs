@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using Dapper;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,9 +16,10 @@ namespace Moneta.Infra.Data.Repositories.ADO
         {
             var query = "SELECT * FROM CONTA";
             var contaList = new List<Conta>();
-
-            using (IDataReader reader = Connection.ExecuteReader(CommandType.Text, query))
+            using (IDbConnection cn = Connection)
             {
+                cn.Open();
+                IDataReader reader = cn.ExecuteReader(query);
                 while (reader.Read())
                 {
                     var conta = new Conta();

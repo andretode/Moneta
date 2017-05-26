@@ -5,7 +5,6 @@ using System.Linq;
 using Dapper;
 using Moneta.Domain.Entities;
 using Moneta.Domain.Interfaces.Repository.ReadOnly;
-using Moneta.Domain.ValueObjects;
 
 namespace Moneta.Infra.Data.Repositories.ReadOnly
 {

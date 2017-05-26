@@ -16,14 +16,17 @@ namespace Moneta.Application
     public class LancamentoAppService : AppServiceBase<MonetaContext>, ILancamentoAppService
     {
         private readonly ILancamentoService _lancamentoService;
+        private readonly ILancamentoParceladoService _lancamentoParceladoService;
         private readonly ILancamentoConciliacaoService _lancamentoConciliacaoService;
         private readonly ILancamentoParceladoAppService _lancamentoParceladoServiceApp;
 
         public LancamentoAppService(ILancamentoService LancamentoService,
+            ILancamentoParceladoService lancamentoParceladoService,
             ILancamentoConciliacaoService lancamentoConciliacaoService,
             ILancamentoParceladoAppService lancamentoParceladoServiceApp)
         {
             _lancamentoService = LancamentoService;
+            _lancamentoParceladoService = lancamentoParceladoService;
             _lancamentoConciliacaoService = lancamentoConciliacaoService;
             _lancamentoParceladoServiceApp = lancamentoParceladoServiceApp;
         }
@@ -167,21 +170,17 @@ namespace Moneta.Application
                 RemoveEmSerie(LancamentoViewModel);
             }
 
-            RemoverBaseSeNaoExistemLancamentosNaSerie(LancamentoViewModel);
-
             Commit();
+
+            RemoverBaseSeNaoExistemLancamentosNaSerie(LancamentoViewModel);
         }
 
         private void RemoverBaseSeNaoExistemLancamentosNaSerie(LancamentoViewModel LancamentoViewModel)
         {
             var lancamentosParcelados = _lancamentoService.GetLancamentosParceladosAtivos((Guid)LancamentoViewModel.LancamentoParceladoId);
-            LancamentoViewModel.LancamentoParcelado = _lancamentoParceladoServiceApp.GetById((Guid)LancamentoViewModel.LancamentoParceladoId);
             if (lancamentosParcelados.Count() == 0)
             {
-                foreach (var l in LancamentoViewModel.LancamentoParcelado.Lancamentos)
-                    Remove(l);
-
-                _lancamentoParceladoServiceApp.Remove(LancamentoViewModel.LancamentoParcelado);
+                _lancamentoParceladoService.ForceDelete(((Guid)LancamentoViewModel.LancamentoParceladoId));
             }
         }
 

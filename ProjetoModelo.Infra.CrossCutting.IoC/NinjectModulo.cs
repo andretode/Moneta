@@ -51,6 +51,7 @@ namespace Moneta.Infra.CrossCutting.IoC
 
             // ado repos only
             Bind<IContaADORepository>().To<ContaADORepository>();
+            Bind<ILancamentoParceladoADORepository>().To<LancamentoParceladoADORepository>();
 
             // data configs
             Bind(typeof(IContextManager<>)).To(typeof(ContextManager<>));

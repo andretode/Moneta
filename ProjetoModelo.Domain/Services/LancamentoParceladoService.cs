@@ -13,12 +13,15 @@ namespace Moneta.Domain.Services
     public class LancamentoParceladoService : ServiceBase<LancamentoParcelado>, ILancamentoParceladoService
     {
         private readonly ILancamentoParceladoRepository _LancamentoParceladoRepository;
+        private readonly ILancamentoParceladoADORepository _LancamentoParceladoADORepository;
 
         public LancamentoParceladoService(
-            ILancamentoParceladoRepository LancamentoParceladoRepository)
+            ILancamentoParceladoRepository LancamentoParceladoRepository,
+            ILancamentoParceladoADORepository LancamentoParceladoADORepository)
             : base(LancamentoParceladoRepository)
         {
             _LancamentoParceladoRepository = LancamentoParceladoRepository;
+            _LancamentoParceladoADORepository = LancamentoParceladoADORepository;
         }
 
         public override LancamentoParcelado GetById(Guid id)
@@ -49,6 +52,11 @@ namespace Moneta.Domain.Services
             base.Add(lancamento);
 
             return resultadoValidacao;
+        }
+
+        public void ForceDelete(Guid lancamentoParceladoId)
+        {
+            _LancamentoParceladoADORepository.ForceDelete(lancamentoParceladoId);
         }
     }
 }

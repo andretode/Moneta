@@ -41,6 +41,7 @@
     <Compile Include="Entities\Categoria.cs" />
     <Compile Include="Entities\Conta.cs" />
     <Compile Include="Entities\LancamentoParcelado.cs" />
+    <Compile Include="Interfaces\Repository\ADO\ILancamentoParceladoADORepository.cs" />
     <Compile Include="Interfaces\Repository\IGrupoLancamentoRepository.cs" />
     <Compile Include="Interfaces\Services\IGrupoLancamentoService.cs" />
     <Compile Include="Interfaces\Services\ILancamentoConciliacaoService.cs" />
