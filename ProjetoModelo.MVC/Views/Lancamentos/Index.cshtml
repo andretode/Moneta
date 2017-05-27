@@ -78,15 +78,18 @@
 
                 string corSaldoAtualDoMes = (Model.SaldoAtualDoMes > 0 ? "green" : "red");
                 string corSaldoDoMes = (Model.SaldoDoMes > 0 ? "green" : "red");
-
+                decimal saldo = Model.ReceitaTotal + Model.DespesaTotal;
+                string corSaldoNoMes = (saldo > 0 ? "green" : "red");
+                
                 <tr>
                     <td colspan="2" class="text-left">
                         <h6>Receitas previstas no mês: <span style="color:green">@Html.DisplayFor(model => model.ReceitaTotal)</span></h6>
-                        <h6>Despesas previstas no mês: <span style="color:red">@Html.DisplayFor(model => model.DespesaTotal)</span></h6>
+                        <h6>Despesas previstas no mês: <span style="color:red">@Html.DisplayFor(model => model.DespesaTotal)</span></h6>                       
+                        <h6><b>Saldo previsto no mês: <span style="color: @corSaldoNoMes">@saldo.ToString("C")</span></b></h6>
                     </td>
                     <td colspan="4" class="text-right">
                         <h5>Saldo atual: <strong style="color: @corSaldoAtualDoMes">@Html.DisplayFor(model => model.SaldoAtualDoMes)</strong></h5>
-                        <h6>Previsto para o fim do mês: <strong style="color: @corSaldoDoMes">@Html.DisplayFor(model => model.SaldoDoMes)</strong></h6>
+                        <h6>Previsto no fim do mês: <strong style="color: @corSaldoDoMes">@Html.DisplayFor(model => model.SaldoDoMes)</strong></h6>
                     </td>
                     <td>
                         <h5><i title="O saldo é contabilizado considerando o saldo do mês anterior" class="glyphicon glyphicon-info-sign"></i></h5>
