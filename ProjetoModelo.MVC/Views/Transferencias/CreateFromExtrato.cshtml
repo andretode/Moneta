@@ -9,7 +9,7 @@
 
 <h2>@ViewBag.Title</h2>
 
-@using (Html.BeginForm("Create", null, FormMethod.Post, new { id = "formLancamento" }))
+@using (Html.BeginForm("CreateFromExtrato", null, FormMethod.Post, new { id = "formLancamento" }))
 {
     @Html.AntiForgeryToken()
 
@@ -20,33 +20,36 @@
         <h3>Extrato Bancário</h3>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LancamentoOrigem.Descricao, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.LancamentoPai.Descricao, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <span style="vertical-align: -33%">
-                    @Html.DisplayFor(model => model.LancamentoOrigem.Descricao)
-                    @Html.HiddenFor(model => model.LancamentoOrigem.Descricao)
-                    @Html.HiddenFor(model => model.LancamentoOrigem.CategoriaId)
-                    @Html.HiddenFor(model => model.LancamentoOrigem.ExtratoBancarioId)
+                    @Html.DisplayFor(model => model.LancamentoPai.Descricao)
+                    @Html.HiddenFor(model => model.LancamentoPai.Descricao)
+                    @Html.HiddenFor(model => model.LancamentoPai.CategoriaId)
+                    @Html.HiddenFor(model => model.LancamentoPai.ExtratoBancarioId)
+                    @Html.HiddenFor(model => model.LancamentoPai.Conta.ContaId)
+                    @Html.HiddenFor(model => model.LancamentoPai.Conta.Descricao)
+                    @Html.HiddenFor(model => model.ConciliarExtratoCom)
                 </span>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LancamentoOrigem.Valor, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.LancamentoPai.Valor, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <span style="vertical-align: -33%">
-                    @Html.DisplayFor(model => model.LancamentoOrigem.Valor)
-                    @Html.HiddenFor(model => model.LancamentoOrigem.Valor)
+                    @Html.DisplayFor(model => model.LancamentoPai.Valor)
+                    @Html.HiddenFor(model => model.LancamentoPai.Valor)
                 </span>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LancamentoOrigem.DataVencimento, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.LancamentoPai.DataVencimento, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <span style="vertical-align: -33%">
-                    @Html.DisplayFor(model => model.LancamentoOrigem.DataVencimento)
-                    @Html.HiddenFor(model => model.LancamentoOrigem.DataVencimento)
+                    @Html.DisplayFor(model => model.LancamentoPai.DataVencimento)
+                    @Html.HiddenFor(model => model.LancamentoPai.DataVencimento)
                 </span>
             </div>
         </div>
@@ -55,9 +58,16 @@
             @Html.Label("Conta Origem", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <span style="vertical-align: -33%">
-                    @Html.DisplayFor(model => model.LancamentoOrigem.Conta.Descricao)
-                    @Html.HiddenFor(model => model.LancamentoOrigem.Conta.ContaId)
-                    @Html.HiddenFor(model => model.LancamentoOrigem.Conta.Descricao)
+                    @if(Model.ContaIdOrigem != Guid.Empty)
+                    {
+                        @Html.DisplayFor(model => model.LancamentoPai.Conta.Descricao)
+                        @Html.HiddenFor(model => model.ContaIdOrigem)
+                    }
+                    else
+                    {
+                        @Html.DropDownList("ContaIdOrigem", (SelectList)@ViewBag.Contas, "-- Selecione uma Conta --", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ContaIdOrigem, "", new { @class = "text-danger" })
+                    }                    
                 </span>
             </div>
         </div>
@@ -65,8 +75,16 @@
         <div class="form-group">
             <strong class="control-label col-md-2">Conta Destino</strong>
             <div class="col-md-10">
-                @Html.DropDownList("ContaIdDestino", (SelectList)@ViewBag.Contas, "-- Selecione uma Conta --", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.ContaIdDestino, "", new { @class = "text-danger" })
+                @if (Model.ContaIdDestino != Guid.Empty)
+                {
+                    @Html.DisplayFor(model => model.LancamentoPai.Conta.Descricao)
+                    @Html.HiddenFor(model => model.ContaIdDestino)
+                }
+                else
+                {
+                    @Html.DropDownList("ContaIdDestino", (SelectList)@ViewBag.Contas, "-- Selecione uma Conta --", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ContaIdDestino, "", new { @class = "text-danger" })
+                }
             </div>
         </div>
 

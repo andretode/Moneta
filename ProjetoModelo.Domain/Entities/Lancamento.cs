@@ -160,8 +160,7 @@ namespace Moneta.Domain.Entities
             lancamentoDestino.LancamentoIdTransferencia = this.LancamentoId;
             lancamentoDestino.ContaId = ContaIdDestino;
             lancamentoDestino.Descricao = this.Descricao;
-            lancamentoDestino.Valor = this.Valor;
-            this.Valor *= -1;
+            lancamentoDestino.Valor = this.Valor * -1;
             lancamentoDestino.DataVencimento = this.DataVencimento;
             lancamentoDestino.CategoriaId = this.CategoriaId;
             lancamentoDestino.TipoDeTransacao = this.TipoDeTransacao;

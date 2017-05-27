@@ -20,10 +20,10 @@ namespace Moneta.MVC.Controllers
 
         public static void TratarLancamentoValorHtml5Number(TransferenciaViewModel transferecia, ModelStateDictionary ModelState)
         {
-            if (transferecia.LancamentoOrigem.Valor == 0 && ModelState["LancamentoOrigem.Valor"].Value.AttemptedValue != "")
+            if (transferecia.LancamentoPai.Valor == 0 && ModelState["LancamentoPai.Valor"].Value.AttemptedValue != "")
             {
-                transferecia.LancamentoOrigem.Valor = Decimal.Parse(ModelState["LancamentoOrigem.Valor"].Value.AttemptedValue.Replace('.', ','));
-                ModelState["LancamentoOrigem.Valor"].Errors.Clear();
+                transferecia.LancamentoPai.Valor = Decimal.Parse(ModelState["LancamentoPai.Valor"].Value.AttemptedValue.Replace('.', ','));
+                ModelState["LancamentoPai.Valor"].Errors.Clear();
             }
         }
     }

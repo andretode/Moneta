@@ -67,14 +67,36 @@ namespace Moneta.Application
         
         public ValidationAppResult AddTransferencia(TransferenciaViewModel transferencia)
         {
-            var lancamentoOrigemVM = transferencia.LancamentoOrigem;
-            lancamentoOrigemVM.Conta = null;
+            var lancamentoPaiVM = transferencia.LancamentoPai;
+            lancamentoPaiVM.Conta = null;
 
-            //Para garantir que o valor negativo vindo do lançamento vindo do extrato seja ajustado para gerar origem negativa mais a frente no processamento
-            lancamentoOrigemVM.Valor = Math.Abs(lancamentoOrigemVM.Valor);
-            
-            var lancamentoOrigem = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoOrigemVM);
-            var lancamentoDestino = lancamentoOrigem.CreateLancamentoTransferenciaPar(transferencia.ContaIdDestino);
+            Lancamento lancamentoOrigem;
+            Lancamento lancamentoDestino;
+
+            if(lancamentoPaiVM.Valor < 0)
+            {
+                lancamentoOrigem = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoPaiVM);
+                lancamentoDestino = lancamentoOrigem.CreateLancamentoTransferenciaPar(transferencia.ContaIdDestino);
+            }
+            else
+            {
+                lancamentoDestino = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoPaiVM);
+                lancamentoOrigem = lancamentoDestino.CreateLancamentoTransferenciaPar(transferencia.ContaIdDestino);
+            }          
+
+            lancamentoOrigem.ContaId = transferencia.ContaIdOrigem;
+            lancamentoDestino.ContaId = transferencia.ContaIdDestino;
+
+            if (transferencia.ConciliarExtratoCom == ContaEnum.ORIGEM)
+            {
+                lancamentoOrigem.ExtratoBancarioId = transferencia.LancamentoPai.ExtratoBancarioId;
+                lancamentoDestino.ExtratoBancarioId = null;
+            }
+            else
+            {
+                lancamentoDestino.ExtratoBancarioId = transferencia.LancamentoPai.ExtratoBancarioId;
+                lancamentoOrigem.ExtratoBancarioId = null;
+            }
 
             BeginTransaction();
 

@@ -30,8 +30,8 @@ namespace Moneta.MVC.Controllers
             if (ModelState.IsValid)
             {
                 var novaTransferencia = new TransferenciaViewModel(lancamentos.MesAnoCompetencia);
-                novaTransferencia.LancamentoOrigem.Conta = _ContaApp.GetById((Guid)lancamentos.ContaIdFiltro);
-                novaTransferencia.LancamentoOrigem.CategoriaId = _CategoriaApp.GetAll().Where(c => c.Descricao == CategoriaViewModel.Nenhum).FirstOrDefault().CategoriaId;
+                novaTransferencia.LancamentoPai.Conta = _ContaApp.GetById((Guid)lancamentos.ContaIdFiltro);
+                novaTransferencia.LancamentoPai.CategoriaId = _CategoriaApp.GetAll().Where(c => c.Descricao == CategoriaViewModel.Nenhum).FirstOrDefault().CategoriaId;
                 SetSelectLists((Guid)lancamentos.ContaIdFiltro);
                 return View(novaTransferencia);
             }
@@ -42,28 +42,80 @@ namespace Moneta.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(TransferenciaViewModel transferencia)
         {
-            SetSelectLists(transferencia.LancamentoOrigem.ContaId);
             Util.TratarLancamentoValorHtml5Number(transferencia, ModelState);
 
             if (ModelState.IsValid)
             {
-                transferencia.LancamentoOrigem.ContaId = transferencia.LancamentoOrigem.Conta.ContaId;
-                var result = _LancamentoApp.AddTransferencia(transferencia);
+                transferencia.ContaIdOrigem = transferencia.LancamentoPai.Conta.ContaId;
+                if (transferencia.LancamentoPai.Valor > 0)
+                    transferencia.LancamentoPai.Valor *= -1;
 
-                if (!result.IsValid)
-                {
-                    foreach (var validationAppError in result.Erros)
-                    {
-                        ModelState.AddModelError(string.Empty, validationAppError.Message);
-                    }
-                    return View(transferencia);
-                }
-
-                return RedirectToAction("Index", "Lancamentos", new { contaIdFiltro = transferencia.LancamentoOrigem.ContaId, MesAnoCompetencia = transferencia.LancamentoOrigem.DataVencimento });
+                return CriarTransferencia(transferencia);
             }
 
-            transferencia.LancamentoOrigem.Conta = _ContaApp.GetById(transferencia.LancamentoOrigem.ContaId);
+            SetSelectLists(transferencia.LancamentoPai.ContaId);
+            transferencia.LancamentoPai.Conta = _ContaApp.GetById(transferencia.LancamentoPai.ContaId);
             return View(transferencia);
+        }
+
+        public ActionResult CreateFromExtrato(LancamentoViewModel lancamento)
+        {
+            SetSelectLists();
+            lancamento.Conta = _ContaApp.GetById(lancamento.ContaId);
+            lancamento.CategoriaId = _CategoriaApp.GetAll()
+                .Where(c => c.Descricao == CategoriaViewModel.Nenhum)
+                .FirstOrDefault().CategoriaId;
+            var transferencia = new TransferenciaViewModel();
+            transferencia.LancamentoPai = lancamento;
+
+            if (lancamento.Valor < 0)
+            {
+                transferencia.ContaIdOrigem = lancamento.ContaId;
+                transferencia.ConciliarExtratoCom = ContaEnum.ORIGEM;
+            }
+            else
+            {
+                transferencia.ContaIdDestino = lancamento.ContaId;
+                transferencia.ConciliarExtratoCom = ContaEnum.DESTINO;
+            }
+
+            return View(transferencia);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateFromExtrato(TransferenciaViewModel transferencia)
+        {
+            Util.TratarLancamentoValorHtml5Number(transferencia, ModelState);
+
+            if (ModelState.IsValid)
+            {
+                return CriarTransferencia(transferencia);
+            }
+
+            SetSelectLists(transferencia.LancamentoPai.ContaId);
+            transferencia.LancamentoPai.Conta = _ContaApp.GetById(transferencia.LancamentoPai.ContaId);
+            return View(transferencia);
+        }
+
+        private ActionResult CriarTransferencia(TransferenciaViewModel transferencia)
+        {
+            var result = _LancamentoApp.AddTransferencia(transferencia);
+
+            if (!result.IsValid)
+            {
+                foreach (var validationAppError in result.Erros)
+                {
+                    ModelState.AddModelError(string.Empty, validationAppError.Message);
+                }
+                return View(transferencia);
+            }
+
+            return RedirectToAction("Index", "Lancamentos", new
+            {
+                contaIdFiltro = transferencia.LancamentoPai.ContaId,
+                MesAnoCompetencia = transferencia.LancamentoPai.DataVencimento
+            });
         }
 
         public ActionResult Details(Guid id)
@@ -90,7 +142,10 @@ namespace Moneta.MVC.Controllers
             {
                 _LancamentoApp.Update(lancamento);
                 
-                return RedirectToAction("Index", "Lancamentos", new { contaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
+                return RedirectToAction("Index", "Lancamentos", new { 
+                    contaIdFiltro = lancamento.ContaId, 
+                    MesAnoCompetencia = lancamento.DataVencimento 
+                });
             }
 
             return View(lancamento);
@@ -109,18 +164,10 @@ namespace Moneta.MVC.Controllers
             var lancamento = _LancamentoApp.GetByIdReadOnly(id);
             _LancamentoApp.RemoveTransferencia(lancamento);
 
-            return RedirectToAction("Index", "Lancamentos", new { contaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
-        }
-
-        public ActionResult CreateFromExtrato(LancamentoViewModel lancamento)
-        {
-            SetSelectLists();
-            lancamento.Conta = _ContaApp.GetById(lancamento.ContaId);
-            lancamento.CategoriaId = _CategoriaApp.GetAll().Where(c => c.Descricao == CategoriaViewModel.Nenhum).FirstOrDefault().CategoriaId;
-            var transferencia = new TransferenciaViewModel();
-            transferencia.LancamentoOrigem = lancamento;
-
-            return View(transferencia);
+            return RedirectToAction("Index", "Lancamentos", new { 
+                contaIdFiltro = lancamento.ContaId, 
+                MesAnoCompetencia = lancamento.DataVencimento
+            });
         }
 
         private void SetSelectLists(Guid? contaIdOrigem = null)

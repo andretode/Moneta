@@ -21,17 +21,17 @@
             <div class="control-label col-md-2"></div>
             <div class="col-md-3">
                 <h3><span class="label" style="display:block; background-color: lightblue">Transferência</span></h3>
-                @Html.HiddenFor(model => model.LancamentoOrigem.TipoDeTransacao)
-                @Html.HiddenFor(model => model.LancamentoOrigem.CategoriaId)
+                @Html.HiddenFor(model => model.LancamentoPai.TipoDeTransacao)
+                @Html.HiddenFor(model => model.LancamentoPai.CategoriaId)
             </div>
         </div>
 
         <div class="form-group">
             <strong class="control-label col-md-2">Conta Origem</strong>
             <div class="col-md-10">
-                <span style="vertical-align: -33%">@Html.DisplayFor(model => model.LancamentoOrigem.Conta.Descricao)</span> 
-                @Html.HiddenFor(model => model.LancamentoOrigem.Conta.ContaId)
-                @Html.HiddenFor(model => model.LancamentoOrigem.Conta.Descricao)
+                <span style="vertical-align: -33%">@Html.DisplayFor(model => model.LancamentoPai.Conta.Descricao)</span> 
+                @Html.HiddenFor(model => model.LancamentoPai.Conta.ContaId)
+                @Html.HiddenFor(model => model.LancamentoPai.Conta.Descricao)
             </div>
         </div>
 
@@ -44,27 +44,27 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LancamentoOrigem.Descricao, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.LancamentoPai.Descricao, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.LancamentoOrigem.Descricao, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LancamentoOrigem.Descricao, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.LancamentoPai.Descricao, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LancamentoPai.Descricao, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LancamentoOrigem.Valor, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.LancamentoPai.Valor, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.LancamentoOrigem.Valor, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "0.01" } })
-                @Html.ValidationMessageFor(model => model.LancamentoOrigem.Valor, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.LancamentoPai.Valor, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @step = "0.01" } })
+                @Html.ValidationMessageFor(model => model.LancamentoPai.Valor, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LancamentoOrigem.DataVencimento, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.LancamentoPai.DataVencimento, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="date" id="LancamentoOrigem_DataVencimento" name="LancamentoOrigem.DataVencimento" class="form-control"
-                       value="@Model.LancamentoOrigem.DataVencimento.ToString("yyyy-MM-dd")">
-                @Html.ValidationMessageFor(model => model.LancamentoOrigem.DataVencimento, "", new { @class = "text-danger" })
+                <input type="date" id="LancamentoPai_DataVencimento" name="LancamentoPai.DataVencimento" class="form-control"
+                       value="@Model.LancamentoPai.DataVencimento.ToString("yyyy-MM-dd")">
+                @Html.ValidationMessageFor(model => model.LancamentoPai.DataVencimento, "", new { @class = "text-danger" })
             </div>
         </div>
 

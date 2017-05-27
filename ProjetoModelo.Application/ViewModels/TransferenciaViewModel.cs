@@ -10,28 +10,36 @@ namespace Moneta.Application.ViewModels
     {
         public TransferenciaViewModel()
         {
-            LancamentoOrigem = new LancamentoViewModel(DateTime.Now);
-            LancamentoOrigem.Descricao = "Transferência entre contas";
-            LancamentoOrigem.TipoDeTransacao = TipoTransacaoEnum.Transferencia;
-            LancamentoOrigem.Ativo = true;
-            LancamentoOrigem.Pago = false;
-            LancamentoOrigem.Fake = false;
+            LancamentoPai = InstanciarLancamento(DateTime.Now);
         }
 
         public TransferenciaViewModel(DateTime MesAnoCompetencia)
         {
-            LancamentoOrigem = new LancamentoViewModel(MesAnoCompetencia);
-            LancamentoOrigem.Descricao = "Transferência entre contas";
-            LancamentoOrigem.TipoDeTransacao = TipoTransacaoEnum.Transferencia;
-            LancamentoOrigem.Ativo = true;
-            LancamentoOrigem.Pago = false;
-            LancamentoOrigem.Fake = false;
+            LancamentoPai = InstanciarLancamento(MesAnoCompetencia);
         }
 
-        [DisplayName("Lançamento Origem")]
-        public virtual LancamentoViewModel LancamentoOrigem { get; set; }
+        private LancamentoViewModel InstanciarLancamento(DateTime MesAnoCompetencia)
+        {
+            var lancamento = new LancamentoViewModel(MesAnoCompetencia);
+            lancamento.Descricao = "Transferência entre contas";
+            lancamento.TipoDeTransacao = TipoTransacaoEnum.Transferencia;
+            lancamento.Ativo = true;
+            lancamento.Pago = false;
+            lancamento.Fake = false;
+
+            return lancamento;
+        }
+
+        public virtual LancamentoViewModel LancamentoPai { get; set; }
+
+        [DisplayName("Conta Origem")]
+        public Guid ContaIdOrigem { get; set; }
 
         [DisplayName("Conta Destino")]
         public Guid ContaIdDestino { get; set; }
+
+        public ContaEnum ConciliarExtratoCom { get; set; }
     }
+
+    public enum ContaEnum { ORIGEM, DESTINO }
 }
