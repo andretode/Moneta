@@ -55,10 +55,7 @@
         <thead>
             <tr style="background-color: #e6e6e6">
                 <th>
-                    <a id="botaoRemoverSelecionados" class="btn btn-default btn-xs" title="Remover itens selecionados"
-                        href="javascript:validarSeExisteSelecionados()">
-                        <i class="icon-white glyphicon glyphicon-trash"></i>
-                    </a>
+                    @Html.CheckBox("selecionarTodos", false, new { @title = "Selecionar todos" })
                 </th>
                 <th colspan="5" class="text-right">Saldo do Mês Anterior: <span style="color: @corSaldoDoMesAnterior">@Html.DisplayFor(model => model.SaldoDoMesAnterior)</span></th>
                 <th><i title="O saldo é contabilizado independente se o lançamento foi ou não pago" class="glyphicon glyphicon-info-sign"></i></th>
@@ -109,7 +106,20 @@
     <p>&nbsp;</p>
 </div>
 
+<div id="modal-menu" class="modal-menu">
+    <div class="col-md-2">
+
+    </div>
+    <div class="col-md-1">
+        <a id="botaoRemoverSelecionados" class="btn btn-default btn-xs" title="Remover itens selecionados"
+           href="javascript:validarSeExisteSelecionados()">
+            <i class="icon-white glyphicon glyphicon-trash"></i>
+        </a>
+    </div>
+</div>
+
 <link rel="stylesheet" href="~/Content/botao-novo-lancamento.css">
+<link rel="stylesheet" href="~/Content/moneta-modal-screen.css">
 
 @section Scripts {
     <script type="text/javascript">
@@ -150,5 +160,16 @@
                     document.getElementById('formLancamentosRemover').submit();
             }
         }
+
+        $("#selecionarTodos").click(function () {
+            $('input:checkbox').not(this).prop('checked', this.checked);
+        });
+
+        $('input:checkbox').click(function () {
+            if (document.querySelectorAll('input[type="checkbox"]:checked').length > 0)
+                $("#modal-menu").show();
+            else
+                $("#modal-menu").hide();
+        });
     </script>
 }

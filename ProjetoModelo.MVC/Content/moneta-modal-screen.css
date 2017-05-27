@@ -1,0 +1,14 @@
+﻿.modal-menu {
+    display: none;
+    position: fixed;
+    top: 14em;
+    left: 3em;
+    width: 90px;
+    background: #FFF;
+    z-index: 9900;
+    padding: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: -1px -8px 72px -6px rgba(0,0,0,0.75);
+    -moz-box-shadow: -1px -8px 72px -6px rgba(0,0,0,0.75);
+    box-shadow: -1px -8px 72px -6px rgba(0,0,0,0.75);
+}
