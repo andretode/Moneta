@@ -50,7 +50,22 @@ namespace Moneta.MVC.Controllers
                 if (transferencia.LancamentoPai.Valor > 0)
                     transferencia.LancamentoPai.Valor *= -1;
 
-                return CriarTransferencia(transferencia);
+                var result = _LancamentoApp.AddTransferencia(transferencia);
+
+                if (!result.IsValid)
+                {
+                    foreach (var validationAppError in result.Erros)
+                    {
+                        ModelState.AddModelError(string.Empty, validationAppError.Message);
+                    }
+                    return View(transferencia);
+                }
+
+                return RedirectToAction("Index", "Lancamentos", new
+                {
+                    contaIdFiltro = transferencia.LancamentoPai.ContaId,
+                    MesAnoCompetencia = transferencia.LancamentoPai.DataVencimento
+                });
             }
 
             SetSelectLists(transferencia.LancamentoPai.ContaId);
@@ -90,32 +105,27 @@ namespace Moneta.MVC.Controllers
 
             if (ModelState.IsValid)
             {
-                return CriarTransferencia(transferencia);
+                var result = _LancamentoApp.AddTransferencia(transferencia);
+
+                if (!result.IsValid)
+                {
+                    foreach (var validationAppError in result.Erros)
+                    {
+                        ModelState.AddModelError(string.Empty, validationAppError.Message);
+                    }
+                    return View(transferencia);
+                }
+
+                return RedirectToAction("Index", "ExtratosBancarios", new
+                {
+                    ContaIdFiltro = transferencia.LancamentoPai.ContaId,
+                    MesAnoCompetencia = transferencia.LancamentoPai.DataVencimento
+                });
             }
 
             SetSelectLists(transferencia.LancamentoPai.ContaId);
             transferencia.LancamentoPai.Conta = _ContaApp.GetById(transferencia.LancamentoPai.ContaId);
             return View(transferencia);
-        }
-
-        private ActionResult CriarTransferencia(TransferenciaViewModel transferencia)
-        {
-            var result = _LancamentoApp.AddTransferencia(transferencia);
-
-            if (!result.IsValid)
-            {
-                foreach (var validationAppError in result.Erros)
-                {
-                    ModelState.AddModelError(string.Empty, validationAppError.Message);
-                }
-                return View(transferencia);
-            }
-
-            return RedirectToAction("Index", "Lancamentos", new
-            {
-                contaIdFiltro = transferencia.LancamentoPai.ContaId,
-                MesAnoCompetencia = transferencia.LancamentoPai.DataVencimento
-            });
         }
 
         public ActionResult Details(Guid id)
