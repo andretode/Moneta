@@ -70,7 +70,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Valor, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input id="Valor" name="Valor" type="number" class="form-control" min="0" step="0.01" value="@Model.Valor.ToString().Replace(',','.')">
+                <input id="Valor" name="Valor" type="number" class="form-control" min="0" step="0.01" value="@Math.Abs(Model.Valor).ToString().Replace(',', '.')">
                 @Html.ValidationMessageFor(model => model.Valor, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -147,11 +147,4 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/mask-money")
-
-<script>
-    $(function () {
-        $('#Valor').maskMoney({ prefix: 'R$ ', allowNegative: true, thousands: '', decimal: ',', affixesStay: false });
-    })
-</script>
 }

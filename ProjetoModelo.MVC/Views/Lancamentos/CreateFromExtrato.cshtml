@@ -100,16 +100,4 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/mask-money")
-
-    <script>
-        $(document).ready(function () {
-            // Corrigindo valor que está vindo de outra action com ponto em vez de vírgula.
-            $('#Valor').val($('#Valor').val().replace(".", ","));
-        });
-
-        $(function () {
-            $('#Valor').maskMoney({ prefix: 'R$ ', allowNegative: true, thousands: '', decimal: ',', affixesStay: false });
-        })
-    </script>
 }
