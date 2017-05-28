@@ -2,8 +2,8 @@
     display: none;
     position: fixed;
     top: 14em;
-    left: 3em;
-    width: 90px;
+    left: 10%;
+    width: 45px;
     background: #FFF;
     z-index: 9900;
     padding: 10px;
@@ -11,4 +11,25 @@
     -webkit-box-shadow: -1px -8px 72px -6px rgba(0,0,0,0.75);
     -moz-box-shadow: -1px -8px 72px -6px rgba(0,0,0,0.75);
     box-shadow: -1px -8px 72px -6px rgba(0,0,0,0.75);
+}
+
+@media (min-width: 1200px) {
+    /* body com width 1170px */
+    .modal-menu {
+        left: 90px
+    }
+}
+
+@media (min-width: 992px) {
+    /* body com width 970px */
+    .modal-menu {
+        left: 90px
+    }
+}
+
+@media (min-width: 768px) {
+    /* body com width 750px */
+    .modal-menu {
+        left: 90px
+    }
 }
