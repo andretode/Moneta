@@ -1,8 +1,12 @@
-﻿.modal-menu {
+﻿.modal-menu-wrapper {
     display: none;
     position: fixed;
-    top: 14em;
-    left: 10%;
+    top: 13.7em;
+}
+
+.modal-menu {
+    position: absolute;
+    left: 30px;
     width: 45px;
     background: #FFF;
     z-index: 9900;
@@ -11,28 +15,4 @@
     -webkit-box-shadow: -1px -8px 72px -6px rgba(0,0,0,0.75);
     -moz-box-shadow: -1px -8px 72px -6px rgba(0,0,0,0.75);
     box-shadow: -1px -8px 72px -6px rgba(0,0,0,0.75);
-}
-
-@media (min-width: 1170px) {
-    .modal-menu {
-        left: 30px
-    }
-}
-
-@media (min-width: 1170px) {
-    .modal-menu {
-        left: 30px
-    }
-}
-
-@media (min-width: 970px) {
-    .modal-menu {
-        left: 90px
-    }
-}
-
-@media (min-width: 750px) {
-    .modal-menu {
-        left: 90px
-    }
 }
