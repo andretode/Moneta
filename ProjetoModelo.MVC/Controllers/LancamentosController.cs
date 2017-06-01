@@ -42,24 +42,29 @@ namespace Moneta.MVC.Controllers
         // GET: Lancamento
         public ViewResult Index(LancamentosDoMesViewModel lancamentos)
         {
+            var cookieContaId = Util.GetCookieContaId(Request, Response);
+            var contaIdFiltroTemp = Guid.Parse(cookieContaId.Value.ToString());
+
             if (lancamentos.MesAnoCompetencia == DateTime.MinValue)
                 lancamentos.MesAnoCompetencia = DateTime.Now;
 
             DateTime mesAnoCompetenciaTemp = lancamentos.MesAnoCompetencia;
-            Guid contaIdFiltroTemp = (lancamentos.ContaIdFiltro == null ? Guid.Empty : (Guid)lancamentos.ContaIdFiltro);
+            lancamentos.ContaIdFiltro = contaIdFiltroTemp;
 
             lancamentos = _LancamentoApp.GetLancamentosDoMes(lancamentos);
             lancamentos.MesAnoCompetencia = mesAnoCompetenciaTemp;
-            lancamentos.ContaIdFiltro = contaIdFiltroTemp;
+            lancamentos.contaIdFiltro = contaIdFiltroTemp;
 
             SetSelectLists();
 
             return View(lancamentos);
         }
 
-        public ViewResult AlterarMes(DateTime MesAnoCompetencia, Guid ContaIdFiltro, int addMonths)
+        public ViewResult AlterarMes(DateTime MesAnoCompetencia, int addMonths)
         {
             var lancamentosDoMes = new LancamentosDoMesViewModel();
+            var cookieContaId = Util.GetCookieContaId(Request, Response);
+            var ContaIdFiltro = Guid.Parse(cookieContaId.Value.ToString());
             lancamentosDoMes.ContaIdFiltro = ContaIdFiltro;
             MesAnoCompetencia = MesAnoCompetencia.AddMonths(addMonths);
             lancamentosDoMes.MesAnoCompetencia = MesAnoCompetencia;
@@ -116,12 +121,14 @@ namespace Moneta.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RemoverSelecionados(IEnumerable<LancamentoAgrupadoViewModel> lancamentosAgrupados, Guid ContaIdFiltro, DateTime MesAnoCompetencia)
+        public ActionResult RemoverSelecionados(IEnumerable<LancamentoAgrupadoViewModel> lancamentosAgrupados, DateTime MesAnoCompetencia)
         {
             var lancamentosSelecionados = lancamentosAgrupados
                 .Where(agrupado => agrupado.Lancamentos.First().Selecionado)
                 .Select(agrupados => agrupados.Lancamentos.First());
             _LancamentoApp.RemoveAll(lancamentosSelecionados);
+            var cookieContaId = Util.GetCookieContaId(Request, Response);
+            var ContaIdFiltro = Guid.Parse(cookieContaId.Value.ToString());
             return RedirectToAction("Index", new { ContaIdFiltro, MesAnoCompetencia });
         }
 
@@ -129,7 +136,7 @@ namespace Moneta.MVC.Controllers
         [MultipleButton(Name = "action", Argument = "Pesquisar")]
         public ActionResult Pesquisar(LancamentosDoMesViewModel lancamentos)
         {
-            return RedirectToAction("Index", new { ContaIdFiltro = lancamentos.ContaIdFiltro, MesAnoCompetencia = lancamentos.MesAnoCompetencia,
+            return RedirectToAction("Index", new { MesAnoCompetencia = lancamentos.MesAnoCompetencia,
                 PesquisarDescricao = lancamentos.PesquisarDescricao });
         }
 
@@ -143,7 +150,7 @@ namespace Moneta.MVC.Controllers
                 return RedirectToAction("Create", lancamentos);
             }
 
-            return RedirectToAction("Index", new { ContaIdFiltro = lancamentos.ContaIdFiltro, MesAnoCompetencia = lancamentos.MesAnoCompetencia });
+            return RedirectToAction("Index", new { MesAnoCompetencia = lancamentos.MesAnoCompetencia });
         }
 
         [HttpPost]
@@ -156,7 +163,7 @@ namespace Moneta.MVC.Controllers
                 return RedirectToAction("Create", lancamentos);
             }
 
-            return RedirectToAction("Index", new { ContaIdFiltro = lancamentos.ContaIdFiltro, MesAnoCompetencia = lancamentos.MesAnoCompetencia });
+            return RedirectToAction("Index", new { MesAnoCompetencia = lancamentos.MesAnoCompetencia });
         }
 
         [HttpPost]
@@ -169,7 +176,7 @@ namespace Moneta.MVC.Controllers
                 return RedirectToAction("Create", "Transferencias", lancamentos);
             }
 
-            return RedirectToAction("Index", new { ContaIdFiltro = lancamentos.ContaIdFiltro, MesAnoCompetencia = lancamentos.MesAnoCompetencia });
+            return RedirectToAction("Index", new { MesAnoCompetencia = lancamentos.MesAnoCompetencia });
         }
 
         // GET: Lancamento/Details/5
@@ -235,7 +242,7 @@ namespace Moneta.MVC.Controllers
                 if (lancamento.GrupoLancamentoId != null)
                     return RedirectToAction("Details", "GrupoLancamentos", new { id = lancamento.GrupoLancamentoId });
                 else
-                    return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
+                    return RedirectToAction("Index", new { MesAnoCompetencia = lancamento.DataVencimento });
             }
 
             lancamento.Conta = _ContaApp.GetById(lancamento.ContaId);
@@ -269,7 +276,7 @@ namespace Moneta.MVC.Controllers
                     return View(lancamento);
                 }
 
-                return RedirectToAction("Index", "ExtratosBancarios",  new { contaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
+                return RedirectToAction("Index", "ExtratosBancarios",  new { MesAnoCompetencia = lancamento.DataVencimento });
             }
 
             lancamento.Conta = _ContaApp.GetById(lancamento.ContaId);
@@ -329,7 +336,7 @@ namespace Moneta.MVC.Controllers
                 }
 
 
-                return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
+                return RedirectToAction("Index", new { MesAnoCompetencia = lancamento.DataVencimento });
             }
             SetSelectLists();
             return View(lancamento);
@@ -355,7 +362,7 @@ namespace Moneta.MVC.Controllers
                 if (grupoLancamentoId != null)
                     return RedirectToAction("Details", "GrupoLancamentos", new { id = lancamento.GrupoLancamentoId });
                 else
-                    return RedirectToAction("Index", new { contaIdFiltro = lancamento.ContaId, MesAnoCompetencia = lancamento.DataVencimento });
+                    return RedirectToAction("Index", new { MesAnoCompetencia = lancamento.DataVencimento });
             }
 
             return View(lancamento);
@@ -376,7 +383,7 @@ namespace Moneta.MVC.Controllers
         private void SetSelectLists()
         {
             ViewBag.Contas = new SelectList(_ContaApp.GetAll(), "ContaId", "Descricao");
-            ViewBag.Categorias = new SelectList(_CategoriaApp.GetAll(), "CategoriaId", "Descricao");
+            //ViewBag.Categorias = new SelectList(_CategoriaApp.GetAll(), "CategoriaId", "Descricao");
         }
 
         #endregion

@@ -20,10 +20,7 @@
        href="javascript:validarSeExisteSelecionados()">
         <i class="icon-white glyphicon glyphicon-trash"></i>
     </a>
-
     
-    @Html.DropDownListFor(model => model.ContaIdFiltro, (SelectList)@ViewBag.Contas, "-- Todas as Contas --", new { @class = "form-control", @style = "display:inline-block" })
-
     <!-- Não pude colocar como HiddenFor pois estava colocando o valor com o mes errado. Parece que tem algum JS alterando este valor, mas não desconbri onde -->
     <input type="hidden" name="MesAnoCompetencia" id="MesAnoCompetencia" value="@Model.MesAnoCompetencia" /> 
 }
@@ -179,14 +176,7 @@
 
 @section Scripts {
 <script type="text/javascript">
-
-    // Trata mudança do filtro conta
-    $(function () {
-        $('#ContaIdFiltro').change(function () {
-            $('#formExtratos').submit();
-        });
-    });
-
+    
     // Pega Lançamentos para serem conciliados
     function getLancamentosConciliacao(id) {
         $('#dvConciliacao').html('<img src="/Content/images/loading.gif">');

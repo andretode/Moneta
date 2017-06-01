@@ -31,7 +31,6 @@
                     </div>
                 </div>
             </div>
-            @Html.DropDownListFor(model => model.ContaIdFiltro, (SelectList)@ViewBag.Contas, "-- Todas as Contas --", new { @class = "form-control", @style = "display:inline-block" })
 
             <span>
                 @Html.TextBoxFor(model => model.PesquisarDescricao, new { @class = "form-control", @placeholder = "Pesquisar pela Data ou Descrição", @style = "display:inline-block" })
@@ -124,11 +123,6 @@
         var clicouPesquisar = false;
 
         $(function () {
-            $('#ContaIdFiltro').change(function () {
-                mudouConta = true;
-                $('#formFiltros').submit();
-            });
-
             $('#BotaoPesquisar').click(function () {
                 clicouPesquisar = true;
                 $('#formFiltros').submit();

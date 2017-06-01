@@ -34,6 +34,8 @@ namespace Moneta.MVC.Controllers
 
         public ViewResult Index(ExtratoBancarioDoMesViewModel extratosDoMes, string pesquisa, int quant = -1)
         {
+            var cookieContaId = Util.GetCookieContaId(Request, Response);
+            extratosDoMes.ContaIdFiltro = Guid.Parse(cookieContaId.Value.ToString());
 
             extratosDoMes.ExtratosDoMes = _ExtratoBancarioApp.GetExtratosDoMes(extratosDoMes.MesAnoCompetencia, (Guid)extratosDoMes.ContaIdFiltro);
             ViewBag.Pesquisa = pesquisa;
@@ -46,6 +48,9 @@ namespace Moneta.MVC.Controllers
         [HttpPost]
         public ViewResult Index(ExtratoBancarioDoMesViewModel extratosDoMes)
         {
+            var cookieContaId = Util.GetCookieContaId(Request, Response);
+            extratosDoMes.ContaIdFiltro = Guid.Parse(cookieContaId.Value.ToString());
+
             extratosDoMes.ExtratosDoMes = _ExtratoBancarioApp.GetExtratosDoMes(extratosDoMes.MesAnoCompetencia, (Guid)extratosDoMes.contaIdFiltro);
             ViewBag.quantidadeImportada = -1;
             SetSelectLists();
@@ -53,14 +58,15 @@ namespace Moneta.MVC.Controllers
             return View(extratosDoMes);
         }
 
-        public ViewResult AlterarMes(DateTime mesAnoCompetencia, Guid contaIdFiltro, int addMonths)
+        public ViewResult AlterarMes(DateTime mesAnoCompetencia, int addMonths)
         {
             mesAnoCompetencia = mesAnoCompetencia.AddMonths(addMonths);
 
             var extratosDoMes = new ExtratoBancarioDoMesViewModel();
             extratosDoMes.MesAnoCompetencia = mesAnoCompetencia;
-            extratosDoMes.ContaIdFiltro = contaIdFiltro;
-            extratosDoMes.ExtratosDoMes = _ExtratoBancarioApp.GetExtratosDoMes(mesAnoCompetencia, contaIdFiltro);
+            var cookieContaId = Util.GetCookieContaId(Request, Response);
+            extratosDoMes.ContaIdFiltro = Guid.Parse(cookieContaId.Value.ToString());
+            extratosDoMes.ExtratosDoMes = _ExtratoBancarioApp.GetExtratosDoMes(mesAnoCompetencia, (Guid)extratosDoMes.ContaIdFiltro);
 
             ViewBag.quantidadeImportada = -1;
             SetSelectLists();
@@ -118,10 +124,12 @@ namespace Moneta.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ImportarOfx(string arquivoOfx, DateTime MesAnoCompetencia, Guid ContaIdFiltro)
+        public ActionResult ImportarOfx(string arquivoOfx, DateTime MesAnoCompetencia)
         {
             int quantidadeImportada = 0;
             string caminhoOfx = "";
+            var cookieContaId = Util.GetCookieContaId(Request, Response);
+            var ContaIdFiltro = Guid.Parse(cookieContaId.Value.ToString());
             var extratoDoMes = new ExtratoBancarioDoMesViewModel() { ContaIdFiltro = ContaIdFiltro, MesAnoCompetencia = MesAnoCompetencia };
 
             if (Request.Files.Count > 0)
@@ -181,7 +189,7 @@ namespace Moneta.MVC.Controllers
             {
                 grupoLancamento = JsonConvert.DeserializeObject<GrupoLancamentoViewModel>(lancamentoJson);
             }
-            catch(JsonSerializationException jse)
+            catch(JsonSerializationException)
             {
                 lancamento = JsonConvert.DeserializeObject<LancamentoViewModel>(lancamentoJson);
             }
@@ -221,9 +229,11 @@ namespace Moneta.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult RemoverSelecionados(IEnumerable<ExtratoBancarioViewModel> extratos, Guid ContaIdFiltro, DateTime MesAnoCompetencia)
+        public ActionResult RemoverSelecionados(IEnumerable<ExtratoBancarioViewModel> extratos, DateTime MesAnoCompetencia)
         {
             _ExtratoBancarioApp.RemoveAll(extratos.Where(ex => ex.Selecionado));
+            var cookieContaId = Util.GetCookieContaId(Request, Response);
+            var ContaIdFiltro = Guid.Parse(cookieContaId.Value.ToString());
             return RedirectToAction("Index", new { ContaIdFiltro, MesAnoCompetencia });
         }
 
