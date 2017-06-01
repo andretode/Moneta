@@ -31,7 +31,7 @@ namespace Moneta.MVC.Controllers
         public static HttpCookie GetCookieContaId(HttpRequestBase Request, HttpResponseBase Response)
         {
             HttpCookie cookie = Request.Cookies["ContaIdFiltro"];
-            if (cookie == null)
+            if (cookie == null || cookie.Value == "")
             {
                 cookie = new HttpCookie("ContaIdFiltro");
                 cookie.Value = Guid.Empty.ToString();
