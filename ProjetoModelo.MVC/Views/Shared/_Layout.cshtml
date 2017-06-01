@@ -21,8 +21,9 @@
                 @if (ViewBag.Contas != null)
                 {
                     <div class="conta-filtro navbar-text">
+                        <i class="glyphicon glyphicon-filter" title="Selecione uma conta para filtrar"></i> 
                         @Html.DropDownList("ContaIdFiltro", (SelectList)@ViewBag.Contas,
-                                        "-- Todas --", new { @onchange = "trocarConta()", @title = "Selecione uma conta para filtrar" })
+                                        "-- Todas as Contas --", new { @onchange = "trocarConta()", @title = "Selecione uma conta para filtrar" })
                     </div>
                 }
             </div>
