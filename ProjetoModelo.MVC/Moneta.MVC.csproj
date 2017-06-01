@@ -232,8 +232,6 @@
     <Content Include="Content\images\emoji_sad.JPG" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
-    <Content Include="Content\images\icon\conta_bancaria.svg" />
-    <Content Include="Content\images\icon\moneta-style.css" />
     <Content Include="Content\images\loading.gif" />
     <Content Include="Content\images\unauthorize.png" />
     <Content Include="Content\moneta-modal-screen.css" />
