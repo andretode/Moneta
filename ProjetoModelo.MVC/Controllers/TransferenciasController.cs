@@ -29,6 +29,9 @@ namespace Moneta.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                var cookieContaId = Util.GetCookieContaId(Request, Response);
+                lancamentos.ContaIdFiltro = Guid.Parse(cookieContaId.Value.ToString());
+
                 var novaTransferencia = new TransferenciaViewModel(lancamentos.MesAnoCompetencia);
                 novaTransferencia.LancamentoPai.Conta = _ContaApp.GetById((Guid)lancamentos.ContaIdFiltro);
                 novaTransferencia.LancamentoPai.CategoriaId = _CategoriaApp.GetAll().Where(c => c.Descricao == CategoriaViewModel.Nenhum).FirstOrDefault().CategoriaId;
@@ -63,7 +66,6 @@ namespace Moneta.MVC.Controllers
 
                 return RedirectToAction("Index", "Lancamentos", new
                 {
-                    contaIdFiltro = transferencia.LancamentoPai.ContaId,
                     MesAnoCompetencia = transferencia.LancamentoPai.DataVencimento
                 });
             }
@@ -118,7 +120,6 @@ namespace Moneta.MVC.Controllers
 
                 return RedirectToAction("Index", "ExtratosBancarios", new
                 {
-                    ContaIdFiltro = transferencia.LancamentoPai.ContaId,
                     MesAnoCompetencia = transferencia.LancamentoPai.DataVencimento
                 });
             }
@@ -153,7 +154,6 @@ namespace Moneta.MVC.Controllers
                 _LancamentoApp.Update(lancamento);
                 
                 return RedirectToAction("Index", "Lancamentos", new { 
-                    contaIdFiltro = lancamento.ContaId, 
                     MesAnoCompetencia = lancamento.DataVencimento 
                 });
             }
@@ -175,7 +175,6 @@ namespace Moneta.MVC.Controllers
             _LancamentoApp.RemoveTransferencia(lancamento);
 
             return RedirectToAction("Index", "Lancamentos", new { 
-                contaIdFiltro = lancamento.ContaId, 
                 MesAnoCompetencia = lancamento.DataVencimento
             });
         }

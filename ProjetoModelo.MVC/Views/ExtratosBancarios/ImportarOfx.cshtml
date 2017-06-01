@@ -22,7 +22,10 @@
 
         <div class="form-group">
             @Html.Label("Conta", htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.DropDownListFor(e => e.ContaIdFiltro, (SelectList)@ViewBag.Contas, "-- Selecione a Conta --", new { @class = "form-control", @value = Model.ContaIdFiltro })
+            <span style="vertical-align: -33%">
+                @(((SelectList)ViewBag.Contas).Where(s => s.Value == Model.ContaIdFiltro.ToString()).FirstOrDefault().Text)
+                @Html.HiddenFor(e => e.ContaIdFiltro)
+            </span>
             @Html.ValidationMessageFor(model => model.ContaIdFiltro, "", new { @class = "text-danger" })
         </div>
 

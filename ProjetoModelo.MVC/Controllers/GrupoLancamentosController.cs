@@ -164,7 +164,7 @@ namespace Moneta.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                _lancamentoApp.Remove(_lancamentoApp.GetByIdReadOnly((Guid)grupoLancamento.LancamentoIdDividido));
+                _lancamentoApp.ForceRemove((Guid)grupoLancamento.LancamentoIdDividido);
                 var result = _grupoLancamentoApp.Add(grupoLancamento);
                 return RedirectToAction("Details", new { id = grupoLancamento.GrupoLancamentoId });
             }

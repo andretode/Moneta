@@ -22,3 +22,10 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.conta-filtro select {
+    border-radius: 5px;
+    background: #fff;
+    max-width: 140px;
+    height: 25px;
+}

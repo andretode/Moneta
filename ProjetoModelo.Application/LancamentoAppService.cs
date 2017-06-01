@@ -190,6 +190,11 @@ namespace Moneta.Application
             RemoverBaseSeNaoExistemLancamentosNaSerie(lancamentoViewModel.LancamentoParceladoId);
         }
 
+        public void ForceRemove(Guid id)
+        {
+            _lancamentoService.ForceRemove(id);
+        }
+
         private void RemoverApenasEste(LancamentoViewModel lancamentoViewModel)
         {
             if (lancamentoViewModel.Fake)

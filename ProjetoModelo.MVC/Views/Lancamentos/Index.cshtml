@@ -33,6 +33,7 @@
             </div>
 
             <span>
+                @Html.HiddenFor(model => model.ContaIdFiltro)
                 @Html.TextBoxFor(model => model.PesquisarDescricao, new { @class = "form-control", @placeholder = "Pesquisar pela Data ou Descrição", @style = "display:inline-block" })
                 <button type="submit" value="Pesquisar" id="BotaoPesquisar" name="action:Pesquisar" class="btn btn-default" title="Pesquisar" style="display:inline-block">
                     <span class="glyphicon glyphicon-search"></span>

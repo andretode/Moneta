@@ -20,11 +20,10 @@
                 @Html.ActionLink("$ Moneta", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                 @if (ViewBag.Contas != null)
                 {
-                    using (Html.BeginForm("TrocarConta", "Home", FormMethod.Post, new { id = "formFiltros" }))
-                    {
+                    <div class="conta-filtro navbar-text">
                         @Html.DropDownList("ContaIdFiltro", (SelectList)@ViewBag.Contas,
-                                      "-- Todas as Contas --", new { @onchange = "trocarConta()" })
-                    }
+                                        "-- Todas --", new { @onchange = "trocarConta()", @title = "Selecione uma conta para filtrar" })
+                    </div>
                 }
             </div>
             <div class="navbar-collapse collapse">

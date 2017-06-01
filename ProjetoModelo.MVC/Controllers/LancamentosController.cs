@@ -383,7 +383,7 @@ namespace Moneta.MVC.Controllers
         private void SetSelectLists()
         {
             ViewBag.Contas = new SelectList(_ContaApp.GetAll(), "ContaId", "Descricao");
-            //ViewBag.Categorias = new SelectList(_CategoriaApp.GetAll(), "CategoriaId", "Descricao");
+            ViewBag.Categorias = new SelectList(_CategoriaApp.GetAll(), "CategoriaId", "Descricao");
         }
 
         #endregion
