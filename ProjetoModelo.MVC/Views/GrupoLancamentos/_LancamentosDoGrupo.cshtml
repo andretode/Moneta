@@ -43,8 +43,7 @@
     <tr style="background-color: #e6e6e6">
         <th>
             @Html.DisplayName("Data")
-        </th>
-        <th>
+            /
             @Html.DisplayNameFor(model => model.Lancamentos.First().Descricao)
         </th>
         <th>
@@ -70,11 +69,17 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.DataVencimento)
-            </td>
-            <td>
-                <a href="/Lancamentos/DetailsLancamentoAgrupado?id=@item.LancamentoId">
-                    @Html.DisplayFor(modelItem => item.DescricaoResumida)
-                </a>
+
+                <span class='visible-md-inline visible-lg-inline'>
+                    <a href="/Lancamentos/DetailsLancamentoAgrupado?id=@item.LancamentoId">
+                        @Html.DisplayFor(modelItem => item.Descricao)
+                    </a>
+                </span>
+                <span class='visible-xs visible-sm'>
+                    <a href="/Lancamentos/DetailsLancamentoAgrupado?id=@item.LancamentoId">
+                        @Html.DisplayFor(modelItem => item.DescricaoResumida)
+                    </a>
+                </span>
             </td>
             <td>
                 <div id="divCategoriaDisplay_@item.LancamentoId" onclick="mostrarEdicao('@item.LancamentoId')" title="Clique para editar a categoria">
