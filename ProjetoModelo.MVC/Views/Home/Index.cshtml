@@ -10,7 +10,7 @@
 <div class="form-horizontal">
     @using (Html.BeginForm("Index", "Home", FormMethod.Get, new { id = "formFiltros" }))
     {
-        @Html.DropDownListFor(g => g.ContaIdFiltro, (SelectList)@ViewBag.Contas, "-- Todas as Contas --", new { @class = "form-control" })
+        @Html.HiddenFor(g => g.ContaIdFiltro)
         
         @*Por algum motivo o hidden for está setando errado o valor da data*@
         <input type="hidden" name="MesAnoCompetencia" id="MesAnoCompetencia" value="@Model.MesAnoCompetencia.ToString("yyyy-MM-dd")" />
@@ -64,10 +64,6 @@
         '@Model.GraficoOrcadoVsRealizado.ArrayDeOrcamentos');
 
     $(function () {
-        $('#ContaIdFiltro').change(function () {
-            $('#formFiltros').submit();
-        });
-
         $('#ckbSomentePagos').change(function () {
             var somentePagos = document.getElementById("ckbSomentePagos").checked;
             getDadosDespesasPorCategoria('@Model.ContaIdFiltro', '@Model.MesAnoCompetencia.ToString("yyyy-MM-dd")', somentePagos);

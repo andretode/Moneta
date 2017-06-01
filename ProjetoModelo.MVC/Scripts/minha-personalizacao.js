@@ -10,3 +10,17 @@ $(function () { // will trigger when the document is ready
 		prevText: 'Anterior'
 	});
 });
+
+function trocarConta() {
+    $.post("/Home/TrocarConta",
+        { ContaIdFiltro: $('#ContaIdFiltro').val() },
+        function (data) {
+            if (data.status === "Ok") {
+                location.reload()
+            }
+            else {
+                alert("Erro ao trocar de conta!");
+            }
+        }
+    );
+}

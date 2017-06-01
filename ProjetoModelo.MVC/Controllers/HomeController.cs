@@ -4,6 +4,8 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Web;
+using System.Net;
 
 namespace Moneta.MVC.Controllers
 {
@@ -23,8 +25,23 @@ namespace Moneta.MVC.Controllers
             _CategoriaApp = CategoriaApp;
         }
 
+        public JsonResult TrocarConta(string ContaIdFiltro)
+        {
+            Util.SetValorContaIdCookie(ContaIdFiltro, Response);
+
+            return new JsonResult()
+            {
+                Data = new { status = "Ok" },
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet
+            };
+
+        }
+
         public ActionResult Index(GraficosViewModel graficosViewModel)
         {
+            var cookieContaId = Util.GetCookieContaId(Request, Response);
+
+            graficosViewModel.ContaIdFiltro = Guid.Parse(cookieContaId.Value.ToString());
             graficosViewModel.GraficoSaldoDoMes = GetDadosSaldoDoMes(graficosViewModel.ContaIdFiltro);
             graficosViewModel.GraficoSaldoPorCategoria = GetDadosSaldoPorCategoria(graficosViewModel.ContaIdFiltro, graficosViewModel.MesAnoCompetencia);
             graficosViewModel.GraficoOrcadoVsRealizado = GetDadosSaldoPorCategoria(graficosViewModel.ContaIdFiltro, graficosViewModel.MesAnoCompetencia, true);

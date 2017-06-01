@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -25,6 +26,29 @@ namespace Moneta.MVC.Controllers
                 transferecia.LancamentoPai.Valor = Decimal.Parse(ModelState["LancamentoPai.Valor"].Value.AttemptedValue.Replace('.', ','));
                 ModelState["LancamentoPai.Valor"].Errors.Clear();
             }
+        }
+
+        public static HttpCookie GetCookieContaId(HttpRequestBase Request, HttpResponseBase Response)
+        {
+            HttpCookie cookie = Request.Cookies["ContaIdFiltro"];
+            if (cookie == null)
+            {
+                cookie = new HttpCookie("ContaIdFiltro");
+                cookie.Value = Guid.Empty.ToString();
+                
+                //Time para expiração (1min)
+                DateTime dtNow = DateTime.Now;
+                TimeSpan tsMinute = new TimeSpan(7, 0, 0, 0);
+                cookie.Expires = dtNow + tsMinute;
+                Response.Cookies.Add(cookie);
+            }
+
+            return cookie;
+        }
+
+        public static void SetValorContaIdCookie(string contaId, HttpResponseBase Response)
+        {
+            Response.Cookies["ContaIdFiltro"].Value = contaId;
         }
     }
 }

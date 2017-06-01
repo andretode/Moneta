@@ -17,7 +17,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("$ Moneta v1.1", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("$ Moneta", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @if (ViewBag.Contas != null)
+                {
+                    using (Html.BeginForm("TrocarConta", "Home", FormMethod.Post, new { id = "formFiltros" }))
+                    {
+                        @Html.DropDownList("ContaIdFiltro", (SelectList)@ViewBag.Contas,
+                                      "-- Todas as Contas --", new { @onchange = "trocarConta()" })
+                    }
+                }
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -77,3 +85,4 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
