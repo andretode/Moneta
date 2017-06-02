@@ -229,6 +229,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\botao-novo-lancamento.css" />
     <Content Include="Content\campos-com-icone.css" />
+    <Content Include="Content\icommon\fonts\icomoon.svg" />
     <Content Include="Content\icommon\moneta-icomoon.css" />
     <Content Include="Content\images\emoji_sad.JPG" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
@@ -293,6 +294,9 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\icommon\fonts\icomoon.eot" />
+    <Content Include="Content\icommon\fonts\icomoon.ttf" />
+    <Content Include="Content\icommon\fonts\icomoon.woff" />
     <None Include="Properties\PublishProfiles\CursoMVC.pubxml" />
     <None Include="Properties\PublishProfiles\moneta - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\moneta - Web Deploy.pubxml" />
