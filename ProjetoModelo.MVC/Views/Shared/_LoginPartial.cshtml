@@ -5,9 +5,15 @@
 
         <ul class="nav navbar-nav navbar-right">
             <li>
-                @Html.ActionLink("Olá " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Gerenciar" })
+                <a href="/Manage/Index" title="Gerenciar conta de @User.Identity.GetUserName()">
+                    <i class="glyphicon glyphicon-user"></i>
+                </a>
             </li>
-            <li>@Html.ActionLink("Sair", "SignOut", "Home")</li>
+            <li>
+                <a href="/Home/SignOut" title="Sair">
+                    <i class="glyphicon glyphicon-log-out" ></i>
+                </a>
+            </li>
         </ul>
     //}
 }
