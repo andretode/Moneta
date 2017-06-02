@@ -35,10 +35,3 @@ textarea {
     color: white;
 }
 
-a svg { 
-  fill: gray;
-}
-
-a svg:hover { 
-  fill: white;
-}

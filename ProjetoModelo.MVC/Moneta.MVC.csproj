@@ -229,6 +229,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\botao-novo-lancamento.css" />
     <Content Include="Content\campos-com-icone.css" />
+    <Content Include="Content\icommon\moneta-icomoon.css" />
     <Content Include="Content\images\emoji_sad.JPG" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
