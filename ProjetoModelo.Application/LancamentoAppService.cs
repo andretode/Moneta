@@ -205,7 +205,14 @@ namespace Moneta.Application
             else
             {
                 var lancamento = Mapper.Map<LancamentoViewModel, Lancamento>(lancamentoViewModel);
-                _lancamentoService.ForceRemove(lancamento.LancamentoId);
+                if(lancamentoViewModel.LancamentoParceladoId != null)
+                {
+                    _lancamentoService.Remove(lancamento);
+                }
+                else
+                {
+                    _lancamentoService.ForceRemove(lancamento.LancamentoId);
+                }
             }
         }
 
