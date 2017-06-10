@@ -189,7 +189,7 @@ namespace Moneta.MVC.Controllers
             {
                 _grupoLancamentoApp.Update(grupoLancamento);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = grupoLancamento.GrupoLancamentoId });
             }
 
             SetSelectLists();
@@ -200,8 +200,9 @@ namespace Moneta.MVC.Controllers
         public ActionResult Delete(Guid id)
         {
             var grupoLancamentoViewModel = _grupoLancamentoApp.GetAllReadOnly().Where(c => c.GrupoLancamentoId == id).First();
+            var MesAnoCompetencia = grupoLancamentoViewModel.DataVencimento;
             _grupoLancamentoApp.Remove(grupoLancamentoViewModel);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Lancamentos", MesAnoCompetencia);
         }
 
         public ActionResult AdicionarTransferencia(Guid grupoLancamentoId)
