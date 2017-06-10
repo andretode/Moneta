@@ -44,11 +44,14 @@ namespace Moneta.Domain.Services
         /// </summary>
         private void AtualizarLancamentosNaoFakeQueSofreramAlteracoes(Lancamento lancamentoEditado, DateTime dataVencimentoAnterior, double diasDiff)
         {
-            var lancamentoBdAtualMaisSeguintes = _LancamentoRepository.GetAllReadOnly().Where(l => l.LancamentoParceladoId == lancamentoEditado.LancamentoParceladoId && l.DataVencimento >= dataVencimentoAnterior).ToList();
+            bool isLancamentoFixo = lancamentoEditado.LancamentoParcelado.NumeroParcelas == null;
+
+            var lancamentoBdAtualMaisSeguintes = _LancamentoRepository.GetAllReadOnly()
+                .Where(l => l.LancamentoParceladoId == lancamentoEditado.LancamentoParceladoId && l.DataVencimento >= dataVencimentoAnterior).ToList();
             
             //Garante que o lançamento base está sendo adicionado apenas uma vez
             var lancamentoBase = _LancamentoRepository.GetByIdReadOnly(lancamentoEditado.LancamentoParcelado.LancamentoBaseId);
-            if (!lancamentoBdAtualMaisSeguintes.Exists(l=>l.LancamentoId == lancamentoBase.LancamentoId))
+            if (isLancamentoFixo && !lancamentoBdAtualMaisSeguintes.Exists(l=>l.LancamentoId == lancamentoBase.LancamentoId))
                 lancamentoBdAtualMaisSeguintes.Add(lancamentoBase); 
 
             AtualizarLancamentos(lancamentoBdAtualMaisSeguintes, lancamentoEditado, diasDiff);
