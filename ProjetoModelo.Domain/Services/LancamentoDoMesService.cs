@@ -62,7 +62,9 @@ namespace Moneta.Domain.Services
         {
             var mesAnoAtual = new DateTime(anoAtual, mesAtual, 1);
             var mesAnterior = mesAnoAtual.AddMonths(-1);
-            return new DateTime(mesAnterior.Year, mesAnterior.Month, DateTime.DaysInMonth(mesAnterior.Year, mesAnterior.Month));
+            return new DateTime(mesAnterior.Year, mesAnterior.Month, 
+                DateTime.DaysInMonth(mesAnterior.Year, mesAnterior.Month),
+                23, 59, 59, 999);
         }
 
         private decimal CalcularSaldoDoMesAnterior(DateTime dataUltimoDiaMesAnterior, Guid contaId)
