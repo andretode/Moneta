@@ -63,7 +63,8 @@ namespace Moneta.Domain.Services
         {
             IEnumerable<IExtratoOfx> extratosExistentesNoMes = _ExtratoBancarioRepository.GetAllReadOnly().Where(e => 
                 e.DataCompensacao.Month == mesAnoCompetencia.Month &&
-                e.DataCompensacao.Year == mesAnoCompetencia.Year);
+                e.DataCompensacao.Year == mesAnoCompetencia.Year &&
+                e.ContaId == contaId);
             var novosExtratosOfx = (IEnumerable<ExtratoBancario>)ImportacaoOfxService.ImportarNovosExtratosOfx(caminhoOfx, contaId, extratosExistentesNoMes, mesAnoCompetencia);
 
             foreach(var extrato in novosExtratosOfx)
