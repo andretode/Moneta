@@ -27,8 +27,9 @@ namespace Moneta.Domain.Services
 
         public IEnumerable<ExtratoBancario> GetExtratosDoMes(DateTime mesAnoCompetencia, Guid contaId)
         {
-            var extratos = _ExtratoBancarioRepository.GetAll()
-                .Where(e => e.DataCompensacao.Month == mesAnoCompetencia.Month && e.DataCompensacao.Year == mesAnoCompetencia.Year);
+            var extratos = GetAllWithLancamento()
+                .Where(e => e.DataCompensacao.Month == mesAnoCompetencia.Month &&
+                    e.DataCompensacao.Year == mesAnoCompetencia.Year);
 
             if (contaId != Guid.Empty)
                 extratos = extratos.Where(e => e.ContaId == contaId);
@@ -39,6 +40,20 @@ namespace Moneta.Domain.Services
             {
                 extr.Lancamento = _LancamentoRepository.GetAll().Where(l => l.ExtratoBancarioId == extr.ExtratoBancarioId).SingleOrDefault();
                 extr.GrupoLancamento = _GrupoLancamentoRepository.GetAll().Where(g => g.ExtratoBancarioId == extr.ExtratoBancarioId).SingleOrDefault();
+            }
+
+            return extratos;
+        }
+
+        private IEnumerable<ExtratoBancario> GetAllWithLancamento()
+        {
+            var extratos = _ExtratoBancarioRepository.GetAll();
+
+            foreach(var extrato in extratos)
+            {
+                extrato.Lancamento = _LancamentoRepository.GetAll()
+                    .Where(l => l.ExtratoBancarioId == extrato.ExtratoBancarioId)
+                    .FirstOrDefault();
             }
 
             return extratos;

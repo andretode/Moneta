@@ -195,6 +195,14 @@ namespace Moneta.MVC.Controllers
             return View("Details", lancamento);
         }
 
+        public ActionResult DetailsFromExtratoView(Guid id)
+        {
+            var lancamento = _LancamentoApp.GetById(id);
+            RecomporLancamento(lancamento);
+
+            return View("Details", lancamento);
+        }
+
         // GET: Lancamento/Create
         public ActionResult Create(LancamentosDoMesViewModel lancamentos)
         {
