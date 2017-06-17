@@ -9,7 +9,7 @@
   font-style: normal;
 }
 
-[class^="moneta-icon-"], [class*=" icon-"] {
+[class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: none;
@@ -24,42 +24,40 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-sm {
-    font-size: 15px;
-}
-
-.icon-md {
-    font-size: 20px;
-}
-
 .icon-lg {
     font-size: 25px;
 }
 
-.moneta-icon-bank:before {
+.icon-bank:before {
   content: "\e900";
 }
-.moneta-icon-home:before {
+.icon-institution:before {
+  content: "\e900";
+}
+.icon-university:before {
+  content: "\e900";
+}
+.icon-home:before {
   content: "\e901";
 }
-.moneta-icon-file-text:before {
+.icon-file-text:before {
   content: "\e922";
 }
-.moneta-icon-price-tags:before {
+.icon-price-tags:before {
   content: "\e936";
 }
-.moneta-icon-drawer:before {
+.icon-drawer:before {
   content: "\e95c";
 }
-.moneta-icon-user:before {
+.icon-user:before {
   content: "\e971";
 }
-.moneta-icon-user-tie:before {
+.icon-user-tie:before {
   content: "\e976";
 }
-.moneta-icon-enter:before {
+.icon-enter:before {
   content: "\ea13";
 }
-.moneta-icon-filter:before {
+.icon-filter:before {
   content: "\ea5b";
 }
