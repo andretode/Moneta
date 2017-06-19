@@ -24,6 +24,8 @@ namespace Moneta.MVC.CustomHelpers
                     resultado += DisplayLancamentoAgrupado(htmlHelper, lancamentosAgrupados, i, contaIdFiltro);
                 else if (lancamentosAgrupados[i].TipoGrupoLancamento == TipoGrupoLancamentoEnum.Unico)
                     resultado += DisplayLancamentoUnico(htmlHelper, lancamentosAgrupados, i, contaIdFiltro);
+                else
+                    resultado += DisplayLancamentoEscondido(htmlHelper, lancamentosAgrupados, i);
             }
 
             return MvcHtmlString.Create(resultado.ToString());
@@ -198,6 +200,35 @@ namespace Moneta.MVC.CustomHelpers
             html += "</td>";
 
             html = "<tr>" + html + "</tr>";
+            return html;
+        }
+
+        /// <summary>
+        /// Tem o único proposito de não quebrar a sequencia do array de lançamentos, para que o binding do array seja feito corretamente quando enviado para a controller.
+        /// </summary>
+        /// <returns>O html do lançamento escondido.</returns>
+        private static string DisplayLancamentoEscondido<TModel>(HtmlHelper<TModel> htmlHelper, IList<LancamentoAgrupadoViewModel> lancamentosAgrupados, int i)
+            where TModel : LancamentosDoMesViewModel
+        {
+            string html = "";
+
+            //coluna 0
+            //html += "<td>";
+            html += htmlHelper.HiddenFor(modelItem => lancamentosAgrupados[i].Lancamentos[0].LancamentoId);
+            html += htmlHelper.HiddenFor(modelItem => lancamentosAgrupados[i].Lancamentos[0].LancamentoParceladoId);
+            html += htmlHelper.HiddenFor(modelItem => lancamentosAgrupados[i].Lancamentos[0].IdDaParcelaNaSerie);
+            html += htmlHelper.HiddenFor(modelItem => lancamentosAgrupados[i].Lancamentos[0].CategoriaId);
+            html += htmlHelper.HiddenFor(modelItem => lancamentosAgrupados[i].Lancamentos[0].ContaId);
+            html += htmlHelper.HiddenFor(modelItem => lancamentosAgrupados[i].Lancamentos[0].LancamentoIdTransferencia);
+            html += htmlHelper.HiddenFor(modelItem => lancamentosAgrupados[i].Lancamentos[0].DataVencimento);
+            html += htmlHelper.HiddenFor(modelItem => lancamentosAgrupados[i].Lancamentos[0].DataCadastro);
+            html += htmlHelper.HiddenFor(modelItem => lancamentosAgrupados[i].Lancamentos[0].Descricao);
+            html += htmlHelper.HiddenFor(modelItem => lancamentosAgrupados[i].Lancamentos[0].Pago);
+            html += htmlHelper.HiddenFor(modelItem => lancamentosAgrupados[i].Lancamentos[0].Valor);
+            html += htmlHelper.HiddenFor(modelItem => lancamentosAgrupados[i].Lancamentos[0].Fake);
+            //html += "</td>";
+
+            //html = "<tr>" + html + "</tr>";
             return html;
         }
 
