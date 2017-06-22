@@ -13,5 +13,6 @@ namespace Moneta.Domain.Entities
         DateTime DataCompensacao { get; set; }
         string NumeroDocumento { get; set; }
         Guid ContaId { get; set; }
+        bool WasImported(IExtratoOfx extrato);
     }
 }

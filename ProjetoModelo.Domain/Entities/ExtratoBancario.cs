@@ -28,5 +28,12 @@ namespace Moneta.Domain.Entities
         {
             return true;
         }
+
+        public bool WasImported(IExtratoOfx extrato)
+        {
+            return extrato.Descricao.Equals(this.Descricao) &&
+                extrato.DataCompensacao.Equals(this.DataCompensacao) &&
+                extrato.Valor.Equals(this.Valor);
+        }
     }
 }

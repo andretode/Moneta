@@ -27,16 +27,22 @@ namespace Moneta.Domain.Services
                 }).ToList();
 
             IEnumerable<ExtratoBancario> extratosBancariosDoMes;
+            IEnumerable<ExtratoBancario> extratosNovosNaoImportados;
             if(cartao)
             {
                 extratosBancarios.RemoveAt(0); //Remove o primeiro item que refere-se ao pagamento do cartão do mês anterior
                 extratosBancariosDoMes = extratosBancarios; //Não filtra por mes pois há lançamentos que foram parcelados e a compra pode ter sido muitos meses antes.
+                extratosNovosNaoImportados = extratosBancariosDoMes.Where(e => 
+                    !extratosExistentesNoMes.Any(e2 => e2.WasImported(e)));
             }
             else
-                extratosBancariosDoMes = extratosBancarios.Where(e => e.DataCompensacao.Month == mesAnoCompetencia.Month
+            {
+                extratosBancariosDoMes = extratosBancarios.Where(e => 
+                    e.DataCompensacao.Month == mesAnoCompetencia.Month
                     && e.DataCompensacao.Year == mesAnoCompetencia.Year);
-
-            var extratosNovosNaoImportados = extratosBancariosDoMes.Where(e => !extratosExistentesNoMes.Any(e2 => e2.NumeroDocumento == e.NumeroDocumento));
+                extratosNovosNaoImportados = extratosBancariosDoMes.Where(e => 
+                    !extratosExistentesNoMes.Any(e2 => e2.NumeroDocumento == e.NumeroDocumento));
+            }
 
             return extratosNovosNaoImportados;
         }
