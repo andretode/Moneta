@@ -57,7 +57,12 @@
                 <th>
                     @Html.CheckBox("selecionarTodos", false, new { @title = "Selecionar todos" })
                 </th>
-                <th colspan="5" class="text-right">Saldo do Mês Anterior: <span style="color: @corSaldoDoMesAnterior">@Html.DisplayFor(model => model.SaldoDoMesAnterior)</span></th>
+                <th>
+                    <span class="btn btn-default btn-sm" onclick="exportar()">
+                        <i class="glyphicon glyphicon-export"></i>
+                    </span>
+                </th>
+                <th colspan="4" class="text-right">Saldo do Mês Anterior: <span style="color: @corSaldoDoMesAnterior">@Html.DisplayFor(model => model.SaldoDoMesAnterior)</span></th>
                 <th><i title="O saldo é contabilizado independente se o lançamento foi ou não pago" class="glyphicon glyphicon-info-sign"></i></th>
             </tr>
         </thead>
@@ -115,53 +120,69 @@
     </div>
 </div>
 
+<div id="divLoading">
+    <div class="overlay">
+    </div>
+    <div class="overlay-loading">
+        <img src="~/Content/images/loading.gif" />
+        Processando...
+    </div>
+</div>
+
 <link rel="stylesheet" href="~/Content/botao-novo-lancamento.css">
 <link rel="stylesheet" href="~/Content/moneta-modal-screen.css">
 
 @section Scripts {
     <script type="text/javascript">
-        var mudouConta = false;
-        var clicouPesquisar = false;
+    var mudouConta = false;
+    var clicouPesquisar = false;
 
-        $(function () {
-            $('#BotaoPesquisar').click(function () {
-                clicouPesquisar = true;
-                $('#formFiltros').submit();
-            });
+    $(function () {
+        $('#BotaoPesquisar').click(function () {
+            clicouPesquisar = true;
+            $('#formFiltros').submit();
         });
+    });
 
-        function IsValidForm()
-        {
-            if (!mudouConta && !clicouPesquisar && $('#ContaIdFiltro').val() == "") {
-                alert("Selecione uma conta!");
-                return false;
-            }
-            else {
-                return true;
-            }
+    function IsValidForm() {
+        if (!mudouConta && !clicouPesquisar && $('#ContaIdFiltro').val() == "") {
+            alert("Selecione uma conta!");
+            return false;
         }
-
-        // Valida antes de submeter a requisição
-        function validarSeExisteSelecionados() {
-            var numberChecked = $('input:checkbox:checked').length;
-            if (numberChecked == 0) {
-                alert("Selecione pelo menos um item");
-            }
-            else {
-                if (confirm("Deseja realmente continuar com a remoção?"))
-                    document.getElementById('formLancamentosRemover').submit();
-            }
+        else {
+            return true;
         }
+    }
 
-        $("#selecionarTodos").click(function () {
-            $('input:checkbox').not(this).prop('checked', this.checked);
-        });
+    // Valida antes de submeter a requisição
+    function validarSeExisteSelecionados() {
+        var numberChecked = $('input:checkbox:checked').length;
+        if (numberChecked == 0) {
+            alert("Selecione pelo menos um item");
+        }
+        else {
+            if (confirm("Deseja realmente continuar com a remoção?"))
+                document.getElementById('formLancamentosRemover').submit();
+        }
+    }
 
-        $('input:checkbox').click(function () {
-            if (document.querySelectorAll('input[type="checkbox"]:checked').length > 0)
-                $("#modal-menu").show();
-            else
-                $("#modal-menu").hide();
-        });
+    function exportar() {
+        $("#divLoading").show();
+        window.location = "/Lancamentos/ExportToExcel?MesAnoCompetencia=" +
+            encodeURIComponent('@Model.MesAnoCompetencia.ToString("yyyy-MM-dd")') +
+            "&ContaIdFiltro=@Model.ContaIdFiltro";
+        $("#divLoading").hide();
+    }
+
+    $("#selecionarTodos").click(function () {
+        $('input:checkbox').not(this).prop('checked', this.checked);
+    });
+
+    $('input:checkbox').click(function () {
+        if (document.querySelectorAll('input[type="checkbox"]:checked').length > 0)
+            $("#modal-menu").show();
+        else
+            $("#modal-menu").hide();
+    });
     </script>
 }

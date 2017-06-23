@@ -10,6 +10,8 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Generic;
 using System.Threading;
+using System.Web.UI.WebControls;
+using System.Web.UI;
 
 namespace Moneta.MVC.Controllers
 {
@@ -374,6 +376,31 @@ namespace Moneta.MVC.Controllers
             }
 
             return View(lancamento);
+        }
+
+        public ActionResult ExportToExcel(LancamentosDoMesViewModel lancamentos)
+        {
+            var lancamentosDoMes = _LancamentoApp.GetLancamentosDoMes(lancamentos).LancamentosDoMes;
+
+            string csvContent = string.Concat(
+                from l in lancamentosDoMes
+                select string.Format("{0};{1};{2};{3};{4};{5}\n",
+                    l.Conta.Descricao, l.DataVencimento, l.Descricao,
+                    l.Categoria.Descricao, l.Valor, l.Pago)
+                );
+
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=LancamentosDoMes" +
+                lancamentos.MesAnoCompetencia.Month + "-" + lancamentos.MesAnoCompetencia.Year + ".csv");
+            //Response.ContentType = "application/ms-excel";
+            Response.Charset = "iso-8859-1";
+
+            Response.Output.Write(csvContent);
+            Response.Flush();
+            Response.End();
+
+            return View("Index", lancamentos);
         }
 
 
