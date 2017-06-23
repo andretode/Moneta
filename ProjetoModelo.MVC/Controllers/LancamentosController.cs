@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Web.UI.WebControls;
 using System.Web.UI;
+using System.Text;
 
 namespace Moneta.MVC.Controllers
 {
@@ -382,25 +383,27 @@ namespace Moneta.MVC.Controllers
         {
             var lancamentosDoMes = _LancamentoApp.GetLancamentosDoMes(lancamentos).LancamentosDoMes;
 
-            string csvContent = string.Concat(
+            string csvContent = "Conta;Vencimento;Descrição;Categoria;Valor;Pago\n";
+            csvContent += string.Concat(
                 from l in lancamentosDoMes
                 select string.Format("{0};{1};{2};{3};{4};{5}\n",
                     l.Conta.Descricao, l.DataVencimento, l.Descricao,
-                    l.Categoria.Descricao, l.Valor, l.Pago)
+                    l.Categoria.Descricao, l.Valor, (l.Pago?"Sim":"Não"))
                 );
 
             Response.ClearContent();
             Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=LancamentosDoMes" +
-                lancamentos.MesAnoCompetencia.Month + "-" + lancamentos.MesAnoCompetencia.Year + ".csv");
-            //Response.ContentType = "application/ms-excel";
-            Response.Charset = "iso-8859-1";
+            Response.AddHeader("content-disposition", "attachment; filename=Lancamentos Do Mês - " +
+                lancamentos.MesAnoCompetencia.ToString("MM-yyyy") + " - " + 
+                lancamentosDoMes.FirstOrDefault().Conta.Descricao + ".csv");
+            Response.Charset = Encoding.UTF8.EncodingName;
+            Response.ContentEncoding = Encoding.Unicode;
 
             Response.Output.Write(csvContent);
             Response.Flush();
             Response.End();
 
-            return View("Index", lancamentos);
+            return View("Index");
         }
 
 

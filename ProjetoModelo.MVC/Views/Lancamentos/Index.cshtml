@@ -58,7 +58,7 @@
                     @Html.CheckBox("selecionarTodos", false, new { @title = "Selecionar todos" })
                 </th>
                 <th>
-                    <span class="btn btn-default btn-sm" onclick="exportar()">
+                    <span class="btn btn-default btn-sm" onclick="exportar()" title="Exportar lançamentos para Excel">
                         <i class="glyphicon glyphicon-export"></i>
                     </span>
                 </th>
@@ -167,11 +167,10 @@
     }
 
     function exportar() {
-        $("#divLoading").show();
+        //$("#divLoading").show();
         window.location = "/Lancamentos/ExportToExcel?MesAnoCompetencia=" +
             encodeURIComponent('@Model.MesAnoCompetencia.ToString("yyyy-MM-dd")') +
             "&ContaIdFiltro=@Model.ContaIdFiltro";
-        $("#divLoading").hide();
     }
 
     $("#selecionarTodos").click(function () {
