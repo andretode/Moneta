@@ -1,0 +1,79 @@
+<!DOCTYPE html> 
+<html ng-app>
+<head>
+	<title>Moneta</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="jquery.mobile/jquery.mobile-1.4.5.min.css" />
+	<script src="jquery.mobile/jquery-2.2.4.min.js"></script>
+	<script src="jquery.mobile/jquery.mobile-1.4.5.min.js"></script>
+	<script src="js/angular.min.js"></script>
+	<script src="js/angular-locale_pt-br.js"></script>
+	<script src="controller/LancamentoController.js"></script>
+</head>
+
+<body ng-controller="LancamentosController">
+	
+	<div data-role="page" id="lancamentos">
+		<div data-role="header" data-theme="a">
+			<h1>Lançamentos</h1>
+			<a href="#novo-lancamento" data-icon="plus" class="ui-btn-right">Novo</a>
+		</div>
+		<div role="main" class="ui-content">
+			<table data-role="table" id="tableLancamentos" data-mode="reflow" class="ui-body-d ui-shadow table-stripe ui-responsive" data-filter="true">
+			<thead>
+				<tr>
+					<th>Vencimento</th>
+					<th>Descrição</th>
+					<th>Categoria</th>
+					<th>Valor</th>
+				</tr>
+			</thead>
+				<tbody ng-repeat="l in Lancamentos track by $index">
+					<tr>
+						<td>{{l.DataVencimento | date: "shortDate"}}</td>
+						<td>{{l.Descricao}}</td>
+						<td>{{l.Categoria}}</td>
+						<td>{{l.Valor | currency}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div data-role="footer">
+			<h4>Moneta - Gestão Financeira Simplificada</h4>
+		</div>
+	</div>
+	
+		<div data-role="page" id="novo-lancamento">
+		<div data-role="header" data-add-back-btn="true">
+			<h1>Novo Lançamento</h1>
+		</div>
+		<div role="main" class="ui-content">
+			<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+			    <input type="radio" name="radio-choice-h-6" id="radio-choice-h-6a" value="on" checked="checked">
+			    <label for="radio-choice-h-6a">Despesa</label>
+			    <input type="radio" name="radio-choice-h-6" id="radio-choice-h-6b" value="off">
+			    <label for="radio-choice-h-6b">Receita</label>
+			    <input type="radio" name="radio-choice-h-6" id="radio-choice-h-6c" value="other">
+			    <label for="radio-choice-h-6c">Transf.</label>
+			</fieldset>
+			<label>Conta</label>
+			<input type="hidden" name="Id" value="0" />
+			<select>
+				<option value="">Andre</option>
+				<option value="">Aline</option>
+			</select>
+			<label>Descrição</label>
+			<input type="text" ng-model="Lancamento.Descricao" />
+			<label>Valor</label>
+			<input type="number" ng-model="Lancamento.Valor" min="0" step="0.01" />
+			<label>Vencimento</label>
+			<input type="date" ng-model="Lancamento.DataVencimento" value="">
+			<button class="ui-btn ui-corner-all" data-ng-click="addLancamento(Lancamento)">Criar</button>
+		</div>
+		<div data-role="footer">
+			<h4>Moneta - Gestão Financeira Simplificada</h4>
+		</div>
+	</div>
+	
+</body>
+</html>
