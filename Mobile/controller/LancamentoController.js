@@ -1,3 +1,4 @@
+var urlGetContas = "http://localhost:8003/api/Contas/Get";
 var app = angular.module('Moneta', ["ngRoute"]);
 
 app.config(function($routeProvider) {
@@ -7,18 +8,15 @@ app.config(function($routeProvider) {
     });
 });
 
-/*
-app.controller("editLancamentoController", function ($scope) {
-		$scope.Lancamento = Lancamento;
-});
-*/
-
-app.controller("LancamentosController", function ($scope)  {
+app.controller("LancamentosController", function ($scope, $http)  {
 	$scope.Lancamentos = getAllLancamentos();
+	
+	$http.get(urlGetContas).then(function(response) {
+			$scope.Contas = response.data;
+	});
 	
 	$scope.novoLancamento = function ()
 	{
-		$scope.Contas = ["Andre BB", "Andre Carteira"];
 		window.location = 'index.html#novo-lancamento';
 	}
 	
@@ -32,8 +30,10 @@ app.controller("LancamentosController", function ($scope)  {
 	
 	$scope.editLancamento = function (Lancamento)
 	{
+		if (Lancamento.Tipo == "despesa")
+			Lancamento.Valor *= -1;
+		
 		$scope.Lancamento = Lancamento;
-		$scope.Contas = ["Andre BB", "Andre Carteira"];
 		window.location = 'index.html#edit-lancamento';
 	}
 	

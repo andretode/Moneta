@@ -47,7 +47,7 @@
 				</tbody>
 			</table>
 		</div>
-		<div data-role="footer">
+		<div data-role="footer" data-theme="a">
 			<h4>Moneta - Gestão Financeira Simplificada</h4>
 		</div>
 	</div>
@@ -67,7 +67,8 @@
 			</fieldset>
 			<label>Conta</label>
 			<input type="hidden" name="Id" value="0" />
-			<select ng-model="selectedConta" ng-options="x for x in Contas">
+			<select ng-model="Lancamento.ContaId">
+				<option ng-repeat="c in Contas" value="{{c.ContaId}}">{{c.Descricao}}</option>
 			</select>
 			<label>Descrição</label>
 			<input type="text" ng-model="Lancamento.Descricao" />
@@ -88,17 +89,18 @@
 		</div>
 		<div role="main" class="ui-content">
 			<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-			    <input type="radio" name="radio-choice-h-6" id="radio-choice-h-6a" value="on" checked="checked">
+			    <input type="radio" name="radio-choice-h-6" id="radio-choice-h-6a" value="despesa" checked="checked">
 			    <label for="radio-choice-h-6a">Despesa</label>
-			    <input type="radio" name="radio-choice-h-6" id="radio-choice-h-6b" value="off">
+			    <input type="radio" name="radio-choice-h-6" id="radio-choice-h-6b" value="receita">
 			    <label for="radio-choice-h-6b">Receita</label>
-			    <input type="radio" name="radio-choice-h-6" id="radio-choice-h-6c" value="other">
+			    <input type="radio" name="radio-choice-h-6" id="radio-choice-h-6c" value="transferencia">
 			    <label for="radio-choice-h-6c">Transf.</label>
 			</fieldset>
 			<label>Id</label>
 			<input type="text" ng-model="Lancamento.Id" />
 			<label>Conta</label>
-			<select ng-model="selectedConta" ng-options="x for x in Contas">
+			<select ng-model="Lancamento.ContaId">
+				<option ng-repeat="c in Contas" value="{{c.ContaId}}">{{c.Descricao}}</option>
 			</select>
 			<label>Descrição</label>
 			<input type="text" ng-model="Lancamento.Descricao" />
