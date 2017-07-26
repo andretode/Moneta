@@ -23,6 +23,9 @@ namespace Moneta.Application.ViewModels
         public Guid? GrupoLancamentoId { 
             get
             {
+                if (GrupoLancamento == null)
+                    return null;
+
                 return GrupoLancamento.GrupoLancamentoId;
             } 
         }

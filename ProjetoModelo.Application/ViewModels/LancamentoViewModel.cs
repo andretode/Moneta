@@ -14,6 +14,7 @@ namespace Moneta.Application.ViewModels
             BaseDaSerie = false;
             DataVencimento = DateTime.Now;
             Ativo = true;
+            Sincronizado = true;
         }
 
         public LancamentoViewModel(DateTime MesAnoCompetencia)
@@ -105,7 +106,7 @@ namespace Moneta.Application.ViewModels
         public Guid CategoriaId { get; set; }
 
         [DisplayName("Categoria")]
-        [JsonIgnore]
+        //[JsonIgnore]
         public virtual CategoriaViewModel Categoria { get; set; }
 
         [DisplayName("Conta")]
@@ -144,6 +145,8 @@ namespace Moneta.Application.ViewModels
         public virtual ExtratoBancarioViewModel ExtratoBancario { get; set; }
 
         public bool Selecionado { get; set; }
+
+        public bool Sincronizado { get; set; }
 
         public bool PodeSerDividido
         {

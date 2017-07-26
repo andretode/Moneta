@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Security;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using System.Web.Http.Results;
-using System.Xml.XPath;
-using Newtonsoft.Json;
 using Moneta.Application.Interfaces;
 using Moneta.Application.ViewModels;
-using Moneta.Domain.Entities;
 
 namespace Moneta.Services.WebAPI.Controllers
 {

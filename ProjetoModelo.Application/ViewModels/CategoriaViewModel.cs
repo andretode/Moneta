@@ -33,14 +33,17 @@ namespace Moneta.Application.ViewModels
         [Range(typeof(decimal), "-9999999,99", "9999999,99", ErrorMessage = "O valor fornecido excede os limites do sistema.")]
         [Required(ErrorMessage = "Preencha o campo")]
         [DisplayName("Orçamento Mensal")]
+        [JsonIgnore]
         public decimal OrcamentoMensal { get; set; }
 
         [DisplayName("Data de Cadastro")]
         [ScaffoldColumn(false)]
+        [JsonIgnore]
         public DateTime DataCadastro { get; set; }
 
         public const string Nenhum = "Nenhum";
 
+        [JsonIgnore]
         public ICollection<LancamentoViewModel> Lancamentos { get; set; }
 
     }
