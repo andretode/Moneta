@@ -1,11 +1,19 @@
 ﻿@using Microsoft.AspNet.Identity
+@using System.Web;
+@using Microsoft.AspNet.Identity.Owin;
+@using Moneta.Infra.CrossCutting.Identity.Configuration;
+
 @if (Request.IsAuthenticated) {
+    
+    var _userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+    var nome = _userManager.FindByNameAsync(User.Identity.Name).Result.Name;
+    
     @*using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" })) {
         @Html.AntiForgeryToken()*@
 
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a href="/Manage/Index" title="Gerenciar conta de @User.Identity.GetUserName()">
+                <a href="/Manage/Index" title="Gerenciar conta de @nome">
                     <i class="glyphicon glyphicon-user"></i>
                 </a>
             </li>
