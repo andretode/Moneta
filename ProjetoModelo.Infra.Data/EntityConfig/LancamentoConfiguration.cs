@@ -44,6 +44,12 @@ namespace Moneta.Infra.Data.EntityConfig
             Property(c => c.TipoDeTransacao)
                 .IsRequired();
 
+            Property(c => c.AppUserId)
+                .IsRequired()
+                .HasColumnAnnotation(
+                    IndexAnnotation.AnnotationName, 
+                    new IndexAnnotation(new IndexAttribute()));
+
             HasRequired(c => c.Categoria)
                 .WithMany(c => c.Lancamentos)
                 .HasForeignKey(c => c.CategoriaId);

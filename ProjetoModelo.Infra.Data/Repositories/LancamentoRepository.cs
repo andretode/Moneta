@@ -60,30 +60,35 @@ namespace Moneta.Infra.Data.Repositories
 
         public override IEnumerable<Lancamento> GetAll()
         {
-            return GetAll(true, false) ;
+            throw new Exception("Esta função está obsoleta, use a GetAll(Guid appUserId)");
         }
 
-        public IEnumerable<Lancamento> GetAll(bool somenteOsAtivo, bool asNoTracking)
+        public IEnumerable<Lancamento> GetAll(Guid appUserId)
+        {
+            return GetAll(appUserId, true, false);
+        }
+
+        public IEnumerable<Lancamento> GetAll(Guid appUserId, bool somenteOsAtivo, bool asNoTracking)
         {
             if (somenteOsAtivo)
             {
                 if (asNoTracking)
                 {
                     base.Context.SetProxyCreationEnabledToFalse();
-                    return DbSet.AsNoTracking().Where(l => l.Ativo == true);
+                    return DbSet.AsNoTracking().Where(l => l.Ativo == true && l.AppUserId == appUserId);
                 }
                 else
-                    return DbSet.Where(l => l.Ativo == true);
+                    return DbSet.Where(l => l.Ativo == true && l.AppUserId == appUserId);
             }
             else
             {
                 if (asNoTracking)
                 {
                     base.Context.SetProxyCreationEnabledToFalse();
-                    return DbSet.AsNoTracking();
+                    return DbSet.AsNoTracking().Where(l => l.AppUserId == appUserId);
                 }
                 else
-                    return DbSet;
+                    return DbSet.Where(l => l.AppUserId == appUserId);
             }
         }
     }

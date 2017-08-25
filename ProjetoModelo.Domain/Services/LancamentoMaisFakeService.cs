@@ -23,7 +23,7 @@ namespace Moneta.Domain.Services
         /// <summary>
         /// Retorna os lançamentos fakes e não fakes de um período em meses.
         /// </summary>
-        public List<Lancamento> GetAllMaisFake(int mesInicio, int anoInicio, int mesFim, int anoFim, bool asNoTracking = false)
+        public List<Lancamento> GetAllMaisFake(Guid appUserId, int mesInicio, int anoInicio, int mesFim, int anoFim, bool asNoTracking = false)
         {
             var lancamentos = new List<Lancamento>();
 
@@ -33,7 +33,7 @@ namespace Moneta.Domain.Services
 
             while (dataCounter >= dataInicio)
             {
-                lancamentos.AddRange(GetAllMaisFake(dataCounter.Month, dataCounter.Year, asNoTracking));
+                lancamentos.AddRange(GetAllMaisFake(appUserId, dataCounter.Month, dataCounter.Year, asNoTracking));
                 dataCounter = dataCounter.AddMonths(-1);
             }
 
@@ -43,9 +43,9 @@ namespace Moneta.Domain.Services
         /// <summary>
         /// Retorna os lançamentos fakes e não fakes de um período em meses.
         /// </summary>
-        public List<Lancamento> GetAllMaisFakeAsNoTracking(int mesInicio, int anoInicio, int mesFim, int anoFim)
+        public List<Lancamento> GetAllMaisFakeAsNoTracking(Guid appUserId, int mesInicio, int anoInicio, int mesFim, int anoFim)
         {
-            return GetAllMaisFake(mesInicio, anoInicio, mesFim, anoFim, true);
+            return GetAllMaisFake(appUserId, mesInicio, anoInicio, mesFim, anoFim, true);
         }
 
         /// <summary>
@@ -54,9 +54,9 @@ namespace Moneta.Domain.Services
         /// <param name="mes">O mês filtro dos lançamentos</param>
         /// <param name="ano">O ano filtro dos lançemtnos</param>
         /// <returns>Lista de lançamentos do mês mais os fakes</returns>
-        public List<Lancamento> GetAllMaisFake(int mes, int ano, bool asNoTracking = false)
+        public List<Lancamento> GetAllMaisFake(Guid appUserId, int mes, int ano, bool asNoTracking = false)
         {
-            var lancamentosDoMesTodasAsContasComFakes = _LancamentoRepository.GetAll(false, asNoTracking).Where(l => l.DataVencimento.Month == mes && l.DataVencimento.Year == ano);
+            var lancamentosDoMesTodasAsContasComFakes = _LancamentoRepository.GetAll(appUserId, false, asNoTracking).Where(l => l.DataVencimento.Month == mes && l.DataVencimento.Year == ano);
             lancamentosDoMesTodasAsContasComFakes = this.LancamentosFixosFake(mes, ano, lancamentosDoMesTodasAsContasComFakes.ToList(), asNoTracking);
             lancamentosDoMesTodasAsContasComFakes = lancamentosDoMesTodasAsContasComFakes.Where(l => l.Ativo == true);
 

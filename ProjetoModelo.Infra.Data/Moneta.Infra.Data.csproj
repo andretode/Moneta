@@ -132,6 +132,10 @@
     <Compile Include="Migrations\201705181620177_GrupoLancamento_Nav_Entre_GrupoPai_e_Filhos.Designer.cs">
       <DependentUpon>201705181620177_GrupoLancamento_Nav_Entre_GrupoPai_e_Filhos.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201708251106055_SistemaPorUsuario_Lancamentos.cs" />
+    <Compile Include="Migrations\201708251106055_SistemaPorUsuario_Lancamentos.Designer.cs">
+      <DependentUpon>201708251106055_SistemaPorUsuario_Lancamentos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ADO\BaseADORepository.cs" />
@@ -199,6 +203,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705181620177_GrupoLancamento_Nav_Entre_GrupoPai_e_Filhos.resx">
       <DependentUpon>201705181620177_GrupoLancamento_Nav_Entre_GrupoPai_e_Filhos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708251106055_SistemaPorUsuario_Lancamentos.resx">
+      <DependentUpon>201708251106055_SistemaPorUsuario_Lancamentos.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

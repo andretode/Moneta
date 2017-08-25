@@ -5,14 +5,13 @@ using Moneta.Application.Interfaces;
 using Moneta.Application.ViewModels;
 using Moneta.MVC.DataAnnotation;
 using Moneta.Infra.CrossCutting.Enums;
-using System.Web.Script.Serialization;
 using Newtonsoft.Json;
-using System.IO;
 using System.Collections.Generic;
-using System.Threading;
-using System.Web.UI.WebControls;
-using System.Web.UI;
 using System.Text;
+
+using System.Web;
+using Microsoft.AspNet.Identity.Owin;
+using Moneta.Infra.CrossCutting.Identity.Configuration;
 
 namespace Moneta.MVC.Controllers
 {
@@ -239,6 +238,7 @@ namespace Moneta.MVC.Controllers
 
             if (ModelState.IsValid)
             {
+                lancamento.AppUserId = GetIdUsuario();
                 var result = _LancamentoApp.Add(lancamento);
 
                 if (!result.IsValid)
@@ -258,6 +258,12 @@ namespace Moneta.MVC.Controllers
 
             lancamento.Conta = _ContaApp.GetById(lancamento.ContaId);
             return View(lancamento);
+        }
+
+        private Guid GetIdUsuario()
+        {
+            var _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            return Guid.Parse(_userManager.FindByNameAsync(User.Identity.Name).Result.Id);
         }
 
         public ActionResult CreateFromExtrato(LancamentoViewModel lancamento, bool nada=true)

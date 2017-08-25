@@ -138,7 +138,6 @@ namespace Moneta.MVC.CustomHelpers
                     lancamentosAgrupados[i].Lancamentos[0].DescricaoMaisNumeroParcela + "'>"
                     + lancamentosAgrupados[i].Lancamentos[0].DescricaoResumida + "</a>";
             }
-                
             html += "</span>";
             html += "</td>";
             

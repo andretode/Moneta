@@ -28,7 +28,7 @@ namespace Moneta.Domain.Services
             _LancamentoDeTodosOsGruposService = new LancamentoDeTodosOsGruposService(_GrupoLancamentoRepository);
         }
 
-        public AgregadoLancamentosDoMes GetLancamentosDoMes(AgregadoLancamentosDoMes lancamentosDoMes)
+        public AgregadoLancamentosDoMes GetLancamentosDoMes(Guid appUserId, AgregadoLancamentosDoMes lancamentosDoMes)
         {
             var mes = lancamentosDoMes.MesAnoCompetencia.Month;
             var ano = lancamentosDoMes.MesAnoCompetencia.Year;
@@ -37,7 +37,7 @@ namespace Moneta.Domain.Services
             var agregadoLancamentosDoMes = new AgregadoLancamentosDoMes();
 
             agregadoLancamentosDoMes.SaldoDoMesAnterior = CalcularSaldoDoMesAnterior(dataUltimoDiaMesAnterior, contaId);
-            agregadoLancamentosDoMes.LancamentosDoMes = GetTodosLancamentosDoMes(mes, ano, contaId);
+            agregadoLancamentosDoMes.LancamentosDoMes = GetTodosLancamentosDoMes(appUserId, mes, ano, contaId);
 
             agregadoLancamentosDoMes.SaldoDoMes = agregadoLancamentosDoMes.LancamentosDoMes.Sum(l => l.Valor)
                 + agregadoLancamentosDoMes.SaldoDoMesAnterior;
@@ -83,10 +83,10 @@ namespace Moneta.Domain.Services
             return lancamentosDoMesAnterior.Sum(l => l.Valor);
         }
 
-        private IEnumerable<Lancamento> GetTodosLancamentosDoMes(int mes, int ano, Guid contaId)
+        private IEnumerable<Lancamento> GetTodosLancamentosDoMes(Guid appUserId, int mes, int ano, Guid contaId)
         {
             var lancamentosDoMesExcetoDeGrupos = _LancamentoMaisFakeService
-                .GetAllMaisFake(mes, ano)
+                .GetAllMaisFake(appUserId, mes, ano)
                 .Where(l => l.GrupoLancamentoId == null);
 
             var lancamentosDeTodosOsGrupos = _LancamentoDeTodosOsGruposService.GetLancamentosDeTodosOsGruposDoMes(mes, ano);

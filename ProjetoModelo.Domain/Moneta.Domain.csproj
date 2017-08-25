@@ -50,6 +50,8 @@
     <Compile Include="Services\LancamentoConciliacaoService.cs" />
     <Compile Include="Services\LancamentoDeTodosOsGruposService.cs" />
     <Compile Include="Services\LancamentoDoMesService.cs" />
+    <Compile Include="Specification\Lancamentos\LancamentoPossuiIdAppUser.cs" />
+    <Compile Include="Validation\Lancamentos\AgregadoLancamentosDoMesEstaAptoParaConsulta.cs" />
     <Compile Include="ValueObjects\LancamentoAgrupado.cs" />
     <Compile Include="Exceptions\CustomException.cs" />
     <Compile Include="Interfaces\Repository\ADO\IContaADORepository.cs" />

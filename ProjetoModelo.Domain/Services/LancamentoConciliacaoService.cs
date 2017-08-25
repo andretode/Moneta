@@ -19,7 +19,7 @@ namespace Moneta.Domain.Services
         {
         }
 
-        public IEnumerable<LancamentoAgrupado> GetLancamentosSugeridosParaConciliacao(ExtratoBancario extrato)
+        public IEnumerable<LancamentoAgrupado> GetLancamentosSugeridosParaConciliacao(Guid appUserId, ExtratoBancario extrato)
         {
             const decimal porc = 0.2M;
             decimal maxValor = extrato.Valor * (1 - porc);
@@ -35,17 +35,17 @@ namespace Moneta.Domain.Services
                 maxValor = extrato.Valor * (1 + porc);
             }
 
-            var lancamentosUnicos = GetLancamentosUnicos(extrato, maxValor, minValor, maxData, minData);
+            var lancamentosUnicos = GetLancamentosUnicos(appUserId, extrato, maxValor, minValor, maxData, minData);
             var lancamentosDeGrupos = GetLancamentosDeGrupos(extrato, maxValor, minValor, maxData, minData);
             var lancamentosUnicosMaisOsDeGrupo = lancamentosUnicos.Union(lancamentosDeGrupos);
 
             return this._LancamentoDoMesService.AgruparLancamentos(lancamentosUnicosMaisOsDeGrupo);
         }
 
-        private IEnumerable<Lancamento> GetLancamentosUnicos(ExtratoBancario extrato, decimal maxValor, decimal minValor, DateTime maxData, DateTime minData)
+        private IEnumerable<Lancamento> GetLancamentosUnicos(Guid appUserId, ExtratoBancario extrato, decimal maxValor, decimal minValor, DateTime maxData, DateTime minData)
         {
             var lancamentoMaisFake = new LancamentoMaisFakeService(_LancamentoParceladoRepository, _LancamentoRepository);
-            var todosNaoConciliados = lancamentoMaisFake.GetAllMaisFake(extrato.DataCompensacao.Month, extrato.DataCompensacao.Year)
+            var todosNaoConciliados = lancamentoMaisFake.GetAllMaisFake(appUserId, extrato.DataCompensacao.Month, extrato.DataCompensacao.Year)
                 .Where(l => l.ExtratoBancarioId == null && l.GrupoLancamentoId == null);
             var sugeridosComValoresProximos = todosNaoConciliados.Where(l => l.Valor > minValor && l.Valor < maxValor)
                 .OrderBy(l => l.DataVencimento);

@@ -52,6 +52,7 @@ namespace Moneta.Domain.Entities
         public bool Pago { get; set; }
         public string Observacao { get; set; }
         public string NumeroDocumento { get; set; }
+        public Guid AppUserId { get; set; }
         public Guid ContaId { get; set; }
         public virtual Conta Conta { get; set; }
         public Guid CategoriaId { get; set; }

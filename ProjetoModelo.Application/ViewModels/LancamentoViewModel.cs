@@ -73,6 +73,8 @@ namespace Moneta.Application.ViewModels
         [DisplayName("N° Documento")]
         public string NumeroDocumento { get; set; }
 
+        public Guid AppUserId { get; set; }
+
         [DisplayName("Pago?")]
         public bool Pago { get; set; }
 

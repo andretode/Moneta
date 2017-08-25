@@ -8,6 +8,7 @@ namespace Moneta.Application.ViewModels
 {
     public class LancamentosDoMesViewModel
     {
+        public Guid AppUserIdFiltro { get; set; }
         public Guid? contaIdFiltro = Guid.Empty;
 
         [DisplayName("Filtro Conta")]

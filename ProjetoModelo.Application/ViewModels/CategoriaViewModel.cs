@@ -27,6 +27,7 @@ namespace Moneta.Application.ViewModels
         [MaxLength(7, ErrorMessage = "Máximo {0} caracteres")]
         [MinLength(7, ErrorMessage = "Mínimo {0} caracteres")]
         [DisplayName("Cor")]
+        [JsonIgnore]
         public string Cor { get; set; }
 
         [UIHint("DinheiroColorido")]
