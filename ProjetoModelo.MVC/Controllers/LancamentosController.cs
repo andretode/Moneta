@@ -9,14 +9,10 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Text;
 
-using System.Web;
-using Microsoft.AspNet.Identity.Owin;
-using Moneta.Infra.CrossCutting.Identity.Configuration;
-
 namespace Moneta.MVC.Controllers
 {
     [Authorize(Roles = "UsuarioPlanoBasico")]
-    public class LancamentosController : Controller
+    public class LancamentosController : BaseController
     {
         private readonly ILancamentoParceladoAppService _LancamentoParceladoApp;
         private readonly ILancamentoAppService _LancamentoApp;
@@ -238,7 +234,6 @@ namespace Moneta.MVC.Controllers
 
             if (ModelState.IsValid)
             {
-                lancamento.AppUserId = GetIdUsuario();
                 var result = _LancamentoApp.Add(lancamento);
 
                 if (!result.IsValid)
@@ -258,12 +253,6 @@ namespace Moneta.MVC.Controllers
 
             lancamento.Conta = _ContaApp.GetById(lancamento.ContaId);
             return View(lancamento);
-        }
-
-        private Guid GetIdUsuario()
-        {
-            var _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            return Guid.Parse(_userManager.FindByNameAsync(User.Identity.Name).Result.Id);
         }
 
         public ActionResult CreateFromExtrato(LancamentoViewModel lancamento, bool nada=true)

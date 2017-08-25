@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace Moneta.MVC.Controllers
 {
     [Authorize(Roles = "UsuarioPlanoBasico")]
-    public class ExtratosBancariosController : Controller
+    public class ExtratosBancariosController : BaseController
     {
         private readonly IExtratoBancarioAppService _ExtratoBancarioApp;
         private readonly ILancamentoAppService _LancamentoAppService;
@@ -175,7 +175,7 @@ namespace Moneta.MVC.Controllers
         public ActionResult GetLancamentosConciliacao(Guid extratoBancarioId)
         {
             var extrato = _ExtratoBancarioApp.GetById(extratoBancarioId);
-            var lancamentos = _LancamentoAppService.GetLancamentosSugeridosParaConciliacao(extrato);
+            var lancamentos = _LancamentoAppService.GetLancamentosSugeridosParaConciliacao(AppUserId, extrato);
             var conciliacao = new ConciliacaoViewModel { ExtratoBancario = extrato, Lancamentos = lancamentos };
             return PartialView("_LancamentosConciliacao", conciliacao);
         }

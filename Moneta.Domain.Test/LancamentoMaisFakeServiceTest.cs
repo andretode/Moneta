@@ -62,14 +62,14 @@ namespace Moneta.Domain.Test
                 LancamentoParceladoId = Guid.Parse("e17f384a-9c71-4047-a2e2-4046e603db1d")});
 
             var mockLancamentoRepository = new Mock<ILancamentoRepository>();
-            mockLancamentoRepository.Setup(l => l.GetAll(true, false)).Returns(lancamentos);
+            mockLancamentoRepository.Setup(l => l.GetAll(lancamento_040916.AppUserId, true, false)).Returns(lancamentos);
             mockLancamentoRepository.Setup(l => l.GetById(Guid.Parse("bf7c51f5-b0a4-47ac-9bc5-7f8622f3a957"))).Returns(lancamento_fixo_base_0110216);
 
             var mockLancamentoParceladoRepository = new Mock<ILancamentoParceladoRepository>();
             mockLancamentoParceladoRepository.Setup(l => l.GetAll()).Returns(lancamentosParcelados);
 
             var lancamentoMaisFakeService = new LancamentoMaisFakeService(mockLancamentoParceladoRepository.Object, mockLancamentoRepository.Object);
-            var resultado = lancamentoMaisFakeService.GetAllMaisFake(10, 2016);
+            var resultado = lancamentoMaisFakeService.GetAllMaisFake(lancamento_040916.AppUserId, 10, 2016);
 
             Assert.IsTrue(resultado.Count == 7);
             Assert.IsFalse(resultado.Contains(lancamento_040916));

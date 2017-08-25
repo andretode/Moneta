@@ -304,10 +304,12 @@ namespace Moneta.Application
             }
         }
 
-        public IEnumerable<LancamentoAgrupadoViewModel> GetLancamentosSugeridosParaConciliacao(ExtratoBancarioViewModel extrato)
+        public IEnumerable<LancamentoAgrupadoViewModel> GetLancamentosSugeridosParaConciliacao(Guid appUserId, ExtratoBancarioViewModel extrato)
         {
             var extratoVM = Mapper.Map<ExtratoBancarioViewModel, ExtratoBancario>(extrato);
-            return Mapper.Map<IEnumerable<LancamentoAgrupado>, IEnumerable<LancamentoAgrupadoViewModel>>(_lancamentoConciliacaoService.GetLancamentosSugeridosParaConciliacao(extratoVM));
+            return Mapper.Map<IEnumerable<LancamentoAgrupado>, 
+                IEnumerable<LancamentoAgrupadoViewModel>>(
+                _lancamentoConciliacaoService.GetLancamentosSugeridosParaConciliacao(appUserId, extratoVM));
         }
 
         #region Metodos privados

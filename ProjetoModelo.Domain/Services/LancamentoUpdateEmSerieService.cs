@@ -98,7 +98,7 @@ namespace Moneta.Domain.Services
         {
             var dataInicio = lancamentoEditado.LancamentoParcelado.DataInicio;
             var lancamentoMaisFake = new LancamentoMaisFakeService(_LancamentoParceladoRepository, _LancamentoRepository);
-            var lancamentosMaisFake = lancamentoMaisFake.GetAllMaisFakeAsNoTracking(dataInicio.Month, dataInicio.Year, dataVencimentoAnterior.Month, dataVencimentoAnterior.Year);
+            var lancamentosMaisFake = lancamentoMaisFake.GetAllMaisFakeAsNoTracking(lancamentoEditado.AppUserId, dataInicio.Month, dataInicio.Year, dataVencimentoAnterior.Month, dataVencimentoAnterior.Year);
             var lancamentosSomenteFake = lancamentosMaisFake.Where(l => l.Fake == true && l.DataVencimento < dataVencimentoAnterior && l.LancamentoParceladoId == lancamentoEditado.LancamentoParceladoId);
             foreach (var lf in lancamentosSomenteFake)
             {

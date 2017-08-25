@@ -28,7 +28,7 @@ namespace Moneta.Domain.Services
             _LancamentoDeTodosOsGruposService = new LancamentoDeTodosOsGruposService(_GrupoLancamentoRepository);
         }
 
-        public AgregadoLancamentosDoMes GetLancamentosDoMes(Guid appUserId, AgregadoLancamentosDoMes lancamentosDoMes)
+        public AgregadoLancamentosDoMes GetLancamentosDoMes(AgregadoLancamentosDoMes lancamentosDoMes)
         {
             var mes = lancamentosDoMes.MesAnoCompetencia.Month;
             var ano = lancamentosDoMes.MesAnoCompetencia.Year;
@@ -36,8 +36,8 @@ namespace Moneta.Domain.Services
             var dataUltimoDiaMesAnterior = GetDataUltimoDiaMesAnterior(mes, ano);
             var agregadoLancamentosDoMes = new AgregadoLancamentosDoMes();
 
-            agregadoLancamentosDoMes.SaldoDoMesAnterior = CalcularSaldoDoMesAnterior(dataUltimoDiaMesAnterior, contaId);
-            agregadoLancamentosDoMes.LancamentosDoMes = GetTodosLancamentosDoMes(appUserId, mes, ano, contaId);
+            agregadoLancamentosDoMes.SaldoDoMesAnterior = CalcularSaldoDoMesAnterior(lancamentosDoMes.AppUserIdFiltro, dataUltimoDiaMesAnterior, contaId);
+            agregadoLancamentosDoMes.LancamentosDoMes = GetTodosLancamentosDoMes(lancamentosDoMes.AppUserIdFiltro, mes, ano, contaId);
 
             agregadoLancamentosDoMes.SaldoDoMes = agregadoLancamentosDoMes.LancamentosDoMes.Sum(l => l.Valor)
                 + agregadoLancamentosDoMes.SaldoDoMesAnterior;
@@ -67,9 +67,9 @@ namespace Moneta.Domain.Services
                 23, 59, 59, 999);
         }
 
-        private decimal CalcularSaldoDoMesAnterior(DateTime dataUltimoDiaMesAnterior, Guid contaId)
+        private decimal CalcularSaldoDoMesAnterior(Guid appUserId, DateTime dataUltimoDiaMesAnterior, Guid contaId)
         {
-            var lancamentosMesAnteriorExcetoDeGrupos = _LancamentoRepository.GetAll()
+            var lancamentosMesAnteriorExcetoDeGrupos = _LancamentoRepository.GetAll(appUserId)
                 .Where(l => l.DataVencimento <= dataUltimoDiaMesAnterior 
                     && !l.BaseDaSerie 
                     && l.GrupoLancamentoId == null);

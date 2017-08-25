@@ -26,7 +26,7 @@ namespace Moneta.Domain.Services
             _LancamentoRepository = LancamentoRepository;
         }
 
-        public void DeleteEmSerie(Guid appUserId, Lancamento lancamentoRemovido)
+        public void DeleteEmSerie(Lancamento lancamentoRemovido)
         {
             lancamentoRemovido.Ativo = false;
 
@@ -43,7 +43,7 @@ namespace Moneta.Domain.Services
             else if (lancamentoRemovido.LancamentoParcelado.TipoDeAlteracaoDaRepeticao == TipoDeAlteracaoDaRepeticaoEnum.AlterarEsteESeguintes)
             {
                 if (lancamentoRemovido.LancamentoParcelado.IsFixo())
-                    SalvarFakesQueNaoSofreramRemoçãoNaSerie(appUserId, lancamentoRemovido, dataVencimentoAnterior);
+                    SalvarFakesQueNaoSofreramRemoçãoNaSerie(lancamentoRemovido, dataVencimentoAnterior);
 
                 RemoverLancamentosNaoFakeEsteSeguintes(lancamentoRemovido, dataVencimentoAnterior);
             }
@@ -73,11 +73,11 @@ namespace Moneta.Domain.Services
         /// <summary>
         /// Salva em BD os fakes que não sofreram remoção na série devido ao "Remover este e seguintes".
         /// </summary>
-        private void SalvarFakesQueNaoSofreramRemoçãoNaSerie(Guid appUserId, Lancamento lancamentoRemovido, DateTime dataVencimentoAnterior)
+        private void SalvarFakesQueNaoSofreramRemoçãoNaSerie(Lancamento lancamentoRemovido, DateTime dataVencimentoAnterior)
         {
             var dataInicio = lancamentoRemovido.LancamentoParcelado.DataInicio;
             var lancamentoMaisFake = new LancamentoMaisFakeService(_LancamentoParceladoRepository, _LancamentoRepository);
-            var lancamentosMaisFake = lancamentoMaisFake.GetAllMaisFakeAsNoTracking(appUserId, dataInicio.Month, dataInicio.Year, dataVencimentoAnterior.Month, dataVencimentoAnterior.Year);
+            var lancamentosMaisFake = lancamentoMaisFake.GetAllMaisFakeAsNoTracking(lancamentoRemovido.AppUserId, dataInicio.Month, dataInicio.Year, dataVencimentoAnterior.Month, dataVencimentoAnterior.Year);
             var lancamentosSomenteFake = lancamentosMaisFake.Where(l => l.Fake == true && l.DataVencimento < dataVencimentoAnterior && l.LancamentoParceladoId == lancamentoRemovido.LancamentoParceladoId);
             foreach (var lf in lancamentosSomenteFake)
             {

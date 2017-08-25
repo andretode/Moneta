@@ -88,10 +88,10 @@ namespace Moneta.Domain.Services
             _LancamentoRepository.ForceRemove(id);
         }
 
-        public void RemoveEmSerie(Guid appUserId, Lancamento lancamento)
+        public void RemoveEmSerie(Lancamento lancamento)
         {
             var lancamentoDeleteEmSerieService = new LancamentoDeleteEmSerieService(_LancamentoParceladoRepository, _LancamentoParceladoADORepository, _LancamentoRepository);
-            lancamentoDeleteEmSerieService.DeleteEmSerie(appUserId, lancamento);
+            lancamentoDeleteEmSerieService.DeleteEmSerie(lancamento);
         }
 
         public void RemoveTransferencia(Lancamento lancamento)
@@ -101,9 +101,9 @@ namespace Moneta.Domain.Services
             _LancamentoRepository.Remove(lancamento);
         }
 
-        public AgregadoLancamentosDoMes GetLancamentosDoMes(Guid appUserId, AgregadoLancamentosDoMes lancamentosDoMes)
+        public AgregadoLancamentosDoMes GetLancamentosDoMes(AgregadoLancamentosDoMes lancamentosDoMes)
         {
-            return _LancamentoDoMesService.GetLancamentosDoMes(appUserId, lancamentosDoMes);
+            return _LancamentoDoMesService.GetLancamentosDoMes(lancamentosDoMes);
         }
 
         public void TrocarPago(IEnumerable<Lancamento> lancamentos)
