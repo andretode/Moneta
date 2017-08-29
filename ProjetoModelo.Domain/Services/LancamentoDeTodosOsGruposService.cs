@@ -15,21 +15,22 @@ namespace Moneta.Domain.Services
             _GrupoLancamentoRepository = GrupoLancamentoRepository;
         }
 
-        public IEnumerable<Lancamento> GetLancamentosDeTodosOsGruposDoMes(int mes, int ano)
+        public IEnumerable<Lancamento> GetLancamentosDeTodosOsGruposDoMes(Guid appUserId, int mes, int ano)
         {
-            var gruposDoMes = _GrupoLancamentoRepository.GetAll().Where(g => g.DataVencimento.Month == mes && g.DataVencimento.Year == ano && g.GrupoLancamentoIdPai == null);
+            var gruposDoMes = _GrupoLancamentoRepository.GetAll(appUserId).Where(g => g.DataVencimento.Month == mes && g.DataVencimento.Year == ano && g.GrupoLancamentoIdPai == null);
             return GetLancamentosDeTodosOsGrupos(gruposDoMes);
         }
 
-        public IEnumerable<Lancamento> GetLancamentosDeTodosOsGruposDosMesesAnteriores(DateTime dataUltimoDiaMesAnterior)
+        public IEnumerable<Lancamento> GetLancamentosDeTodosOsGruposDosMesesAnteriores(Guid appUserId, DateTime dataUltimoDiaMesAnterior)
         {
-            var gruposDoMes = _GrupoLancamentoRepository.GetAll().Where(g => g.DataVencimento <= dataUltimoDiaMesAnterior && g.GrupoLancamentoIdPai == null);
+            var gruposDoMes = _GrupoLancamentoRepository.GetAll(appUserId).Where(g => g.DataVencimento <= dataUltimoDiaMesAnterior && g.GrupoLancamentoIdPai == null);
             return GetLancamentosDeTodosOsGrupos(gruposDoMes);
         }
 
         private IEnumerable<Lancamento> GetLancamentosDeTodosOsGrupos(IEnumerable<GrupoLancamento> grupos)
         {
             var lancamentos = new List<Lancamento>();
+            
             foreach (var g in grupos)
             {
                 // Pega os lançamentos únicos

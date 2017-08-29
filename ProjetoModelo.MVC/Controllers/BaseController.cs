@@ -15,5 +15,12 @@ namespace Moneta.MVC.Controllers
                 return Guid.Parse(_userManager.FindByNameAsync(User.Identity.Name).Result.Id);
             }
         }
+
+        protected Guid ContaId
+        {
+            get {
+                return Guid.Parse(Util.GetCookieContaId(Request, Response).Value.ToString());
+            }
+        }
     }
 }

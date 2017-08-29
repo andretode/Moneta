@@ -57,16 +57,16 @@ namespace Moneta.Domain.Services
         public List<Lancamento> GetAllMaisFake(Guid appUserId, int mes, int ano, bool asNoTracking = false)
         {
             var lancamentosDoMesTodasAsContasComFakes = _LancamentoRepository.GetAll(appUserId, false, asNoTracking).Where(l => l.DataVencimento.Month == mes && l.DataVencimento.Year == ano);
-            lancamentosDoMesTodasAsContasComFakes = this.LancamentosFixosFake(mes, ano, lancamentosDoMesTodasAsContasComFakes.ToList(), asNoTracking);
+            lancamentosDoMesTodasAsContasComFakes = this.LancamentosFixosFake(appUserId, mes, ano, lancamentosDoMesTodasAsContasComFakes.ToList(), asNoTracking);
             lancamentosDoMesTodasAsContasComFakes = lancamentosDoMesTodasAsContasComFakes.Where(l => l.Ativo == true);
 
             return lancamentosDoMesTodasAsContasComFakes.ToList();
         }
 
-        private List<Lancamento> LancamentosFixosFake(int mes, int ano, List<Lancamento> lancamentosOriginaisMaisOsFakes, bool asNoTracking)
+        private List<Lancamento> LancamentosFixosFake(Guid appUserId, int mes, int ano, List<Lancamento> lancamentosOriginaisMaisOsFakes, bool asNoTracking)
         {
             var mesAnoCompetencia = new DateTime(ano, mes, DateTime.DaysInMonth(ano, mes));
-            var lancamentosFixosAptos = _LancamentoParceladoRepository.GetAll().Where(l => l.DataInicio <= mesAnoCompetencia && l.NumeroParcelas==null);
+            var lancamentosFixosAptos = _LancamentoParceladoRepository.GetAll(appUserId).Where(l => l.DataInicio <= mesAnoCompetencia && l.NumeroParcelas == null);
 
             foreach (var lancamentoFixo in lancamentosFixosAptos)
             {

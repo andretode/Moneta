@@ -169,7 +169,7 @@ namespace Moneta.MVC.Controllers
 
         //
         // GET: /Account/Register
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
@@ -178,7 +178,7 @@ namespace Moneta.MVC.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {

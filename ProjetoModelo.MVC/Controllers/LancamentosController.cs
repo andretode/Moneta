@@ -40,18 +40,16 @@ namespace Moneta.MVC.Controllers
         // GET: Lancamento
         public ViewResult Index(LancamentosDoMesViewModel lancamentos)
         {
-            var cookieContaId = Util.GetCookieContaId(Request, Response);
-            var contaIdFiltroTemp = Guid.Parse(cookieContaId.Value.ToString());
-
             if (lancamentos.MesAnoCompetencia == DateTime.MinValue)
                 lancamentos.MesAnoCompetencia = DateTime.Now;
 
             DateTime mesAnoCompetenciaTemp = lancamentos.MesAnoCompetencia;
-            lancamentos.ContaIdFiltro = contaIdFiltroTemp;
+            lancamentos.ContaIdFiltro = this.ContaId;
+            lancamentos.AppUserIdFiltro = this.AppUserId;
 
             lancamentos = _LancamentoApp.GetLancamentosDoMes(lancamentos);
             lancamentos.MesAnoCompetencia = mesAnoCompetenciaTemp;
-            lancamentos.contaIdFiltro = contaIdFiltroTemp;
+            lancamentos.contaIdFiltro = this.ContaId;
 
             SetSelectLists();
 

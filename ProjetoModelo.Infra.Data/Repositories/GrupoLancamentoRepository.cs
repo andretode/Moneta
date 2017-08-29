@@ -4,6 +4,7 @@ using Moneta.Domain.Interfaces.Repository;
 using Moneta.Infra.Data.Context;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Moneta.Infra.Data.Repositories
 {
@@ -27,6 +28,16 @@ namespace Moneta.Infra.Data.Repositories
             catch { }
 
             return null;
+        }
+
+        public override IEnumerable<GrupoLancamento> GetAll()
+        {
+            throw new Exception("Esta função está obsoleta, use a GetAll(Guid appUserId)");
+        }
+
+        public IEnumerable<GrupoLancamento> GetAll(Guid appUserId)
+        {
+            return DbSet.Where(o => o.Lancamentos.Any(d => d.AppUserId == appUserId)).ToList();
         }
     }
 }

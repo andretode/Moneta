@@ -9,8 +9,9 @@ using System.Net;
 
 namespace Moneta.MVC.Controllers
 {
+    [RequireHttps]
     [Authorize(Roles = "UsuarioPlanoBasico")]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILancamentoAppService _LancamentoApp;
         private readonly IContaAppService _ContaApp;
@@ -39,9 +40,7 @@ namespace Moneta.MVC.Controllers
 
         public ActionResult Index(GraficosViewModel graficosViewModel)
         {
-            var cookieContaId = Util.GetCookieContaId(Request, Response);
-
-            graficosViewModel.ContaIdFiltro = Guid.Parse(cookieContaId.Value.ToString());
+            graficosViewModel.ContaIdFiltro = this.ContaId;
             graficosViewModel.GraficoSaldoDoMes = GetDadosSaldoDoMes(graficosViewModel.ContaIdFiltro);
             graficosViewModel.GraficoSaldoPorCategoria = GetDadosSaldoPorCategoria(graficosViewModel.ContaIdFiltro, graficosViewModel.MesAnoCompetencia);
             graficosViewModel.GraficoOrcadoVsRealizado = GetDadosSaldoPorCategoria(graficosViewModel.ContaIdFiltro, graficosViewModel.MesAnoCompetencia, true);
@@ -105,13 +104,20 @@ namespace Moneta.MVC.Controllers
             var lancamentosDoMes = new LancamentosDoMesViewModel();
             lancamentosDoMes.ContaIdFiltro = (Guid)ContaIdFiltro;
             lancamentosDoMes.MesAnoCompetencia = DateTime.Now;
+            lancamentosDoMes.AppUserIdFiltro = this.ContaId;
 
             return new GraficoSaldoDoMesViewModel(_LancamentoApp.GetSaldoDoMesPorDia(lancamentosDoMes, false));
         }
 
         private GraficoSaldoPorCategoriaViewModel GetDadosSaldoPorCategoria(Guid ContaIdFiltro, DateTime mesAnoCompetencia, bool SomentePagos = false)
         {
-            return _LancamentoApp.GetDespesasPorCategoria(ContaIdFiltro, mesAnoCompetencia, SomentePagos);
+            var lancamentosDoMes = new LancamentosDoMesViewModel();
+            lancamentosDoMes.AppUserIdFiltro = this.AppUserId;
+            lancamentosDoMes.MesAnoCompetencia = mesAnoCompetencia;
+            if (ContaIdFiltro != null)
+                lancamentosDoMes.ContaIdFiltro = (Guid)ContaIdFiltro;
+
+            return _LancamentoApp.GetDespesasPorCategoria(lancamentosDoMes, SomentePagos);
         }
 
         public ActionResult SignOut()

@@ -1,6 +1,7 @@
 ﻿using Moneta.Domain.Entities;
 using Moneta.Domain.Interfaces.Specification;
 using Moneta.Domain.ValueObjects;
+using System;
 using System.Text.RegularExpressions;
 
 namespace Moneta.Domain.Specification.Lancamentos
@@ -9,7 +10,7 @@ namespace Moneta.Domain.Specification.Lancamentos
     {
         public bool IsSatisfiedBy(AgregadoLancamentosDoMes agregadoLancamentosDoMes)
         {
-            return agregadoLancamentosDoMes.AppUserIdFiltro != null;
+            return agregadoLancamentosDoMes.AppUserIdFiltro != null && agregadoLancamentosDoMes.AppUserIdFiltro != Guid.Empty;
         }
     }
 }

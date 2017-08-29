@@ -74,7 +74,7 @@ namespace Moneta.Domain.Services
                     && !l.BaseDaSerie 
                     && l.GrupoLancamentoId == null);
 
-            var lancamentosDeTodosOsGrupos = _LancamentoDeTodosOsGruposService.GetLancamentosDeTodosOsGruposDosMesesAnteriores(dataUltimoDiaMesAnterior);
+            var lancamentosDeTodosOsGrupos = _LancamentoDeTodosOsGruposService.GetLancamentosDeTodosOsGruposDosMesesAnteriores(appUserId, dataUltimoDiaMesAnterior);
             var lancamentosDoMesAnterior = lancamentosMesAnteriorExcetoDeGrupos.Union(lancamentosDeTodosOsGrupos);
 
             if (contaId != Guid.Empty)
@@ -89,7 +89,7 @@ namespace Moneta.Domain.Services
                 .GetAllMaisFake(appUserId, mes, ano)
                 .Where(l => l.GrupoLancamentoId == null);
 
-            var lancamentosDeTodosOsGrupos = _LancamentoDeTodosOsGruposService.GetLancamentosDeTodosOsGruposDoMes(mes, ano);
+            var lancamentosDeTodosOsGrupos = _LancamentoDeTodosOsGruposService.GetLancamentosDeTodosOsGruposDoMes(appUserId, mes, ano);
             var lancamentosDoMes = lancamentosDoMesExcetoDeGrupos.Union(lancamentosDeTodosOsGrupos);
 
             if (contaId != Guid.Empty)

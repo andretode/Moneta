@@ -273,9 +273,10 @@ namespace Moneta.Application
             return _lancamentoService.GetSaldoDoMesPorDia(lancamentosDoMes, resumido);
         }
 
-        public GraficoSaldoPorCategoriaViewModel GetDespesasPorCategoria(Guid ContaIdFiltro, DateTime mesAnoCompetencia, bool pago)
+        public GraficoSaldoPorCategoriaViewModel GetDespesasPorCategoria(LancamentosDoMesViewModel lancamentosDoMes, bool pago)
         {
-            return new GraficoSaldoPorCategoriaViewModel(_lancamentoService.GetDespesasPorCategoria(ContaIdFiltro, mesAnoCompetencia, pago));
+            AgregadoLancamentosDoMes agregadoLancamentosDoMes = Mapper.Map<LancamentosDoMesViewModel, AgregadoLancamentosDoMes>(lancamentosDoMes);
+            return new GraficoSaldoPorCategoriaViewModel(_lancamentoService.GetDespesasPorCategoria(agregadoLancamentosDoMes, pago));
         }
 
         public LancamentosDoMesViewModel GetLancamentosDoMes(LancamentosDoMesViewModel lancamentosDoMesViewModel)

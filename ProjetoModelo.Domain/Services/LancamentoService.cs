@@ -103,6 +103,9 @@ namespace Moneta.Domain.Services
 
         public AgregadoLancamentosDoMes GetLancamentosDoMes(AgregadoLancamentosDoMes lancamentosDoMes)
         {
+            if (!lancamentosDoMes.IsValid())
+                throw new Exception(lancamentosDoMes.ResultadoValidacao.Mensagem);
+
             return _LancamentoDoMesService.GetLancamentosDoMes(lancamentosDoMes);
         }
 
@@ -191,15 +194,9 @@ namespace Moneta.Domain.Services
             return listaDeSaldoPorDia;
         }
 
-        public List<SaldoPorCategoria> GetDespesasPorCategoria(Guid ContaIdFiltro, DateTime mesAnoCompetencia, bool pago)
+        public List<SaldoPorCategoria> GetDespesasPorCategoria(AgregadoLancamentosDoMes lancamentosDoMes, bool pago)
         {
-            var listaDeSaldoPorCategoria = new List<SaldoPorCategoria>();
-            var lancamentosDoMes = new AgregadoLancamentosDoMes();
-            lancamentosDoMes.MesAnoCompetencia = mesAnoCompetencia;
-            
-            if (ContaIdFiltro != null)
-                lancamentosDoMes.ContaIdFiltro = (Guid) ContaIdFiltro;
-            
+            var listaDeSaldoPorCategoria = new List<SaldoPorCategoria>();            
             var agregadoLancamentosDoMes = GetLancamentosDoMes(lancamentosDoMes);
 
             var lancamentosFiltrados = agregadoLancamentosDoMes.LancamentosDoMes

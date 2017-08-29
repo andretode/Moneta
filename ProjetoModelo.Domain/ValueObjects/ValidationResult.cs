@@ -7,7 +7,14 @@ namespace Moneta.Domain.ValueObjects
     {
         private readonly List<ValidationError> _errors = new List<ValidationError>();
 
-        public string Mensagem { get; set; }
+        public string Mensagem { 
+            get {
+                string msg = "";
+                for (int i = 0; i < Erros.Count(); i++)
+                    msg += "Erro " + i + ": " + Erros.ElementAt(i).Message;
+                return msg;
+            }
+        }
         public bool IsValid { get { return _errors.Count == 0; } }
 
         public IEnumerable<ValidationError> Erros { get { return this._errors; } }

@@ -17,7 +17,7 @@ namespace Moneta.Application.Interfaces
         void Update(LancamentoViewModel LancamentoViewModel);
         void Remove(LancamentoViewModel LancamentoViewModel);
         List<Tuple<DateTime, decimal, decimal, decimal>> GetSaldoDoMesPorDia(LancamentosDoMesViewModel lancamentosDoMes, bool resumido);
-        GraficoSaldoPorCategoriaViewModel GetDespesasPorCategoria(Guid ContaIdFiltro, DateTime mesAnoCompetencia, bool pago);
+        GraficoSaldoPorCategoriaViewModel GetDespesasPorCategoria(LancamentosDoMesViewModel lancamentosDoMes, bool pago);
         LancamentosDoMesViewModel GetLancamentosDoMes(LancamentosDoMesViewModel lancamentosDoMes);
         IEnumerable<LancamentoAgrupadoViewModel> GetLancamentosSugeridosParaConciliacao(Guid appUserId, ExtratoBancarioViewModel extrato);
         void AjustarLancamentoParaExibir(LancamentoViewModel lancamentoViewModel);
