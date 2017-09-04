@@ -84,20 +84,20 @@ namespace Moneta.MVC.ViewModels
         public string Email { get; set; }
 
         [Required]
-        [Display(Name = "Name")]
+        [Display(Name = "Nome")]
         public string Name { get; set; }
 
         [Required]
-        [Display(Name = "Last Name")]
+        [Display(Name = "Sobrenome")]
         public string Lastname { get; set; }
 
         [Required]
-        [Display(Name = "Gender")]
+        [Display(Name = "Gênero")]
         public string Gender { get; set; }
 
         [Required]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
-        [Display(Name = "Birth Date")]
+        [Display(Name = "Aniversário")]
         public DateTime BirthDate { get; set; }
 
         [Required]
@@ -116,7 +116,7 @@ namespace Moneta.MVC.ViewModels
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "E-mail")]
         public string Email { get; set; }
 
         [Required]
